@@ -1,9 +1,9 @@
 # Sheltered
 
 ## Team
-__Product Owner__ - Carly Levy
-__Scrum Master__ - Julia Brown
-__Developers__ - TJ Martin, James Ross
+- __Product Owner__ - Carly Levy
+- __Scrum Master__ - Julia Brown
+- __Developers__ - TJ Martin, James Ross
 
 ## Table of Contents
 1. [Usage](#Usage)
