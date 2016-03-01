@@ -1,0 +1,28 @@
+{
+  "name": "sheltered",
+  "version": "1.0.0",
+  "description": "Connecting the homeless with shelters with space",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/appsolutely/sheltered.git"
+  },
+  "keywords": [
+    "social",
+    "work",
+    "open",
+    "source"
+  ],
+  "author": "appsolutely",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/appsolutely/sheltered/issues"
+  },
+  "homepage": "https://github.com/appsolutely/sheltered#readme"
+}
