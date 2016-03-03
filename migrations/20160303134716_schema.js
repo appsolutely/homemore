@@ -61,6 +61,7 @@ exports.up = function(knex, Promise) {
     table.integer('fk_userID').notNullable() 
     			.references('userID')
     			.inTable('users');
+    table.unique(['fk_shelterUnitID', 'fk_userID']);
   }),
 
   knex.schema.createTable('userSessions', function(table){
@@ -68,6 +69,29 @@ exports.up = function(knex, Promise) {
     table.integer('fk_userID').notNullable() 
     			.references('userID')
     			.inTable('users');
+  }),
+
+  knex.schema.createTable('eligibilityOptions', function(table){
+    table.increments('eligibilityOptionID').primary();
+    table.string('eligibilityOption').notNullable().unique();
+    table.string('eligibilityOptionDescription').notNullable();
+    table.integer('fk_eligibilityParentID')
+          .references('eligibilityOptionID')
+          .inTable('eligibilityOptions')
+          .nullable();
+  }),
+
+  knex.schema.createTable('shelterEligibility', function(table){
+    table.increments('shelterEligibilityID').primary();
+    table.integer('fk_shelterID')
+          .references('shelterID')
+          .inTable('shelters')
+          .notNullable();
+    table.integer('fk_eligibilityOptionID')
+          .references('eligibilityOptionID')
+          .inTable('eligibilityOptions')
+          .notNullable();
+    table.unique(['fk_shelterID', 'fk_eligibilityOptionID']);
   })
 
   ]);
