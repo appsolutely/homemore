@@ -1,7 +1,7 @@
 var express = require('express');
 var Path = require('path');
 var routes = express.Router();
-require('./../db/bookshelf');
+require('./../db/db');
 
 //path to client folder
 var assetFolder = Path.resolve(__dirname, '../client/');
