@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS "persons" (
 
 CREATE TABLE IF NOT EXISTS "shelterManagers" (
   "managerID" SERIAL NOT NULL PRIMARY KEY,
-  "managerID" integer NOT NULL,
   "fk_shelterID" integer NOT NULL REFERENCES "shelters" ("shelterID"),
   "fk_personID" integer NOT NULL REFERENCES "persons" ("personID")
 );
