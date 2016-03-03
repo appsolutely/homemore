@@ -1,30 +1,16 @@
-module.exports = {
+var config = require('../knexfile.js');
+var env = process.env.NODE_ENV || 'development';
+var knex = require('knex')(config[env]);
 
-  development: {
-    client: 'postgresql',
-    connection: {
-      database: 'sheltered_dev'
-    },
-    seeds: {
-      directory: './seeds/'
-    }
-  },
+module.exports = knex;
 
-  test: {
-    client: 'postgresql',
-    connection: {
-      database: 'sheltered_test'
-    }
-  },
-
-  production: {
-    client: 'postgresql',
-    connection: process.env.DATABASE_URL
-  },
-  seeds: {
-   directory: './seeds/'
-  }
-
-};
+//things to add to this file:
+//run seed file of any default data
+//run latest migration if using migrations
+knex.migrate.latest()
+.then(function(){
+  //anything that can only run once the database has been updated
+  //maybe seeds etc
+});
 
 

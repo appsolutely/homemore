@@ -3,6 +3,7 @@ var Path = require('path');
 var routes = express.Router();
 require('./../db/bookshelf');
 
+//path to client folder
 var assetFolder = Path.resolve(__dirname, '../client/');
 routes.use(express.static(assetFolder));
 
