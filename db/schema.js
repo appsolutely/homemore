@@ -6,17 +6,20 @@ var Schema = {
   },
 
   users: {
-    personID: {type: "increments", nullable: false, primary: true},
-    personFirstName: {type: "string", maxlength: 255, nullable: false},
-    personLastName: {type: "string", maxlength: 255, nullable: false},
-    personDOB: {type: "dateTime", nullable: false},
+    userID: {type: "increments", nullable: false, primary: true},
+    userFirstName: {type: "string", maxlength: 255, nullable: false},
+    userLastName: {type: "string", maxlength: 255, nullable: false},
+    userPassword: {type: "string", maxlength: 255, nullable: false},
+    userDOB: {type: "dateTime", nullable: false},
+    userEmail: {type: "string", maxlength: 255, nullable: false, unique: true},
     fk_userRole: {type: "integer", nullable: false, references: "userRoles.userRoleID"}
   },
 
   shelterManagers: {
     managerID: {type: "increments", nullable: false, primary: true},
+    managerPhone: {type: "integer", nullable: false},
     fk_shelterID: {type: "integer", nullable: false, references: "shelters.shelterID"},
-    fk_personID: {type: "integer", nullable: false, references: "persons.personID"}
+    fk_userID: {type: "integer", nullable: false, references: "users.userID"}
   },
 
   organizations: {
@@ -40,8 +43,14 @@ var Schema = {
   shelterOccupancy: {	
     occupancyID: {type: "increments", nullable: false, primary: true},
     fk_shelterUnitID: {type: "integer", nullable: false, references: "shelterUnits.shelterUnitID"},
-    fk_personID: {type: "integer", nullable: false, references: "persons.personID"}
+    fk_userID: {type: "integer", nullable: false, references: "users.userID"}
+  },
+
+  userSessions: {
+    sessionId: {type: "string", maxlength: 255, primary: true}, 
+    fk_userID: {type: "integer", nullable: false, references: "users.userID"}
   } 
 };   
 
+module.exports = Schema;
  
