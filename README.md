@@ -3,8 +3,8 @@
 ## Team
 - __Product Owner__ - Carly Levy
 - __Scrum Master__ - Julia Brown
-- __imagineer__ - TJ Martin
-- __VP of Misc. Stuff__ James Ross
+- __Imagineer__ - TJ Martin
+- __VP of Misc. Stuff__ - James Ross
 
 ## Table of Contents
 1. [Usage](#Usage)
