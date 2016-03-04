@@ -8,7 +8,7 @@ var env =  'test';
 var knex = require('knex')(config[env]);
 
 
-describe('Database Calls', function(){
+describe('Organization DB Calls', function(){
   var app = TestHelper.createApp();
   app.testReady();
 
@@ -24,8 +24,115 @@ describe('Database Calls', function(){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp.length).to.have.length(1);
                 expect(resp[0].organizationID).to.not.equal('undefined');
+
+                var orgId = resp[0].organizationID;
               });
   });
 
-}); 
+  it('should fetch organizations', function(){
+    return OrgReqs.selectOrganization(org)
+              .expect(function(resp){
+                expect(resp).to.be.an.instanceOf(Array);
+                expect(resp.length).to.have.length(1);
+                expect(resp[0].organizationID).to.not(orgId);
+      });
+  });
+
+
+  it('should delete organizations', function(){
+    return OrgReqs.deleteOrganization(org)
+                  .expect(function(resp){
+                    expect(resp).to.be.an.instanceOf(Array);
+                    expect(resp.length).to.have.length(1);
+                    expect(resp[0].organizationName).to.equal('FrontSteps');
+                  });
+  });
+
+  it('should not fetch deleted Organizations', function(){
+    return ShelterReqs.selectOrganization(org)
+                    .expect(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp.length).to.have.length(0);
+      });
+  });
+});
+// module.exports.insertShelterUnit = function(req, shelterID){
+//   //function for inserting shelter units
+// }
+// module.exports.deleteShelterUnit = function(req, shelterUnitID){
+//   //function for deleting specific shelter unit
+// }
+// module.exports.insertShelterEligibility = function(req, shelterID){
+//   //function for inserting shelter elgibiltiy rules
+// }
+// module.exports.deleteShelterEligibility = function(req, shelterEligibilityID){
+//   //function for deleting specific shelter eligibility rule
+// }
+// module.exports.insertShelterOccupancy = function(req, shelterID, userID){
+//   //inserting new 
+// }
+// module.exports.updateShelterOccupancy = function(req, occupancyID){
+//   //function for updating shelter occupancy for a given user
+// }
+// module.exports.deleteShelterOccupancy = function(req, occupancyID){
+//   //function for deleting specific shelter occupancy record
+// }
+describe('Shelter DB calls', function(){
+  var app = TestHelper.createApp();
+  app.testReady();
+
+  beforeEach(function(){
+    db.deleteEverything();
+    var orgId = OrgReq.insertOrganization({organizations: {organizationName: 'FrontSteps'}});
+  });
+
+it('should insert Shelters', function(){
+    var shelter = {shelters:
+      {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'}
+    };
+    var shelterName = {shelters: shelter.shelters.shelterName};
+
+    return ShelterReqs.insertShelter(shelter)
+              .expect(function(resp){
+                expect(resp).to.be.an.instanceOf(Array);
+                expect(resp.length).to.have.length(1);
+                expect(resp[0].shelterID).to.not.equal('undefined');
+                expect(resp[0].shelterName).to.equal('Arches');
+                expect(resp[0].shelterEmail).to.equal('example@example.com');
+
+
+                var shelterId = resp[0].shelterID;
+              });
+  });
+
+  it('should fetch Shelters', function(){
+    return ShelterReqs.selectShelter(shelterName)
+              .expect(function(resp){
+                expect(resp).to.be.an.instanceOf(Array);
+                expect(resp.length).to.have.length(1);
+                expect(resp[0].shelterID).to.equal(shelterId);
+                expect(resp[0].shelterName).to.equal('Arches');
+      });
+  });
+
+  it('should delete Shelters', function(){
+    return ShelterReqs.deleteShelter(org)
+                  .expect(function(resp){
+                    expect(resp).to.be.an.instanceOf(Array);
+                    expect(resp.length).to.have.length(1);
+                    expect(resp[0].shelterName).to.equal('Arches');
+                  });
+  });
+
+  it('should not fetch deleted Shelters', function(){
+    return ShelterReqs.selectShelter(shelterName)
+                  .expect(function(resp){
+                    expect(resp).to.be.an.instanceOf(Array);
+                    expect(resp.length).to.have.length(0);
+      });
+  });
+
+
+
+});
 
