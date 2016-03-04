@@ -1,11 +1,12 @@
 require('../testHelper.js');
 var db = require(__db + '/db');
-var OrgReqs = require(__server + '/organizations');
-var ShelterReqs = require(__server + '/shelters');
 var request = require('supertest-as-promised');
 var config = require('../knexfile.js');  
 var env =  'test';  
 var knex = require('knex')(config[env]);
+
+var OrgReqs = require(__server + '/organizations');
+var ShelterReqs = require(__server + '/shelters');
 
 
 describe('Organization DB Calls', function(){
@@ -56,15 +57,9 @@ describe('Organization DB Calls', function(){
       });
   });
 });
-// module.exports.insertShelterUnit = function(req, shelterID){
-//   //function for inserting shelter units
-// }
-// module.exports.deleteShelterUnit = function(req, shelterUnitID){
-//   //function for deleting specific shelter unit
-// }
-// module.exports.insertShelterEligibility = function(req, shelterID){
-//   //function for inserting shelter elgibiltiy rules
-// }
+
+
+
 // module.exports.deleteShelterEligibility = function(req, shelterEligibilityID){
 //   //function for deleting specific shelter eligibility rule
 // }
@@ -84,6 +79,7 @@ describe('Shelter DB calls', function(){
   beforeEach(function(){
     db.deleteEverything();
     var orgId = OrgReq.insertOrganization({organizations: {organizationName: 'FrontSteps'}});
+    var eligibilityID = 
   });
 
 it('should insert Shelters', function(){
@@ -109,18 +105,30 @@ it('should insert Shelters', function(){
     return ShelterReqs.selectShelter(shelterName)
               .expect(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
-                expect(resp.length).to.have.length(1);
+                expect(resp).to.have.length(1);
                 expect(resp[0].shelterID).to.equal(shelterId);
                 expect(resp[0].shelterName).to.equal('Arches');
       });
   });
 
   it('should insert Shelter units', function(){
+      var unit = {shelterUnit: {unitSize: '2BD'}};
+      return ShelterReqs.insertShelterUnit(unit, shelterId)
+              .expect(function(resp){
+                expect(resp).to.be.an.instanceOf(Array);
+                expect(resp).to.have.length(1);
+                expect(resp[0].unitSize).to.equal('2BD');
 
+                var unitId = resp[0].shelterUnitID;
+              });
   });
 
+// module.exports.insertShelterEligibility = function(req, shelterID){
+//   //function for inserting shelter elgibiltiy rules
+// }
   it('should insert Shelter eligibility', function(){
-
+    var eligibility = {}
+    return
   });
 
   it('should insert shelter occupancy', function(){
@@ -135,6 +143,9 @@ it('should insert Shelters', function(){
 
   });
 
+  // module.exports.deleteShelterUnit = function(req, shelterUnitID){
+//   //function for deleting specific shelter unit
+// }
   it('should delete shelter occupancy', function(){
 
   });
@@ -152,7 +163,7 @@ it('should insert Shelters', function(){
   });
 
   it('should not fetch deleted units', function(){
-    
+
   });
 
   it('should delete Shelters', function(){
