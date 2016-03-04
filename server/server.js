@@ -1,10 +1,12 @@
 var express = require('express');
-var Path = require('path');
+var path = require('path');
+var logger = require('morgan');
+var bodyParser = require('body-parser');
 var routes = express.Router();
-require('./../db/db');
+//require('./../db/db');
 
 //path to client folder
-var assetFolder = Path.resolve(__dirname, '../client/');
+var assetFolder = path.resolve(__dirname, '../client/');
 routes.use(express.static(assetFolder));
 
 
@@ -25,10 +27,16 @@ if (process.env.NODE_ENV !== 'test') {
   var app = express();
 
   //parse the incoming body
-  app.use(require('body-parser').json());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
+
+  //if you're having routing problems, look here first  VVVVVVVV
+  //app.use(express.static(path.join(__dirname, 'public')));
   //set up main router with the above routes
   app.use('/', routes);
+
+  //if you're having routing problems, look above
 
   //start server
   var port = process.env.PORT || 4000;
