@@ -10,13 +10,13 @@ var knex = require('knex')(config[env]);
 //)
 
 module.exports.insertEligibilityOption = function(req){
-
+  //add new eligibility option
 }
 
-module.exports.updateEligibilityOption = function(req){
-
+module.exports.updateEligibilityOption = function(req, optionID){
+//update eligibility option or details
 }
 
-module.exports.deleteEligibilityOption = function(req){
-
+module.exports.deleteEligibilityOption = function(req, optionID){
+//delete eligibility option
 }
