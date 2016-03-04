@@ -1,7 +1,7 @@
 import React from 'react'
 
 const App = React.createClass({
-  render: {
+  render() {
     return (
       <div>
         {this.props.children}

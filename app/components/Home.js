@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Home = React.createClass({
-  render: {
+  render() {
     return(
       <div className='home'>
         Hello from Home!
