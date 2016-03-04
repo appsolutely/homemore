@@ -115,6 +115,46 @@ it('should insert Shelters', function(){
       });
   });
 
+  it('should insert Shelter units', function(){
+
+  });
+
+  it('should insert Shelter eligibility', function(){
+
+  });
+
+  it('should insert shelter occupancy', function(){
+
+  });
+
+  it('should update shelter occupancy', function(){
+
+  });
+
+  it('should fetch shelter occupancy', function(){
+
+  });
+
+  it('should delete shelter occupancy', function(){
+
+  });
+
+  it('should not fetch deleted occupancy', function(){
+
+  });
+
+  it('should delete shelter eligibility', function(){
+
+  });
+
+  it('should delete shelter units', function(){
+
+  });
+
+  it('should not fetch deleted units', function(){
+    
+  });
+
   it('should delete Shelters', function(){
     return ShelterReqs.deleteShelter(org)
                   .expect(function(resp){
@@ -131,8 +171,5 @@ it('should insert Shelters', function(){
                     expect(resp.length).to.have.length(0);
       });
   });
-
-
-
 });
 
