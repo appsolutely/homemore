@@ -15,7 +15,8 @@ describe('Organization DB Calls', function(){
   app.testReady();
 
   beforeEach(function(){
-    return db.deleteEverything();
+    db.deleteEverything();
+    require(__db + '/db');
   });
   //response should have just ID
   it('should insert organizations', function(){
@@ -24,7 +25,7 @@ describe('Organization DB Calls', function(){
     return orgRecs.insertOrganization(org)
               .expect(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
-                expect(resp.length).to.have.length(1);
+                expect(resp).to.have.length(1);
                 expect(resp[0].organizationID).to.not.equal('undefined');
 
                 var orgId = resp[0].organizationID;
@@ -35,7 +36,7 @@ describe('Organization DB Calls', function(){
     return orgRecs.selectOrganization(org)
               .expect(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
-                expect(resp.length).to.have.length(1);
+                expect(resp).to.have.length(1);
                 expect(resp[0].organizationID).to.not(orgId);
       });
   });
@@ -45,7 +46,7 @@ describe('Organization DB Calls', function(){
     return orgRecs.deleteOrganization(org)
                   .expect(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
-                    expect(resp.length).to.have.length(1);
+                    expect(resp).to.have.length(1);
                     expect(resp[0].organizationName).to.equal('FrontSteps');
                   });
   });
@@ -67,6 +68,7 @@ describe('Shelter DB calls', function(){
 
   beforeEach(function(){
     db.deleteEverything();
+    require(__db + '/db');
     var orgId = orgRecs.insertOrganization({organizations: {organizationName: 'FrontSteps'}});
     var eligibilityID = eligRecs.selectEligibilityOption({eligibility: {eligibilityOption: 'Vets'}});
   });
@@ -80,7 +82,7 @@ it('should insert Shelters', function(){
     return shelterRecs.insertShelter(shelter)
               .expect(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
-                expect(resp.length).to.have.length(1);
+                expect(resp).to.have.length(1);
                 expect(resp[0].shelterID).to.not.equal('undefined');
                 expect(resp[0].shelterName).to.equal('Arches');
                 expect(resp[0].shelterEmail).to.equal('example@example.com');
@@ -199,7 +201,7 @@ it('should insert Shelters', function(){
     return shelterRecs.deleteShelter(org)
                   .expect(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
-                    expect(resp.length).to.have.length(1);
+                    expect(resp).to.have.length(1);
                     expect(resp[0].shelterName).to.equal('Arches');
                   });
   });
@@ -208,7 +210,7 @@ it('should insert Shelters', function(){
     return shelterRecs.selectShelter(shelterName)
                   .expect(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
-                    expect(resp.length).to.have.length(0);
+                    expect(resp).to.have.length(0);
       });
   });
 });
