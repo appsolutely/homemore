@@ -14,3 +14,21 @@ knex.migrate.latest()
 });
 
 
+knex.deleteEverything = function () {
+  if (env !== 'test') return Promise.reject();
+
+  return Promise.all([
+    knex.schema.dropTable('userRoles'),
+    knex.schema.dropTable('users'),
+    knex.schema.dropTable('shelterManagers'),
+    knex.schema.dropTable('organizations'),
+    knex.schema.dropTable('shelters'),
+    knex.schema.dropTable('shelterUnits'),
+    knex.schema.dropTable('shelterOccupancy'),
+    knex.schema.dropTable('userSessions')
+  ]);
+};
+
+
+
+

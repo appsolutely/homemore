@@ -1,13 +1,10 @@
 {
-  "name": "sheltered",
-  "version": "1.0.0",
+  "name": "Sheltered",
+  "version": "0.0.1",
   "description": "Connecting the homeless with shelters with space",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
+  "main": "server/index.js",
   "scripts": {
-    "test": "test",
+    "test": "./test/testHelper.js",
     "start": "./node_modules/.bin/nodemon server/index.js --ignore client/ --ignore node_modules/"
   },
   "repository": {
@@ -27,6 +24,7 @@
   "homepage": "https://github.com/appsolutely/sheltered#readme",
   "dependencies": {
     "bcrypt-as-promised": "^1.1.0",
+    "bluebird": "^3.3.3",
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "knex": "^0.10.0",
@@ -34,5 +32,10 @@
     "pg": "^4.5.1",
     "request": "^2.69.0",
     "request-promise": "^2.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "supertest-as-promised": "^3.0.0"
   }
 }

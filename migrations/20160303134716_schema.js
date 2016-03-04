@@ -122,13 +122,13 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.dropTable('userRoles'),
-    knex.dropTable('users'),
-    knex.dropTable('shelterManagers'),
-    knex.dropTable('organizations'),
-    knex.dropTable('shelters'),
-    knex.dropTable('shelterUnits'),
-    knex.dropTable('shelterOccupancy'),
-    knex.dropTable('userSessions')
+    knex.schema.dropTable('userRoles'),
+    knex.schema.dropTable('users'),
+    knex.schema.dropTable('shelterManagers'),
+    knex.schema.dropTable('organizations'),
+    knex.schema.dropTable('shelters'),
+    knex.schema.dropTable('shelterUnits'),
+    knex.schema.dropTable('shelterOccupancy'),
+    knex.schema.dropTable('userSessions')
   ]);
 };
