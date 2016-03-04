@@ -2,10 +2,10 @@
   "name": "Sheltered",
   "version": "0.0.1",
   "description": "Connecting the homeless with shelters with space",
-  "main": "server/index.js",
+  "main": "server/server.js",
   "scripts": {
     "test": "./test/testHelper.js",
-    "start": "./node_modules/.bin/nodemon server/index.js --ignore client/ --ignore node_modules/"
+    "start": "./node_modules/.bin/nodemon server/server.js --ignore client/ --ignore node_modules/"
   },
   "repository": {
     "type": "git",
