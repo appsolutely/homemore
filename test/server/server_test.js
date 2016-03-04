@@ -1,4 +1,4 @@
-require('../testHelper.js');
+require('../test-helper.js');
 var db = require(__db + '/db');
 var request = require('supertest-as-promised');
 var config = require('../knexfile.js');  
