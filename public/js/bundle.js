@@ -5,9 +5,70 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FooterActions = function () {
+  function FooterActions() {
+    _classCallCheck(this, FooterActions);
+
+    this.generateActions('getTopCharactersSuccess', 'getTopCharactersFail');
+  }
+
+  _createClass(FooterActions, [{
+    key: 'getTopCharacters',
+    value: function getTopCharacters() {
+      var _this = this;
+
+      $.ajax({ url: '/api/characters/top' }).done(function (data) {
+        _this.actions.getTopCharactersSuccess(data);
+      }).fail(function (jqXhr) {
+        _this.actions.getTopCharactersFail(jqXhr);
+      });
+    }
+  }]);
+
+  return FooterActions;
+}();
+
+exports.default = _alt2.default.createActions(FooterActions);
+
+},{"../alt":2}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _alt = require('alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = new _alt2.default();
+
+},{"alt":"alt"}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _Footer = require('./Footer');
+
+var _Footer2 = _interopRequireDefault(_Footer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17,14 +78,107 @@ var App = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       null,
-      this.props.children
+      this.props.children,
+      _react2.default.createElement(_Footer2.default, null)
     );
   }
 });
 
 exports.default = App;
 
-},{"react":"react"}],2:[function(require,module,exports){
+},{"./Footer":4,"react":"react"}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+var _FooterStore = require('../stores/FooterStore');
+
+var _FooterStore2 = _interopRequireDefault(_FooterStore);
+
+var _FooterActions = require('../actions/FooterActions');
+
+var _FooterActions2 = _interopRequireDefault(_FooterActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Footer = function (_React$Component) {
+  _inherits(Footer, _React$Component);
+
+  function Footer(props) {
+    _classCallCheck(this, Footer);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Footer).call(this, props));
+
+    _this.state = _FooterStore2.default.getState();
+    _this.onChange = _this.onChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(Footer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      _FooterStore2.default.listen(this.onChange);
+      _FooterActions2.default.getTopCharacters();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _FooterStore2.default.unlisten(this.onChange);
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(state) {
+      this.setState(state);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var leaderboardCharacters = this.state.characters.map(function (character) {
+        return _react2.default.createElement(
+          'li',
+          { key: character.characterId },
+          _react2.default.createElement(
+            _reactRouter.Link,
+            { to: '/characters/' + character.characterId },
+            _react2.default.createElement('img', { className: 'thumb-md', src: 'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg' })
+          )
+        );
+      });
+
+      return _react2.default.createElement(
+        'footer',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'container' },
+          'THIS IS A FOOTER!'
+        )
+      );
+    }
+  }]);
+
+  return Footer;
+}(_react2.default.Component);
+
+exports.default = Footer;
+
+},{"../actions/FooterActions":1,"../stores/FooterStore":8,"react":"react","react-router":"react-router"}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -43,14 +197,124 @@ var Home = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       { className: 'home' },
-      'Hello from Home!'
+      'THIS IS SHELTERED!!!',
+      _react2.default.createElement(
+        'div',
+        null,
+        '  _.█████████████████'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '  _ ██████████████████'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '  ████████████████████'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '  █████████████████████'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '  _█_________▄▄▄▄_ ▄▄▄▄_█'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '  _█__█████_▐▓▓▌_▐▓▓▌_█'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    _█__█████_▐▓▓▌_▐▓▓▌_█'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    _█__█████_▐▓▓▌_▐▓▓▌_█'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    _█__█████_▀▀▀▀_ ▀▀▀▀ █✿ ✿'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    _█__█████_____________ █(\\\\|/)'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    _____________██ _____________██'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    _____________█'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    ______________█'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '      _______________██'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    _________________██'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    ___________________██'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    __________________██'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    _________________███'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '    ______________████'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '      ___________█████'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '      _________██████'
+      ),
+      _react2.default.createElement(
+        'div',
+        null,
+        '      _______██████'
+      )
     );
   }
 });
 
 exports.default = Home;
 
-},{"react":"react"}],3:[function(require,module,exports){
+},{"react":"react"}],6:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -83,7 +347,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _routes2.default
 ), document.getElementById('app'));
 
-},{"./routes":4,"history/lib/createBrowserHistory":11,"react":"react","react-dom":"react-dom","react-router":"react-router"}],4:[function(require,module,exports){
+},{"./routes":7,"history/lib/createBrowserHistory":17,"react":"react","react-dom":"react-dom","react-router":"react-router"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -112,100 +376,182 @@ exports.default = _react2.default.createElement(
   _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default })
 );
 
-},{"./components/App":1,"./components/Home":2,"react":"react","react-router":"react-router"}],5:[function(require,module,exports){
-// shim for using process in browser
+},{"./components/App":3,"./components/Home":5,"react":"react","react-router":"react-router"}],8:[function(require,module,exports){
+'use strict';
 
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-function cleanUpNextTick() {
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+var _FooterActions = require('../actions/FooterActions');
+
+var _FooterActions2 = _interopRequireDefault(_FooterActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FooterStore = function () {
+  function FooterStore() {
+    _classCallCheck(this, FooterStore);
+
+    this.bindActions(_FooterActions2.default);
+    this.characters = [];
+  }
+
+  _createClass(FooterStore, [{
+    key: 'onGetTopCharactersSuccess',
+    value: function onGetTopCharactersSuccess(data) {
+      this.characters = data.slice(0, 5);
     }
-    if (queue.length) {
-        drainQueue();
+  }, {
+    key: 'onGetTopCharactersFail',
+    value: function onGetTopCharactersFail(jqXhr) {
+      toastr.error(jqXhr.responseJSON && jqXhr.responseJSON.message || jqXhr.responseText || jqXhr.statusText);
     }
+  }]);
+
+  return FooterStore;
+}();
+
+exports.default = _alt2.default.createStore(FooterStore);
+
+},{"../actions/FooterActions":1,"../alt":2}],9:[function(require,module,exports){
+var pSlice = Array.prototype.slice;
+var objectKeys = require('./lib/keys.js');
+var isArguments = require('./lib/is_arguments.js');
+
+var deepEqual = module.exports = function (actual, expected, opts) {
+  if (!opts) opts = {};
+  // 7.1. All identical values are equivalent, as determined by ===.
+  if (actual === expected) {
+    return true;
+
+  } else if (actual instanceof Date && expected instanceof Date) {
+    return actual.getTime() === expected.getTime();
+
+  // 7.3. Other pairs that do not both pass typeof value == 'object',
+  // equivalence is determined by ==.
+  } else if (!actual || !expected || typeof actual != 'object' && typeof expected != 'object') {
+    return opts.strict ? actual === expected : actual == expected;
+
+  // 7.4. For all other Object pairs, including Array objects, equivalence is
+  // determined by having the same number of owned properties (as verified
+  // with Object.prototype.hasOwnProperty.call), the same set of keys
+  // (although not necessarily the same order), equivalent values for every
+  // corresponding key, and an identical 'prototype' property. Note: this
+  // accounts for both named and indexed properties on Arrays.
+  } else {
+    return objEquiv(actual, expected, opts);
+  }
 }
 
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = setTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    clearTimeout(timeout);
+function isUndefinedOrNull(value) {
+  return value === null || value === undefined;
 }
 
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
+function isBuffer (x) {
+  if (!x || typeof x !== 'object' || typeof x.length !== 'number') return false;
+  if (typeof x.copy !== 'function' || typeof x.slice !== 'function') {
+    return false;
+  }
+  if (x.length > 0 && typeof x[0] !== 'number') return false;
+  return true;
 }
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
+
+function objEquiv(a, b, opts) {
+  var i, key;
+  if (isUndefinedOrNull(a) || isUndefinedOrNull(b))
+    return false;
+  // an identical 'prototype' property.
+  if (a.prototype !== b.prototype) return false;
+  //~~~I've managed to break Object.keys through screwy arguments passing.
+  //   Converting to array solves the problem.
+  if (isArguments(a)) {
+    if (!isArguments(b)) {
+      return false;
+    }
+    a = pSlice.call(a);
+    b = pSlice.call(b);
+    return deepEqual(a, b, opts);
+  }
+  if (isBuffer(a)) {
+    if (!isBuffer(b)) {
+      return false;
+    }
+    if (a.length !== b.length) return false;
+    for (i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  }
+  try {
+    var ka = objectKeys(a),
+        kb = objectKeys(b);
+  } catch (e) {//happens when one is a string literal and the other isn't
+    return false;
+  }
+  // having the same number of owned properties (keys incorporates
+  // hasOwnProperty)
+  if (ka.length != kb.length)
+    return false;
+  //the same set of keys (although not necessarily the same order),
+  ka.sort();
+  kb.sort();
+  //~~~cheap key test
+  for (i = ka.length - 1; i >= 0; i--) {
+    if (ka[i] != kb[i])
+      return false;
+  }
+  //equivalent values for every corresponding key, and
+  //~~~possibly expensive deep test
+  for (i = ka.length - 1; i >= 0; i--) {
+    key = ka[i];
+    if (!deepEqual(a[key], b[key], opts)) return false;
+  }
+  return typeof a === typeof b;
+}
+
+},{"./lib/is_arguments.js":10,"./lib/keys.js":11}],10:[function(require,module,exports){
+var supportsArgumentsClass = (function(){
+  return Object.prototype.toString.call(arguments)
+})() == '[object Arguments]';
+
+exports = module.exports = supportsArgumentsClass ? supported : unsupported;
+
+exports.supported = supported;
+function supported(object) {
+  return Object.prototype.toString.call(object) == '[object Arguments]';
 };
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
 
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
+exports.unsupported = unsupported;
+function unsupported(object){
+  return object &&
+    typeof object == 'object' &&
+    typeof object.length == 'number' &&
+    Object.prototype.hasOwnProperty.call(object, 'callee') &&
+    !Object.prototype.propertyIsEnumerable.call(object, 'callee') ||
+    false;
 };
 
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
+},{}],11:[function(require,module,exports){
+exports = module.exports = typeof Object.keys === 'function'
+  ? Object.keys : shim;
 
-},{}],6:[function(require,module,exports){
+exports.shim = shim;
+function shim (obj) {
+  var keys = [];
+  for (var key in obj) keys.push(key);
+  return keys;
+}
+
+},{}],12:[function(require,module,exports){
 /**
  * Indicates that navigation was caused by a call to history.push.
  */
@@ -237,7 +583,7 @@ exports['default'] = {
   REPLACE: REPLACE,
   POP: POP
 };
-},{}],7:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -264,7 +610,7 @@ function loopAsync(turns, work, callback) {
 
   next();
 }
-},{}],8:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 (function (process){
 /*eslint-disable no-empty */
 'use strict';
@@ -336,7 +682,7 @@ function readState(key) {
 }
 }).call(this,require('_process'))
 
-},{"_process":5,"warning":23}],9:[function(require,module,exports){
+},{"_process":26,"warning":27}],15:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -417,13 +763,13 @@ function supportsGoWithoutReloadUsingHash() {
   var ua = navigator.userAgent;
   return ua.indexOf('Firefox') === -1;
 }
-},{}],10:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 exports.canUseDOM = canUseDOM;
-},{}],11:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -605,7 +951,7 @@ exports['default'] = createBrowserHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./Actions":6,"./DOMStateStorage":8,"./DOMUtils":9,"./ExecutionEnvironment":10,"./createDOMHistory":12,"./parsePath":17,"_process":5,"invariant":22}],12:[function(require,module,exports){
+},{"./Actions":12,"./DOMStateStorage":14,"./DOMUtils":15,"./ExecutionEnvironment":16,"./createDOMHistory":18,"./parsePath":23,"_process":26,"invariant":25}],18:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -649,7 +995,7 @@ exports['default'] = createDOMHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./DOMUtils":9,"./ExecutionEnvironment":10,"./createHistory":13,"_process":5,"invariant":22}],13:[function(require,module,exports){
+},{"./DOMUtils":15,"./ExecutionEnvironment":16,"./createHistory":19,"_process":26,"invariant":25}],19:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -941,7 +1287,7 @@ function createHistory() {
 
 exports['default'] = createHistory;
 module.exports = exports['default'];
-},{"./Actions":6,"./AsyncUtils":7,"./createLocation":14,"./deprecate":15,"./parsePath":17,"./runTransitionHook":18,"deep-equal":19}],14:[function(require,module,exports){
+},{"./Actions":12,"./AsyncUtils":13,"./createLocation":20,"./deprecate":21,"./parsePath":23,"./runTransitionHook":24,"deep-equal":9}],20:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -996,7 +1342,7 @@ function createLocation() {
 
 exports['default'] = createLocation;
 module.exports = exports['default'];
-},{"./Actions":6,"./parsePath":17}],15:[function(require,module,exports){
+},{"./Actions":12,"./parsePath":23}],21:[function(require,module,exports){
 //import warning from 'warning'
 
 "use strict";
@@ -1012,7 +1358,7 @@ function deprecate(fn) {
 
 exports["default"] = deprecate;
 module.exports = exports["default"];
-},{}],16:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1026,7 +1372,7 @@ function extractPath(string) {
 
 exports["default"] = extractPath;
 module.exports = exports["default"];
-},{}],17:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1074,7 +1420,7 @@ exports['default'] = parsePath;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./extractPath":16,"_process":5,"warning":23}],18:[function(require,module,exports){
+},{"./extractPath":22,"_process":26,"warning":27}],24:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -1102,136 +1448,7 @@ exports['default'] = runTransitionHook;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"_process":5,"warning":23}],19:[function(require,module,exports){
-var pSlice = Array.prototype.slice;
-var objectKeys = require('./lib/keys.js');
-var isArguments = require('./lib/is_arguments.js');
-
-var deepEqual = module.exports = function (actual, expected, opts) {
-  if (!opts) opts = {};
-  // 7.1. All identical values are equivalent, as determined by ===.
-  if (actual === expected) {
-    return true;
-
-  } else if (actual instanceof Date && expected instanceof Date) {
-    return actual.getTime() === expected.getTime();
-
-  // 7.3. Other pairs that do not both pass typeof value == 'object',
-  // equivalence is determined by ==.
-  } else if (!actual || !expected || typeof actual != 'object' && typeof expected != 'object') {
-    return opts.strict ? actual === expected : actual == expected;
-
-  // 7.4. For all other Object pairs, including Array objects, equivalence is
-  // determined by having the same number of owned properties (as verified
-  // with Object.prototype.hasOwnProperty.call), the same set of keys
-  // (although not necessarily the same order), equivalent values for every
-  // corresponding key, and an identical 'prototype' property. Note: this
-  // accounts for both named and indexed properties on Arrays.
-  } else {
-    return objEquiv(actual, expected, opts);
-  }
-}
-
-function isUndefinedOrNull(value) {
-  return value === null || value === undefined;
-}
-
-function isBuffer (x) {
-  if (!x || typeof x !== 'object' || typeof x.length !== 'number') return false;
-  if (typeof x.copy !== 'function' || typeof x.slice !== 'function') {
-    return false;
-  }
-  if (x.length > 0 && typeof x[0] !== 'number') return false;
-  return true;
-}
-
-function objEquiv(a, b, opts) {
-  var i, key;
-  if (isUndefinedOrNull(a) || isUndefinedOrNull(b))
-    return false;
-  // an identical 'prototype' property.
-  if (a.prototype !== b.prototype) return false;
-  //~~~I've managed to break Object.keys through screwy arguments passing.
-  //   Converting to array solves the problem.
-  if (isArguments(a)) {
-    if (!isArguments(b)) {
-      return false;
-    }
-    a = pSlice.call(a);
-    b = pSlice.call(b);
-    return deepEqual(a, b, opts);
-  }
-  if (isBuffer(a)) {
-    if (!isBuffer(b)) {
-      return false;
-    }
-    if (a.length !== b.length) return false;
-    for (i = 0; i < a.length; i++) {
-      if (a[i] !== b[i]) return false;
-    }
-    return true;
-  }
-  try {
-    var ka = objectKeys(a),
-        kb = objectKeys(b);
-  } catch (e) {//happens when one is a string literal and the other isn't
-    return false;
-  }
-  // having the same number of owned properties (keys incorporates
-  // hasOwnProperty)
-  if (ka.length != kb.length)
-    return false;
-  //the same set of keys (although not necessarily the same order),
-  ka.sort();
-  kb.sort();
-  //~~~cheap key test
-  for (i = ka.length - 1; i >= 0; i--) {
-    if (ka[i] != kb[i])
-      return false;
-  }
-  //equivalent values for every corresponding key, and
-  //~~~possibly expensive deep test
-  for (i = ka.length - 1; i >= 0; i--) {
-    key = ka[i];
-    if (!deepEqual(a[key], b[key], opts)) return false;
-  }
-  return typeof a === typeof b;
-}
-
-},{"./lib/is_arguments.js":20,"./lib/keys.js":21}],20:[function(require,module,exports){
-var supportsArgumentsClass = (function(){
-  return Object.prototype.toString.call(arguments)
-})() == '[object Arguments]';
-
-exports = module.exports = supportsArgumentsClass ? supported : unsupported;
-
-exports.supported = supported;
-function supported(object) {
-  return Object.prototype.toString.call(object) == '[object Arguments]';
-};
-
-exports.unsupported = unsupported;
-function unsupported(object){
-  return object &&
-    typeof object == 'object' &&
-    typeof object.length == 'number' &&
-    Object.prototype.hasOwnProperty.call(object, 'callee') &&
-    !Object.prototype.propertyIsEnumerable.call(object, 'callee') ||
-    false;
-};
-
-},{}],21:[function(require,module,exports){
-exports = module.exports = typeof Object.keys === 'function'
-  ? Object.keys : shim;
-
-exports.shim = shim;
-function shim (obj) {
-  var keys = [];
-  for (var key in obj) keys.push(key);
-  return keys;
-}
-
-},{}],22:[function(require,module,exports){
+},{"_process":26,"warning":27}],25:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -1287,7 +1504,100 @@ module.exports = invariant;
 
 }).call(this,require('_process'))
 
-},{"_process":5}],23:[function(require,module,exports){
+},{"_process":26}],26:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],27:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -1352,7 +1662,7 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 
-},{"_process":5}]},{},[3])
+},{"_process":26}]},{},[6])
 
 
 //# sourceMappingURL=bundle.js.map
