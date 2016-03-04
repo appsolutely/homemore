@@ -1,3 +1,4 @@
+require('babel-register')
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -8,7 +9,9 @@ var ReactDOM = require('react-dom/server')
 var Router = require('react-router')
 var appRoutes = require('../app/routes')
 var swig = require('swig')
-require('babel-register')
+
+var app = express();
+
 //require('./../db/db');
 
 //path to client folder
@@ -45,7 +48,7 @@ routes.get('/*', function(req, res){
 
 //if the process is anythign other than test create a real server
 if (process.env.NODE_ENV !== 'test') {
-  var app = express();
+
 
   //parse the incoming body
   app.use(bodyParser.json());
