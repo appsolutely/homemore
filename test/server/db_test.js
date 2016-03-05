@@ -36,29 +36,46 @@ describe('Organization DB Calls', function(){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
                 expect(resp[0].organizationID).to.not.equal('undefined');
-                var orgId = resp[0].organizationID;
-                console.log('orgID for FrontSteps ', orgId);
+                expect(resp[0].organizationName).to.equal('FrontSteps');
+                console.log('response from insertOrgs', resp);
               });
   });
 
   it('should fetch organizations', function(){
-    var org = {organizations: {orgName: 'FrontSteps'}};    
-    return orgRecs.selectOrganization(org)
-              .then(function(resp){
-                expect(resp).to.be.an.instanceOf(Array);
-                expect(resp).to.have.length(1);
-                expect(resp[0].organizationID).to.equal(orgId);
+    var org = {organizations: {orgName: 'FrontSteps'}}; 
+    return orgRecs.insertOrganization(org)
+                  .then(function(resp){
+                    var orgId = resp[0].organizationID;
+          return orgRecs.selectOrganization(org)
+                    .then(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].organizationID).to.equal(orgId);  
+                  });   
       });
   });
 
 
   it('should delete organizations', function(){
     var org = {organizations: {orgName: 'FrontSteps'}};
-    return orgRecs.deleteOrganization(org)
+        return orgRecs.insertOrganization(org)
                   .then(function(resp){
-                    expect(resp).to.be.an.instanceOf(Array);
-                    expect(resp).to.have.length(1);
-                    expect(resp[0].organizationName).to.equal('FrontSteps');
+                    var orgId = resp[0].organizationID;
+                    return orgRecs.deleteOrganization(org)
+                        .then(function(resp){
+                          expect(resp).to.be.an.instanceOf(Array);
+                          expect(resp).to.have.length(1);
+                          expect(resp[0].organizationName).to.equal('FrontSteps');
+                          expect(resp[0].organizationID).to.equal(orgId);
+                        });
+                    })
+                    .then(function(){
+              it('should not fetch deleted Organizations', function(){
+                var org = {organizations: {orgName: 'FrontSteps'}};
+                return shelterRecs.selectOrganization(org)
+                                .then(function(resp){
+                                  expect(resp).to.be.an.instanceOf(Array);
+                                  expect(resp.length).to.have.length(0);
                   });
   });
 
@@ -69,6 +86,7 @@ describe('Organization DB Calls', function(){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp.length).to.have.length(0);
       });
+    });               
   });
 });
 
@@ -92,7 +110,7 @@ describe('Shelter and eligibility DB calls', function(){
         });
   });
 
-it('should insert Shelters', function(){
+xit('should insert Shelters', function(){
     var shelter = {shelters:
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'}
     };
@@ -121,7 +139,7 @@ it('should insert Shelters', function(){
       });
   });
 
-  it('should insert Shelter units', function(){
+  xit('should insert Shelter units', function(){
       var unit = {shelterUnit: {unitSize: '2BD'}};
       return shelterRecs.insertShelterUnit(unit, shelterId)
               .then(function(resp){
@@ -133,7 +151,7 @@ it('should insert Shelters', function(){
               });
   });
 
-  it('should insert Shelter eligibility', function(){
+  xit('should insert Shelter eligibility', function(){
     var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
     return shelterRecs.insertShelterEligibility(eligibility, shelterId)
             .then(function(resp){
@@ -143,7 +161,7 @@ it('should insert Shelters', function(){
             });
   });
 
-  it('should insert shelter occupancy', function(){
+  xit('should insert shelter occupancy', function(){
     var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
     return shelterRecs.insertShelterOccupancy(occupant, shelterId)
                         .then(function(resp){
@@ -154,7 +172,7 @@ it('should insert Shelters', function(){
                         });
   });
 
-  it('should update shelter occupancy', function(){
+  xit('should update shelter occupancy', function(){
     var updateOccupancy = {occupancy: {name: 'Jimmy McGoo'}};
 
     return shelterRecs.updateShelterOccupancy(updateOccupancy, occupancyId)
@@ -165,7 +183,7 @@ it('should insert Shelters', function(){
                     });
   });
 
-  it('should fetch shelter occupancy', function(){
+  xit('should fetch shelter occupancy', function(){
     //should be passed just the shelterId directly
     var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
     var unit = {shelterUnit: {unitSize: '2BD'}};
@@ -180,7 +198,7 @@ it('should insert Shelters', function(){
                       });
   });
 
-  it('should delete shelter occupancy', function(){
+  xit('should delete shelter occupancy', function(){
     //just req should have the name of the person occuping the unit
     var occupied = {occupancy: {name: 'Jimmy McGoo'}};
     return shelterRecs.deleteShelterOccupancy(occupied)
@@ -190,7 +208,7 @@ it('should insert Shelters', function(){
                       });
   });
 
-  it('should not fetch deleted occupancy', function(){
+  xit('should not fetch deleted occupancy', function(){
       return shelterRecs.selectShelterOccupancy(shelterId)
                         .then(function(resp){
                           expect(resp).to.have.length(1);
@@ -199,7 +217,7 @@ it('should insert Shelters', function(){
 
   });
 
-  it('should delete shelter eligibility', function(){
+  xit('should delete shelter eligibility', function(){
     return shelterRecs.deleteShelterEligibility(eligibilityID)
                       .then(function(resp){
                         expect(resp).to.have.length(1);
@@ -346,5 +364,7 @@ describe('users DB calls', function(){
                     });
   });
 
+
+});
 
 });
