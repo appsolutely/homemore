@@ -19,15 +19,23 @@ knex.migrate.latest()
 knex.deleteEverything = function () {
   if (env !== 'test') return Promise.reject();
 
+  console.log('dropping all tables');
   return Promise.all([
-    knex.schema.dropTableIfExists('userRoles'),
-    knex.schema.dropTableIfExists('users'),
-    knex.schema.dropTableIfExists('shelterManagers'),
-    knex.schema.dropTableIfExists('organizations'),
-    knex.schema.dropTableIfExists('shelters'),
-    knex.schema.dropTableIfExists('shelterUnits'),
-    knex.schema.dropTableIfExists('shelterOccupancy'),
-    knex.schema.dropTableIfExists('userSessions')
+    knex('userSessions').del(),
+    knex('shelterOccupancy').del(),
+    knex('shelterUnits').del(),
+    knex('shelterManagers').del(),
+    knex('shelterEligibility').del(),
+    knex('eligibilityOptions').del(),
+    knex('shelters').del(),
+    knex('locations').del(),
+    knex('orgAdmins').del(),
+    knex('organizations').del(),
+    knex('users').del(),
+    knex('userRoles').del(),
+    knex('knex_migrations_lock').del(),
+    knex('knex_migrations_id_seq').del(),
+    knex('knex_migrations').del()
   ]);
 };
 

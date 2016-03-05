@@ -5,20 +5,28 @@ var orgRecs = require(__server + '/dbHelpers/organizations');
 var shelterRecs = require(__server + '/dbHelpers/shelters');
 var locRecs = require(__server + '/dbHelpers/locations');
 var userRecs = require(__server + '/dbHelpers/users');
-var db = require(__db + '/db.js');
+var knex = require(__db + '/db.js');
+var config = require('../../knexfile.js').test;
+// knex.deleteEverything();
 
 
 describe('Organization DB Calls', function(){
-  var app = TestHelper.createApp();
-  app.testReady();
-
-  after(function(){
-    db.deleteEverything();
+  before(function(done) {
+    knex.deleteEverything();
+    done();
   });
 
-  beforeEach(function(){
-
-  });
+  // beforeEach(function(done){
+  //   return knex.migrate.latest()
+  //       .then(function(){
+  //         //anything that needs to start out in the db
+  //         done();
+  //       })
+  //       .catch(function(err){
+  //         console.error('error migrating ', err);
+  //         done();
+  //       });
+  // });
   //response should have just ID
   it('should insert organizations', function(){
     var org = {organizations: {orgName: 'FrontSteps'}};
@@ -30,20 +38,23 @@ describe('Organization DB Calls', function(){
                 expect(resp[0].organizationID).to.not.equal('undefined');
 
                 var orgId = resp[0].organizationID;
+                console.log('orgID for frontSteps ', orgId);
               });
   });
 
   it('should fetch organizations', function(){
+    var org = {organizations: {orgName: 'FrontSteps'}};    
     return orgRecs.selectOrganization(org)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
-                expect(resp[0].organizationID).to.not(orgId);
+                expect(resp[0].organizationID).to.equal(orgId);
       });
   });
 
 
   it('should delete organizations', function(){
+    var org = {organizations: {orgName: 'FrontSteps'}};
     return orgRecs.deleteOrganization(org)
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
@@ -53,6 +64,7 @@ describe('Organization DB Calls', function(){
   });
 
   it('should not fetch deleted Organizations', function(){
+    var org = {organizations: {orgName: 'FrontSteps'}};
     return shelterRecs.selectOrganization(org)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -64,23 +76,26 @@ describe('Organization DB Calls', function(){
 
 
 describe('Shelter and eligibility DB calls', function(){
-  var app = TestHelper.createApp();
-  app.testReady();
-
-  before(function(){
-    var orgId = orgRecs.insertOrganization({organizations: {organizationName: 'FrontSteps'}});
-    var eligibilityID = eligRecs.selectEligibilityOption({eligibility: {eligibilityOption: 'Vets'}});
+  before(function(done) {
+    knex.deleteEverything();
+    done();
   });
 
-  after(function(){
-    db.deleteEverything();
-  });
+  // beforeEach(function(done){
+  //   return knex.migrate.latest()
+  //       .then(function(){
+  //         //anything that needs to start out in the db
+  //         done();
+  //       })
+  //       .catch(function(err){
+  //         console.error('error migrating ', err);
+  //       });
+  // });
 
 it('should insert Shelters', function(){
     var shelter = {shelters:
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'}
     };
-    var shelterName = {shelters: shelter.shelters.shelterName};
 
     return shelterRecs.insertShelter(shelter)
               .then(function(resp){
@@ -96,6 +111,7 @@ it('should insert Shelters', function(){
   });
 
   it('should fetch Shelters', function(){
+    var shelterName = {shelters: 'Arches'};
     return shelterRecs.selectShelter(shelterName)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
@@ -216,17 +232,28 @@ it('should insert Shelters', function(){
                     expect(resp).to.have.length(0);
       });
   });
+
+
 });
 
 describe('users DB calls', function(){
-  var app = TestHelper.createApp();
-  app.testReady();
+  before(function(done) {
+    knex.deleteEverything();
+    done();
+  });
 
-  after(function(){
-    db.deleteEverything();
-  });  
+  // beforeEach(function(done){
+  //   return knex.migrate.latest()
+  //       .then(function(){
+  //         //anything that needs to start out in the db
+  //         done();
+  //       })
+  //       .catch(function(err){
+  //         console.error('error migrating ', err);
+  //       });
+  // }); 
 
-  it('should create new public users', function(){
+  xit('should create new public users', function(){
     var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring'}};
     return userRecs.addNewPublic(publicUser)
                     .then(function(resp){
@@ -274,6 +301,5 @@ describe('users DB calls', function(){
   xit('should not allow public users to change shelter info', function(){
 
   });
-
 
 });

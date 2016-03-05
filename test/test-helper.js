@@ -31,11 +31,8 @@ TestHelper.createApp = function(loader) {
 };
 
 TestHelper.startDB = function(){
-  // var knex = require('')
-
-
-  // knex.migrate.latest()
-}
+  require(__db + '/db.js');
+};
 
 var Bluebird = require('bluebird');
 
