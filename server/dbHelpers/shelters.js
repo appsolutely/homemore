@@ -32,6 +32,18 @@ return knex('shelters')
   })
 }
 
+module.exports.selectShelter = function(req, shelterID){
+  //function for selecting shelter units
+}
+
+module.exports.updateShelter = function(req, shelterID){
+  //function for updating shelter units
+}
+
+module.exports.deleteShelter = function(req, shelterID){
+  //function for deleting shelter units
+}
+
 module.exports.insertShelterUnit = function(req, shelterID){
   //function for inserting shelter units
 }
