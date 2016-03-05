@@ -26,17 +26,19 @@ exports.insertOrganization = function (req) {
 
 exports.deleteOrganization = function(req){
   var orgName = req.organizations.orgName;
+    console.log('passed in orgName ', orgName);
+
   //delete specific organization ID
-  return knex.select('*')
-          .from('organizations')
-          .where('organizationID', orgName)
+  return knex('organizations')
+          .returning('*')
+          .where('organizationName', orgName)
           .del()
   .catch(function(err){
     console.log("Something went wrong deleting this organization ", err);
   })
-  .then(function(organizationID){
-    console.log("Deleted organization with organization id = ", organizationID);
-    return organizationID;
+  .then(function(organizations){
+    console.log("Deleted organization ", organizations);
+    return organizations;
   });
 };
 
@@ -44,19 +46,36 @@ exports.selectOrganization = function(req){
   var orgName = req.organizations.orgName;
   console.log('passed in orgName ', orgName);
   //select specific organization ID
-  return knex('organizations')
-        .where('organizationName', orgName)
-        .then(function(organization){
-          console.log("returned from selectOrg : " , organization);
-          return organization;
-        })
-        .catch(function(err){
-          console.log("Something went wrong selecting this organization ", err);
-        });
+  return knex.select('*').table('organizations')
+            // .returning('*')
+            .where('organizationName', orgName)
+  .catch(function(err){
+    console.log("Something went wrong selecting this organization ", err);
+  })
+  .then(function(organization){
+    console.log("returned from selectOrg : " , organization);
+    return organization;
+  });
 };
 
-exports.updateOrganization = function(req, orgID){
-  //update specific organization ID
+//updateOrganization expects req body to contain orgName and updatedOrgName
+exports.updateOrganization = function(req){
+  var orgName = req.organizations.orgName;
+  var updatedOrgName = req.organizations.updatedOrgName;
+    console.log('passed in orgName ', orgName);
+
+  return knex('organizations')
+          .returning('*')
+          .where('organizationName', orgName)
+          .update('organizationName', updatedOrgName)
+  .catch(function(err){
+    console.log("Something went wrong updating this organization ", err);
+  })
+  .then(function(organization){
+    console.log("Updated organization from ", orgName, " to ", updatedOrgName);
+  });
+
+  //update specific organization 
 };
 
 
