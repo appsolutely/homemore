@@ -37,7 +37,7 @@ gulp.task('vendor', function() {
     'bower_components/toastr/toastr.js'
   ]).pipe(concat('vendor.js'))
     .pipe(gulpif(production, uglify({ mangle: false })))
-    .pipe(gulp.dest('public/js'));
+    .pipe(gulp.dest('client/js'));
 });
 
 /*
@@ -52,7 +52,7 @@ gulp.task('browserify-vendor', function() {
     .pipe(source('vendor.bundle.js'))
     .pipe(buffer())
     .pipe(gulpif(production, uglify({ mangle: false })))
-    .pipe(gulp.dest('public/js'));
+    .pipe(gulp.dest('client/js'));
 });
 
 /*
@@ -70,7 +70,7 @@ gulp.task('browserify', ['browserify-vendor'], function() {
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(gulpif(production, uglify({ mangle: false })))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('public/js'));
+    .pipe(gulp.dest('client/js'));
 });
 
 /*
@@ -98,7 +98,7 @@ gulp.task('browserify-watch', ['browserify-vendor'], function() {
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest('public/js/'));
+      .pipe(gulp.dest('client/js/'));
   }
 });
 
@@ -108,12 +108,12 @@ gulp.task('browserify-watch', ['browserify-vendor'], function() {
  |--------------------------------------------------------------------------
  */
 gulp.task('styles', function() {
-  return gulp.src('app/stylesheets/main.less')
+  return gulp.src('app/stylesheets/sheltered.css')
     .pipe(plumber())
     .pipe(less())
     .pipe(autoprefixer())
     .pipe(gulpif(production, cssmin()))
-    .pipe(gulp.dest('public/css'));
+    .pipe(gulp.dest('client/css'));
 });
 
 gulp.task('watch', function() {

@@ -2,6 +2,7 @@ require('babel-register');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
+var compression = require('compression');
 var bodyParser = require('body-parser');
 var routes = express.Router();
 var React = require('react');
@@ -13,14 +14,18 @@ var swig = require('swig');
 var app = express();
 
 //require('./../db/db');
-
-//path to client folder
-var assetFolder = path.resolve(__dirname, '../client/');
-routes.use(express.static(assetFolder));
+//
+app.use(compression());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(favicon(path.join(__dirname, 'client', 'favicon.png')));
+app.use(express.static(path.join(__dirname, '../client')));
 
 //server side rendering - front end needs this
 app.use(function(req, res) {
  Router.match({ routes: appRoutes.default, location: req.url }, function(err, redirectLocation, renderProps) {
+    console.log(req.url)
    if (err) {
      res.status(500).send(err.message);
    } else if (redirectLocation) {
@@ -40,27 +45,14 @@ app.use(function(req, res) {
 
 //should always be the last route
 //-- default route when unknown passed in
-routes.get('/*', function(req, res){
-  //placeholder default file to send to the client
-  res.sendFile(assetFolder + '/index.html');
-});
+// routes.get('/*', function(req, res){
+//   console.log('im what is actually firing')
+//   //placeholder default file to send to the client
+//   res.sendFile(assetFolder + '/index.html');
+// });
 
 //if the process is anythign other than test create a real server
 if (process.env.NODE_ENV !== 'test') {
-
-
-  //parse the incoming body
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
-
-
-  //if you're having routing problems, look here first  VVVVVVVV
-  //app.use(express.static(path.join(__dirname, 'public')));
-  //set up main router with the above routes
-  app.use('/', routes);
-
-  //if you're having routing problems, look above
-
   //start server
   var port = process.env.PORT || 4000;
   app.listen(port);
