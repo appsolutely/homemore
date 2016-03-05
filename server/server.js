@@ -22,6 +22,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(favicon(path.join(__dirname, 'client', 'favicon.png')));
 app.use(express.static(path.join(__dirname, '../client')));
 
+
+// app.get('/api/shelters',function(req, res, next){
+//   res.send(['arch','otherplace']);
+// })
+
 //server side rendering - front end needs this
 app.use(function(req, res) {
  Router.match({ routes: appRoutes.default, location: req.url }, function(err, redirectLocation, renderProps) {

@@ -7,7 +7,7 @@ const App = React.createClass({
     return (
       <div>
         <Header />
-        {this.props.children}
+        	{this.props.children}
         <Footer />
       </div>
     )
