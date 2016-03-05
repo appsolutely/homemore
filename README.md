@@ -11,7 +11,8 @@
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
+    1. [Starting Database](#initializing-database)
+    1. [Tests](#tests)
 1. [Team](#team)
 1. [Contributing](#contributing)
 
@@ -20,7 +21,26 @@
 ## Development
 
 ### Installing Dependencies
+```
+npm install
+brew install postgres
+```
+npm install will run bower install.
 
-### Tasks
-
+### Initializing Database
+```
+postgres -D /usr/local/var/postgres
+createdb sheltered_dev
+```
+### Tests
+Once Postgres is running
+```
+createdb sheltered_test
+npm test
+```
+after test has been run the first time migrations is no longer necessary so
+```
+knex.migrate.latest()
+```
+may be commented out so long as it is re-added upon dropping and recreating the test database.
 ## Contributing
