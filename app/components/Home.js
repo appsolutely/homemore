@@ -4,7 +4,11 @@ const Home = React.createClass({
   render() {
     return(
       <div className='home'>
-        Welcome to home
+        <br />
+        <br />
+        <div className='search'>
+          <input type="text" defaultValue="Austin" />
+        </div>
       </div>
     )
   }
