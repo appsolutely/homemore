@@ -30,6 +30,13 @@ TestHelper.createApp = function(loader) {
   return app;
 };
 
+TestHelper.startDB = function(){
+  // var knex = require('')
+
+
+  // knex.migrate.latest()
+}
+
 var Bluebird = require('bluebird');
 
 //promisifing coroutines
