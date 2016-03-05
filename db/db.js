@@ -4,13 +4,14 @@ var knex = require('knex')(config[env]);
 
 module.exports = knex;
 
-//things to add to this file:
-//run seed file of any default data
-//run latest migration if using migrations
+//runs latest migration (if any) to update the database
 knex.migrate.latest()
 .then(function(){
-  //anything that can only run once the database has been updated
-  //maybe seeds etc
+  if (process.env.NODE_ENV !== 'test'){
+    //run real seed files
+  } else {
+    //run test version seed files
+  }
 });
 
 

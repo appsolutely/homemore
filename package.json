@@ -4,7 +4,7 @@
   "description": "Connecting the homeless with shelters with space",
   "main": "server/server.js",
   "scripts": {
-    "test": "./test/testHelper.js",
+    "test": "./test/run.sh",
     "start": "./node_modules/.bin/nodemon server/server.js --ignore client/ --ignore node_modules/"
   },
  "babel":{
