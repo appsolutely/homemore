@@ -29,7 +29,7 @@ exports.deleteOrganization = function(req){
   //delete specific organization ID
   return knex.select('*')
           .from('organizations')
-          .where('organizationID', orgID)
+          .where('organizationID', orgName)
           .del()
   .catch(function(err){
     console.log("Something went wrong deleting this organization ", err);
