@@ -13,7 +13,7 @@ var swig = require('swig');
 
 var app = express();
 
-//require('./../db/db');
+require('./../db/db');
 //
 app.use(compression());
 app.use(logger('dev'));
