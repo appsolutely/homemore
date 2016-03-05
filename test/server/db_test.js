@@ -99,22 +99,20 @@ describe('Shelter and eligibility DB calls', function(){
   });
 
   beforeEach(function(done){
-  // anything that needs to start out in the db
+    var unit = {shelterUnit: {unitSize: '2BD'}};
     var org = {organizations: {orgName: 'FrontSteps'}};
-    return orgRecs.insertOrganization(org) 
-        .then(function(){
-          done();
-        })
-        .catch(function(err){
-          console.error('error inserting FrontSteps', err);
-        });
-  });
-
-xit('should insert Shelters', function(){
     var shelter = {shelters:
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'}
     };
+    var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
+    var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
+    return orgRecs.insertOrganization(org)
+            .then(function(resp){
+              var orgId = resp[0].orgId;
+            });
+  });
 
+it('should insert Shelters', function(){
     return shelterRecs.insertShelter(shelter)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
@@ -128,127 +126,176 @@ xit('should insert Shelters', function(){
               });
   });
 
-  it('should fetch a shelter', function(){
+  it('should fetch Shelters', function(){
     var shelterName = {shelters: shelter.shelters.shelterName};
-    return shelterRecs.selectShelter(shelterName)
-              .then(function(resp){
-                expect(resp).to.be.an.instanceOf(Array);
-                expect(resp).to.have.length(1);
-                expect(resp[0].shelterID).to.equal(shelterId);
-                expect(resp[0].shelterName).to.equal('Arches');
-      });
-  });
+    return shelterRecs.insertShelter(shelter)
+          .then(function(){
+              return shelterRecs.selectShelter(shelterName)
+                        .then(function(resp){
+                          expect(resp).to.be.an.instanceOf(Array);
+                          expect(resp).to.have.length(1);
+                          expect(resp[0].shelterID).to.equal(shelterId);
+                          expect(resp[0].shelterName).to.equal('Arches');
+                });
+            });
+   });
 
-  xit('should insert Shelter units', function(){
-      var unit = {shelterUnit: {unitSize: '2BD'}};
+  it('should insert Shelter units', function(){
+      return shelterRecs.insertShelter(shelter)
+            .then(function(resp){
+              var shelterId = resp[0].shelterID;
       return shelterRecs.insertShelterUnit(unit, shelterId)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
                 expect(resp[0].unitSize).to.equal('2BD');
-
-                var unitId = resp[0].shelterUnitID;
               });
+            });
   });
 
-  xit('should insert Shelter eligibility', function(){
-    var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
+  it('should insert Shelter eligibility', function(){
+    return shelterRecs.insertShelter(shelter)
+          .then(function(resp){
+            var shelterId = resp[0].shelterID;
     return shelterRecs.insertShelterEligibility(eligibility, shelterId)
             .then(function(resp){
               expect(resp).to.be.an.instanceOf(Array);
               expect(resp).to.have.length(1);
               expect(resp[0].fk_eligibilityOptionID).to.equal(eligibilityID);
             });
+          });
   });
 
-  xit('should insert shelter occupancy', function(){
-    var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
-    return shelterRecs.insertShelterOccupancy(occupant, shelterId)
+  it('should insert shelter occupancy', function(){
+    return shelterRecs.insertShelter(shelter)
+          .then(function(resp){
+            var shelterId = resp[0].shelterID;
+        return shelterRecs.insertShelterOccupancy(occupant, shelterId)
                         .then(function(resp){
                           expect(resp).to.have.length(1);
                           expect(resp[0].occupiedByName).to.equal('John Smith');
-
-                          var occupancyId = resp[0].occupancyID;
                         });
+                    });
   });
 
-  xit('should update shelter occupancy', function(){
+  it('should update shelter occupancy', function(){
     var updateOccupancy = {occupancy: {name: 'Jimmy McGoo'}};
-
-    return shelterRecs.updateShelterOccupancy(updateOccupancy, occupancyId)
+    return shelterRecs.insertShelter(shelter)
+          .then(function(resp){
+            var shelterId = resp[0].shelterID;
+            return shelterRecs.insertShelterOccupancy(occupant, shelterId);
+          })
+          .then(function(resp){
+            var occupancyId = resp[0].occupancyID;
+            return shelterRecs.updateShelterOccupancy(updateOccupancy, occupancyId)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
                     });
+          });
   });
 
-  xit('should fetch shelter occupancy', function(){
-    //should be passed just the shelterId directly
-    var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
-    var unit = {shelterUnit: {unitSize: '2BD'}};
-    shelterRecs.insertShelterOccupancy(unit);
-    shelterRecs.insertShelterUnit(occupant);
-    return shelterRecs.selectShelterOccupancy(shelterId)
+  it('should fetch shelter occupancy', function(){
+    return shelterRecs.insertShelter()
+        .then(function(resp){
+          var shelterId = resp[0].shelterID;
+          return shelterRecs.insertShelterOccupancy(unit);
+        })
+        .then(function(resp){
+          return shelterRecs.insertShelterUnit(occupant);
+        })
+        .then(function(){
+          //should be passed just the shelterId directly
+          return shelterRecs.selectShelterOccupancy(shelterId)
                       .then(function(resp){
                         expect(resp).to.be.an.instanceOf(Array);
                         expect(resp).to.have.length(2);
                         expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
                         expect(resp[1].occupiedByName).to.equal('John Smith');
                       });
+        });
   });
 
-  xit('should delete shelter occupancy', function(){
-    //just req should have the name of the person occuping the unit
+  it('should delete shelter occupancy', function(){
     var occupied = {occupancy: {name: 'Jimmy McGoo'}};
-    return shelterRecs.deleteShelterOccupancy(occupied)
+    return shelterRecs.insertShelter()
+        .then(function(resp){
+          var shelterId = resp[0].shelterID;
+          return shelterRecs.insertShelterOccupancy(unit);
+        })
+        .then(function(resp){
+          return shelterRecs.insertShelterUnit(occupant);
+        })
+        .then(function(){     
+    //req should just have the name of the person occuping the unit
+          return shelterRecs.deleteShelterOccupancy(occupied)
                       .then(function(resp){
                         expect(resp).to.have.length(1);
                         expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
                       });
+        })
+        .then(function(){
+          it('should not fetch deleted occupancy', function(){
+              return shelterRecs.selectShelterOccupancy(shelterId)
+                            .then(function(resp){
+                              expect(resp).to.have.length(1);
+                              expect(resp[0].occupiedByName).to.not.equal('Jimmy McGoo');
+                            });
+        });
+      });
   });
 
-  xit('should not fetch deleted occupancy', function(){
-      return shelterRecs.selectShelterOccupancy(shelterId)
-                        .then(function(resp){
-                          expect(resp).to.have.length(1);
-                          expect(resp[0].occupiedByName).to.not.equal('Jimmy McGoo');
-                        });
-
-  });
 
   xit('should delete shelter eligibility', function(){
-    return shelterRecs.deleteShelterEligibility(eligibilityID)
+    return shelterRecs.insertShelter(shelter)
+          .then(function(resp){
+            var shelterId = resp[0].shelterID;
+            return shelterRecs.insertShelterEligibility(eligibility, shelterId);
+          })
+          .then(function(resp){
+            var eligibilityID = resp[0].eligibilityID;
+              return shelterRecs.deleteShelterEligibility(eligibilityID)
                       .then(function(resp){
                         expect(resp).to.have.length(1);
                         expect(resp[0].eligibilityID).to.equal(eligibilityID);
                       });
+          });
   });
 
   it('should delete shelter units', function(){
-    return shelterRecs.deleteShelterUnit(unitId)
+    return shelterRecs.insertShelter(shelter)
+            .then(function(resp){
+              var shelterId = resp[0].shelterID;
+              return shelterRecs.insertShelterUnit(unit, shelterId)
+          .then(function(){
+            return shelterRecs.deleteShelterUnit(unitId)
                   .then(function(resp){
                     expect(resp).to.have.length(1);
                     expect(resp[0].shelterUnitID).to.equal(unitId);
                   });
+          });
+       });
   });
 
   it('should delete Shelters', function(){
-    var shelterName = {shelters: shelter.shelters.shelterName};
-    return shelterRecs.deleteShelter(shelterName)
+    return shelterRecs.insertShelter(shelter)
+    .then(function(resp){
+      var shelterId = shelter[0].shelterID;
+      return shelterRecs.deleteShelter(shelterId)
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
                     expect(resp[0].shelterName).to.equal('Arches');
                   });
-  });
-
-  it('should not fetch deleted Shelters', function(){
-    var shelterName = {shelters: shelter.shelters.shelterName};
-    return shelterRecs.selectShelter(shelterName)
-                  .then(function(resp){
-                    expect(resp).to.be.an.instanceOf(Array);
-                    expect(resp).to.have.length(0);
+      }).then(function(){
+      it('should not fetch deleted Shelters', function(){
+        return shelterRecs.selectShelter(shelterName)
+                      .then(function(resp){
+                        expect(resp).to.be.an.instanceOf(Array);
+                        expect(resp).to.have.length(0);
+          });
+        });    
       });
   });
 
@@ -262,6 +309,7 @@ xit('should insert Shelters', function(){
 
   });
 
+
 });
 
 describe('users DB calls', function(){
@@ -271,7 +319,7 @@ describe('users DB calls', function(){
   });
 
   // beforeEach(function(done){
-  //   return knex.migrate.latest()
+  //  return knex.insert().into()
   //       .then(function(){
   //         //anything that needs to start out in the db
   //         done();
