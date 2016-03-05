@@ -2,14 +2,14 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
 
-  knex.schema.createTable('userRoles', function(table){
+  knex.schema.createTableIfNotExists('userRoles', function(table){
     table.increments('userRoleID').primary();
 
     table.string('userRoleName');
     table.string('userRoleDescription');
   }),
 
-  knex.schema.createTable('users', function(table){
+  knex.schema.createTableIfNotExists('users', function(table){
     table.increments('userID').primary();
 
     table.string('userFirstName').notNullable();
@@ -22,7 +22,7 @@ exports.up = function(knex, Promise) {
     			.inTable('userRoles');
   }),
 
-  knex.schema.createTable('shelterManagers', function(table){
+  knex.schema.createTableIfNotExists('shelterManagers', function(table){
     table.increments('managerID').primary();
     table.integer('managerPhone').notNullable();
     table.integer('fk_shelterID').notNullable() 
@@ -34,13 +34,13 @@ exports.up = function(knex, Promise) {
     table.string('managerEmail').notNullable();
   }),
 
-  knex.schema.createTable('organizations', function(table){
+  knex.schema.createTableIfNotExists('organizations', function(table){
     table.increments('organizationID').primary();
 
     table.string('organizationName').notNullable();
   }),
 
-  knex.schema.createTable('shelters', function(table){
+  knex.schema.createTableIfNotExists('shelters', function(table){
     table.increments('shelterID').primary();
 
     table.integer('fk_organizationID').notNullable() 
@@ -54,7 +54,7 @@ exports.up = function(knex, Promise) {
     table.string('shelterAddress').notNullable();
   }),
 
-  knex.schema.createTable('shelterUnits', function(table){
+  knex.schema.createTableIfNotExists('shelterUnits', function(table){
     table.increments('shelterUnitID').primary();
     table.integer('fk_shelterID').notNullable() 
     			.references('shelterID')
@@ -62,7 +62,7 @@ exports.up = function(knex, Promise) {
     table.string('unitSize').notNullable().defaultTo('1BD');
   }),
 
-  knex.schema.createTable('shelterOccupancy', function(table){
+  knex.schema.createTableIfNotExists('shelterOccupancy', function(table){
     table.increments('occupancyID').primary();
 
     table.integer('fk_shelterUnitID').notNullable() 
@@ -74,14 +74,14 @@ exports.up = function(knex, Promise) {
     table.unique(['fk_shelterUnitID', 'fk_userID']);
   }),
 
-  knex.schema.createTable('userSessions', function(table){
+  knex.schema.createTableIfNotExists('userSessions', function(table){
     table.uuid('sessionId').primary(); 
     table.integer('fk_userID').notNullable() 
     			.references('userID')
     			.inTable('users');
   }),
 
-  knex.schema.createTable('eligibilityOptions', function(table){
+  knex.schema.createTableIfNotExists('eligibilityOptions', function(table){
     table.increments('eligibilityOptionID').primary();
 
     table.string('eligibilityOption').notNullable().unique();
@@ -92,7 +92,7 @@ exports.up = function(knex, Promise) {
           .nullable();
   }),
 
-  knex.schema.createTable('shelterEligibility', function(table){
+  knex.schema.createTableIfNotExists('shelterEligibility', function(table){
     table.increments('shelterEligibilityID').primary();
 
     table.integer('fk_shelterID')
@@ -111,13 +111,13 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('userRoles'),
-    knex.schema.dropTable('users'),
-    knex.schema.dropTable('shelterManagers'),
-    knex.schema.dropTable('organizations'),
-    knex.schema.dropTable('shelters'),
-    knex.schema.dropTable('shelterUnits'),
-    knex.schema.dropTable('shelterOccupancy'),
-    knex.schema.dropTable('userSessions')
+    knex.schema.dropTableIfExists('userSessions'),
+    knex.schema.dropTableIfExists('shelterOccupancy'),
+    knex.schema.dropTableIfExists('shelterUnits'),
+    knex.schema.dropTableIfExists('shelterManagers'),
+    knex.schema.dropTableIfExists('shelters'),
+    knex.schema.dropTableIfExists('organizations'),
+    knex.schema.dropTableIfExists('users'),
+    knex.schema.dropTableIfExists('userRoles')
   ]);
 };
