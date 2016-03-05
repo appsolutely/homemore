@@ -12,7 +12,7 @@ var swig = require('swig');
 
 var app = express();
 
-require('./../db/db');
+//require('./../db/db');
 
 //path to client folder
 var assetFolder = path.resolve(__dirname, '../client/');
@@ -38,7 +38,7 @@ app.use(function(req, res) {
 
 
 
-//should always be the last route 
+//should always be the last route
 //-- default route when unknown passed in
 routes.get('/*', function(req, res){
   //placeholder default file to send to the client

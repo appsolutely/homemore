@@ -167,7 +167,26 @@ var Footer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'container' },
-          'THIS IS A FOOTER!'
+          _react2.default.createElement(
+            'div',
+            null,
+            'Shelter Inc.'
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            'Location: Austin,TX'
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            'Phone: (555)555-5555'
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            'Email: Contact@Email.com'
+          )
         )
       );
     }

@@ -5,7 +5,8 @@
   "main": "server/server.js",
   "scripts": {
     "test": "./test/run.sh",
-    "start": "./node_modules/.bin/nodemon server/server.js --ignore client/ --ignore node_modules/"
+    "start": "./node_modules/.bin/nodemon server/server.js --ignore client/ --ignore node_modules/",
+    "postinstall": "bower install"
   },
   "babel": {
     "presets": [
