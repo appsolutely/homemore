@@ -27,7 +27,27 @@ exports.up = function(knex, Promise) {
     table.integer('fk_locationID').notNullable()
           .references('locationID')
           .inTable('locations');
+  }),
+
+  knex.schema.table('shelterOccupancy', function(table){
+    table.dropColumn('fk_userID');
+    table.string('occupiedByName');
+  }),
+
+  knex.schema.table('users', function(table){
+    table.dropColumn('userDOB');
+  }),
+
+  knex.schema.createTable('orgAdmins', function(table){
+    table.increments('orgAdminID').primary();
+    table.integer('fk_userID').notNullable()
+          .references('userID')
+          .inTable('users');
+    table.integer('fk_organizationID').notNullable()
+          .references('organizationID')
+          .inTable('organizations');
   })
+
     ]);
 };
 
@@ -40,7 +60,8 @@ exports.down = function(knex, Promise) {
     knex.schema.dropTable('shelters'),
     knex.schema.dropTable('shelterUnits'),
     knex.schema.dropTable('shelterOccupancy'),
-    knex.schema.dropTable('userSessions')
-    knex.schema.dropTable('locations')
+    knex.schema.dropTable('userSessions'),
+    knex.schema.dropTable('locations'),
+    knex.schema.dropTable('orgAdmins')
   ]);
 };

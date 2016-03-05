@@ -33,3 +33,7 @@ module.exports.updateLocation = function(req, locationID){
 module.exports.deleteLocation = function(req, locationID){
 //delete physical location
 }
+
+module.exports.selectLocation = function(req, locationID){
+//select physical location
+}

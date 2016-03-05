@@ -26,3 +26,14 @@ module.exports.insertOrganiztion = function (req) {
 module.exports.deleteOrganization = function(req, orgID){
   //delete specific organization ID
 }
+
+module.exports.selectOrganization = function(req, orgID){
+  //select specific organization ID
+}
+
+module.exports.updateOrganization = function(req, orgID){
+  //update specific organization ID
+}
+
+
+
