@@ -13,18 +13,20 @@ exports.insertOrganization = function (req) {
 
 //insert organization name and return new id
   return knex('organizations')
-          .returning('organizationID')
+          .returning('*')
           .insert([{organizationName: orgName}])
   .catch(function(err){
     console.log("Organization may already exist. ", err);
   })
   .then(function(orgID){
+    console.log("new org id: ", orgID);
     //take return new id 
     return orgID;
   });
 };
 
-exports.deleteOrganization = function(req, orgID){
+exports.deleteOrganization = function(req){
+  var orgName = req.organizations.orgName;
   //delete specific organization ID
   return knex('organizations')
           .returning('*')
@@ -39,15 +41,17 @@ exports.deleteOrganization = function(req, orgID){
   });
 };
 
-exports.selectOrganization = function(req, orgID){
+exports.selectOrganization = function(req){
+  var orgName = req.organizations.orgName;
   //select specific organization ID
-  return knex.select().table('organizations')
-          .where('organizationID', orgID)
+  return knex.select('*').from('organizations')
+          .where('organizationName', orgName)
         .catch(function(err){
           console.log("Something went wrong selecting this organization ", err);
         })
-        .then(function(organizationID){
-          return organizationID;
+        .then(function(organizations){
+          console.log("something : " , organizations);
+          return organizations;
         });
 };
 

@@ -16,17 +16,17 @@ describe('Organization DB Calls', function(){
     done();
   });
 
-  beforeEach(function(done){
-    return knex.migrate.latest()
-        .then(function(){
-          //anything that needs to start out in the db
-          done();
-        })
-        .catch(function(err){
-          console.error('error migrating ', err);
-          done();
-        });
-  });
+  // beforeEach(function(done){
+  //   return knex.migrate.latest()
+  //       .then(function(){
+  //         //anything that needs to start out in the db
+  //         done();
+  //       })
+  //       .catch(function(err){
+  //         console.error('error migrating ', err);
+  //         done();
+  //       });
+  // });
   //response should have just ID
   it('should insert organizations', function(){
     var org = {organizations: {orgName: 'FrontSteps'}};
@@ -36,9 +36,8 @@ describe('Organization DB Calls', function(){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
                 expect(resp[0].organizationID).to.not.equal('undefined');
-
                 var orgId = resp[0].organizationID;
-                console.log('orgID for frontSteps ', orgId);
+                console.log('orgID for FrontSteps ', orgId);
               });
   });
 
@@ -81,16 +80,16 @@ describe('Shelter and eligibility DB calls', function(){
     done();
   });
 
-  beforeEach(function(done){
-    return knex.migrate.latest()
-        .then(function(){
-          //anything that needs to start out in the db
-          done();
-        })
-        .catch(function(err){
-          console.error('error migrating ', err);
-        });
-  });
+  // beforeEach(function(done){
+  //   return knex.migrate.latest()
+  //       .then(function(){
+  //         //anything that needs to start out in the db
+  //         done();
+  //       })
+  //       .catch(function(err){
+  //         console.error('error migrating ', err);
+  //       });
+  // });
 
 it('should insert Shelters', function(){
     var shelter = {shelters:
@@ -242,16 +241,16 @@ describe('users DB calls', function(){
     done();
   });
 
-  beforeEach(function(done){
-    return knex.migrate.latest()
-        .then(function(){
-          //anything that needs to start out in the db
-          done();
-        })
-        .catch(function(err){
-          console.error('error migrating ', err);
-        });
-  }); 
+  // beforeEach(function(done){
+  //   return knex.migrate.latest()
+  //       .then(function(){
+  //         //anything that needs to start out in the db
+  //         done();
+  //       })
+  //       .catch(function(err){
+  //         console.error('error migrating ', err);
+  //       });
+  // }); 
 
   xit('should create new public users', function(){
     var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring'}};
