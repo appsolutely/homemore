@@ -10,12 +10,12 @@ var knex = require('knex')(config[env]);
 
 module.exports.insertLocation = function(req){
   //add new physical location
-  var name = req.locations.locationName
-  var street = req.locations.locationStreet
-  var city = req.locations.locationCity
-  var state = req.locations.locationState
-  var zip = req.locations.locationZip
-  var phone = req.locations.locationPhone
+  var name = req.locations.locationName;
+  var street = req.locations.locationStreet;
+  var city = req.locations.locationCity;
+  var state = req.locations.locationState;
+  var zip = req.locations.locationZip;
+  var phone = req.locations.locationPhone;
   // var monHours = req.locations.locationHoursMonday
   // var tuesHours = req.locations.locationHoursTuesday
   // var wedHours = req.locations.locationHoursWednesday
@@ -24,16 +24,16 @@ module.exports.insertLocation = function(req){
   // var satHours = req.locations.locationHoursSaturday
   // var sunHours = req.locations.locationHoursSunday
   
-}
+};
 
 module.exports.updateLocation = function(req, locationID){
 //update physical location or details
-}
+};
 
 module.exports.deleteLocation = function(req, locationID){
 //delete physical location
-}
+};
 
 module.exports.selectLocation = function(req, locationID){
 //select physical location
-}
+};
