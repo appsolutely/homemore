@@ -12,23 +12,47 @@ exports.insertOrganization = function (req) {
 
 //insert organization name and return new id
   return knex('organizations')
-    .returning('organizationID')
-    .insert([{organizationName: orgName}])
+          .returning('*')
+          .insert({organizationName: orgName})
   .catch(function(err){
     console.log("Organization may already exist. ", err);
   })
   .then(function(orgID){
+    console.log("new org id: ", orgID);
     //take return new id 
     return orgID;
   });
 };
 
-exports.deleteOrganization = function(req, orgID){
+exports.deleteOrganization = function(req){
+  var orgName = req.organizations.orgName;
   //delete specific organization ID
+  return knex.select('*')
+          .from('organizations')
+          .where('organizationID', orgID)
+          .del()
+  .catch(function(err){
+    console.log("Something went wrong deleting this organization ", err);
+  })
+  .then(function(organizationID){
+    console.log("Deleted organization with organization id = ", organizationID);
+    return organizationID;
+  });
 };
 
-exports.selectOrganization = function(req, orgID){
+exports.selectOrganization = function(req){
+  var orgName = req.organizations.orgName;
+  console.log('passed in orgName ', orgName);
   //select specific organization ID
+  return knex('organizations')
+        .where('organizationName', orgName)
+        .then(function(organization){
+          console.log("returned from selectOrg : " , organization);
+          return organization;
+        })
+        .catch(function(err){
+          console.log("Something went wrong selecting this organization ", err);
+        });
 };
 
 exports.updateOrganization = function(req, orgID){

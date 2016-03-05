@@ -4,12 +4,14 @@ exports.up = function(knex, Promise) {
 
   knex.schema.createTableIfNotExists('userRoles', function(table){
     table.increments('userRoleID').primary();
+
     table.string('userRoleName');
     table.string('userRoleDescription');
   }),
 
   knex.schema.createTableIfNotExists('users', function(table){
     table.increments('userID').primary();
+
     table.string('userFirstName').notNullable();
     table.string('userLastName').notNullable();
     table.string('userPassword').notNullable();
@@ -34,11 +36,13 @@ exports.up = function(knex, Promise) {
 
   knex.schema.createTableIfNotExists('organizations', function(table){
     table.increments('organizationID').primary();
+
     table.string('organizationName').notNullable();
   }),
 
   knex.schema.createTableIfNotExists('shelters', function(table){
     table.increments('shelterID').primary();
+
     table.integer('fk_organizationID').notNullable() 
     			.references('organizationID')
     			.inTable('organizations');
@@ -60,6 +64,7 @@ exports.up = function(knex, Promise) {
 
   knex.schema.createTableIfNotExists('shelterOccupancy', function(table){
     table.increments('occupancyID').primary();
+
     table.integer('fk_shelterUnitID').notNullable() 
     			.references('shelterUnitID')
     			.inTable('shelterUnits');
@@ -78,6 +83,7 @@ exports.up = function(knex, Promise) {
 
   knex.schema.createTableIfNotExists('eligibilityOptions', function(table){
     table.increments('eligibilityOptionID').primary();
+
     table.string('eligibilityOption').notNullable().unique();
     table.string('eligibilityOptionDescription').notNullable();
     table.integer('fk_eligibilityParentID')
@@ -88,6 +94,7 @@ exports.up = function(knex, Promise) {
 
   knex.schema.createTableIfNotExists('shelterEligibility', function(table){
     table.increments('shelterEligibilityID').primary();
+
     table.integer('fk_shelterID')
           .references('shelterID')
           .inTable('shelters')
