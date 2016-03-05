@@ -65,7 +65,7 @@ describe('Organization DB Calls', function(){
 
   it('should not fetch deleted Organizations', function(){
     var org = {organizations: {orgName: 'FrontSteps'}};
-    return shelterRecs.selectOrganization(org)
+    return orgRecs.selectOrganization(org)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp.length).to.have.length(0);
@@ -82,13 +82,14 @@ describe('Shelter and eligibility DB calls', function(){
   });
 
   beforeEach(function(done){
-    return knex.migrate.latest()
+  // anything that needs to start out in the db
+    var org = {organizations: {orgName: 'FrontSteps'}};
+    return orgRecs.insertOrganization(org) 
         .then(function(){
-          //anything that needs to start out in the db
           done();
         })
         .catch(function(err){
-          console.error('error migrating ', err);
+          console.error('error inserting FrontSteps', err);
         });
   });
 
@@ -110,7 +111,7 @@ it('should insert Shelters', function(){
               });
   });
 
-  it('should fetch Shelters', function(){
+  it('should fetch a shelter', function(){
     var shelterName = {shelters: shelter.shelters.shelterName};
     return shelterRecs.selectShelter(shelterName)
               .then(function(resp){
@@ -167,6 +168,8 @@ it('should insert Shelters', function(){
 
   it('should fetch shelter occupancy', function(){
     //should be passed just the shelterId directly
+    var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
+    var unit = {shelterUnit: {unitSize: '2BD'}};
     shelterRecs.insertShelterOccupancy(unit);
     shelterRecs.insertShelterUnit(occupant);
     return shelterRecs.selectShelterOccupancy(shelterId)
@@ -205,9 +208,6 @@ it('should insert Shelters', function(){
                       });
   });
 
-  // module.exports.deleteShelterUnit = function(req, shelterUnitID){
-//   //function for deleting specific shelter unit
-// }
   it('should delete shelter units', function(){
     return shelterRecs.deleteShelterUnit(unitId)
                   .then(function(resp){
@@ -217,7 +217,8 @@ it('should insert Shelters', function(){
   });
 
   it('should delete Shelters', function(){
-    return shelterRecs.deleteShelter(org)
+    var shelterName = {shelters: shelter.shelters.shelterName};
+    return shelterRecs.deleteShelter(shelterName)
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
@@ -226,6 +227,7 @@ it('should insert Shelters', function(){
   });
 
   it('should not fetch deleted Shelters', function(){
+    var shelterName = {shelters: shelter.shelters.shelterName};
     return shelterRecs.selectShelter(shelterName)
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
@@ -233,6 +235,15 @@ it('should insert Shelters', function(){
       });
   });
 
+  xit('should allow admins to update shelter info', function(){
+    //occupancy, eligibility, hours etc
+    
+
+  });
+
+  xit('should not allow public users to change shelter info', function(){
+
+  });
 
 });
 
@@ -242,19 +253,19 @@ describe('users DB calls', function(){
     done();
   });
 
-  beforeEach(function(done){
-    return knex.migrate.latest()
-        .then(function(){
-          //anything that needs to start out in the db
-          done();
-        })
-        .catch(function(err){
-          console.error('error migrating ', err);
-        });
-  }); 
+  // beforeEach(function(done){
+  //  return knex.insert().into()
+  //       .then(function(){
+  //         //anything that needs to start out in the db
+  //         done();
+  //       })
+  //       .catch(function(err){
+  //         console.error('error migrating ', err);
+  //       });
+  // }); 
 
   xit('should create new public users', function(){
-    var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring'}};
+    var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
     return userRecs.addNewPublic(publicUser)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -267,39 +278,74 @@ describe('users DB calls', function(){
   });
 
   xit('should create new admins for new organizations', function(){
-    var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', }};
-
+    var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};
+    return userRecs.addnewAdmin(adminUser)
+                  .then(function(resp){
+                    expect(resp).to.be.an.instanceOf(Array);
+                    expect(resp).to.have.length(1);
+                    expect(resp[0].firstName).to.equal('Billy');
+                    expect(resp[0].orgAdminId).to.not.equal(undefined);
+                    expect(resp[0].organizationName).to.equal('FrontSteps');
+                  });
   });
 
   xit('should allow admin users to be associated with existing organizations', function(){
+    var newAdmin = {adminUser: {firstName: 'Jane', lastname: 'Smith', password: 'longstring', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
+    return userRecs.addnewAdmin(newAdmin)
+                    .then(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].firstName).to.equal('Jane');
+                      expect(resp[0].organizationName).to.equal('FrontSteps');
+                      expect(resp[0].userID).to.not.equal(undefined);
+                      var oldPass = resp[0].password;
+                      var adminUserId = resp[0].userID;
+                    });
   });
 
   xit('should allow users to update passwords', function(){
-
+    var newPass = {user: {userID: adminUserId, newPass: 'newlongstring'}};
+    return userRecs.changePassword(newPass)
+                    .then(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].password).to.not.equal(oldPass);
+                    });
   });
 
   xit('should allow users to update contact information', function(){
-
+    //come back to this...
   });
 
   xit('should find users by userID', function(){
+    return userRecs.findByUserID(adminUserId)
+                    .then(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].firstName).to.equal('Jane');
+                      expect(resp[0].email).to.equal('jane@example.com');
+                    });
 
   });
 
   xit('should find users by email', function(){
-
-  });
-
-  xit('should allow admins to update shelter info', function(){
-    //occupancy, eligibility, hours etc
+    var email = {user: {email: 'jane@example.com'}};
+    return userRecs.findByUserEmail(email)
+                .then(function(resp){
+                  expect(resp).to.be.an.instanceOf(Array);
+                  expect(resp).to.have.length(1);
+                  expect(resp[0].firstName).to.equal('Jane');
+                });
   });
 
   xit('should be able to return users role', function(){
-
+    return userRecs.findUserRole(adminUserId)
+                    .then(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].userRoleName).to.equal('admin');
+                    });
   });
 
-  xit('should not allow public users to change shelter info', function(){
-
-  });
 
 });
