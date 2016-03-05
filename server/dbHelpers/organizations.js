@@ -10,11 +10,10 @@ var knex = require('knex')(config[env]);
 exports.insertOrganization = function (req) {
   var orgName = req.organizations.orgName;
 
-
 //insert organization name and return new id
   return knex('organizations')
           .returning('*')
-          .insert([{organizationName: orgName}])
+          .insert({organizationName: orgName})
   .catch(function(err){
     console.log("Organization may already exist. ", err);
   })
@@ -28,8 +27,8 @@ exports.insertOrganization = function (req) {
 exports.deleteOrganization = function(req){
   var orgName = req.organizations.orgName;
   //delete specific organization ID
-  return knex('organizations')
-          .returning('*')
+  return knex.select('*')
+          .from('organizations')
           .where('organizationID', orgID)
           .del()
   .catch(function(err){
@@ -43,15 +42,16 @@ exports.deleteOrganization = function(req){
 
 exports.selectOrganization = function(req){
   var orgName = req.organizations.orgName;
+  console.log('passed in orgName ', orgName);
   //select specific organization ID
-  return knex.select('*').from('organizations')
-          .where('organizationName', orgName)
+  return knex('organizations')
+        .where('organizationName', orgName)
+        .then(function(organization){
+          console.log("returned from selectOrg : " , organization);
+          return organization;
+        })
         .catch(function(err){
           console.log("Something went wrong selecting this organization ", err);
-        })
-        .then(function(organizations){
-          console.log("something : " , organizations);
-          return organizations;
         });
 };
 
