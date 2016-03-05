@@ -123,10 +123,6 @@ it('should insert Shelters', function(){
             });
   });
 
-  it('should update shelter eligibility', function(){
-
-  })
-
   it('should insert shelter occupancy', function(){
     var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
     return shelterRecs.insertShelterOccupancy(occupant, shelterId)
@@ -228,7 +224,7 @@ describe('users DB calls', function(){
   });  
 
   it('should create new public users', function(){
-    var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring', DOB: '1/1/1979'}};
+    var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring'}};
     return userRecs.addNewPublic(publicUser)
                     .expect(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -237,19 +233,15 @@ describe('users DB calls', function(){
                       expect(resp[0].userID).to.not.equal(undefined);
 
                       var publicUserId = resp[0].userID;
-                    })
+                    });
   });
 
-  it('should create new admin users', function(){
-
-  });
-
-  it('should allow admins to create organizations', function(){
+  it('should create new admins for new organizations', function(){
+    var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', }};
 
   });
 
-  it('should allow admins to be associated with existing Organizations', function(){
-
+  it('should allow admin users to be associated with existing organizations', function(){
   });
 
   it('should allow users to update passwords', function(){
@@ -260,16 +252,25 @@ describe('users DB calls', function(){
 
   });
 
-  it('should allow users to sign in', function(){
+  it('should find users by userID', function(){
+
+  });
+
+  it('should find users by email', function(){
 
   });
 
   it('should allow admins to update shelter info', function(){
-    //occupancy, eligibility, 
+    //occupancy, eligibility, hours etc
+  });
+
+  it('should be able to return users role', function(){
+
   });
 
   it('should not allow public users to change shelter info', function(){
 
   });
+
 
 });
