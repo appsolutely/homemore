@@ -259,7 +259,13 @@ var Home = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       { className: 'home' },
-      'Welcome to home'
+      _react2.default.createElement('br', null),
+      _react2.default.createElement('br', null),
+      _react2.default.createElement(
+        'div',
+        { className: 'search' },
+        _react2.default.createElement('input', { type: 'text', defaultValue: 'Austin' })
+      )
     );
   }
 });
@@ -399,24 +405,7 @@ var UserSignup = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'home' },
-        _react2.default.createElement(
-          'div',
-          { className: 'admin' },
-          _react2.default.createElement(
-            'button',
-            { type: 'submit' },
-            'Admin'
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'Hobo' },
-          _react2.default.createElement(
-            'button',
-            { type: 'submit' },
-            'Hobo'
-          )
-        )
+        _react2.default.createElement('input', { type: 'text', defaultValue: 'Hello!' })
       );
     }
   }]);
