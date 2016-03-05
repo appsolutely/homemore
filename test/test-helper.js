@@ -30,6 +30,10 @@ TestHelper.createApp = function(loader) {
   return app;
 };
 
+TestHelper.startDB = function(){
+  require(__db + '/db.js');
+};
+
 var Bluebird = require('bluebird');
 
 //promisifing coroutines

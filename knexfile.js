@@ -9,14 +9,16 @@ module.exports = {
     },
     seeds: {
       directory: './seeds/'
-    }
+    },
+    directory: __dirname + '/migrations',
   },
 
   test: {
     client: 'postgresql',
     connection: {
       database: 'sheltered_test'
-    }
+    },
+    directory: __dirname + '/migrations',
   },
 
   production: {
@@ -24,7 +26,8 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     seeds: {
       directory: './seeds/'
-    }
+    },
+    directory: __dirname + '/migrations',
   }
 
 };

@@ -2,7 +2,7 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
 
-  knex.schema.createTable('locations', function(table){
+  knex.schema.createTableIfNotExists('locations', function(table){
     table.increments('locationID').primary();
     table.string('locationName');
     table.string('locationStreet');
@@ -36,7 +36,7 @@ exports.up = function(knex, Promise) {
     table.dropColumn('userDOB');
   }),
 
-  knex.schema.createTable('orgAdmins', function(table){
+  knex.schema.createTableIfNotExists('orgAdmins', function(table){
     table.increments('orgAdminID').primary();
     table.integer('fk_userID').notNullable()
           .references('userID')
@@ -51,15 +51,15 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
     return Promise.all([
-    knex.schema.dropTable('userRoles'),
-    knex.schema.dropTable('users'),
-    knex.schema.dropTable('shelterManagers'),
-    knex.schema.dropTable('organizations'),
-    knex.schema.dropTable('shelters'),
-    knex.schema.dropTable('shelterUnits'),
-    knex.schema.dropTable('shelterOccupancy'),
-    knex.schema.dropTable('userSessions'),
-    knex.schema.dropTable('locations'),
-    knex.schema.dropTable('orgAdmins')
+    knex.schema.dropTableIfExists('userSessions'),
+    knex.schema.dropTableIfExists('shelterOccupancy'),
+    knex.schema.dropTableIfExists('shelterUnits'),
+    knex.schema.dropTableIfExists('shelterManagers'),
+    knex.schema.dropTableIfExists('shelters'),
+    knex.schema.dropTableIfExists('locations'),
+    knex.schema.dropTableIfExists('orgAdmins'),
+    knex.schema.dropTableIfExists('organizations'),
+    knex.schema.dropTableIfExists('users'),
+    knex.schema.dropTableIfExists('userRoles')
   ]);
 };
