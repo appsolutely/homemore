@@ -3,17 +3,13 @@ exports.up = function(knex, Promise) {
   return Promise.all([
 
   knex.schema.createTable('userRoles', function(table){
-    table.increments('userRoleID').primary()
-          .onDelete('RESTRICT')
-          .onUpdate('CASCADE');
+    table.increments('userRoleID').primary();
     table.string('userRoleName');
     table.string('userRoleDescription');
   }),
 
   knex.schema.createTable('users', function(table){
-    table.increments('userID').primary()
-          .onDelete('CASCADE')
-          .onUpdate('CASCADE');
+    table.increments('userID').primary();
     table.string('userFirstName').notNullable();
     table.string('userLastName').notNullable();
     table.string('userPassword').notNullable();
@@ -25,9 +21,7 @@ exports.up = function(knex, Promise) {
   }),
 
   knex.schema.createTable('shelterManagers', function(table){
-    table.increments('managerID').primary()
-          .onDelete('NO ACTION')
-          .onUpdate('CASCADE');
+    table.increments('managerID').primary();
     table.integer('managerPhone').notNullable();
     table.integer('fk_shelterID').notNullable() 
     			.references('shelterID')
@@ -39,16 +33,12 @@ exports.up = function(knex, Promise) {
   }),
 
   knex.schema.createTable('organizations', function(table){
-    table.increments('organizationID').primary()
-          .onDelete('CASCADE')
-          .onUpdate('CASCADE');
+    table.increments('organizationID').primary();
     table.string('organizationName').notNullable();
   }),
 
   knex.schema.createTable('shelters', function(table){
-    table.increments('shelterID').primary()
-          .onDelete('CASCADE')
-          .onUpdate('CASCADE');
+    table.increments('shelterID').primary();
     table.integer('fk_organizationID').notNullable() 
     			.references('organizationID')
     			.inTable('organizations');
@@ -61,9 +51,7 @@ exports.up = function(knex, Promise) {
   }),
 
   knex.schema.createTable('shelterUnits', function(table){
-    table.increments('shelterUnitID').primary()
-          .onDelete('NO ACTION')
-          .onUpdate('CASCADE');
+    table.increments('shelterUnitID').primary();
     table.integer('fk_shelterID').notNullable() 
     			.references('shelterID')
     			.inTable('shelters');
@@ -71,9 +59,7 @@ exports.up = function(knex, Promise) {
   }),
 
   knex.schema.createTable('shelterOccupancy', function(table){
-    table.increments('occupancyID').primary()
-          .onDelete('CASCADE')
-          .onUpdate('CASCADE');
+    table.increments('occupancyID').primary();
     table.integer('fk_shelterUnitID').notNullable() 
     			.references('shelterUnitID')
     			.inTable('shelterUnits');
@@ -91,9 +77,7 @@ exports.up = function(knex, Promise) {
   }),
 
   knex.schema.createTable('eligibilityOptions', function(table){
-    table.increments('eligibilityOptionID').primary()
-          .onDelete('RESTRICT')
-          .onUpdate('CASCADE');
+    table.increments('eligibilityOptionID').primary();
     table.string('eligibilityOption').notNullable().unique();
     table.string('eligibilityOptionDescription').notNullable();
     table.integer('fk_eligibilityParentID')
@@ -103,9 +87,7 @@ exports.up = function(knex, Promise) {
   }),
 
   knex.schema.createTable('shelterEligibility', function(table){
-    table.increments('shelterEligibilityID').primary()
-          .onDelete('RESTRICT')
-          .onUpdate('CASCADE');
+    table.increments('shelterEligibilityID').primary();
     table.integer('fk_shelterID')
           .references('shelterID')
           .inTable('shelters')

@@ -3,14 +3,12 @@ exports.up = function(knex, Promise) {
   return Promise.all([
 
   knex.schema.createTable('locations', function(table){
-    table.increments('locationID').primary()
-          .onDelete('RESTRICT')
-          .onUpdate('CASCADE');
+    table.increments('locationID').primary();
     table.string('locationName');
     table.string('locationStreet');
     table.string('locationCity');
     table.string('locationState');
-    table.string('locationZip')
+    table.string('locationZip');
     table.string('locationPhone');
     table.string('locationHoursMonday').defaultTo('Open 24 hours');
     table.string('locationHoursTuesday').defaultTo('Open 24 hours');

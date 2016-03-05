@@ -1,5 +1,5 @@
-var db = require('./db');
-var config = require('../knexfile.js');  
+var db = require('../../db/db.js');
+var config = require('../../knexfile.js');  
 var env =  process.env.NODE_ENV || 'development';  
 var knex = require('knex')(config[env]);
 
@@ -14,7 +14,7 @@ var knex = require('knex')(config[env]);
 //)
 //get looked up orgID
 module.exports.insertShelter = function(req, orgID){
-    var name = req.body.shelter.shelterName
+    var name = req.body.shelter.shelterName;
     var email = req.body.shelter.shelterEmail
     var emergencyPhone = req.body.shelter.shelterEmergencyPhone
     var daytimePhone = req.body.shelter.shelterDaytimePhone
