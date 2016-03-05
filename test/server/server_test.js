@@ -5,7 +5,6 @@ var config = require('../knexfile.js');
 
 var orgRecs = require(__server + '/dbHelpers/organizations');
 var shelterRecs = require(__server + '/dbHelpers/shelters');
-var eligRecs = require(__server + '/dbHelpers/eligibility');
 var locRecs = require(__server + '/dbHelpers/locations');
 var userRecs = require(__server + '/dbHelpers/users');
 
@@ -62,7 +61,7 @@ describe('Organization DB Calls', function(){
 
 
 
-describe('Shelter DB calls', function(){
+describe('Shelter and eligibility DB calls', function(){
   var app = TestHelper.createApp();
   app.testReady();
 
@@ -123,6 +122,10 @@ it('should insert Shelters', function(){
               expect(resp[0].fk_eligibilityOptionID).to.equal(eligibilityID);
             });
   });
+
+  it('should update shelter eligibility', function(){
+
+  })
 
   it('should insert shelter occupancy', function(){
     var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
@@ -213,4 +216,60 @@ it('should insert Shelters', function(){
                     expect(resp).to.have.length(0);
       });
   });
+});
+
+describe('users DB calls', function(){
+  var app = TestHelper.createApp();
+  app.testReady();
+
+  beforeEach(function(){
+    db.deleteEverything();
+    require(__db + '/db');
+  });  
+
+  it('should create new public users', function(){
+    var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring', DOB: '1/1/1979'}};
+    return userRecs.addNewPublic(publicUser)
+                    .expect(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].firstName).to.equal('Joe');
+                      expect(resp[0].userID).to.not.equal(undefined);
+
+                      var publicUserId = resp[0].userID;
+                    })
+  });
+
+  it('should create new admin users', function(){
+
+  });
+
+  it('should allow admins to create organizations', function(){
+
+  });
+
+  it('should allow admins to be associated with existing Organizations', function(){
+
+  });
+
+  it('should allow users to update passwords', function(){
+
+  });
+
+  it('should allow users to update contact information', function(){
+
+  });
+
+  it('should allow users to sign in', function(){
+
+  });
+
+  it('should allow admins to update shelter info', function(){
+    //occupancy, eligibility, 
+  });
+
+  it('should not allow public users to change shelter info', function(){
+
+  });
+
 });
