@@ -4,30 +4,15 @@ const Home = React.createClass({
   render() {
     return(
       <div className='home'>
-        THIS IS SHELTERED!!! 
-      <div>  _.█████████████████</div>
-      <div>  _ ██████████████████</div>
-      <div>  ████████████████████</div>
-      <div>  █████████████████████</div>
-      <div>  _█_________▄▄▄▄_ ▄▄▄▄_█</div>
-      <div>  _█__█████_▐▓▓▌_▐▓▓▌_█</div>
-    <div>    _█__█████_▐▓▓▌_▐▓▓▌_█</div>
-    <div>    _█__█████_▐▓▓▌_▐▓▓▌_█</div>
-    <div>    _█__█████_▀▀▀▀_ ▀▀▀▀ █✿ ✿</div>
-    <div>    _█__█████_____________ █(\\|/)</div>
-    <div>    _____________██ _____________██</div>
-    <div>    _____________█</div>
-    <div>    ______________█</div>
-  <div>      _______________██</div>
-    <div>    _________________██</div>
-    <div>    ___________________██</div>
-    <div>    __________________██</div>
-    <div>    _________________███</div>
-    <div>    ______________████</div>
-  <div>      ___________█████</div>
-  <div>      _________██████</div>
-  <div>      _______██████</div>
-
+        <div>SHELTERED</div>
+          <input
+            className="form-control"
+            placeholder="Username"
+            type="text" />
+          <input
+            className="form-control"
+            placeholder="Password"
+            type="text" />
       </div>
     )
   }

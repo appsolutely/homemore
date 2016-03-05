@@ -149,24 +149,12 @@ var Footer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var leaderboardCharacters = this.state.characters.map(function (character) {
-        return _react2.default.createElement(
-          'li',
-          { key: character.characterId },
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/characters/' + character.characterId },
-            _react2.default.createElement('img', { className: 'thumb-md', src: 'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg' })
-          )
-        );
-      });
-
       return _react2.default.createElement(
         'footer',
         null,
         _react2.default.createElement(
           'div',
-          { className: 'container' },
+          { className: 'Footer' },
           _react2.default.createElement(
             'div',
             null,
@@ -216,117 +204,19 @@ var Home = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       { className: 'home' },
-      'THIS IS SHELTERED!!!',
       _react2.default.createElement(
         'div',
         null,
-        '  _.█████████████████'
+        'SHELTERED'
       ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '  _ ██████████████████'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '  ████████████████████'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '  █████████████████████'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '  _█_________▄▄▄▄_ ▄▄▄▄_█'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '  _█__█████_▐▓▓▌_▐▓▓▌_█'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    _█__█████_▐▓▓▌_▐▓▓▌_█'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    _█__█████_▐▓▓▌_▐▓▓▌_█'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    _█__█████_▀▀▀▀_ ▀▀▀▀ █✿ ✿'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    _█__█████_____________ █(\\\\|/)'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    _____________██ _____________██'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    _____________█'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    ______________█'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '      _______________██'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    _________________██'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    ___________________██'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    __________________██'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    _________________███'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '    ______________████'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '      ___________█████'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '      _________██████'
-      ),
-      _react2.default.createElement(
-        'div',
-        null,
-        '      _______██████'
-      )
+      _react2.default.createElement('input', {
+        className: 'form-control',
+        placeholder: 'Username',
+        type: 'text' }),
+      _react2.default.createElement('input', {
+        className: 'form-control',
+        placeholder: 'Password',
+        type: 'text' })
     );
   }
 });

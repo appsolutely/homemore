@@ -24,19 +24,9 @@ class Footer extends React.Component {
   }
 
   render() {
-    let leaderboardCharacters = this.state.characters.map(function(character) {
       return (
-        <li key={character.characterId}>
-          <Link to={'/characters/' + character.characterId}>
-            <img className='thumb-md' src={'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg'} />
-          </Link>
-        </li>
-      );
-    });
-
-    return (
       <footer>
-        <div className='container'>
+        <div className='Footer' >
           <div>Shelter Inc.</div>
           <div>Location: Austin,TX</div>
           <div>Phone: (555)555-5555</div>
