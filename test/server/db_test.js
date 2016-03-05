@@ -1,12 +1,11 @@
 require('../test-helper.js');
-var db = require(__db + '/db');
 var request = require('supertest-as-promised');
-var config = require('../knexfile.js');  
 
 var orgRecs = require(__server + '/dbHelpers/organizations');
 var shelterRecs = require(__server + '/dbHelpers/shelters');
 var locRecs = require(__server + '/dbHelpers/locations');
 var userRecs = require(__server + '/dbHelpers/users');
+var db = require(__db + '/db.js');
 
 
 describe('Organization DB Calls', function(){
@@ -236,39 +235,39 @@ describe('users DB calls', function(){
                     });
   });
 
-  it('should create new admins for new organizations', function(){
+  xit('should create new admins for new organizations', function(){
     var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', }};
 
   });
 
-  it('should allow admin users to be associated with existing organizations', function(){
+  xit('should allow admin users to be associated with existing organizations', function(){
   });
 
-  it('should allow users to update passwords', function(){
-
-  });
-
-  it('should allow users to update contact information', function(){
+  xit('should allow users to update passwords', function(){
 
   });
 
-  it('should find users by userID', function(){
+  xit('should allow users to update contact information', function(){
 
   });
 
-  it('should find users by email', function(){
+  xit('should find users by userID', function(){
 
   });
 
-  it('should allow admins to update shelter info', function(){
+  xit('should find users by email', function(){
+
+  });
+
+  xit('should allow admins to update shelter info', function(){
     //occupancy, eligibility, hours etc
   });
 
-  it('should be able to return users role', function(){
+  xit('should be able to return users role', function(){
 
   });
 
-  it('should not allow public users to change shelter info', function(){
+  xit('should not allow public users to change shelter info', function(){
 
   });
 
