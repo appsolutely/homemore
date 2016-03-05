@@ -5,6 +5,8 @@ global.__db = __dirname + '/../db';
 global.__client = __dirname + '/../client';
 
 var chai = require('chai');
+var chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
 global.expect = chai.expect;
 
 //test helper object

@@ -11,6 +11,7 @@ knex.migrate.latest()
     //run real seed files
   } else {
     //run test version seed files
+    console.log('Running test version');
   }
 });
 
@@ -19,14 +20,14 @@ knex.deleteEverything = function () {
   if (env !== 'test') return Promise.reject();
 
   return Promise.all([
-    knex.schema.dropTable('userRoles'),
-    knex.schema.dropTable('users'),
-    knex.schema.dropTable('shelterManagers'),
-    knex.schema.dropTable('organizations'),
-    knex.schema.dropTable('shelters'),
-    knex.schema.dropTable('shelterUnits'),
-    knex.schema.dropTable('shelterOccupancy'),
-    knex.schema.dropTable('userSessions')
+    knex.schema.dropTableIfExists('userRoles'),
+    knex.schema.dropTableIfExists('users'),
+    knex.schema.dropTableIfExists('shelterManagers'),
+    knex.schema.dropTableIfExists('organizations'),
+    knex.schema.dropTableIfExists('shelters'),
+    knex.schema.dropTableIfExists('shelterUnits'),
+    knex.schema.dropTableIfExists('shelterOccupancy'),
+    knex.schema.dropTableIfExists('userSessions')
   ]);
 };
 

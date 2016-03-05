@@ -7,8 +7,8 @@ var knex = require('knex')(config[env]);
 //insertorganizations expects req body to contain (
     //organization.orgName
 //)
-module.exports.insertOrganiztion = function (req) {
-  var orgName = req.body.organization.orgName;
+exports.insertOrganization = function (req) {
+  var orgName = req.organizations.orgName;
 
 //insert organization name and return new id
   return knex('organizations')
@@ -23,15 +23,15 @@ module.exports.insertOrganiztion = function (req) {
   });
 };
 
-module.exports.deleteOrganization = function(req, orgID){
+exports.deleteOrganization = function(req, orgID){
   //delete specific organization ID
 };
 
-module.exports.selectOrganization = function(req, orgID){
+exports.selectOrganization = function(req, orgID){
   //select specific organization ID
 };
 
-module.exports.updateOrganization = function(req, orgID){
+exports.updateOrganization = function(req, orgID){
   //update specific organization ID
 };
 

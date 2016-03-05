@@ -12,16 +12,19 @@ describe('Organization DB Calls', function(){
   var app = TestHelper.createApp();
   app.testReady();
 
-  beforeEach(function(){
+  after(function(){
     db.deleteEverything();
-    require(__db + '/db');
+  });
+
+  beforeEach(function(){
+
   });
   //response should have just ID
   it('should insert organizations', function(){
     var org = {organizations: {orgName: 'FrontSteps'}};
 
     return orgRecs.insertOrganization(org)
-              .expect(function(resp){
+              .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
                 expect(resp[0].organizationID).to.not.equal('undefined');
@@ -32,7 +35,7 @@ describe('Organization DB Calls', function(){
 
   it('should fetch organizations', function(){
     return orgRecs.selectOrganization(org)
-              .expect(function(resp){
+              .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
                 expect(resp[0].organizationID).to.not(orgId);
@@ -42,7 +45,7 @@ describe('Organization DB Calls', function(){
 
   it('should delete organizations', function(){
     return orgRecs.deleteOrganization(org)
-                  .expect(function(resp){
+                  .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
                     expect(resp[0].organizationName).to.equal('FrontSteps');
@@ -51,7 +54,7 @@ describe('Organization DB Calls', function(){
 
   it('should not fetch deleted Organizations', function(){
     return shelterRecs.selectOrganization(org)
-                    .expect(function(resp){
+                    .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp.length).to.have.length(0);
       });
@@ -64,11 +67,13 @@ describe('Shelter and eligibility DB calls', function(){
   var app = TestHelper.createApp();
   app.testReady();
 
-  beforeEach(function(){
-    db.deleteEverything();
-    require(__db + '/db');
+  before(function(){
     var orgId = orgRecs.insertOrganization({organizations: {organizationName: 'FrontSteps'}});
     var eligibilityID = eligRecs.selectEligibilityOption({eligibility: {eligibilityOption: 'Vets'}});
+  });
+
+  after(function(){
+    db.deleteEverything();
   });
 
 it('should insert Shelters', function(){
@@ -78,7 +83,7 @@ it('should insert Shelters', function(){
     var shelterName = {shelters: shelter.shelters.shelterName};
 
     return shelterRecs.insertShelter(shelter)
-              .expect(function(resp){
+              .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
                 expect(resp[0].shelterID).to.not.equal('undefined');
@@ -92,7 +97,7 @@ it('should insert Shelters', function(){
 
   it('should fetch Shelters', function(){
     return shelterRecs.selectShelter(shelterName)
-              .expect(function(resp){
+              .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
                 expect(resp[0].shelterID).to.equal(shelterId);
@@ -103,7 +108,7 @@ it('should insert Shelters', function(){
   it('should insert Shelter units', function(){
       var unit = {shelterUnit: {unitSize: '2BD'}};
       return shelterRecs.insertShelterUnit(unit, shelterId)
-              .expect(function(resp){
+              .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
                 expect(resp[0].unitSize).to.equal('2BD');
@@ -115,7 +120,7 @@ it('should insert Shelters', function(){
   it('should insert Shelter eligibility', function(){
     var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
     return shelterRecs.insertShelterEligibility(eligibility, shelterId)
-            .expect(function(resp){
+            .then(function(resp){
               expect(resp).to.be.an.instanceOf(Array);
               expect(resp).to.have.length(1);
               expect(resp[0].fk_eligibilityOptionID).to.equal(eligibilityID);
@@ -125,7 +130,7 @@ it('should insert Shelters', function(){
   it('should insert shelter occupancy', function(){
     var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
     return shelterRecs.insertShelterOccupancy(occupant, shelterId)
-                        .expect(function(resp){
+                        .then(function(resp){
                           expect(resp).to.have.length(1);
                           expect(resp[0].occupiedByName).to.equal('John Smith');
 
@@ -137,7 +142,7 @@ it('should insert Shelters', function(){
     var updateOccupancy = {occupancy: {name: 'Jimmy McGoo'}};
 
     return shelterRecs.updateShelterOccupancy(updateOccupancy, occupancyId)
-                    .expect(function(resp){
+                    .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
@@ -149,7 +154,7 @@ it('should insert Shelters', function(){
     shelterRecs.insertShelterOccupancy(unit);
     shelterRecs.insertShelterUnit(occupant);
     return shelterRecs.selectShelterOccupancy(shelterId)
-                      .expect(function(resp){
+                      .then(function(resp){
                         expect(resp).to.be.an.instanceOf(Array);
                         expect(resp).to.have.length(2);
                         expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
@@ -161,7 +166,7 @@ it('should insert Shelters', function(){
     //just req should have the name of the person occuping the unit
     var occupied = {occupancy: {name: 'Jimmy McGoo'}};
     return shelterRecs.deleteShelterOccupancy(occupied)
-                      .expect(function(resp){
+                      .then(function(resp){
                         expect(resp).to.have.length(1);
                         expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
                       });
@@ -169,7 +174,7 @@ it('should insert Shelters', function(){
 
   it('should not fetch deleted occupancy', function(){
       return shelterRecs.selectShelterOccupancy(shelterId)
-                        .expect(function(resp){
+                        .then(function(resp){
                           expect(resp).to.have.length(1);
                           expect(resp[0].occupiedByName).to.not.equal('Jimmy McGoo');
                         });
@@ -178,7 +183,7 @@ it('should insert Shelters', function(){
 
   it('should delete shelter eligibility', function(){
     return shelterRecs.deleteShelterEligibility(eligibilityID)
-                      .expect(function(resp){
+                      .then(function(resp){
                         expect(resp).to.have.length(1);
                         expect(resp[0].eligibilityID).to.equal(eligibilityID);
                       });
@@ -189,7 +194,7 @@ it('should insert Shelters', function(){
 // }
   it('should delete shelter units', function(){
     return shelterRecs.deleteShelterUnit(unitId)
-                  .expect(function(resp){
+                  .then(function(resp){
                     expect(resp).to.have.length(1);
                     expect(resp[0].shelterUnitID).to.equal(unitId);
                   });
@@ -197,7 +202,7 @@ it('should insert Shelters', function(){
 
   it('should delete Shelters', function(){
     return shelterRecs.deleteShelter(org)
-                  .expect(function(resp){
+                  .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
                     expect(resp[0].shelterName).to.equal('Arches');
@@ -206,7 +211,7 @@ it('should insert Shelters', function(){
 
   it('should not fetch deleted Shelters', function(){
     return shelterRecs.selectShelter(shelterName)
-                  .expect(function(resp){
+                  .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(0);
       });
@@ -217,15 +222,14 @@ describe('users DB calls', function(){
   var app = TestHelper.createApp();
   app.testReady();
 
-  beforeEach(function(){
+  after(function(){
     db.deleteEverything();
-    require(__db + '/db');
   });  
 
   it('should create new public users', function(){
     var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring'}};
     return userRecs.addNewPublic(publicUser)
-                    .expect(function(resp){
+                    .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].firstName).to.equal('Joe');
