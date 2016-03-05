@@ -16,17 +16,17 @@ describe('Organization DB Calls', function(){
     done();
   });
 
-  // beforeEach(function(done){
-  //   return knex.migrate.latest()
-  //       .then(function(){
-  //         //anything that needs to start out in the db
-  //         done();
-  //       })
-  //       .catch(function(err){
-  //         console.error('error migrating ', err);
-  //         done();
-  //       });
-  // });
+  beforeEach(function(done){
+    return knex.migrate.latest()
+        .then(function(){
+          //anything that needs to start out in the db
+          done();
+        })
+        .catch(function(err){
+          console.error('error migrating ', err);
+          done();
+        });
+  });
   //response should have just ID
   it('should insert organizations', function(){
     var org = {organizations: {orgName: 'FrontSteps'}};
@@ -81,16 +81,16 @@ describe('Shelter and eligibility DB calls', function(){
     done();
   });
 
-  // beforeEach(function(done){
-  //   return knex.migrate.latest()
-  //       .then(function(){
-  //         //anything that needs to start out in the db
-  //         done();
-  //       })
-  //       .catch(function(err){
-  //         console.error('error migrating ', err);
-  //       });
-  // });
+  beforeEach(function(done){
+    return knex.migrate.latest()
+        .then(function(){
+          //anything that needs to start out in the db
+          done();
+        })
+        .catch(function(err){
+          console.error('error migrating ', err);
+        });
+  });
 
 it('should insert Shelters', function(){
     var shelter = {shelters:
@@ -111,7 +111,7 @@ it('should insert Shelters', function(){
   });
 
   it('should fetch Shelters', function(){
-    var shelterName = {shelters: 'Arches'};
+    var shelterName = {shelters: shelter.shelters.shelterName};
     return shelterRecs.selectShelter(shelterName)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
@@ -242,16 +242,16 @@ describe('users DB calls', function(){
     done();
   });
 
-  // beforeEach(function(done){
-  //   return knex.migrate.latest()
-  //       .then(function(){
-  //         //anything that needs to start out in the db
-  //         done();
-  //       })
-  //       .catch(function(err){
-  //         console.error('error migrating ', err);
-  //       });
-  // }); 
+  beforeEach(function(done){
+    return knex.migrate.latest()
+        .then(function(){
+          //anything that needs to start out in the db
+          done();
+        })
+        .catch(function(err){
+          console.error('error migrating ', err);
+        });
+  }); 
 
   xit('should create new public users', function(){
     var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring'}};
