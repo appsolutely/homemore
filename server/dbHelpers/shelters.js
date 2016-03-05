@@ -14,12 +14,10 @@ var knex = require('knex')(config[env]);
 //)
 //get looked up orgID
 module.exports.insertShelter = function(req, orgID){
-    var name = req.body.shelter.shelterName;
-    var email = req.body.shelter.shelterEmail
-    var emergencyPhone = req.body.shelter.shelterEmergencyPhone
-    var daytimePhone = req.body.shelter.shelterDaytimePhone
-    var address = req.body.shelter.shelterAddress
-    var latlong = req.body.shelter.shelterLatLong
+    var name = req.shelter.shelterName
+    var email = req.shelter.shelterEmail
+    var emergencyPhone = req.shelter.shelterEmergencyPhone
+    var daytimePhone = req.shelter.shelterDaytimePhone
 
 return knex('shelters')
   .returning('shelterID')
@@ -34,6 +32,8 @@ return knex('shelters')
 
 module.exports.selectShelter = function(req, shelterID){
   //function for selecting shelter units
+  // return knex.('shelters')
+  //           .where('shelterID', shelterID)
 }
 
 module.exports.updateShelter = function(req, shelterID){
@@ -42,6 +42,10 @@ module.exports.updateShelter = function(req, shelterID){
 
 module.exports.deleteShelter = function(req, shelterID){
   //function for deleting shelter units
+  // knex('shelters')
+  //   .where('shelterID', shelterID)
+  //   .del()
+
 }
 
 module.exports.insertShelterUnit = function(req, shelterID){
