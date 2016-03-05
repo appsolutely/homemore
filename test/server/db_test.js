@@ -50,7 +50,8 @@ describe('Organization DB Calls', function(){
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].organizationID).to.equal(orgId);  
+                      expect(resp[0].organizationName).to.equal('FrontSteps');  
+                      expect(resp[0].organizationID).to.equal(orgId);
                   });   
       });
   });
@@ -87,6 +88,12 @@ describe('Organization DB Calls', function(){
                       expect(resp.length).to.have.length(0);
       });
     });               
+  });
+});
+
+  after(function(done){
+    knex.deleteEverything();
+    done();
   });
 });
 
@@ -247,7 +254,7 @@ it('should insert Shelters', function(){
   });
 
 
-  xit('should delete shelter eligibility', function(){
+  it('should delete shelter eligibility', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
@@ -299,17 +306,10 @@ it('should insert Shelters', function(){
       });
   });
 
-  xit('should allow admins to update shelter info', function(){
-    //occupancy, eligibility, hours etc
-    
-
+  after(function(done){
+    knex.deleteEverything();
+    done();
   });
-
-  xit('should not allow public users to change shelter info', function(){
-
-  });
-
-
 });
 
 describe('users DB calls', function(){
@@ -411,8 +411,8 @@ describe('users DB calls', function(){
                       expect(resp[0].userRoleName).to.equal('admin');
                     });
   });
-
-
-});
-
+  after(function(done){
+    knex.deleteEverything();
+    done();
+  });
 });
