@@ -12,15 +12,12 @@ var config = require('../../knexfile.js').test;
 describe('Organization DB Calls', function(){
   var org = {organizations: {orgName: 'FrontSteps'}};
   
-  beforeEach(function(done) {
-    return knex.deleteEverything()
-    .then(function(){
-      done();
-    });
+  beforeEach(function() {
+    return knex.deleteEverything();
   });
 
   //response should have just ID
-  it('should insert organizations', function(done){
+  it('should insert organizations', function(){
     return orgRecs.insertOrganization(org)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
@@ -86,7 +83,7 @@ describe('Organization DB Calls', function(){
 
 
 
-xdescribe('Shelter and eligibility DB calls', function(){
+describe('Shelter and eligibility DB calls', function(){
   var unit = {shelterUnit: {unitSize: '2BD'}};
   var org = {organizations: {orgName: 'FrontSteps'}};
   var shelter = {shelters:
@@ -95,14 +92,13 @@ xdescribe('Shelter and eligibility DB calls', function(){
   var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
   
-  beforeEach(function(done){
+  beforeEach(function(){
     knex.deleteEverything()
     .then(function(){  
     return orgRecs.insertOrganization(org);
     })
     .then(function(resp){
       orgId = resp[0].orgId;
-      done();
     });
   });
 
@@ -304,11 +300,8 @@ xdescribe('users DB calls', function(){
   var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    var newAdmin = {adminUser: {firstName: 'Jane', lastname: 'Smith', password: 'longstring', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
   var email = {user: {email: 'jane@example.com'}};
   
-  beforeEach(function(done) {
-    knex.deleteEverything()
-    .then(function(){
-      done();
-    });
+  beforeEach(function() {
+    knex.deleteEverything();
   });
 
   it('should create new public users', function(){

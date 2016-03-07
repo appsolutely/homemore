@@ -32,10 +32,7 @@ knex.deleteEverything = function () {
     knex('orgAdmins').del(),
     knex('organizations').del(),
     knex('users').del(),
-    knex('userRoles').del(),
-    knex('knex_migrations_lock').del(),
-    knex('knex_migrations_id_seq').del(),
-    knex('knex_migrations').del()
+    knex('userRoles').del()
   ]);
 };
 
