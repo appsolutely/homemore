@@ -11,9 +11,11 @@ var config = require('../../knexfile.js').test;
 
 
 describe('Organization DB Calls', function(){
-  before(function(done) {
-    knex.deleteEverything();
-    done();
+  beforeEach(function(done) {
+    knex.deleteEverything()
+    .then(function(){
+      done();
+    });
   });
 
   // beforeEach(function(done){
@@ -100,10 +102,6 @@ describe('Organization DB Calls', function(){
 
 
 describe('Shelter and eligibility DB calls', function(){
-  before(function(done) {
-    knex.deleteEverything();
-    done();
-  });
 
   beforeEach(function(done){
     var unit = {shelterUnit: {unitSize: '2BD'}};
@@ -111,12 +109,17 @@ describe('Shelter and eligibility DB calls', function(){
     var shelter = {shelters:
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'}
     };
+    var orgId;
     var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
     var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
-    return orgRecs.insertOrganization(org)
-            .then(function(resp){
-              var orgId = resp[0].orgId;
-            });
+    knex.deleteEverything()
+    .then(function(){  
+    return orgRecs.insertOrganization(org);
+    })
+    .then(function(resp){
+      orgId = resp[0].orgId;
+      done();
+    });
   });
 
 it('should insert Shelters', function(){
@@ -313,9 +316,11 @@ it('should insert Shelters', function(){
 });
 
 describe('users DB calls', function(){
-  before(function(done) {
-    knex.deleteEverything();
-    done();
+  beforeEach(function(done) {
+    knex.deleteEverything()
+    .then(function(){
+      done();
+    });
   });
 
   // beforeEach(function(done){
