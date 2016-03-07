@@ -65,6 +65,7 @@ createdb sheltered_dev
 Once Postgres is running
 ```
 createdb sheltered_test
+knex migrate:latest --env test
 npm test
 ```
 after test has been run the first time migrations is no longer necessary so
