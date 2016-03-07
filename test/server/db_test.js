@@ -10,7 +10,10 @@ var config = require('../../knexfile.js').test;
 var knex = require('knex')(config);
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> connects #22 and #23
 xdescribe('Organization DB Calls', function(){
   var org = {organizations: {orgName: 'FrontSteps'}};
 
@@ -319,21 +322,24 @@ xdescribe('users DB calls', function(){
                     });
   });
 
-  it('should create new admins for new organizations', function(){
-    return userRecs.addnewAdmin(adminUser)
+  it('should create new admins without existing organization', function(){
+    return userRecs.addNewAdmin(adminUser)
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
                     expect(resp[0].firstName).to.equal('Billy');
                     expect(resp[0].orgAdminId).to.not.equal(undefined);
-                    expect(resp[0].organizationName).to.equal('FrontSteps');
                   });
   });
 
   it('should allow admin users to be associated with existing organizations', function(){
-        return userRecs.addnewAdmin(adminUser)
+    var org = {organizations: {orgName: 'FrontSteps'}};
+        return orgRecs.insertOrganization(org)
                   .then(function(){
-                      return userRecs.addnewAdmin(newAdmin);
+                    return userRecs.addNewAdmin(adminUser);
+                  })
+                  .then(function(){
+                      return userRecs.addNewAdmin(newAdmin);
                   })
                   .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -345,9 +351,8 @@ xdescribe('users DB calls', function(){
   });
 
   it('should allow users to update passwords', function(){
-  //needs to be modified to first create a new admin user    
-  var newPass = {user: {userID: adminUserId, newPass: 'newlongstring'}};
-    return userRecs.addnewAdmin(adminUser)
+    var newPass = {user: {userID: adminUserId, newPass: 'newlongstring'}};
+    return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
                       var adminUserId = resp[0].userID;
                       var oldPass = resp[0].password;
@@ -367,7 +372,7 @@ xdescribe('users DB calls', function(){
   });
 
   it('should find users by userID', function(){
-        return userRecs.addnewAdmin(newAdmin)
+        return userRecs.addNewAdmin(newAdmin)
                     .then(function(resp){
                       var adminUserId = resp[0].userID;
                     })
@@ -384,7 +389,7 @@ xdescribe('users DB calls', function(){
   });
 
   it('should find users by email', function(){
-    return userRecs.addnewAdmin(newAdmin)
+    return userRecs.addNewAdmin(newAdmin)
                     .then(function(){
                       return userRecs.findByUserEmail(email);
                     })
@@ -396,7 +401,7 @@ xdescribe('users DB calls', function(){
   });
 
   it('should be able to return users role', function(){
-    return userRecs.addnewAdmin(newAdmin)
+    return userRecs.addNewAdmin(newAdmin)
                     .then(function(resp){
                       var adminUserId = resp[0].userID;
                       return userRecs.findUserRole(adminUserId);
