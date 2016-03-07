@@ -7,30 +7,17 @@ var locRecs = require(__server + '/dbHelpers/locations');
 var userRecs = require(__server + '/dbHelpers/users');
 var knex = require(__db + '/db.js');
 var config = require('../../knexfile.js').test;
-// knex.deleteEverything();
 
 
 describe('Organization DB Calls', function(){
-  before(function(done) {
-    knex.deleteEverything();
-    done();
+  var org = {organizations: {orgName: 'FrontSteps'}};
+  
+  beforeEach(function() {
+    return knex.deleteEverything();
   });
 
-  // beforeEach(function(done){
-  //   return knex.migrate.latest()
-  //       .then(function(){
-  //         //anything that needs to start out in the db
-  //         done();
-  //       })
-  //       .catch(function(err){
-  //         console.error('error migrating ', err);
-  //         done();
-  //       });
-  // });
   //response should have just ID
   it('should insert organizations', function(){
-    var org = {organizations: {orgName: 'FrontSteps'}};
-
     return orgRecs.insertOrganization(org)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
@@ -42,7 +29,6 @@ describe('Organization DB Calls', function(){
   });
 
   it('should fetch organizations', function(){
-    var org = {organizations: {orgName: 'FrontSteps'}}; 
     return orgRecs.insertOrganization(org)
                   .then(function(resp){
                     var orgId = resp[0].organizationID;
@@ -58,7 +44,6 @@ describe('Organization DB Calls', function(){
 
 
   it('should delete organizations', function(){
-    var org = {organizations: {orgName: 'FrontSteps'}};
         return orgRecs.insertOrganization(org)
                   .then(function(resp){
                     var orgId = resp[0].organizationID;
@@ -81,7 +66,6 @@ describe('Organization DB Calls', function(){
   });
 
   it('should not fetch deleted Organizations', function(){
-    var org = {organizations: {orgName: 'FrontSteps'}};
     return orgRecs.selectOrganization(org)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -100,23 +84,22 @@ describe('Organization DB Calls', function(){
 
 
 describe('Shelter and eligibility DB calls', function(){
-  before(function(done) {
-    knex.deleteEverything();
-    done();
-  });
-
-  beforeEach(function(done){
-    var unit = {shelterUnit: {unitSize: '2BD'}};
-    var org = {organizations: {orgName: 'FrontSteps'}};
-    var shelter = {shelters:
+  var unit = {shelterUnit: {unitSize: '2BD'}};
+  var org = {organizations: {orgName: 'FrontSteps'}};
+  var shelter = {shelters:
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'}
     };
-    var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
-    var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
-    return orgRecs.insertOrganization(org)
-            .then(function(resp){
-              var orgId = resp[0].orgId;
-            });
+  var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
+  var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
+  
+  beforeEach(function(){
+    knex.deleteEverything()
+    .then(function(){  
+    return orgRecs.insertOrganization(org);
+    })
+    .then(function(resp){
+      orgId = resp[0].orgId;
+    });
   });
 
 it('should insert Shelters', function(){
@@ -129,7 +112,7 @@ it('should insert Shelters', function(){
                 expect(resp[0].shelterEmail).to.equal('example@example.com');
 
 
-                var shelterId = resp[0].shelterID;
+                shelterId = resp[0].shelterID;
               });
   });
 
@@ -312,25 +295,16 @@ it('should insert Shelters', function(){
   });
 });
 
-describe('users DB calls', function(){
-  before(function(done) {
+xdescribe('users DB calls', function(){
+  var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
+  var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    var newAdmin = {adminUser: {firstName: 'Jane', lastname: 'Smith', password: 'longstring', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
+  var email = {user: {email: 'jane@example.com'}};
+  
+  beforeEach(function() {
     knex.deleteEverything();
-    done();
   });
 
-  // beforeEach(function(done){
-  //  return knex.insert().into()
-  //       .then(function(){
-  //         //anything that needs to start out in the db
-  //         done();
-  //       })
-  //       .catch(function(err){
-  //         console.error('error migrating ', err);
-  //       });
-  // }); 
-
-  xit('should create new public users', function(){
-    var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
+  it('should create new public users', function(){
     return userRecs.addNewPublic(publicUser)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -342,8 +316,7 @@ describe('users DB calls', function(){
                     });
   });
 
-  xit('should create new admins for new organizations', function(){
-    var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};
+  it('should create new admins for new organizations', function(){
     return userRecs.addnewAdmin(adminUser)
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
@@ -354,8 +327,7 @@ describe('users DB calls', function(){
                   });
   });
 
-  xit('should allow admin users to be associated with existing organizations', function(){
-    var newAdmin = {adminUser: {firstName: 'Jane', lastname: 'Smith', password: 'longstring', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
+  it('should allow admin users to be associated with existing organizations', function(){
     return userRecs.addnewAdmin(newAdmin)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -368,8 +340,9 @@ describe('users DB calls', function(){
                     });
   });
 
-  xit('should allow users to update passwords', function(){
-    var newPass = {user: {userID: adminUserId, newPass: 'newlongstring'}};
+  it('should allow users to update passwords', function(){
+  //needs to be modified to first create a new admin user    
+  var newPass = {user: {userID: adminUserId, newPass: 'newlongstring'}};
     return userRecs.changePassword(newPass)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -378,11 +351,11 @@ describe('users DB calls', function(){
                     });
   });
 
-  xit('should allow users to update contact information', function(){
+  it('should allow users to update contact information', function(){
     //come back to this...
   });
 
-  xit('should find users by userID', function(){
+  it('should find users by userID', function(){
     return userRecs.findByUserID(adminUserId)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -393,8 +366,7 @@ describe('users DB calls', function(){
 
   });
 
-  xit('should find users by email', function(){
-    var email = {user: {email: 'jane@example.com'}};
+  it('should find users by email', function(){
     return userRecs.findByUserEmail(email)
                 .then(function(resp){
                   expect(resp).to.be.an.instanceOf(Array);
@@ -403,7 +375,7 @@ describe('users DB calls', function(){
                 });
   });
 
-  xit('should be able to return users role', function(){
+  it('should be able to return users role', function(){
     return userRecs.findUserRole(adminUserId)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);

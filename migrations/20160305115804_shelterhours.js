@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-  return Promise.ass([
+  return Promise.all([
 
   knex.schema.table('shelters',function(table){
     table.string('shelterHoursMonday').defaultTo('Open 24 hours');
