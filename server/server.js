@@ -13,7 +13,7 @@ var swig = require('swig');
 
 var app = express();
 
-//require('./../db/db');
+require('./../db/db');
 //
 app.use(compression());
 app.use(logger('dev'));
@@ -21,6 +21,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(favicon(path.join(__dirname, 'client', 'favicon.png')));
 app.use(express.static(path.join(__dirname, '../client')));
+
+
+// app.get('/api/shelters',function(req, res, next){
+//   res.send(['arch','otherplace']);
+// })
 
 //server side rendering - front end needs this
 app.use(function(req, res) {
