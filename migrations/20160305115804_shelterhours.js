@@ -37,6 +37,7 @@ exports.down = function(knex, Promise) {
     knex.schema.dropTable('shelterOccupancy'),
     knex.schema.dropTable('userSessions'),
     knex.schema.dropTable('locations'),
-    knex.schema.dropTable('orgAdmins')
+    knex.schema.dropTable('orgAdmins'),
+    knex.schema.dropTable('userEligibility')
   ]);  
 };
