@@ -2,14 +2,14 @@ import React from 'react';
 
 class Signup extends React.Component {
   render() {
-      return (
-        <div className='home' >
+    return (
+        <div className="home" >
           <div className="admin">
             <button type="submit" >
               Admin
             </button>
           </div>
-          <div className='Hobo'>
+          <div className="Hobo">
             <button type="submit" >
               Hobo
             </button>

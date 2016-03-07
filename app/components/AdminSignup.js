@@ -3,7 +3,7 @@ import React from 'react';
 class AdminSignup extends React.Component {
   render() {
       return (
-        <div className='home' >
+        <div className="home" >
           Admin signup page
         </div>
     );

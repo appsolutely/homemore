@@ -2,9 +2,9 @@ import React from 'react';
 
 class Footer extends React.Component {
   render() {
-      return (
+    return (
       <footer>
-        <div className='Footer' >
+        <div className="Footer" >
           <div>Shelter Inc.</div>
           <div>Location: Austin,TX</div>
           <div>Phone: (555)555-5555</div>

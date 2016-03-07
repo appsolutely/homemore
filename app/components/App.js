@@ -2,16 +2,16 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-const App = React.createClass({
+class App extends React.Component {
   render() {
     return (
       <div>
         <Header />
-        	{this.props.children}
+			{this.props.children}
         <Footer />
       </div>
-    )
+    );
   }
-})
+}
 
-export default App
+export default App;
