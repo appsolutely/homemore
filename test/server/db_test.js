@@ -75,15 +75,14 @@ describe('Organization DB Calls', function(){
   });
 });
 
-  after(function(done){
+  after(function(){
     knex.deleteEverything();
-    done();
   });
 });
 
 
 
-describe('Shelter and eligibility DB calls', function(){
+xdescribe('Shelter and eligibility DB calls', function(){
   var unit = {shelterUnit: {unitSize: '2BD'}};
   var org = {organizations: {orgName: 'FrontSteps'}};
   var shelter = {shelters:
@@ -289,17 +288,16 @@ it('should insert Shelters', function(){
       });
   });
 
-  after(function(done){
+  after(function(){
     knex.deleteEverything();
-    done();
   });
 });
 
 xdescribe('users DB calls', function(){
   var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
-  var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    var newAdmin = {adminUser: {firstName: 'Jane', lastname: 'Smith', password: 'longstring', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
+  var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
+  var newAdmin = {adminUser: {firstName: 'Jane', lastname: 'Smith', password: 'longsk9isthebesttring', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
   var email = {user: {email: 'jane@example.com'}};
-  
   beforeEach(function() {
     knex.deleteEverything();
   });
@@ -328,22 +326,30 @@ xdescribe('users DB calls', function(){
   });
 
   it('should allow admin users to be associated with existing organizations', function(){
-    return userRecs.addnewAdmin(newAdmin)
-                    .then(function(resp){
+        return userRecs.addnewAdmin(adminUser)
+                  .then(function(){
+                      return userRecs.addnewAdmin(newAdmin);
+                  })
+                  .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].firstName).to.equal('Jane');
                       expect(resp[0].organizationName).to.equal('FrontSteps');
                       expect(resp[0].userID).to.not.equal(undefined);
-                      var oldPass = resp[0].password;
-                      var adminUserId = resp[0].userID;
-                    });
+                  });
   });
 
   it('should allow users to update passwords', function(){
   //needs to be modified to first create a new admin user    
   var newPass = {user: {userID: adminUserId, newPass: 'newlongstring'}};
-    return userRecs.changePassword(newPass)
+    return userRecs.addnewAdmin(adminUser)
+                    .then(function(resp){
+                      var adminUserId = resp[0].userID;
+                      var oldPass = resp[0].password;
+                    })
+                    .then(function(){
+                      return userRecs.changePassword(newPass);
+                    })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
@@ -352,11 +358,17 @@ xdescribe('users DB calls', function(){
   });
 
   it('should allow users to update contact information', function(){
-    //come back to this...
+    //come back to this... which contact info for who?
   });
 
   it('should find users by userID', function(){
-    return userRecs.findByUserID(adminUserId)
+        return userRecs.addnewAdmin(newAdmin)
+                    .then(function(resp){
+                      var adminUserId = resp[0].userID;
+                    })
+                    .then(function(){
+                      return userRecs.findByUserID(adminUserId);
+                    })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
@@ -367,24 +379,30 @@ xdescribe('users DB calls', function(){
   });
 
   it('should find users by email', function(){
-    return userRecs.findByUserEmail(email)
-                .then(function(resp){
-                  expect(resp).to.be.an.instanceOf(Array);
-                  expect(resp).to.have.length(1);
-                  expect(resp[0].firstName).to.equal('Jane');
-                });
+    return userRecs.addnewAdmin(newAdmin)
+                    .then(function(){
+                      return userRecs.findByUserEmail(email);
+                    })
+                    .then(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].firstName).to.equal('Jane');
+                    });
   });
 
   it('should be able to return users role', function(){
-    return userRecs.findUserRole(adminUserId)
+    return userRecs.addnewAdmin(newAdmin)
+                    .then(function(resp){
+                      var adminUserId = resp[0].userID;
+                      return userRecs.findUserRole(adminUserId);
+                    })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].userRoleName).to.equal('admin');
                     });
   });
-  after(function(done){
+  after(function(){
     knex.deleteEverything();
-    done();
   });
 });
