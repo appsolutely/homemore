@@ -13,6 +13,7 @@
     1. [Installing Dependencies](#installing-dependencies)
     1. [Starting Database](#initializing-database)
     1. [Tests](#tests)
+    2. 
 1. [Team](#team)
 1. [Contributing](#contributing)
 
@@ -27,6 +28,33 @@ brew install postgres
 ```
 npm install will run bower install.
 
+### Linting
+Install eslint globally:
+```
+npm install -g eslint
+```
+In Sublime, enter package control (Cmd-Shift-P) and search for and install the following packages:
+
+```
+SublimeLinter Note: The github repository name is “SublimeLinter3”, but the plugin name remains “SublimeLinter.”
+SublimeLinter-eslint
+```
+
+Next, add a .eslintrc.json file to your sheltered root directory.  Copy and paste in the following:
+
+```
+{
+    "extends": "airbnb",
+    "plugins": [
+      "react"
+    ],
+    "rules": {
+      "arrow-body-style": [2, "always"],
+      "strict": [0, "safe"],
+      "no-console": 0
+    }
+}
+```
 ### Initializing Database
 ```
 postgres -D /usr/local/var/postgres
