@@ -1,0 +1,11 @@
+{
+    "extends": "airbnb",
+    "plugins": [
+      "react"
+    ],
+    "rules": {
+      "arrow-body-style": [2, "always"],
+      "strict": [0, "safe"],
+      "no-console": 0
+    }
+}

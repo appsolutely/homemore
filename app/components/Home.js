@@ -1,17 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-const Home = React.createClass({
+class Home extends React.Component {
   render() {
-    return(
-      <div className='home'>
+    return (
+      <div className="home">
         <br />
         <br />
-        <div className='search'>
+        <div className="search">
           <input type="text" defaultValue="Austin" />
         </div>
       </div>
-    )
+    );
   }
-})
+}
+export default Home;
 
-export default Home

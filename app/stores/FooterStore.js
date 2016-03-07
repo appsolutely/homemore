@@ -10,7 +10,7 @@ class FooterStore {
   }
 
   onGetTopCharactersFail(jqXhr) {
-    toastr.error(jqXhr.responseJSON && jqXhr.responseJSON.message || jqXhr.responseText || jqXhr.statusText);
+    return jqXhr;
   }
 }
 
