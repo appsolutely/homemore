@@ -76,7 +76,9 @@ exports.updateOrganization = function(req){
   });
 
   //update specific organization 
-};
 
+
+  //update specific organization 
+};
 
 
