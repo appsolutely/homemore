@@ -32,6 +32,7 @@ npm install will run bower install.
 Install eslint globally:
 ```
 npm install -g eslint
+npm install --save-dev eslint-config-airbnb eslint-plugin-react eslint
 ```
 In Sublime, enter package control (Cmd-Shift-P) and search for and install the following packages:
 
