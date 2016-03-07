@@ -13,7 +13,6 @@ var knex = require('knex')(config[env]);
 
 //)
 //get looked up orgID
-<<<<<<< 668c5fb74fd688db0c1c3e6edd5aa6208155a9bc
 module.exports.insertShelter = function(req, orgID, locationID){
     var name = req.shelters.shelterName;
     var email = req.shelters.shelterEmail;
@@ -27,13 +26,6 @@ module.exports.insertShelter = function(req, orgID, locationID){
     var satHours = req.shelters.shelterHoursSaturday;
     var sunHours = req.shelters.shelterHoursSunday;
     var shelterLocation = locationID;
-=======
-module.exports.insertShelter = function(req, orgID){
-    var name = req.shelter.shelterName
-    var email = req.shelter.shelterEmail
-    var emergencyPhone = req.shelter.shelterEmergencyPhone
-    var daytimePhone = req.shelter.shelterDaytimePhone
->>>>>>> db helpers clean up
 
 return knex('shelters')
   .returning('shelterID')
@@ -62,7 +54,6 @@ return knex('shelters')
 
 module.exports.selectShelter = function(req, shelterID){
   //function for selecting shelter units
-<<<<<<< 668c5fb74fd688db0c1c3e6edd5aa6208155a9bc
   return knex.select().table('shelters')
             .where('shelterID', shelterID)
           .catch(function(err){
@@ -72,11 +63,6 @@ module.exports.selectShelter = function(req, shelterID){
             return shelterID;
           });
 };
-=======
-  // return knex.('shelters')
-  //           .where('shelterID', shelterID)
-}
->>>>>>> db helpers clean up
 
 module.exports.updateShelter = function(req, shelterID){
   //function for updating shelter units
@@ -88,11 +74,7 @@ module.exports.deleteShelter = function(req, shelterID){
   //   .where('shelterID', shelterID)
   //   .del()
 
-<<<<<<< 668c5fb74fd688db0c1c3e6edd5aa6208155a9bc
 };
-=======
-}
->>>>>>> db helpers clean up
 
 module.exports.insertShelterUnit = function(req, shelterID){
   //function for inserting shelter units
