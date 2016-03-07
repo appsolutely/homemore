@@ -4,13 +4,13 @@ var knex = require('knex')(config[env]);
 
 module.exports = knex;
 
-//runs latest migration (if any) to update the database
+// runs latest migration (if any) to update the database
 knex.migrate.latest()
-.then(function(){
-  if (process.env.NODE_ENV !== 'test'){
-    //run real seed files
+.then(function () {
+  if (process.env.NODE_ENV !== 'test') {
+    // run real seed files
   } else {
-    //run test version seed files
+    // run test version seed files
     console.log('Running test version');
   }
 });

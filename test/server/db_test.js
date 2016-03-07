@@ -7,14 +7,9 @@ var locRecs = require(__server + '/dbHelpers/locations');
 var userRecs = require(__server + '/dbHelpers/users');
 var db = require(__db + '/db.js');
 var config = require('../../knexfile.js').test;
-var knex = require('knex')(config);
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> connects #22 and #23
-xdescribe('Organization DB Calls', function(){
+describe('Organization DB Calls', function(){
   var org = {organizations: {orgName: 'FrontSteps'}};
 
   beforeEach(function() {
@@ -317,8 +312,6 @@ xdescribe('users DB calls', function(){
                       expect(resp).to.have.length(1);
                       expect(resp[0].firstName).to.equal('Joe');
                       expect(resp[0].userID).to.not.equal(undefined);
-
-                      var publicUserId = resp[0].userID;
                     });
   });
 
@@ -409,7 +402,7 @@ xdescribe('users DB calls', function(){
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].userRoleName).to.equal('admin');
+                      expect(resp[0].fk_userRole).to.equal(2);
                     });
   });
   after(function(){
