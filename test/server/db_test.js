@@ -11,7 +11,7 @@ var config = require('../../knexfile.js').test;
 
 
 describe('Organization DB Calls', function(){
-  beforeEach(function(done) {
+  before(function(done) {
     knex.deleteEverything();
     done();
   });
@@ -50,12 +50,8 @@ describe('Organization DB Calls', function(){
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
                       expect(resp[0].organizationName).to.equal('FrontSteps');  
                       expect(resp[0].organizationID).to.equal(orgId);
-=======
-                      expect(resp[0].organizationID).to.equal(orgId);  
->>>>>>> fixed org tests
                   });   
       });
   });
@@ -82,7 +78,6 @@ describe('Organization DB Calls', function(){
                                   expect(resp).to.be.an.instanceOf(Array);
                                   expect(resp.length).to.have.length(0);
                   });
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
   });
 
   it('should not fetch deleted Organizations', function(){
@@ -99,39 +94,20 @@ describe('Organization DB Calls', function(){
   after(function(done){
     knex.deleteEverything();
     done();
-=======
-      });
-    });               
->>>>>>> fixed org tests
   });
 });
 
 
 
 describe('Shelter and eligibility DB calls', function(){
-  beforeEach(function(done) {
+  before(function(done) {
     knex.deleteEverything();
     done();
   });
 
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
   beforeEach(function(done){
     var unit = {shelterUnit: {unitSize: '2BD'}};
     var org = {organizations: {orgName: 'FrontSteps'}};
-=======
-  // beforeEach(function(done){
-  //   return knex.migrate.latest()
-  //       .then(function(){
-  //         //anything that needs to start out in the db
-  //         done();
-  //       })
-  //       .catch(function(err){
-  //         console.error('error migrating ', err);
-  //       });
-  // });
-
-xit('should insert Shelters', function(){
->>>>>>> fixed org tests
     var shelter = {shelters:
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'}
     };
@@ -157,7 +133,7 @@ it('should insert Shelters', function(){
               });
   });
 
-  xit('should fetch Shelters', function(){
+  it('should fetch Shelters', function(){
     var shelterName = {shelters: shelter.shelters.shelterName};
     return shelterRecs.insertShelter(shelter)
           .then(function(){
@@ -171,15 +147,10 @@ it('should insert Shelters', function(){
             });
    });
 
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
   it('should insert Shelter units', function(){
       return shelterRecs.insertShelter(shelter)
             .then(function(resp){
               var shelterId = resp[0].shelterID;
-=======
-  xit('should insert Shelter units', function(){
-      var unit = {shelterUnit: {unitSize: '2BD'}};
->>>>>>> fixed org tests
       return shelterRecs.insertShelterUnit(unit, shelterId)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
@@ -189,15 +160,10 @@ it('should insert Shelters', function(){
             });
   });
 
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
   it('should insert Shelter eligibility', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
-=======
-  xit('should insert Shelter eligibility', function(){
-    var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
->>>>>>> fixed org tests
     return shelterRecs.insertShelterEligibility(eligibility, shelterId)
             .then(function(resp){
               expect(resp).to.be.an.instanceOf(Array);
@@ -207,17 +173,11 @@ it('should insert Shelters', function(){
           });
   });
 
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
   it('should insert shelter occupancy', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
         return shelterRecs.insertShelterOccupancy(occupant, shelterId)
-=======
-  xit('should insert shelter occupancy', function(){
-    var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
-    return shelterRecs.insertShelterOccupancy(occupant, shelterId)
->>>>>>> fixed org tests
                         .then(function(resp){
                           expect(resp).to.have.length(1);
                           expect(resp[0].occupiedByName).to.equal('John Smith');
@@ -225,7 +185,7 @@ it('should insert Shelters', function(){
                     });
   });
 
-  xit('should update shelter occupancy', function(){
+  it('should update shelter occupancy', function(){
     var updateOccupancy = {occupancy: {name: 'Jimmy McGoo'}};
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
@@ -243,7 +203,6 @@ it('should insert Shelters', function(){
           });
   });
 
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
   it('should fetch shelter occupancy', function(){
     return shelterRecs.insertShelter()
         .then(function(resp){
@@ -256,13 +215,6 @@ it('should insert Shelters', function(){
         .then(function(){
           //should be passed just the shelterId directly
           return shelterRecs.selectShelterOccupancy(shelterId)
-=======
-  xit('should fetch shelter occupancy', function(){
-    //should be passed just the shelterId directly
-    shelterRecs.insertShelterOccupancy(unit);
-    shelterRecs.insertShelterUnit(occupant);
-    return shelterRecs.selectShelterOccupancy(shelterId)
->>>>>>> fixed org tests
                       .then(function(resp){
                         expect(resp).to.be.an.instanceOf(Array);
                         expect(resp).to.have.length(2);
@@ -272,12 +224,7 @@ it('should insert Shelters', function(){
         });
   });
 
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
   it('should delete shelter occupancy', function(){
-=======
-  xit('should delete shelter occupancy', function(){
-    //just req should have the name of the person occuping the unit
->>>>>>> fixed org tests
     var occupied = {occupancy: {name: 'Jimmy McGoo'}};
     return shelterRecs.insertShelter()
         .then(function(resp){
@@ -306,7 +253,6 @@ it('should insert Shelters', function(){
       });
   });
 
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
 
   it('should delete shelter eligibility', function(){
     return shelterRecs.insertShelter(shelter)
@@ -317,19 +263,6 @@ it('should insert Shelters', function(){
           .then(function(resp){
             var eligibilityID = resp[0].eligibilityID;
               return shelterRecs.deleteShelterEligibility(eligibilityID)
-=======
-  xit('should not fetch deleted occupancy', function(){
-      return shelterRecs.selectShelterOccupancy(shelterId)
-                        .then(function(resp){
-                          expect(resp).to.have.length(1);
-                          expect(resp[0].occupiedByName).to.not.equal('Jimmy McGoo');
-                        });
-
-  });
-
-  xit('should delete shelter eligibility', function(){
-    return shelterRecs.deleteShelterEligibility(eligibilityID)
->>>>>>> fixed org tests
                       .then(function(resp){
                         expect(resp).to.have.length(1);
                         expect(resp[0].eligibilityID).to.equal(eligibilityID);
@@ -337,7 +270,6 @@ it('should insert Shelters', function(){
           });
   });
 
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
   it('should delete shelter units', function(){
     return shelterRecs.insertShelter(shelter)
             .then(function(resp){
@@ -345,13 +277,6 @@ it('should insert Shelters', function(){
               return shelterRecs.insertShelterUnit(unit, shelterId)
           .then(function(){
             return shelterRecs.deleteShelterUnit(unitId)
-=======
-  // module.exports.deleteShelterUnit = function(req, shelterUnitID){
-//   //function for deleting specific shelter unit
-// }
-  xit('should delete shelter units', function(){
-    return shelterRecs.deleteShelterUnit(unitId)
->>>>>>> fixed org tests
                   .then(function(resp){
                     expect(resp).to.have.length(1);
                     expect(resp[0].shelterUnitID).to.equal(unitId);
@@ -360,22 +285,16 @@ it('should insert Shelters', function(){
        });
   });
 
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
   it('should delete Shelters', function(){
     return shelterRecs.insertShelter(shelter)
     .then(function(resp){
       var shelterId = shelter[0].shelterID;
       return shelterRecs.deleteShelter(shelterId)
-=======
-  xit('should delete Shelters', function(){
-    return shelterRecs.deleteShelter(org)
->>>>>>> fixed org tests
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
                     expect(resp[0].shelterName).to.equal('Arches');
                   });
-<<<<<<< a0984c0cea843bcc49212336f85cab991f160021
       }).then(function(){
       it('should not fetch deleted Shelters', function(){
         return shelterRecs.selectShelter(shelterName)
@@ -384,15 +303,6 @@ it('should insert Shelters', function(){
                         expect(resp).to.have.length(0);
           });
         });    
-=======
-  });
-
-  xit('should not fetch deleted Shelters', function(){
-    return shelterRecs.selectShelter(shelterName)
-                  .then(function(resp){
-                    expect(resp).to.be.an.instanceOf(Array);
-                    expect(resp).to.have.length(0);
->>>>>>> fixed org tests
       });
   });
 
