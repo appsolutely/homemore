@@ -46,7 +46,7 @@ exports.selectOrganization = function(req){
   var orgName = req.organizations.orgName;
   console.log('passed in orgName ', orgName);
   //select specific organization ID
-  return knex.select('*').table('organizations')
+return knex.select('*').table('organizations')
             // .returning('*')
             .where('organizationName', orgName)
   .catch(function(err){
