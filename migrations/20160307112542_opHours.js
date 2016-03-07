@@ -21,7 +21,7 @@ exports.up = function(knex, Promise) {
       table.dropColumn('shelterHoursFriday');
       table.dropColumn('shelterHoursSaturday');
       table.dropColumn('shelterHoursSunday');
-      table.integer('fk_hourID').notNullable()
+      table.integer('fk_hourID').nullable()
               .references('hoursID')
               .inTable('hours');
     }),
@@ -34,7 +34,7 @@ exports.up = function(knex, Promise) {
       table.dropColumn('locationHoursFriday');
       table.dropColumn('locationHoursSaturday');
       table.dropColumn('locationHoursSunday');
-      table.integer('fk_hourID').notNullable()
+      table.integer('fk_hourID').nullable()
               .references('hoursID')
               .inTable('hours');
     })  

@@ -22,7 +22,7 @@ exports.up = function(knex, Promise) {
   knex.schema.table('shelters', function(table){
     table.dropColumn('shelterLatLong');
     table.dropColumn('shelterAddress');
-    table.integer('fk_locationID').notNullable()
+    table.integer('fk_locationID').nullable()
           .references('locationID')
           .inTable('locations');
   }),
