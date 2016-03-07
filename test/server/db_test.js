@@ -6,11 +6,23 @@ var shelterRecs = require(__server + '/dbHelpers/shelters');
 var locRecs = require(__server + '/dbHelpers/locations');
 var userRecs = require(__server + '/dbHelpers/users');
 var db = require(__db + '/db.js');
+<<<<<<< HEAD
 var config = require('../../knexfile.js').test;
+=======
+var env = 'test';
+var config = require('../../knexfile.js');
+var knex = require('knex')(config[env]);
+>>>>>>> added migrate back into tests
 
 
 describe('Organization DB Calls', function(){
   var org = {organizations: {orgName: 'FrontSteps'}};
+<<<<<<< HEAD
+=======
+  before(function(){
+    return knex.migrate.latest();
+  });
+>>>>>>> added migrate back into tests
 
   beforeEach(function() {
     return db.deleteEverything();
@@ -76,7 +88,11 @@ describe('Organization DB Calls', function(){
 });
 
   after(function(){
+<<<<<<< HEAD
    return db.deleteEverything();
+=======
+    db.deleteEverything();
+>>>>>>> added migrate back into tests
   });
 });
 
@@ -90,9 +106,19 @@ describe('Shelter and eligibility DB calls', function(){
     organizations: org.organizations};
   var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
+<<<<<<< HEAD
 
   beforeEach(function(){
   return db.deleteEverything()
+=======
+  
+  before(function(){
+    return knex.migrate.latest();
+  });
+
+  beforeEach(function(){
+    db.deleteEverything()
+>>>>>>> added migrate back into tests
     .then(function(){  
       console.log('inserting org');
     return orgRecs.insertOrganization(org);
@@ -291,9 +317,15 @@ it('should insert Shelters', function(){
       });
   });
 
+<<<<<<< HEAD
   // after(function(){
   //   return db.deleteEverything();
   // });
+=======
+  after(function(){
+    db.deleteEverything();
+  });
+>>>>>>> added migrate back into tests
 });
 
 xdescribe('users DB calls', function(){
@@ -301,6 +333,13 @@ xdescribe('users DB calls', function(){
   var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
   var newAdmin = {adminUser: {firstName: 'Jane', lastname: 'Smith', password: 'longsk9isthebesttring', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
   var email = {user: {email: 'jane@example.com'}};
+<<<<<<< HEAD
+=======
+  
+  before(function(){
+    return knex.migrate.latest();
+  });
+>>>>>>> added migrate back into tests
 
   beforeEach(function() {
     db.deleteEverything();
