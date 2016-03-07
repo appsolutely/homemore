@@ -61,6 +61,12 @@ Next, add a .eslintrc.json file to your sheltered root directory.  Copy and past
 postgres -D /usr/local/var/postgres
 createdb sheltered_dev
 ```
+
+knex not found error in terminal?  
+```
+npm install -g knex
+```
+
 ### Tests
 Once Postgres is running
 ```
