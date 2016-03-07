@@ -10,7 +10,6 @@ var knex = require('knex')(config[env]);
 exports.insertOrganization = function (req) {
   var orgName = req.organizations.orgName;
 
-
 //insert organization name and return new id
   return knex('organizations')
           .returning('*')
