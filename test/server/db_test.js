@@ -11,7 +11,7 @@ var config = require('../../knexfile.js').test;
 
 
 describe('Organization DB Calls', function(){
-  beforeEach(function(done) {
+  before(function(done) {
     knex.deleteEverything();
     done();
   });
@@ -100,7 +100,7 @@ describe('Organization DB Calls', function(){
 
 
 describe('Shelter and eligibility DB calls', function(){
-  beforeEach(function(done) {
+  before(function(done) {
     knex.deleteEverything();
     done();
   });

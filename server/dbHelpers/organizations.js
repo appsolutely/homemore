@@ -26,12 +26,12 @@ exports.insertOrganization = function (req) {
 
 exports.deleteOrganization = function(req){
   var orgName = req.organizations.orgName;
-    console.log('passed in orgName ', orgName);
+  console.log('passed in orgName ', orgName);
 
   //delete specific organization ID
-  return knex('organizations')
-          .returning('*')
-          .where('organizationName', orgName)
+  return knex.select('*')
+          .from('organizations')
+          .where('organizationID', orgID)
           .del()
   .catch(function(err){
     console.log("Something went wrong deleting this organization ", err);
@@ -46,7 +46,8 @@ exports.selectOrganization = function(req){
   var orgName = req.organizations.orgName;
   console.log('passed in orgName ', orgName);
   //select specific organization ID
-  return knex.select('*').table('organizations')
+
+return knex.select('*').table('organizations')
             // .returning('*')
             .where('organizationName', orgName)
   .catch(function(err){
