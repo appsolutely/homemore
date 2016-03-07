@@ -10,6 +10,17 @@ exports.up = function(knex, Promise) {
     table.string('shelterHoursFriday').defaultTo('Open 24 hours');
     table.string('shelterHoursSaturday').defaultTo('Open 24 hours');
     table.string('shelterHoursSunday').defaultTo('Open 24 hours');
+  }),
+
+  knex.schema.createTable('userEligibility', function(table){
+    table.increments('userEligibilityID').primary();
+    table.integer('fk_userID').notNullable()
+            .references('userID')
+            .inTable('users');
+    table.integer('fk_eligibilityOptionID').notNullable()
+            .references('eligibilityOptionID')
+            .inTable('eligibilityOptions');
+    table.unique(['fk_userID', 'fk_eligibilityOptionID']);
   })
 
     ]);
