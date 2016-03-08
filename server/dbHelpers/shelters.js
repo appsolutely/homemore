@@ -49,48 +49,46 @@ module.exports.insertShelter = function(req){
               .catch(function(err){
                 console.log("Something went wrong inserting this shelter ", err);
               })
-              .then(function(shelterID){
-                console.log('result right before sending off ', shelterID);
-                return shelterID;
+              .then(function(shelter){
+                console.log('Successfully inserted shelter with ID ', shelter[0].shelterID);
+                return shelter;
               });     
       });
 
 };
 
-// var getShelterID = function(shelterName){
-//       console.log('passed in shelter name ', shelterName);
+var getShelterID = function(shelterName){
+      console.log('passed in shelter name ', shelterName);
 
-//       return knex.select('*').from('shelters')
-//               .where('shelterName', shelterName)
-//               .catch(function(err){
-//                 console.log("Something went wrong. This shelter may not exist.");
-//               })
-//               .then(function(shelter){
-//                 console.log("Returing shelter id ", shelter);
-//                 return shelter;
-//               });
+      return knex.select('shelterID').from('shelters')
+              .where('shelterName', shelterName)
+              .catch(function(err){
+                console.log("Something went wrong. This shelter may not exist.");
+              })
+              .then(function(shelterID){
+                console.log("Returing shelterID ", shelterID);
+                return shelterID[0].shelterID;
+              });
 
-// };
+};
 
 module.exports.selectShelter = function(req){
       var shelter = req.shelters;
-        console.log("Passed in shelter with named", shelter);
+        console.log("Passed in shelter with name", shelter);
+
+      return getShelterID(shelter)
+            .then(function(shelterID){
+              return knex.select('*').from('shelters')
+                        .where('shelterID', shelterID)
+                .catch(function(err){
+                  console.log("Something went wrong selecting this shelter ", err);
+                })
+                .then(function(shelter){
+                console.log("returned from select shelter : " , shelter);
+                  return shelter;
+                });
+            });
         //function for selecting shelter units
-        return knex.select('*').from('shelters')
-                  .where('shelterName', shelter)
-          .catch(function(err){
-            console.log("Something went wrong selecting this shelter ", err);
-          })
-          .then(function(shelter){
-          console.log("returned from select shelter : " , shelter);
-            return shelter;
-          });
-
-
-
-
-
-    // var shelterID = getShelterID(shelterName);
 };
 
 module.exports.updateShelter = function(req){
@@ -101,8 +99,6 @@ module.exports.updateShelter = function(req){
     var email = req.shelters.shelterEmail;
     var emergencyPhone = req.shelters.shelterEmergencyPhone;
     var daytimePhone = req.shelters.shelterDayTimePhone;
-
-
     return knex('shelters')
         .where('shelterID', thisShelterID)
         .update({
@@ -118,40 +114,49 @@ module.exports.updateShelter = function(req){
           console.log("Updated shelter.");
           return updatedShelter;
         });
-
-
-
 };
 
 module.exports.deleteShelter = function(req){
-  var shelterName = req.shelters.shelterName;
-  var shelterID = getShelterID(shelterName);
-  console.log('passed in shelter name ', shelterName);
-  console.log('found matching id ', shelterID);
-
-  return knex('shelters')
-          .returning('*')
-          .where('shelterName', shelterName)
-          .del()
-  .catch(function(err){
-    console.log("Something went wrong deleting this shelter");
-  })
-  .then(function(shelter){
-    console.log("Deleted shelter ", shelter);
-    return shelter;
-  });
-
+      var shelter = req;
+      // console.log("Passed in shelter to delete with id", shelter); 
+      return knex('shelters')
+              .returning('*')
+              .where('shelterID', shelter)
+              .del()
+      .catch(function(err){
+        console.log("Something went wrong deleting this shelter");
+      })
+      .then(function(shelter){
+        console.log("Deleted shelter with ID ", shelter[0].shelterID);
+        return shelter;
+      });
 
 };
 
 
-module.exports.insertShelterUnit = function(req, shelterID){
-  var atShelterID = getShelterID(req.shelters.shelterName);
+module.exports.insertShelterUnit = function(req){
+  var unitSize = req.shelterUnit.unitSize;
+  return getShelterID(req.shelterName)
+      .then(function(shelterID){
+        console.log("About to insert unit ", unitSize, shelterID);
+        return knex('shelterUnits')
+                .insert({
+                  fk_shelterID: shelterID,
+                  unitSize: unitSize
+                })
+                .returning('*')
+                .catch(function(err){
+                  console.log("Something went wrong inserting this shelter unit.", err);
+                })
+                .then(function(shelterUnit){
+                  console.log("Successfully inserted unit ", shelterUnit[0].shelterUnitID);
+                  return shelterUnit;
+                });
 
-  //function for inserting shelter units
+      });
 };
 
-module.exports.deleteShelterUnit = function(req, shelterUnitID){
+module.exports.deleteShelterUnit = function(req){
   //function for deleting specific shelter unit
 };
 
