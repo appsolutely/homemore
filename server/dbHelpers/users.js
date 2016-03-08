@@ -146,7 +146,7 @@ exports.addNewManager = function(reqBody){
             response.user = result[0];
             userID = result[0].userID;
             //checking if the shelter already exists
-            return shelterHelpers.selectShelter(shelterName);
+            return shelterHelpers.selectShelter(shelter);
           })
           .then(function(result){
             console.log('returned from select ', result);
@@ -166,6 +166,7 @@ exports.addNewManager = function(reqBody){
             }
           })
           .then(function(result){
+            console.log('result from finding/creating shelter ', result);
             //either a brand new shelter or the found shelter
             var shelterID = result[0].shelterID;
             return knex.insert({fk_userID: userID,
