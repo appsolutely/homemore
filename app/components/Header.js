@@ -4,15 +4,13 @@ import { Link } from 'react-router';
 class Header extends React.Component {
   render() {
     return (
-      <div className="header">
+      <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
       <Link to="/"><div>SHELTERED</div></Link>
           <input
-            className="form-control"
             placeholder="Username"
             type="text"
           />
           <input
-            className="form-control"
             placeholder="Password"
             type="text"
           />

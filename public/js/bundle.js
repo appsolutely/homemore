@@ -2,7 +2,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+		value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -16,31 +16,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ShelterActions = function () {
-	function ShelterActions() {
-		_classCallCheck(this, ShelterActions);
+		function ShelterActions() {
+				_classCallCheck(this, ShelterActions);
 
-		this.generateActions('getSheltersSuccess');
-	}
-
-	_createClass(ShelterActions, [{
-		key: 'getShelters',
-		value: function getShelters() {
-			var _this = this;
-
-			$.ajax({ url: '/api/shelters/' }).done(function (data) {
-				console.log('success!');
-				_this.actions.getSheltersSuccess(data);
-			}).fail(function (jqXhr) {
-				console.log('failll');
-				_this.actions.getSheltersFail(jqXhr);
-			});
-			// return{
-			// 	shelters: ['arch','others']
-			// }
+				this.generateActions('getSheltersSuccess');
 		}
-	}]);
 
-	return ShelterActions;
+		_createClass(ShelterActions, [{
+				key: 'getShelters',
+				value: function getShelters() {
+						var _this = this;
+
+						$.ajax({ url: '/api/shelters/' }).done(function (data) {
+								console.log('success!');
+								_this.actions.getSheltersSuccess(data);
+						}).fail(function (jqXhr) {
+								console.log('failll');
+								_this.actions.getSheltersFail(jqXhr);
+						});
+						// return{
+						// 	shelters: ['arch','others']
+						// }
+				}
+		}]);
+
+		return ShelterActions;
 }();
 
 exports.default = _alt2.default.createActions(ShelterActions);
@@ -95,7 +95,7 @@ var AdminSignup = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "home" },
+        { className: "jumbotron col-sm-6 col-sm-offset-3 text-center" },
         "Admin signup page"
       );
     }
@@ -200,7 +200,7 @@ var Footer = function (_React$Component) {
         null,
         _react2.default.createElement(
           "div",
-          { className: "Footer" },
+          { className: "jumbotron col-sm-6 col-sm-offset-3 text-center" },
           _react2.default.createElement(
             "div",
             null,
@@ -237,74 +237,103 @@ exports.default = Footer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var React = require('react');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link;
 
-var Header = React.createClass({
-  displayName: 'Header',
-  render: function render() {
-    return React.createElement(
-      'div',
-      { className: 'header' },
-      React.createElement(
-        Link,
-        { to: '/' },
-        React.createElement(
-          'div',
-          null,
-          'SHELTERED'
-        )
-      ),
-      React.createElement('input', {
-        className: 'form-control',
-        placeholder: 'Username',
-        type: 'text' }),
-      React.createElement('input', {
-        className: 'form-control',
-        placeholder: 'Password',
-        type: 'text' }),
-      React.createElement(
-        'button',
-        null,
-        'submit'
-      ),
-      React.createElement(
-        Link,
-        { to: '/signup' },
-        'sign up'
-      )
-    );
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Header = function (_React$Component) {
+  _inherits(Header, _React$Component);
+
+  function Header() {
+    _classCallCheck(this, Header);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).apply(this, arguments));
   }
-});
+
+  _createClass(Header, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'jumbotron col-sm-6 col-sm-offset-3 text-center' },
+        _react2.default.createElement(
+          _reactRouter.Link,
+          { to: '/' },
+          _react2.default.createElement(
+            'div',
+            null,
+            'SHELTERED'
+          )
+        ),
+        _react2.default.createElement('input', {
+          placeholder: 'Username',
+          type: 'text'
+        }),
+        _react2.default.createElement('input', {
+          placeholder: 'Password',
+          type: 'text'
+        }),
+        _react2.default.createElement(
+          'button',
+          null,
+          'submit'
+        ),
+        _react2.default.createElement(
+          _reactRouter.Link,
+          { to: '/signup' },
+          'sign up'
+        )
+      );
+    }
+  }]);
+
+  return Header;
+}(_react2.default.Component);
 
 exports.default = Header;
 
 },{"react":"react","react-router":"react-router"}],7:[function(require,module,exports){
 'use strict';
 
-var React = require('react');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link;
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Home() {
-  return React.createElement(
+  return _react2.default.createElement(
     'div',
-    null,
-    React.createElement(
+    { className: 'jumbotron col-sm-6 col-sm-offset-3 text-center' },
+    _react2.default.createElement(
       'h1',
       null,
       'Sheltered'
     ),
-    React.createElement(
+    _react2.default.createElement(
       'div',
       null,
-      React.createElement('input', { type: 'text', value: 'austin' })
+      _react2.default.createElement('input', { type: 'text' })
     ),
-    React.createElement(
-      Link,
+    _react2.default.createElement(
+      _reactRouter.Link,
       { to: '/shelter' },
-      React.createElement(
+      _react2.default.createElement(
         'button',
         { type: 'button' },
         'Search'
@@ -396,7 +425,12 @@ var Shelter = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'shelter' },
+        { className: 'jumbotron col-sm-6 col-sm-offset-3 text-center' },
+        _react2.default.createElement(
+          'p',
+          null,
+          'I am a shelter'
+        ),
         _react2.default.createElement(
           'ul',
           null,
@@ -420,15 +454,21 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+// var ReactRouter = require('react-router');
 
-var React = require('react');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link;
 
 var Signup = function (_React$Component) {
   _inherits(Signup, _React$Component);
@@ -442,29 +482,29 @@ var Signup = function (_React$Component) {
   _createClass(Signup, [{
     key: 'render',
     value: function render() {
-      return React.createElement(
+      return _react2.default.createElement(
         'div',
-        { className: 'home' },
-        React.createElement(
+        { className: 'jumbotron col-sm-6 col-sm-offset-3 text-center' },
+        _react2.default.createElement(
           'div',
           { className: 'admin' },
-          React.createElement(
-            Link,
+          _react2.default.createElement(
+            _reactRouter.Link,
             { to: '/admin-signup' },
-            React.createElement(
+            _react2.default.createElement(
               'button',
               { type: 'submit' },
               'Admin'
             )
           )
         ),
-        React.createElement(
+        _react2.default.createElement(
           'div',
           { className: 'Hobo' },
-          React.createElement(
-            Link,
+          _react2.default.createElement(
+            _reactRouter.Link,
             { to: '/user-signup' },
-            React.createElement(
+            _react2.default.createElement(
               'button',
               { type: 'submit' },
               'Hobo'
@@ -476,7 +516,7 @@ var Signup = function (_React$Component) {
   }]);
 
   return Signup;
-}(React.Component);
+}(_react2.default.Component);
 
 exports.default = Signup;
 
@@ -515,9 +555,43 @@ var UserSignup = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "home" },
-        _react2.default.createElement("input", { type: "text", defaultValue: "First Name!" }),
-        _react2.default.createElement("input", { type: "text", defaultValue: "Last Name!" })
+        { className: "jumbotron col-sm-6 col-sm-offset-3 text-center" },
+        _react2.default.createElement(
+          "ul",
+          { className: "form-fields" },
+          _react2.default.createElement(
+            "h2",
+            null,
+            "Account Details"
+          ),
+          _react2.default.createElement(
+            "div",
+            null,
+            _react2.default.createElement("input", { type: "text", ref: "name", placeholder: "Name" })
+          ),
+          _react2.default.createElement("br", null),
+          _react2.default.createElement(
+            "div",
+            null,
+            _react2.default.createElement("input", { type: "password", ref: "password", placeholder: "Password" })
+          ),
+          _react2.default.createElement("br", null),
+          _react2.default.createElement(
+            "div",
+            null,
+            _react2.default.createElement("input", { type: "email", ref: "email", placeholder: "email" })
+          ),
+          _react2.default.createElement("br", null),
+          _react2.default.createElement(
+            "div",
+            null,
+            _react2.default.createElement(
+              "button",
+              { className: "btn -primary" },
+              "Save & Continue"
+            )
+          )
+        )
       );
     }
   }]);
