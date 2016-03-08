@@ -157,7 +157,7 @@ exports.updateUser = function(reqBody, userId){
                 return res;
               });
           }
-        })
+        });
   } else if (firstname.length > 0){
     return knex('users')
         .update('userFirstName', firstname)
