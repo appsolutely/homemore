@@ -4,7 +4,7 @@ class Footer extends React.Component {
   render() {
     return (
       <footer>
-        <div className="Footer" >
+        <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
           <div>Shelter Inc.</div>
           <div>Location: Austin,TX</div>
           <div>Phone: (555)555-5555</div>
