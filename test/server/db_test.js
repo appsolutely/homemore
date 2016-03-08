@@ -9,7 +9,6 @@ var db = require(__db + '/db.js');
 var config = require('../../knexfile.js').test;
 
 
-
 xdescribe('Organization DB Calls', function(){
   var org = {organizations: {orgName: 'FrontSteps'}};
 
