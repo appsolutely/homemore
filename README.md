@@ -62,11 +62,6 @@ postgres -D /usr/local/var/postgres
 createdb sheltered_dev
 ```
 
-knex not found error in terminal?  
-```
-npm install -g knex
-```
-
 ### Tests
 Once Postgres is running
 ```
@@ -74,5 +69,10 @@ createdb sheltered_test
 knex migrate:latest --env test
 npm test
 ```
+knex not found error in terminal?  
+```
+npm install -g knex
+```
+
 
 ## Contributing
