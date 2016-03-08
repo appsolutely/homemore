@@ -17,7 +17,7 @@ var expect = chai.expect();
 //          
 // 
 
-describe('Sheltered API', function(){
+xdescribe('Sheltered API', function(){
 
   var app = TestHelper.createApp()
   app.use('/', routes)

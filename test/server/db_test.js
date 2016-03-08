@@ -1,13 +1,12 @@
 require('../test-helper.js');
 var request = require('supertest-as-promised');
-
 var orgRecs = require(__server + '/dbHelpers/organizations');
 var shelterRecs = require(__server + '/dbHelpers/shelters');
 var locRecs = require(__server + '/dbHelpers/locations');
 var userRecs = require(__server + '/dbHelpers/users');
 var db = require(__db + '/db.js');
 var config = require('../../knexfile.js').test;
-
+var knex = require('knex')(config);
 
 xdescribe('Organization DB Calls', function(){
   var org = {organizations: {orgName: 'FrontSteps'}};
@@ -29,10 +28,11 @@ xdescribe('Organization DB Calls', function(){
   });
 
   it('should fetch organizations', function(){
+    var orgId;
     return orgRecs.insertOrganization(org)
                   .then(function(resp){
-                    var orgId = resp[0].organizationID;
-          return orgRecs.selectOrganization(org)
+                    orgId = resp[0].organizationID;
+                    return orgRecs.selectOrganization(org)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
@@ -82,7 +82,7 @@ xdescribe('Organization DB Calls', function(){
 
 
 
-describe('Shelter and eligibility DB calls', function(){
+xdescribe('Shelter and eligibility DB calls', function(){
   var unit = {shelterUnit: {unitSize: '2BD'}};
   var org = {organizations: {orgName: 'FrontSteps'}};
   var shelter = {shelters:
@@ -292,7 +292,7 @@ it('should insert Shelters', function(){
   });
 
   after(function(){
-    db.deleteEverything();
+    return db.deleteEverything();
   });
 });
 
@@ -311,6 +311,7 @@ describe('users DB calls', function(){
                   .returning('*');
     });
   });
+
   it('should create new public users', function(){
     return userRecs.addNewPublic(publicUser)
                     .then(function(resp){
@@ -365,8 +366,49 @@ describe('users DB calls', function(){
                     });
   });
 
-  xit('should allow users to update contact information', function(){
-    //come back to this... which contact info for who?
+  it('should allow users to update email', function(){
+    var adminUserId;
+    var newEmail = {user: {email: 'jane2@email.com'}};
+        return userRecs.addNewAdmin(adminUser)
+                    .then(function(resp){
+                      adminUserId = resp[0].user.userID;
+                      return userRecs.updateUser(newEmail, adminUserId);
+                    })
+                    .then(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].userEmail).to.equal('jane2@email.com');
+                    });
+  });
+
+  it('should allow users to update firstname', function(){
+    var adminUserId;
+    var newfirst = {user: {firstName: 'Jill'}};
+    return userRecs.addNewAdmin(adminUser)
+                    .then(function(resp){
+                      adminUserId = resp[0].user.userID;
+                      return userRecs.updateUser(newfirst, adminUserId);
+                    })
+                    .then(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].userFirstName).to.not.equal('Jane');
+                    });
+  });
+
+  it('should allow users to update lastname', function(){
+    var adminUserId;
+    var newlast = {user: {lastName: 'Hill'}};
+    return userRecs.addNewAdmin(adminUser)
+                    .then(function(resp){
+                      adminUserId = resp[0].user.userID;
+                      return userRecs.updateUser(newlast, adminUserId);
+                    })
+                    .then(function(resp){
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].userLastName).to.not.equal('Smith');
+                    });
   });
 
   it('should find users by userID', function(){
