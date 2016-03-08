@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 //server side rendering - front end needs this
 app.use(function(req, res) {
  Router.match({ routes: appRoutes.default, location: req.url }, function(err, redirectLocation, renderProps) {
-    console.log(req.url)
+    console.log(req.url);
    if (err) {
      res.status(500).send(err.message);
    } else if (redirectLocation) {
@@ -45,16 +45,12 @@ app.use(function(req, res) {
  });
 });
 
+routes.get('/api/test', function(req, res, next){
+  return res.status(200).send(['YAY']);
+});
 
 
 
-//should always be the last route
-//-- default route when unknown passed in
-// routes.get('/*', function(req, res){
-//   console.log('im what is actually firing')
-//   //placeholder default file to send to the client
-//   res.sendFile(assetFolder + '/index.html');
-// });
 
 //if the process is anythign other than test create a real server
 if (process.env.NODE_ENV !== 'test') {
