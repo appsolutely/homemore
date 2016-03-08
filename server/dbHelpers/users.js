@@ -41,6 +41,7 @@ exports.addNewAdmin = function(reqBody){
   var userRoleId;
   var user = reqBody.adminUser;
   var response = {};
+  var userID;
 
   //find userRoleID
   return selectRole('Admin')  
@@ -113,11 +114,11 @@ exports.addNewAdmin = function(reqBody){
 
 //requires -- req.body and req.session.userID
 exports.updateUser = function(reqBody, userId){
-  var password = reqBody.user.password;
-  var firstname = reqBody.user.firstName;
-  var lastname = reqBody.user.lastName;
-  var mainEmail = reqBody.user.email;
-  var managerEmail = reqBody.user.managerEmail;
+  var password = reqBody.user.password || '';
+  var firstname = reqBody.user.firstName || '';
+  var lastname = reqBody.user.lastName || '';
+  var mainEmail = reqBody.user.email || '';
+  var managerEmail = reqBody.user.managerEmail || '';
 
   if (password.length > 0){
     //hash new password and update
@@ -140,23 +141,26 @@ exports.updateUser = function(reqBody, userId){
   } else if (mainEmail.length > 0){
     //first check if email is already being used
     //then update
-    return this.findByUserEmail(email)
+    console.log('newEmail ', mainEmail);
+    return this.findByUserEmail(reqBody)
         .then(function(res){
+          console.log('checked if email is in use ', res);
           if (res.length > 0) {
             throw new Error('Email is already in use');
           } else {
             return knex('users')
-                .update('email', mainEmail)
+                .update('userEmail', mainEmail)
+                .returning('*')
                 .where('userID', userId)
-                .returning('*');
+              .then(function(res){
+                console.log('result from newEmail ', res);
+                return res;
+              });
           }
         })
-        .then(function(res){
-          return res;
-        });
   } else if (firstname.length > 0){
     return knex('users')
-        .update('firstName', firstname)
+        .update('userFirstName', firstname)
         .where('userID', userId)
         .returning('*')
         .then(function(res){
@@ -164,7 +168,7 @@ exports.updateUser = function(reqBody, userId){
         });
   } else if (lastname.length > 0){
     return knex('users')
-        .update('lastName', lastname)
+        .update('userLastName', lastname)
         .where('userID', userId)
         .returning('*')
         .then(function(res){
