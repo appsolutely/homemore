@@ -265,13 +265,14 @@ var Header = React.createClass({
         placeholder: 'Password',
         type: 'text' }),
       React.createElement(
+        'button',
+        null,
+        'submit'
+      ),
+      React.createElement(
         Link,
         { to: '/signup' },
-        React.createElement(
-          'button',
-          null,
-          'submit'
-        )
+        'sign up'
       )
     );
   }

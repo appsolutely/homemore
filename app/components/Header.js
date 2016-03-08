@@ -15,8 +15,9 @@ const Header = React.createClass({
             className="form-control"
             placeholder="Password"
             type="text" />
-          <Link to='/signup'>
           <button >submit</button>
+          <Link to='/signup'>
+            sign up
           </Link>
       </div>
     )
