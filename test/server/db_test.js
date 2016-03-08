@@ -76,11 +76,7 @@ xdescribe('Organization DB Calls', function(){
 });
 
   after(function(){
-<<<<<<< HEAD
    return db.deleteEverything();
-=======
-    db.deleteEverything();
->>>>>>> added migrate back into tests
   });
 });
 
@@ -94,19 +90,9 @@ describe('Shelter and eligibility DB calls', function(){
     organizations: org.organizations};
   var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
-<<<<<<< HEAD
-
-  beforeEach(function(){
-  return db.deleteEverything()
-=======
   
   beforeEach(function(){
-<<<<<<< HEAD
-    db.deleteEverything()
->>>>>>> added migrate back into tests
-=======
     return db.deleteEverything()
->>>>>>> all user tests passing
     .then(function(){  
       console.log('inserting org');
     return orgRecs.insertOrganization(org);
@@ -305,15 +291,9 @@ it('should insert Shelters', function(){
       });
   });
 
-<<<<<<< HEAD
-  // after(function(){
-  //   return db.deleteEverything();
-  // });
-=======
   after(function(){
     db.deleteEverything();
   });
->>>>>>> added migrate back into tests
 });
 
 describe('users DB calls', function(){
@@ -321,16 +301,6 @@ describe('users DB calls', function(){
   var adminUser = {adminUser: {firstName: 'Billy', lastName: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
   var email = {user: {email: 'jane@example.com'}};
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  
-  before(function(){
-    return knex.migrate.latest();
-  });
->>>>>>> added migrate back into tests
-=======
->>>>>>> all user tests passing
 
   beforeEach(function() {
   return db.deleteEverything()
@@ -453,6 +423,6 @@ describe('users DB calls', function(){
   });
 
   after(function(){
-    db.deleteEverything();
+    return db.deleteEverything();
   });
 });
