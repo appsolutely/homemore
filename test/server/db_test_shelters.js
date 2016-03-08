@@ -182,13 +182,14 @@ it('should insert Shelters', function(){
           });
   });
 
-  xit('should delete shelter units', function(){
+  it('should delete shelter units', function(){
     return shelterRecs.insertShelter(shelter)
             .then(function(resp){
               var shelterId = resp[0].shelterID;
+              console.log("RESPONS", resp);
               return shelterRecs.insertShelterUnit(unit, shelterId)
           .then(function(){
-            return shelterRecs.deleteShelterUnit(unitId)
+            return shelterRecs.deleteShelterUnit(unit)
                   .then(function(resp){
                     expect(resp).to.have.length(1);
                     expect(resp[0].shelterUnitID).to.equal(unitId);
