@@ -4,7 +4,9 @@ var env =  process.env.NODE_ENV || 'development';
 var knex = require('knex')(config[env]);
 var bcrypt = require('bcrypt-as-promised');
 var orgHelpers = require('./organizations.js');
+var shelterHelpers = require('./shelters.js');
 var sessions = require('./sessions.js');
+var generatePassword = require('password-generator');
 
 //check that no one else has been registered with the email before being passed here
 exports.addNewPublic = function(reqBody){
@@ -110,6 +112,74 @@ exports.addNewAdmin = function(reqBody){
         .then(function(){
           return [response];
         });
+};
+
+//shelter manager -- generates a random password for the user and on api level shoots off an email
+exports.addNewManager = function(reqBody){
+  console.log('INSIDE NEW MANAGER');
+  var userRoleId;
+  var user = reqBody.managerUser;
+  var response = {};
+  var userID;
+  var genPass;
+  var shelterName = reqBody.shelters.shelterName;
+  console.log('shelter name passed in ', shelterName);
+
+  return selectRole('Manager')
+          .then(function(result){
+            userRoleId = result[0].userRoleID;
+            //generate a random password that we will email to the user in their confirmation email
+            genPass = generatePassword();
+            console.log('generated password ', genPass);
+            return bcrypt.hash(genPass, 10);
+          })
+          .then(function(hashed){
+          return knex.insert({userFirstName: user.firstName,
+                              userLastName: user.lastName,
+                              userPassword: hashed, 
+                              userEmail: user.email,
+                              fk_userRole: userRoleId})
+                     .into('users')
+                     .returning('*');            
+          })
+          .then(function(result){
+            response.user = result[0];
+            userID = result[0].userID;
+            //checking if the shelter already exists
+            return shelterHelpers.selectShelter(shelterName);
+          })
+          .then(function(result){
+            console.log('returned from select ', result);
+            if (result.length > 0){
+              return result;
+            } else {
+              throw 'Shelter does not yet exist';
+            }
+          })
+          .catch(function(err){
+            console.log('err message ', err);
+            if (err === 'Shelter does not yet exist'){
+              //create the shelter
+              return shelterHelpers.insertShelter(reqBody);
+            } else {
+              throw new Error('There was a problem in create Manager', err);
+            }
+          })
+          .then(function(result){
+            //either a brand new shelter or the found shelter
+            var shelterID = result[0].shelterID;
+            return knex.insert({fk_userID: userID,
+                                fk_shelterID: shelterID,
+                                accessApproved: false})
+                       .into('shelterManagers')
+                       .returning('*');
+          })
+          .then(function(result){
+            response.shelterID = result[0];
+            response.genPass = genPass;
+            console.log('response right before returning new manager ', response);
+            return [response];
+          });
 };
 
 //requires -- req.body and req.session.userID
