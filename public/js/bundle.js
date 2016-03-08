@@ -289,7 +289,7 @@ var Link = ReactRouter.Link;
 function Home() {
   return React.createElement(
     'div',
-    { className: 'jumbotron col-sm-12 text-center' },
+    null,
     React.createElement(
       'h1',
       null,
@@ -305,7 +305,7 @@ function Home() {
       { to: '/shelter' },
       React.createElement(
         'button',
-        { type: 'button', className: 'btn btn-lg btn-success' },
+        { type: 'button' },
         'Search'
       )
     )

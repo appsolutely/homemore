@@ -4,14 +4,14 @@ var Link = ReactRouter.Link
 
 function Home () {
   return (
-    <div className="jumbotron col-sm-12 text-center">
+    <div>
       <h1>Sheltered</h1>
       <div>
         <input type="text" value='austin'/>
 
       </div>
       <Link to='/shelter'>
-        <button type='button' className='btn btn-lg btn-success'>Search</button>
+        <button type='button'>Search</button>
       </Link>
     </div>
   )
