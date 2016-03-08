@@ -11,11 +11,8 @@ var knex = require('knex')(config);
 
 
 
-describe('Organization DB Calls', function(){
+xdescribe('Organization DB Calls', function(){
   var org = {organizations: {orgName: 'FrontSteps'}};
-  before(function(){
-    return knex.migrate.latest();
-  });
 
   beforeEach(function() {
     return db.deleteEverything();
@@ -81,7 +78,7 @@ describe('Organization DB Calls', function(){
 });
 
   after(function(){
-    db.deleteEverything();
+   return db.deleteEverything();
   });
 });
 
@@ -95,18 +92,17 @@ describe('Shelter and eligibility DB calls', function(){
     organizations: org.organizations};
   var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
-  
-  before(function(){
-    return knex.migrate.latest();
-  });
 
   beforeEach(function(){
-    db.deleteEverything()
+  return db.deleteEverything()
     .then(function(){  
+      console.log('inserting org');
     return orgRecs.insertOrganization(org);
     })
     .then(function(resp){
+      console.log('inserted organization ', resp[0]);
       var orgId = resp[0].orgId;
+      return;
     });
   });
 
@@ -138,7 +134,7 @@ it('should insert Shelters', function(){
             });
    });
 
-  it('should insert Shelter units', function(){
+  xit('should insert Shelter units', function(){
       return shelterRecs.insertShelter(shelter)
             .then(function(resp){
               var shelterId = resp[0].shelterID;
@@ -151,7 +147,7 @@ it('should insert Shelters', function(){
             });
   });
 
-  it('should insert Shelter eligibility', function(){
+  xit('should insert Shelter eligibility', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
@@ -164,7 +160,7 @@ it('should insert Shelters', function(){
           });
   });
 
-  it('should insert shelter occupancy', function(){
+  xit('should insert shelter occupancy', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
@@ -176,7 +172,7 @@ it('should insert Shelters', function(){
                     });
   });
 
-  it('should update shelter occupancy', function(){
+  xit('should update shelter occupancy', function(){
     var updateOccupancy = {occupancy: {name: 'Jimmy McGoo'}};
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
@@ -194,7 +190,7 @@ it('should insert Shelters', function(){
           });
   });
 
-  it('should fetch shelter occupancy', function(){
+  xit('should fetch shelter occupancy', function(){
     return shelterRecs.insertShelter()
         .then(function(resp){
           var shelterId = resp[0].shelterID;
@@ -215,7 +211,7 @@ it('should insert Shelters', function(){
         });
   });
 
-  it('should delete shelter occupancy', function(){
+  xit('should delete shelter occupancy', function(){
     var occupied = {occupancy: {name: 'Jimmy McGoo'}};
     return shelterRecs.insertShelter()
         .then(function(resp){
@@ -245,7 +241,7 @@ it('should insert Shelters', function(){
   });
 
 
-  it('should delete shelter eligibility', function(){
+  xit('should delete shelter eligibility', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
@@ -261,7 +257,7 @@ it('should insert Shelters', function(){
           });
   });
 
-  it('should delete shelter units', function(){
+  xit('should delete shelter units', function(){
     return shelterRecs.insertShelter(shelter)
             .then(function(resp){
               var shelterId = resp[0].shelterID;
@@ -276,7 +272,7 @@ it('should insert Shelters', function(){
        });
   });
 
-  it('should delete Shelters', function(){
+  xit('should delete Shelters', function(){
     return shelterRecs.insertShelter(shelter)
     .then(function(resp){
       var shelterId = shelter[0].shelterID;
@@ -297,9 +293,9 @@ it('should insert Shelters', function(){
       });
   });
 
-  after(function(){
-    db.deleteEverything();
-  });
+  // after(function(){
+  //   return db.deleteEverything();
+  // });
 });
 
 xdescribe('users DB calls', function(){
@@ -307,10 +303,6 @@ xdescribe('users DB calls', function(){
   var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
   var newAdmin = {adminUser: {firstName: 'Jane', lastname: 'Smith', password: 'longsk9isthebesttring', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
   var email = {user: {email: 'jane@example.com'}};
-
-  before(function(){
-    return knex.migrate.latest();
-  });
 
   beforeEach(function() {
     db.deleteEverything();
