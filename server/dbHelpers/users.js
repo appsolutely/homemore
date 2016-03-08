@@ -2,87 +2,98 @@ var db = require('../../db/db.js');
 var config = require('../../knexfile.js');  
 var env =  process.env.NODE_ENV || 'development';  
 var knex = require('knex')(config[env]);
-// var bcrypt = require('bycrpt-as-promised');
+var bcrypt = require('bcrypt-as-promised');
 var orgHelpers = require('./organizations.js');
 var sessions = require('./sessions.js');
 
 //check that no one else has been registered with the email before being passed here
 exports.addNewPublic = function(reqBody){
   var userRoleId;
+  var userID;
   var user = reqBody.pubUser;
   //hash password
   return selectRole('Public')  
         .then(function(result){
-          userRoleId = result.userRoleID || 1;
-          //hardcoded for testing purposes for now -- nothing is seeded yet
+          // console.log('result after selectRole ', result);
+          userRoleId = result[0].userRoleID;
           return;
         })
         .then(function(){
-          return bcrypt.hash(password, 10);
+          return bcrypt.hash(user.password, 10);
         })
         .then(function(hashed){
-          return knex.insert({firstName: user.firstName,
-                              lastName: user.lastName,
-                              password: hashed, 
+          return knex.insert({userFirstName: user.firstName,
+                              userLastName: user.lastName,
+                              userPassword: hashed, 
                               userEmail: user.email,
                               fk_userRole: userRoleId})
                      .into('users')
                      .returning('*');
         })
-        .then(function(res){
-          return res;
+        .then(function(result){
+          // console.log('result of new public user ', result);
+          return result;
         });
 };
 
 // var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
-exports.addNewAdmin = function(){
+exports.addNewAdmin = function(reqBody){
   var userRoleId;
   var user = reqBody.adminUser;
-  var response = [];
-  var org = reqBody.organizations;
-  //hash password
+  var response = {};
+
+  //find userRoleID
   return selectRole('Admin')  
         .then(function(result){
-          userRoleId = result.userRoleID || 2;
-          //hardcoded for testing purposes for now -- nothing is seeded yet
+          userRoleId = result[0].userRoleID;
           return;
         })
         .then(function(){
-          return bcrypt.hash(password, 10);
+          //hash password
+          return bcrypt.hash(user.password, 10);
         })
         .then(function(hashed){
-          return knex.insert({firstName: user.firstName,
-                              lastName: user.lastName,
-                              password: hashed, 
+          //then create the new user
+          return knex.insert({userFirstName: user.firstName,
+                              userLastName: user.lastName,
+                              userPassword: hashed, 
                               userEmail: user.email,
                               fk_userRole: userRoleId})
                      .into('users')
                      .returning('*');
         })
         .then(function(res){
-          response.concat(res);
-          var userID = res[0].userID;
+          //saving that response to send back at the end
+          // console.log('returned from insert ', res);
+          response.user = res[0];
+          // console.log('response after newuser is made ', response);
+          userID = res[0].userID;
           return;
         })
         .then(function(){
-          return orgHelpers.selectOrganization(org.orgName);
+          //now trying to find the organization
+          return orgHelpers.selectOrganization(reqBody);
         })
         .then(function(result){
+          //if the organization exists pass along to next then
           if (result.length > 0){
             return result;
           } else {
-            throw new Error('No such Organization');
+            //if it doesn't throw and error for the catch
+            throw 'No such Organization';
           }
         })
         .catch(function(resp){
-          if (Error.message === 'No such Organization'){
-            return orgHelpers.insertOrganization(org);
+          //insert new org unless there was another error
+          if (resp === 'No such Organization'){
+            return orgHelpers.insertOrganization(reqBody);
           } else {
             console.error('Error in new Admin ', resp);
           }
         })
         .then(function(resp){
           //either a new organization or an existing one
+          //adds user as an admin for that organization
             var orgId = resp[0].organizationID;
             return knex.insert({fk_userID: userID,
                                 fk_organizationID: orgId})
@@ -90,11 +101,17 @@ exports.addNewAdmin = function(){
                         .returning('*');
         })
         .then(function(res){
-          return response.concat(res);
+          //adds the adminID stuff to the response to send back
+          response.adminID = res[0];
+          // console.log('result from add new Admin ', response);
+          return;
+        })
+        .then(function(){
+          return [response];
         });
 };
 
-//requires -- req.body and userID from the session
+//requires -- req.body and req.session.userID
 exports.updateUser = function(reqBody, userId){
   var password = reqBody.user.password;
   var firstname = reqBody.user.firstName;
@@ -104,15 +121,21 @@ exports.updateUser = function(reqBody, userId){
 
   if (password.length > 0){
     //hash new password and update
+    console.log('inside update password');
     return bcrypt.hash(password, 10)
           .then(function(hashed){
-            knex('users')
-                .where(userID, userId)
-                .update({password: hashed})
-                .returning('*');
+          return knex('users')
+                .update('userPassword', hashed)
+                .returning('userID')
+                .where('userID', userId);
           })
-          .then(function(res){
-            return res;
+          .then(function(result){
+            console.log('response from update password ', result);
+            return result;
+          })
+          .catch(function(err){
+            console.error('error in update password', err);
+            return;
           });
   } else if (mainEmail.length > 0){
     //first check if email is already being used
@@ -122,9 +145,9 @@ exports.updateUser = function(reqBody, userId){
           if (res.length > 0) {
             throw new Error('Email is already in use');
           } else {
-            knex('users')
-                .where(userID, userId)
-                .update({email: mainEmail})
+            return knex('users')
+                .update('email', mainEmail)
+                .where('userID', userId)
                 .returning('*');
           }
         })
@@ -133,16 +156,16 @@ exports.updateUser = function(reqBody, userId){
         });
   } else if (firstname.length > 0){
     return knex('users')
-        .where(userID, userId)
-        .update({firstName: firstname})
+        .update('firstName', firstname)
+        .where('userID', userId)
         .returning('*')
         .then(function(res){
           return res;
         });
   } else if (lastname.length > 0){
     return knex('users')
-        .where(userID, userId)
-        .update({lastName: lastname})
+        .update('lastName', lastname)
+        .where('userID', userId)
         .returning('*')
         .then(function(res){
           return res;
@@ -150,6 +173,7 @@ exports.updateUser = function(reqBody, userId){
   } else if (managerEmail.length > 0){
     //not sure if this will exist yet
     //manager table currently in flux
+    return;
   } else {
     throw new Error('Nothing provided to update');
   }
@@ -157,32 +181,37 @@ exports.updateUser = function(reqBody, userId){
 
 //pass in just the userId
 exports.findByUserID = function(userId){
+  console.log('userID passed in ', userId);
   return knex.select('*')
       .from('users')
-      .where(userID, userId)
-      .then(function(res){
-        return res;
+      .where('userID', userId)
+      .then(function(result){
+        console.log('returned from select ', result);
+        return result;
       });
 };
 
 //pass in just the email
 exports.findByUserEmail = function(email){
+  console.log('email passed in ', email);
   return knex.select('*')
               .from('users')
-              .where(userEmail, email)
-              .then(function(res){
-                return res;
+              .where('userEmail', email.user.email)
+              .then(function(result){
+                console.log('retured from select email ', result);
+                return result;
               });
 };
 
 //will return only the userRoleName
 exports.findUserRole = function(userId){
   //first find the user
+  console.log('userId passed into userRole ', userId);
   return this.findByUserID(userId)
       .then(function(res){
         return knex.select('*')
                    .from('userRoles')
-                   .where(userRoleID, res[0].fk_userRole);
+                   .where('userRoleID', res[0].fk_userRole);
       })
       .then(function(res){
         return res[0].userRoleName;
@@ -193,11 +222,15 @@ exports.findUserRole = function(userId){
 exports.findUserOrganization = function(userId){
   return this.findByUserID(userId)
       .then(function(res){
-        return knex.select('*')
-                   .from('organizations')
-                   .where(organizationID, res[0].fk_organizationID);
+        return selectAdminInfo(res[0].userID);
       })
       .then(function(res){
+        return knex.select('*')
+                   .from('organizations')
+                   .where('organizationID', res[0].fk_organizationID);
+      })
+      .then(function(res){
+        console.log('response from select organization ', res);
         return res;
       });
 };
@@ -233,13 +266,19 @@ exports.signIn = function(reqBody, res){
               });
 };
 
+var selectAdminInfo = function(userID){
+  return knex.select('*')
+             .from('orgAdmins')
+             .where('fk_userID', userID);
+};
+
 //find the UserRoleID for insertion purposes
 var selectRole = function(role){
-  return knex.select('userRoleID')
+  return knex.select('*')
              .from('userRoles')
-             .where(userRoleName, role)
+             .where('userRoleName', role)
              .then(function(result){
-              return result[0];
+              return result;
              });
 };
 

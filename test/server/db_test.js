@@ -6,23 +6,12 @@ var shelterRecs = require(__server + '/dbHelpers/shelters');
 var locRecs = require(__server + '/dbHelpers/locations');
 var userRecs = require(__server + '/dbHelpers/users');
 var db = require(__db + '/db.js');
-<<<<<<< HEAD
 var config = require('../../knexfile.js').test;
-=======
-var env = 'test';
-var config = require('../../knexfile.js');
-var knex = require('knex')(config[env]);
->>>>>>> added migrate back into tests
 
 
-describe('Organization DB Calls', function(){
+
+xdescribe('Organization DB Calls', function(){
   var org = {organizations: {orgName: 'FrontSteps'}};
-<<<<<<< HEAD
-=======
-  before(function(){
-    return knex.migrate.latest();
-  });
->>>>>>> added migrate back into tests
 
   beforeEach(function() {
     return db.deleteEverything();
@@ -112,13 +101,13 @@ describe('Shelter and eligibility DB calls', function(){
   return db.deleteEverything()
 =======
   
-  before(function(){
-    return knex.migrate.latest();
-  });
-
   beforeEach(function(){
+<<<<<<< HEAD
     db.deleteEverything()
 >>>>>>> added migrate back into tests
+=======
+    return db.deleteEverything()
+>>>>>>> all user tests passing
     .then(function(){  
       console.log('inserting org');
     return orgRecs.insertOrganization(org);
@@ -328,11 +317,12 @@ it('should insert Shelters', function(){
 >>>>>>> added migrate back into tests
 });
 
-xdescribe('users DB calls', function(){
-  var publicUser = {pubUser: {firstName: 'Joe', lastname: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
-  var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
-  var newAdmin = {adminUser: {firstName: 'Jane', lastname: 'Smith', password: 'longsk9isthebesttring', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
+describe('users DB calls', function(){
+  var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
+  var adminUser = {adminUser: {firstName: 'Billy', lastName: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
+  var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
   var email = {user: {email: 'jane@example.com'}};
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   
@@ -340,16 +330,24 @@ xdescribe('users DB calls', function(){
     return knex.migrate.latest();
   });
 >>>>>>> added migrate back into tests
+=======
+>>>>>>> all user tests passing
 
   beforeEach(function() {
-    db.deleteEverything();
+  return db.deleteEverything()
+    .then(function(){
+      return knex.insert([{userRoleName: 'Public', userRoleDescription: 'a public user'}, 
+                          {userRoleName: 'Admin', userRoleDescription: 'an admin user'}])
+                  .into('userRoles')
+                  .returning('*');
+    });
   });
   it('should create new public users', function(){
     return userRecs.addNewPublic(publicUser)
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].firstName).to.equal('Joe');
+                      expect(resp[0].userFirstName).to.equal('Joe');
                       expect(resp[0].userID).to.not.equal(undefined);
                     });
   });
@@ -359,8 +357,8 @@ xdescribe('users DB calls', function(){
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
-                    expect(resp[0].firstName).to.equal('Billy');
-                    expect(resp[0].orgAdminId).to.not.equal(undefined);
+                    expect(resp[0].user.userFirstName).to.equal('Billy');
+                    expect(resp[0].adminID.orgAdminID).to.not.equal(undefined);
                   });
   });
 
@@ -376,46 +374,44 @@ xdescribe('users DB calls', function(){
                   .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].firstName).to.equal('Jane');
-                      expect(resp[0].organizationName).to.equal('FrontSteps');
-                      expect(resp[0].userID).to.not.equal(undefined);
+                      expect(resp[0].user.userFirstName).to.equal('Jane');
+                      expect(resp[0].adminID.orgAdminID).to.not.equal(undefined);
+                      expect(resp[0].user.userID).to.not.equal(undefined);
                   });
   });
 
   it('should allow users to update passwords', function(){
-    var newPass = {user: {userID: adminUserId, newPass: 'newlongstring'}};
+    var adminUserId, oldPass;
+    var newPass = {user: {password: 'newlongstring'}};
     return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
-                      var adminUserId = resp[0].userID;
-                      var oldPass = resp[0].password;
-                    })
-                    .then(function(){
-                      return userRecs.changePassword(newPass);
+                      adminUserId = resp[0].user.userID;
+                      oldPass = resp[0].user.userPassword;
+                      return userRecs.updateUser(newPass, adminUserId);
                     })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].password).to.not.equal(oldPass);
+                      expect(resp[0].userPassword).to.not.equal(oldPass);
                     });
   });
 
-  it('should allow users to update contact information', function(){
+  xit('should allow users to update contact information', function(){
     //come back to this... which contact info for who?
   });
 
   it('should find users by userID', function(){
+    var adminUserId;
         return userRecs.addNewAdmin(newAdmin)
                     .then(function(resp){
-                      var adminUserId = resp[0].userID;
-                    })
-                    .then(function(){
+                      adminUserId = resp[0].user.userID;
                       return userRecs.findByUserID(adminUserId);
                     })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].firstName).to.equal('Jane');
-                      expect(resp[0].email).to.equal('jane@example.com');
+                      expect(resp[0].userFirstName).to.equal('Jane');
+                      expect(resp[0].userEmail).to.equal('jane@example.com');
                     });
 
   });
@@ -428,22 +424,35 @@ xdescribe('users DB calls', function(){
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].firstName).to.equal('Jane');
+                      expect(resp[0].userFirstName).to.equal('Jane');
                     });
   });
 
   it('should be able to return users role', function(){
     return userRecs.addNewAdmin(newAdmin)
                     .then(function(resp){
-                      var adminUserId = resp[0].userID;
+                      var adminUserId = resp[0].user.userID;
                       return userRecs.findUserRole(adminUserId);
+                    })
+                    .then(function(resp){
+                      expect(resp).to.equal('Admin');
+                    });
+
+  });
+
+  it('should be able to find an admins organization', function(){
+    return userRecs.addNewAdmin(newAdmin)
+                    .then(function(resp){
+                      var adminUserId = resp[0].user.userID;
+                      return userRecs.findUserOrganization(adminUserId);
                     })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].fk_userRole).to.equal(2);
+                      expect(resp[0].organizationName).to.equal('FrontSteps');
                     });
   });
+
   after(function(){
     db.deleteEverything();
   });
