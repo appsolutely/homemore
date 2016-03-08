@@ -16,8 +16,11 @@ describe('users DB calls', function(){
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
   var email = {user: {email: 'jane@example.com'}};
   var org = {organizations: {orgName: 'FrontSteps'}};
-  var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, organizations: {orgName: 'FrontSteps'}, shelters: {shelterName: 'Arches'}};
-  var newManagerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, organizations: {orgName: 'FrontSteps'}, shelters: {shelterName: 'Arches'}};
+  var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, 
+  organizations: {orgName: 'FrontSteps'}, 
+  shelters:{shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
+};
+  var newManagerUser = {managerUser: {firstName: 'Bob', lastName: 'Bobingson', email: 'newGuy@example.com'}, organizations: {orgName: 'FrontSteps'}, shelters: {shelterName: 'Arches'}};
 
   beforeEach(function() {
   return db.deleteEverything()
@@ -76,7 +79,7 @@ describe('users DB calls', function(){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
                     expect(resp[0].user.userFirstName).to.equal('Tilly');
-                    expect(resp[0].managerID.managerID).to.not.equal(undefined);
+                    expect(resp[0].shelterID.managerID).to.not.equal(undefined);
                     expect(resp[0].user.userID).to.not.equal(undefined);
                   });
   });
@@ -87,9 +90,16 @@ describe('users DB calls', function(){
                     return userRecs.addNewManager(managerUser);
                   })
                   .then(function(){
-                    return userRecs.addNewManager(newManagerUser)
+                    return userRecs.addNewManager(newManagerUser);
                   })
-  })
+                  .then(function(resp){
+                    expect(resp).to.be.an.instanceOf(Array);
+                    expect(resp).to.have.length(1);
+                    expect(resp[0].user.userFirstName).to.equal('Bob');
+                    expect(resp[0].user.userID).to.not.equal(undefined);
+                    expect(resp[0].shelterID.managerID).to.not.equal(undefined);
+                  });
+  });
 
   it('should allow users to update passwords', function(){
     var adminUserId, oldPass;
