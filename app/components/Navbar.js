@@ -1,11 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
-class Navbar extends React.Component{
+class Navbar extends React.Component {
   render() {
-    return(
-      <div className='header'>
-        <Link to='/shelter' className='navbar-brand'>
+    return (
+      <div className="header">
+        <Link to="/shelter" className="navbar-brand">
             NEF
           </Link>
 
@@ -13,16 +13,18 @@ class Navbar extends React.Component{
           <input
             className="form-control"
             placeholder="Username"
-            type="text" />
+            type="text"
+          />
           <input
             className="form-control"
             placeholder="Password"
-            type="text" />
+            type="text"
+          />
           <button >submit</button>
-          <div><a href='/signup'>sign up</a></div>
+          <div><a href="/signup">sign up</a></div>
       </div>
-    )
+    );
   }
 }
 
-export default Navbar
+export default Navbar;

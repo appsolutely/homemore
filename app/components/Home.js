@@ -1,20 +1,19 @@
-var React = require('react');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link
+import React from 'react';
+import { Link } from 'react-router';
 
-function Home () {
+function Home() {
   return (
     <div>
       <h1>Sheltered</h1>
       <div>
-        <input type="text" value='austin'/>
+        <input type="text" />
 
       </div>
-      <Link to='/shelter'>
-        <button type='button'>Search</button>
+      <Link to="/shelter">
+        <button type="button">Search</button>
       </Link>
     </div>
-  )
+  );
 }
 
 module.exports = Home;

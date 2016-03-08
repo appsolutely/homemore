@@ -1,27 +1,28 @@
-var React = require('react');
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link
+import React from 'react';
+import { Link } from 'react-router';
 
-const Header = React.createClass({
+class Header extends React.Component {
   render() {
-    return(
-      <div className='header'>
-      <Link to='/'><div>SHELTERED</div></Link>
+    return (
+      <div className="header">
+      <Link to="/"><div>SHELTERED</div></Link>
           <input
             className="form-control"
             placeholder="Username"
-            type="text" />
+            type="text"
+          />
           <input
             className="form-control"
             placeholder="Password"
-            type="text" />
+            type="text"
+          />
           <button >submit</button>
-          <Link to='/signup'>
+          <Link to="/signup">
             sign up
           </Link>
       </div>
-    )
+    );
   }
-})
+}
 
-export default Header
+export default Header;
