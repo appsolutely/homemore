@@ -116,10 +116,10 @@ module.exports.updateShelter = function(req){
 };
 
 module.exports.deleteShelter = function(req){
-      var shelter = req;
+  var shelterID = req[0].shelterID;
       return knex('shelters')
               .returning('*')
-              .where('shelterID', shelter)
+              .where('shelterID', shelterID)
               .del()
       .catch(function(err){
         console.log("Something went wrong deleting this shelter");
@@ -157,8 +157,21 @@ module.exports.insertShelterUnit = function(req){
 };
 
 module.exports.deleteShelterUnit = function(req){
+    var shelterUnitID = req[0].shelterUnitID;
+
+    return knex('shelterUnits')
+              .returning('*')
+              .where('shelterUnitID', shelterUnitID)
+              .del()
+    .catch(function(err){
+      console.log("Something went wront deleting this shelter unit", err);
+      throw new Error("Something went wront deleting this shelter unit", err);
+    })
+    .then(function(shelterUnit){
+      console.log("Successfully deleted shelter unit ", shelterUnit);
+      return shelterUnit;
+    });
   //function for deleting specific shelter unit
-  console.log("REQUEST DATA: ", req);
 };
 
 module.exports.insertShelterEligibility = function(req, shelterID){
