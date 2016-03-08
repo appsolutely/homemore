@@ -186,13 +186,13 @@ it('should insert Shelters', function(){
     return shelterRecs.insertShelter(shelter)
             .then(function(resp){
               var shelterId = resp[0].shelterID;
-              console.log("RESPONS", resp);
-              return shelterRecs.insertShelterUnit(unit, shelterId)
-          .then(function(){
-            return shelterRecs.deleteShelterUnit(unit)
+              return shelterRecs.insertShelterUnit(unit)
+          .then(function(resp){
+            return shelterRecs.deleteShelterUnit(resp)
                   .then(function(resp){
+                    console.log("RESPONSEIN TEST", resp);
                     expect(resp).to.have.length(1);
-                    expect(resp[0].shelterUnitID).to.equal(unitId);
+                    expect(resp).to.be.an.instanceOf(Array);
                   });
           });
        });
@@ -202,8 +202,8 @@ it('should insert Shelters', function(){
     return shelterRecs.insertShelter(shelter)
     .then(function(resp){
       // console.log("RESPONSE ", resp)
-      var shelterId = resp[0].shelterID;
-      return shelterRecs.deleteShelter(shelterId)
+      
+      return shelterRecs.deleteShelter(resp)
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
