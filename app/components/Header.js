@@ -1,10 +1,12 @@
-import React from 'react'
+var React = require('react');
+var ReactRouter = require('react-router');
+var Link = ReactRouter.Link
 
 const Header = React.createClass({
   render() {
     return(
       <div className='header'>
-        <div>SHELTERED</div>
+      <Link to='/'><div>SHELTERED</div></Link>
           <input
             className="form-control"
             placeholder="Username"
@@ -13,8 +15,9 @@ const Header = React.createClass({
             className="form-control"
             placeholder="Password"
             type="text" />
+          <Link to='/signup'>
           <button >submit</button>
-          <div><a href='/signup'>sign up</a></div>
+          </Link>
       </div>
     )
   }
