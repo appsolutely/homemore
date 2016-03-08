@@ -10,17 +10,21 @@ var knex = require('knex')(config);
 
 
 
-xdescribe('users DB calls', function(){
+describe('users DB calls', function(){
   var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
   var adminUser = {adminUser: {firstName: 'Billy', lastName: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
   var email = {user: {email: 'jane@example.com'}};
+  var org = {organizations: {orgName: 'FrontSteps'}};
+  var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, organizations: {orgName: 'FrontSteps'}, shelters: {shelterName: 'Arches'}};
+  var newManagerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, organizations: {orgName: 'FrontSteps'}, shelters: {shelterName: 'Arches'}};
 
   beforeEach(function() {
   return db.deleteEverything()
     .then(function(){
       return knex.insert([{userRoleName: 'Public', userRoleDescription: 'a public user'}, 
-                          {userRoleName: 'Admin', userRoleDescription: 'an admin user'}])
+                          {userRoleName: 'Admin', userRoleDescription: 'an admin user'},
+                          {userRoleName: 'Manager', userRoleDescription: 'a shelter manager user'}])
                   .into('userRoles')
                   .returning('*');
     });
@@ -36,7 +40,7 @@ xdescribe('users DB calls', function(){
                     });
   });
 
-  it('should create new admins without existing organization', function(){
+  it('should create new admins for new organizations', function(){
     return userRecs.addNewAdmin(adminUser)
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
@@ -46,8 +50,7 @@ xdescribe('users DB calls', function(){
                   });
   });
 
-  it('should allow admin users to be associated with existing organizations', function(){
-    var org = {organizations: {orgName: 'FrontSteps'}};
+  it('should allow admin users to be added to existing organizations', function(){
         return orgRecs.insertOrganization(org)
                   .then(function(){
                     return userRecs.addNewAdmin(adminUser);
@@ -63,6 +66,30 @@ xdescribe('users DB calls', function(){
                       expect(resp[0].user.userID).to.not.equal(undefined);
                   });
   });
+
+  it('should allow orgAdmin users to create new shelterManagers', function(){
+    return orgRecs.insertOrganization(org)
+                  .then(function(){
+                    return userRecs.addNewManager(managerUser);
+                  })
+                  .then(function(resp){
+                    expect(resp).to.be.an.instanceOf(Array);
+                    expect(resp).to.have.length(1);
+                    expect(resp[0].user.userFirstName).to.equal('Tilly');
+                    expect(resp[0].managerID.managerID).to.not.equal(undefined);
+                    expect(resp[0].user.userID).to.not.equal(undefined);
+                  });
+  });
+
+  it('should allow orgAdmin users to add managers to existing shelters', function(){
+    return orgRecs.insertOrganization(org)
+                  .then(function(){
+                    return userRecs.addNewManager(managerUser);
+                  })
+                  .then(function(){
+                    return userRecs.addNewManager(newManagerUser)
+                  })
+  })
 
   it('should allow users to update passwords', function(){
     var adminUserId, oldPass;

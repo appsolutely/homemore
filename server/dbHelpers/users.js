@@ -5,6 +5,7 @@ var knex = require('knex')(config[env]);
 var bcrypt = require('bcrypt-as-promised');
 var orgHelpers = require('./organizations.js');
 var sessions = require('./sessions.js');
+var generatePassword = require('password-generator');
 
 //check that no one else has been registered with the email before being passed here
 exports.addNewPublic = function(reqBody){
@@ -111,6 +112,57 @@ exports.addNewAdmin = function(reqBody){
           return [response];
         });
 };
+
+//shelter manager
+exports.addNewManager = function(reqBody){
+  var userRoleId;
+  var user = reqBody.managerUser;
+  var response = {};
+  var userID;
+
+  return selectRole('Manager')
+          .then(function(result){
+            userRoleId = result[0].userRoleID;
+            //generate a random password that we will email to the user in their confirmation email
+            var pass = generatePassword();
+            return bcrypt.hash(pass, 10);
+          })
+          .then(function(hashed){
+          return knex.insert({userFirstName: user.firstName,
+                              userLastName: user.lastName,
+                              userPassword: hashed, 
+                              userEmail: user.email,
+                              fk_userRole: userRoleId})
+                     .into('users')
+                     .returning('*');            
+          })
+          .then(function(result){
+            response.user = result[0];
+            userID = result[0].userID;
+            //checking if the shelter already exists
+            return shelterHelpers.selectShelter(reqBody);
+          })
+          .then(function(result){
+            if (result.length > 0){
+              return result;
+            } else {
+              throw 'Shelter does not yet exist';
+            }
+          })
+          .catch(function(err){
+            if (err === 'Shelter does not yet exist'){
+              //create the shelter
+            } else {
+              throw new Error('There was a problem in create Manager', err)
+            }
+          })
+          .then(function(result){
+            //if shelter already exists 
+          })
+
+};
+
+
 
 //requires -- req.body and req.session.userID
 exports.updateUser = function(reqBody, userId){
