@@ -74,9 +74,5 @@ createdb sheltered_test
 knex migrate:latest --env test
 npm test
 ```
-after test has been run the first time migrations is no longer necessary so
-```
-knex.migrate.latest()
-```
-may be commented out so long as it is re-added upon dropping and recreating the test database.
+
 ## Contributing
