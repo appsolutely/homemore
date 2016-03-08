@@ -10,15 +10,16 @@ var knex = require('knex')(config);
 
 
 
-xdescribe('Shelter and eligibility DB calls', function(){
-  var unit = {shelterUnit: {unitSize: '2BD'}};
+describe('Shelter and eligibility DB calls', function(){
+  var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
   var org = {organizations: {orgName: 'FrontSteps'}};
   var shelter = {shelters:
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
     organizations: org.organizations};
   var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
-  
+  var shelterId;
+
   beforeEach(function(){
     return db.deleteEverything()
     .then(function(){  
@@ -40,16 +41,14 @@ it('should insert Shelters', function(){
                 expect(resp[0].shelterID).to.not.equal('undefined');
                 expect(resp[0].shelterName).to.equal('Arches');
                 expect(resp[0].shelterEmail).to.equal('example@example.com');
-
-
-                shelterId = resp[0].shelterID;
               });
   });
 
   it('should fetch Shelters', function(){
     var shelterName = {shelters: shelter.shelters.shelterName};
     return shelterRecs.insertShelter(shelter)
-          .then(function(){
+          .then(function(resp){
+            shelterId = resp[0].shelterID;
               return shelterRecs.selectShelter(shelterName)
                         .then(function(resp){
                           expect(resp).to.be.an.instanceOf(Array);
@@ -60,11 +59,11 @@ it('should insert Shelters', function(){
             });
    });
 
-  xit('should insert Shelter units', function(){
+  it('should insert Shelter units', function(){
       return shelterRecs.insertShelter(shelter)
             .then(function(resp){
-              var shelterId = resp[0].shelterID;
-      return shelterRecs.insertShelterUnit(unit, shelterId)
+              console.log("Passed in response for test containing: ", resp);
+              return shelterRecs.insertShelterUnit(unit)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
@@ -198,10 +197,11 @@ it('should insert Shelters', function(){
        });
   });
 
-  xit('should delete Shelters', function(){
+  it('should delete Shelters', function(){
     return shelterRecs.insertShelter(shelter)
     .then(function(resp){
-      var shelterId = shelter[0].shelterID;
+      // console.log("RESPONSE ", resp)
+      var shelterId = resp[0].shelterID;
       return shelterRecs.deleteShelter(shelterId)
                   .then(function(resp){
                     expect(resp).to.be.an.instanceOf(Array);
@@ -211,9 +211,9 @@ it('should insert Shelters', function(){
       }).then(function(){
       it('should not fetch deleted Shelters', function(){
         return shelterRecs.selectShelter(shelterName)
-                      .then(function(resp){
-                        expect(resp).to.be.an.instanceOf(Array);
-                        expect(resp).to.have.length(0);
+                  .then(function(resp){
+                    expect(resp).to.be.an.instanceOf(Array);
+                    expect(resp).to.have.length(0);
           });
         });    
       });
