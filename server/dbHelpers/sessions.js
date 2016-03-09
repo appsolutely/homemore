@@ -10,11 +10,12 @@ exports.createNewSession = function(userID){
             .into('userSessions')
             .returning('*')
             .then(function(result){
-              return result;
+              return result[0].sessionID;
             });
 };
 
-exports.findSessionID = function(sessionID){
+exports.findSession = function(sessionID){
+  //will return both the sessionID and the userID
   return knex.select('*')
             .from('userSessions')
             .where('sessionID', sessionID)
