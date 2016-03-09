@@ -92,7 +92,7 @@ routes.get('/api/austin/shelters', function(req, res){
 
 routes.post('/api/signin', function(req, res){
   //path is the same for all types of users
-  return users.signin(req.body)
+  return users.signIn(req.body)
               .then(function(sessionId){
                 res.setHeader('Set-Cookie', 'sessionId=' + sessionId);
                 res.status(200).send({success: 'User signed in'});
