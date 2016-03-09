@@ -66,7 +66,7 @@ createdb sheltered_dev
 Once Postgres is running
 ```
 createdb sheltered_test
-knex migrate:latest --env test
+npm migrate
 npm test
 ```
 knex not found error in terminal?  
