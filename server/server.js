@@ -11,6 +11,7 @@ var Router = require('react-router');
 var appRoutes = require('../app/routes');
 var swig = require('swig');
 
+//dbHelpers
 var shelters = require('./dbHelpers/shelters.js');
 var users = require('./dbHelpers/users.js');
 var sessions = require('./dbHelpers/sessions.js');
@@ -98,7 +99,7 @@ routes.post('/api/signin', function(req, res){
                 res.status(200).send({success: 'User signed in'});
               })
               .catch(function(err){
-                res.status(400).send({error: 'Incorrect username or password'});
+                res.status(400).send({error: 'Incorrect username or password', message: err.message});
               });
 });
 
@@ -110,7 +111,7 @@ routes.post('/api/signupAdmin', function(req, res){
                 res.status(201).send({success: 'New admin created', user: newAdmin});
               })
               .catch(function(err){
-                res.status(400).send({error: 'There was and error creating account, email probably already in use'});
+                res.status(400).send({error: 'There was and error creating account, email probably already in use ' + err});
               });
 });
 
@@ -121,7 +122,7 @@ routes.post('/api/signup', function(req, res){
                 res.status(201).send({success: 'New Public user created', user: newPublic});
               })
               .catch(function(err){
-                res.status(400).send({error: 'There was an error creating accout, email probably already in use'});
+                res.status(400).send({error: 'There was an error creating accout, email probably already in use ' + err});
               });
 });
 
@@ -135,15 +136,20 @@ routes.post('/api/createManager', function(req, res){
                 res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email will be sent to confirm account creation'});
               })
               .catch(function(err){
-                res.status(400).send({error: 'There was an error creating account, email probably already in use'});
+                res.status(400).send({error: 'There was an error creating account, email probably already in use ' + err});
               });
 });
 
 routes.post('/api/addShelterManager', function(req, res){
   //path to add an existing manager as manager of another shelter
-  //this has not yet been implemented...
   if (req.session) {
-
+    users.addShelter(req.body)
+        .then(function(updated){
+          res.status(201).send(updated);
+        })
+        .catch(function(err){
+          res.status(400).send({error: 'There was an error updating data ' + err});
+        });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -153,7 +159,13 @@ routes.post('/api/updateOrganization', function(req, res){
   //it should check whether the user has permission to access this route or not
   //updateOrganization only actually updates the organizations name as of right now
   if (req.session) {
-
+    return organizations.updateOrganization(req.body)
+            .then(function(updates){
+              res.status(201).send(updates);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error changing data ' + err});
+            });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -163,7 +175,13 @@ routes.post('/api/updateShelter', function(req, res){
   //should check whether user has permission
   //can update all rows of information about a shelter eg. name, contact info, etc
   if (req.session) {
-
+    return shelters.updateShelter(req.body)
+            .then(function(updates){
+              res.statu(201).send(updates);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error changing data ' + err});
+            });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -173,7 +191,13 @@ routes.post('/api/addOccupant', function(req, res){
   //should check whether user has permission
   //adds occupants to particular units
   if (req.session) {
-
+    return shelters.insertShelterOccupancy(req.body)
+            .then(function(occupant){
+              res.status(201).send(occupant);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error inserting data ' + err });
+            });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -183,7 +207,13 @@ routes.post('/api/removeOccupant', function(req, res){
   //check permission
   //removes occupant from a particular unit
   if (req.session) {
-
+    return shelters.deleteShelterOccupancy(req.body)
+              .then(function(deleted){
+                res.status(201).send(deleted);
+              })
+              .catch(function(err){
+                res.status(400).send({error: 'There was an error deleting data ' + err});
+              });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -193,17 +223,43 @@ routes.post('/api/updateOccupant', function(req, res){
   //check permission
   //essentially just for updating the name of a occupant(misspelling or something)
   if (req.session) {
-
+    return shelters.updateShelterOccupancy(req.body)
+            .then(function(updated){
+              res.status(201).send(updated);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error changing data ' + err});
+            });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
 });
 
-routes.post('/api/updateTotalOccupancy', function(req, res){
+routes.post('/api/updateOccupantUnit', function(req, res){
+  if (req.session) {
+    return shelters.updateOccupancyUnit(req.body)
+            .then(function(updated){
+              res.status(201).send(updated);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error changing data ' + err});
+            });
+  } else {
+    res.status(401).send({error: 'User is not currently signed in'});
+  }
+});
+
+routes.post('/api/addShelterUnit', function(req, res){
   //as with the others check whether user has permission
   //updates the number of beds that the shelter actually has total
   if (req.session) {
-
+    return shelters.insertShelterUnit(req.body)
+            .then(function(unit){
+              res.status(201).send(unit);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error adding data ' + err});
+            });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -213,7 +269,13 @@ routes.post('/api/updateEligibility', function(req, res){
   //check permission
   //updates a shelters eligibility rules
   if (req.session) {
-
+    return shelters.insertShelterEligibility(req.body)
+            .then(function(eligibility){
+              res.status(201).send(eligibility);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error inserting data ' + err});
+            });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -224,7 +286,13 @@ routes.post('/api/deleteEligibility', function(req, res){
   //as it says on the tin
   //should return the rule that way deleted
   if (req.session) {
-
+    return shelters.deleteShelterEligibility(req.body)
+              .then(function(deleted){
+                res.status(201).send(deleted);
+              })
+              .catch(function(err){
+                res.status(400).send({error: 'There was an error deleting data ' + err});
+              });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -250,7 +318,13 @@ routes.post('/api/updateUser', function(req, res){
   //(all of those functions work so feel free to test only one)
   //it will return the updated field
   if (req.session) {
-
+    users.updateUser(req.body)
+          .then(function(changes){
+            res.status(201).send(changes);
+          })
+          .catch(function(err){
+              res.status(400).send({error: 'There was an error changing data'});
+          });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
