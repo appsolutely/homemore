@@ -141,7 +141,7 @@ exports.addNewManager = function(reqBody){
             return bcrypt.genSaltAsync(10);
           })
           .then(function(result) {
-            return bcrypt.hashAsync(user.password, result, null);
+            return bcrypt.hashAsync(genPass, result, null);
           })
           .then(function(hashed){
           return knex.insert({userFirstName: user.firstName,
