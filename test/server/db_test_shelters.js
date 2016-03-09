@@ -10,7 +10,7 @@ var knex = require('knex')(config);
 
 
 
-xdescribe('Shelter and eligibility DB calls', function(){
+describe('Shelter and eligibility DB calls', function(){
   var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
   var org = {organizations: {orgName: 'FrontSteps'}};
   var shelter = {shelters:
@@ -124,7 +124,7 @@ it('should insert Shelters', function(){
   });
         });
 
-  xit('should update occupants unit', function(){
+  it('should update occupants unit', function(){
      var updateOccupancy = {occupancy: {name: 'Jimmy McGoo'}};
      return shelterRecs.insertShelter(shelter)
            .then(function(resp){
