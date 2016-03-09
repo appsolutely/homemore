@@ -165,7 +165,7 @@ exports.addNewManager = function(reqBody){
             console.log('result from finding/creating shelter ', result);
             //either a brand new shelter or the found shelter
             var shelterID = result[0].shelterID;
-            return knex.insert({fk_userID: userID,
+            return knex.insert({fk_personID: userID,
                                 fk_shelterID: shelterID,
                                 accessApproved: false})
                        .into('shelterManagers')
@@ -291,19 +291,24 @@ exports.findUserRole = function(userId){
 
 // will return the name of their organizations
 exports.findUserOrganization = function(userId){
-  return this.findByUserID(userId)
-      .then(function(res){
-        return selectAdminInfo(res[0].userID);
-      })
-      .then(function(res){
-        return knex.select('*')
-                   .from('organizations')
-                   .where('organizationID', res[0].fk_organizationID);
-      })
-      .then(function(res){
-        console.log('response from select organization ', res);
-        return res;
-      });
+  return knex.select('*')
+            .from('orgAdmins')
+            .where('fk_userID', userId)
+            .rightOuterJoin('organizations', 'orgAdmins.fk_organizationID', 'organizations.organizationID')
+            .then(function(res){
+              console.log('response from select organization ', res);
+              return res;
+            });
+};
+
+exports.findUserShelter = function(userId){
+  return knex.select('*')
+             .from('shelterManagers')
+             .where('fk_personID', userId)
+             .rightOuterJoin('shelters', 'shelterManagers.fk_shelterID', 'shelters.shelterID')
+             .then(function(shelter){
+                return shelter;
+             });
 };
 
 // passes off to sessions at end
@@ -337,8 +342,34 @@ exports.signIn = function(reqBody){
               });
 };
 
-exports.addShelter = function(reqBody){
+exports.addShelter = function(req){
+  var reqBody = req.body;
+  var userID = req.session.userID;
+  var shelterName = {shelters: reqBody.shelters.shelterName};
 
+//first check if the shelter already exists
+  return shelterHelpers.selectShelter(shelterName)
+          .then(function(resp){
+            if (resp.length > 0) {
+              return resp;
+            } else {
+              throw 'no such shelter exists';
+            }
+          })
+          .catch(function(err){
+            console.error('Error in user.addShelter ', err);
+            return shelterHelpers.insertShelter(reqBody);
+          })
+          .then(function(result){
+            return knex.insert({fk_personID: userID, 
+                                fk_shelterID: result[0].shelterID,
+                                accessApproved: true})
+             .into('shelterManagers')
+             .returning('*');
+          })
+          .then(function(result){
+            return result;
+          });
 };
 
 var selectAdminInfo = function(userID){

@@ -42,8 +42,26 @@ app.use(function (req, res, next) {
     return sessions.findSession(req.cookies.sessionId)
         .then(function(session) {
           req.session = session;
-          next();
-    });
+          return users.findUserRole(session.userID);
+        })
+        .then(function(role){
+          req.session.permissionLevel = role;
+          if (role === 'Admin') {
+            return user.findUserOrganization(session.userID)
+                        .then(function(result){
+                          req.session.permissionOrg = result[0].organizationName;
+                          next();
+                        });
+          } else if (role === 'Manager') {
+            return user.findUserShelter(session.userID)
+                        .then(function(result){
+                          req.session.permissionShelter = result[0].shelterName;
+                        });
+          } else {
+            //they are a public user
+            next();
+          }
+        });
   } else {
     // No session to fetch; continue
     next();
@@ -131,7 +149,9 @@ routes.post('/api/createManager', function(req, res){
   //path for both creating a new manager for an existing shelter
   //and for creating a new shelter + manager(shelters cannot be made on their own)
   //we generate a password for this user so we need to work out a way to send them a confirmaton email
-  return users.addNewManager(req.body)
+  if (req.session){
+    if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName){
+      return users.addNewManager(req.body)
               .then(function(newManager){
                 //path for now -- add sending email here or on front end?
                 res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email will be sent to confirm account creation'});
@@ -139,18 +159,28 @@ routes.post('/api/createManager', function(req, res){
               .catch(function(err){
                 res.status(400).send({error: 'There was an error creating account, email probably already in use ' + err});
               });
+    } else {
+      res.status(401).send({error: 'User does not have permission for this action'});      
+    }
+  } else {
+    res.status(401).send({error: 'User is not currently signed in'});
+  }
 });
 
 routes.post('/api/addShelterManager', function(req, res){
   //path to add an existing manager as manager of another shelter
   if (req.session) {
-    users.addShelter(req.body)
-        .then(function(updated){
-          res.status(201).send(updated);
-        })
-        .catch(function(err){
-          res.status(400).send({error: 'There was an error updating data ' + err});
-        });
+    if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName){
+        users.addShelter(req)
+            .then(function(updated){
+              res.status(201).send(updated);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error updating data ' + err});
+            });
+          } else {
+            res.status(401).send({error: 'User does not have permission for this action'});
+          }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -160,13 +190,17 @@ routes.post('/api/updateOrganization', function(req, res){
   //it should check whether the user has permission to access this route or not
   //updateOrganization only actually updates the organizations name as of right now
   if (req.session) {
-    return organizations.updateOrganization(req.body)
+    if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName){
+      return organizations.updateOrganization(req.body)
             .then(function(updates){
               res.status(201).send(updates);
             })
             .catch(function(err){
               res.status(400).send({error: 'There was an error changing data ' + err});
             });
+          } else {
+            res.status(401).send({error: 'User does not have permission for this action'});
+          }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -176,13 +210,18 @@ routes.post('/api/updateShelter', function(req, res){
   //should check whether user has permission
   //can update all rows of information about a shelter eg. name, contact info, etc
   if (req.session) {
-    return shelters.updateShelter(req.body)
-            .then(function(updates){
-              res.statu(201).send(updates);
-            })
-            .catch(function(err){
-              res.status(400).send({error: 'There was an error changing data ' + err});
-            });
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+        return shelters.updateShelter(req.body)
+                .then(function(updates){
+                  res.statu(201).send(updates);
+                })
+                .catch(function(err){
+                  res.status(400).send({error: 'There was an error changing data ' + err});
+                });
+    } else {
+      res.status(401).send({error: 'User does not have permission for this action'});
+    }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -192,13 +231,18 @@ routes.post('/api/addOccupant', function(req, res){
   //should check whether user has permission
   //adds occupants to particular units
   if (req.session) {
-    return shelters.insertShelterOccupancy(req.body)
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+      return shelters.insertShelterOccupancy(req.body)
             .then(function(occupant){
               res.status(201).send(occupant);
             })
             .catch(function(err){
               res.status(400).send({error: 'There was an error inserting data ' + err });
             });
+    } else {
+      res.status(401).send({error: 'User does not have permission for this action'});
+    }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -208,13 +252,18 @@ routes.post('/api/removeOccupant', function(req, res){
   //check permission
   //removes occupant from a particular unit
   if (req.session) {
-    return shelters.deleteShelterOccupancy(req.body)
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+      return shelters.deleteShelterOccupancy(req.body)
               .then(function(deleted){
                 res.status(201).send(deleted);
               })
               .catch(function(err){
                 res.status(400).send({error: 'There was an error deleting data ' + err});
               });
+    } else {
+      res.status(401).send({error: 'User does not have permission for this action'});      
+    }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -224,13 +273,18 @@ routes.post('/api/updateOccupant', function(req, res){
   //check permission
   //essentially just for updating the name of a occupant(misspelling or something)
   if (req.session) {
-    return shelters.updateShelterOccupancy(req.body)
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+      return shelters.updateShelterOccupancy(req.body)
             .then(function(updated){
               res.status(201).send(updated);
             })
             .catch(function(err){
               res.status(400).send({error: 'There was an error changing data ' + err});
             });
+    } else {
+      res.status(401).send({error: 'User does not have permission for this action'});      
+    }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -238,13 +292,18 @@ routes.post('/api/updateOccupant', function(req, res){
 
 routes.post('/api/updateOccupantUnit', function(req, res){
   if (req.session) {
-    return shelters.updateOccupancyUnit(req.body)
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+      return shelters.updateOccupancyUnit(req.body)
             .then(function(updated){
               res.status(201).send(updated);
             })
             .catch(function(err){
               res.status(400).send({error: 'There was an error changing data ' + err});
-            });
+            }); 
+    } else {
+      res.status(401).send({error: 'User does not have permission for this action'});      
+    }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -254,13 +313,18 @@ routes.post('/api/addShelterUnit', function(req, res){
   //as with the others check whether user has permission
   //updates the number of beds that the shelter actually has total
   if (req.session) {
-    return shelters.insertShelterUnit(req.body)
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+      return shelters.insertShelterUnit(req.body)
             .then(function(unit){
               res.status(201).send(unit);
             })
             .catch(function(err){
               res.status(400).send({error: 'There was an error adding data ' + err});
             });
+    } else {
+     res.status(401).send({error: 'User does not have permission for this action'});       
+    }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -270,6 +334,8 @@ routes.post('/api/updateEligibility', function(req, res){
   //check permission
   //updates a shelters eligibility rules
   if (req.session) {
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
     return shelters.insertShelterEligibility(req.body)
             .then(function(eligibility){
               res.status(201).send(eligibility);
@@ -277,6 +343,9 @@ routes.post('/api/updateEligibility', function(req, res){
             .catch(function(err){
               res.status(400).send({error: 'There was an error inserting data ' + err});
             });
+    } else {
+     res.status(401).send({error: 'User does not have permission for this action'});             
+    }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -287,6 +356,8 @@ routes.post('/api/deleteEligibility', function(req, res){
   //as it says on the tin
   //should return the rule that way deleted
   if (req.session) {
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
     return shelters.deleteShelterEligibility(req.body)
               .then(function(deleted){
                 res.status(201).send(deleted);
@@ -294,6 +365,9 @@ routes.post('/api/deleteEligibility', function(req, res){
               .catch(function(err){
                 res.status(400).send({error: 'There was an error deleting data ' + err});
               });
+    } else {
+     res.status(401).send({error: 'User does not have permission for this action'});             
+    }
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
