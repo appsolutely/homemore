@@ -2,7 +2,8 @@ var db = require('../../db/db.js');
 var config = require('../../knexfile.js');  
 var env =  process.env.NODE_ENV || 'development';  
 var knex = require('knex')(config[env]);
-var bcrypt = require('bcrypt-as-promised');
+var Promise = require('bluebird');
+var bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'));
 var orgHelpers = require('./organizations.js');
 var shelterHelpers = require('./shelters.js');
 var sessions = require('./sessions.js');
@@ -21,7 +22,10 @@ exports.addNewPublic = function(reqBody){
           return;
         })
         .then(function(){
-          return bcrypt.hash(user.password, 10);
+          return bcrypt.genSaltAsync(10);
+        })
+        .then(function(result) {
+          return bcrypt.hashAsync(user.password, result, null);
         })
         .then(function(hashed){
           return knex.insert({userFirstName: user.firstName,
@@ -53,7 +57,10 @@ exports.addNewAdmin = function(reqBody){
         })
         .then(function(){
           //hash password
-          return bcrypt.hash(user.password, 10);
+        return bcrypt.genSaltAsync(10);
+        })
+        .then(function(result) {
+          return bcrypt.hashAsync(user.password, result, null);
         })
         .then(function(hashed){
           //then create the new user
@@ -131,7 +138,10 @@ exports.addNewManager = function(reqBody){
             //generate a random password that we will email to the user in their confirmation email
             genPass = generatePassword();
             console.log('generated password ', genPass);
-            return bcrypt.hash(genPass, 10);
+            return bcrypt.genSaltAsync(10);
+          })
+          .then(function(result) {
+            return bcrypt.hashAsync(genPass, result, null);
           })
           .then(function(hashed){
           return knex.insert({userFirstName: user.firstName,
@@ -165,7 +175,7 @@ exports.addNewManager = function(reqBody){
             console.log('result from finding/creating shelter ', result);
             //either a brand new shelter or the found shelter
             var shelterID = result[0].shelterID;
-            return knex.insert({fk_personID: userID,
+            return knex.insert({fk_userID: userID,
                                 fk_shelterID: shelterID,
                                 accessApproved: false})
                        .into('shelterManagers')
@@ -190,7 +200,10 @@ exports.updateUser = function(reqBody, userId){
   if (password.length > 0){
     //hash new password and update
     console.log('inside update password');
-    return bcrypt.hash(password, 10)
+    return bcrypt.genSaltAsync(10)
+          .then(function(salt) {
+            return bcrypt.hashAsync(password, salt, null);
+          })
           .then(function(hashed){
           return knex('users')
                 .update('userPassword', hashed)
@@ -304,7 +317,7 @@ exports.findUserOrganization = function(userId){
 exports.findUserShelter = function(userId){
   return knex.select('*')
              .from('shelterManagers')
-             .where('fk_personID', userId)
+             .where('fk_userID', userId)
              .rightOuterJoin('shelters', 'shelterManagers.fk_shelterID', 'shelters.shelterID')
              .then(function(shelter){
                 return shelter;
@@ -330,7 +343,7 @@ exports.signIn = function(reqBody){
                 }
               })
               .then(function(user){
-                return bcrypt.compare(user.password, reqBody.user.password);
+                return bcrypt.compare(user.password, reqBody.user.password, null);
               })
               .catch(function(err){
                 //password does not match
@@ -361,7 +374,7 @@ exports.addShelter = function(req){
             return shelterHelpers.insertShelter(reqBody);
           })
           .then(function(result){
-            return knex.insert({fk_personID: userID, 
+            return knex.insert({fk_userID: userID, 
                                 fk_shelterID: result[0].shelterID,
                                 accessApproved: true})
              .into('shelterManagers')
