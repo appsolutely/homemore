@@ -29,7 +29,7 @@ describe('Shelter and eligibility DB calls', function(){
     .then(function(resp){
       console.log('inserted organization ', resp[0]);
       var orgId = resp[0].orgId;
-      return;
+      return knex.insert({eligibilityOption: 'Vets', eligibilityOptionDescription: 'beds for vets'}).into('eligibilityOptions');
     });
   });
 
