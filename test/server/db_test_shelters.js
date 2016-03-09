@@ -72,7 +72,7 @@ it('should insert Shelters', function(){
             });
   });
 
-  xit('should insert Shelter eligibility', function(){
+  it('should insert Shelter eligibility', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
@@ -80,7 +80,7 @@ it('should insert Shelters', function(){
             .then(function(resp){
               expect(resp).to.be.an.instanceOf(Array);
               expect(resp).to.have.length(1);
-              expect(resp[0].fk_eligibilityOptionID).to.equal(eligibilityID);
+              expect(resp[0].fk_eligibilityOptionID).to.not.equal(undefined);
             });
           });
   });
@@ -170,18 +170,18 @@ it('should insert Shelters', function(){
   });
 
 
-  xit('should delete shelter eligibility', function(){
+  it('should delete shelter eligibility', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
-            return shelterRecs.insertShelterEligibility(eligibility, shelterId);
+            return shelterRecs.insertShelterEligibility(eligibility);
           })
           .then(function(resp){
-            var eligibilityID = resp[0].eligibilityID;
+            var eligibilityID = resp[0];
               return shelterRecs.deleteShelterEligibility(eligibilityID)
                       .then(function(resp){
                         expect(resp).to.have.length(1);
-                        expect(resp[0].eligibilityID).to.equal(eligibilityID);
+                        expect(resp[0].eligibilityID).to.equal(undefined);
                       });
           });
   });
