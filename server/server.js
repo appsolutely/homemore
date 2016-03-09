@@ -142,9 +142,14 @@ routes.post('/api/createManager', function(req, res){
 
 routes.post('/api/addShelterManager', function(req, res){
   //path to add an existing manager as manager of another shelter
-  //this has not yet been implemented...
   if (req.session) {
-    //NEED TO ADD THIS
+    users.addShelter(req.body)
+        .then(function(updated){
+          res.status(201).send(updated);
+        })
+        .catch(function(err){
+          res.status(400).send({error: 'There was an error updating data ' + err});
+        });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
