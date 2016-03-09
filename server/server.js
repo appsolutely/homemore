@@ -10,6 +10,7 @@ var ReactDOM = require('react-dom/server');
 var Router = require('react-router');
 var appRoutes = require('../app/routes');
 var swig = require('swig');
+var cookieParser = require('cookie-parser');
 
 //dbHelpers
 var shelters = require('./dbHelpers/shelters.js');
