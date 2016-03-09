@@ -307,7 +307,7 @@ exports.findUserOrganization = function(userId){
 };
 
 // passes off to sessions at end
-exports.signIn = function(reqBody, res){
+exports.signIn = function(reqBody){
   //first find user by email
   return this.findByUserEmail(reqBody.user.email)
               .then(function(result){
