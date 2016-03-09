@@ -14,7 +14,8 @@ exports.createNewSession = function(userID){
             });
 };
 
-exports.findSessionID = function(sessionID){
+exports.findSession = function(sessionID){
+  //will return both the sessionID and the userID
   return knex.select('*')
             .from('userSessions')
             .where('sessionID', sessionID)

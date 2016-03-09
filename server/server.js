@@ -11,6 +11,12 @@ var Router = require('react-router');
 var appRoutes = require('../app/routes');
 var swig = require('swig');
 
+var shelters = require('./dbHelpers/shelters.js');
+var users = require('./dbHelpers/users.js');
+var sessions = require('./dbHelpers/sessions.js');
+var organizations = require('./dbHelpers/organizations.js');
+
+
 var app = express();
 
 //starts up the database and runs any migrations and seed files required
@@ -25,6 +31,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 
+//parse the cookie to check for a session
+app.use(cookieParser());
+
+//if there is a cookie find the userID associated with it
+app.use(function (req, res, next) {
+  if (req.cookies.sessionId) {
+    return sessions.findSession(req.cookies.sessionId)
+        .then(function(session) {
+          req.session = session;
+          next();
+    });
+  } else {
+    // No session to fetch; continue
+    next();
+  }
+});
 
 
 //server side rendering - front end needs this
