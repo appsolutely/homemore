@@ -106,18 +106,22 @@ it('should insert Shelters', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
-            return shelterRecs.insertShelterOccupancy(occupant, shelterId);
-          })
+    return shelterRecs.insertShelterUnit(unit)
+          .then(function(resp){
+            var shelterUnitID = resp[0].shelterUnitID;
+    return shelterRecs.insertShelterOccupancy(occupant, shelterUnitID)
           .then(function(resp){
             var occupancyId = resp[0].occupancyID;
-            return shelterRecs.updateShelterOccupancy(updateOccupancy, occupancyId)
-                    .then(function(resp){
-                      expect(resp).to.be.an.instanceOf(Array);
-                      expect(resp).to.have.length(1);
-                      expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
-                    });
+    return shelterRecs.updateShelterOccupancy(updateOccupancy, occupancyId)
+            .then(function(resp){
+              expect(resp).to.be.an.instanceOf(Array);
+              expect(resp).to.have.length(1);
+              expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
+            });
+          });
           });
   });
+        });
 
   xit('should fetch shelter occupancy', function(){
     return shelterRecs.insertShelter()

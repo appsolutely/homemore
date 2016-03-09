@@ -266,28 +266,29 @@ module.exports.deleteShelterEligibility = function(req){
   //function for deleting specific shelter eligibility rule
 };
 
-module.exports.insertShelterOccupancy = function(req, unit){
-  var occupant = req.occupancy.name;
-  var unitID = unit[0].shelterUnitID;
+module.exports.insertShelterOccupancy = function(req){
+  // console.log("REQUEST FOR INSERT SHELTER OCCUP:", req);
+  // var occupant = req.occupancy.name;
+  // var unitID = unit[0].shelterUnitID;
   
-        return knex('shelterOccupancy')
-                .insert({
-                  fk_shelterUnitID: unitID,
-                  occupiedByName: occupant
-                })
-                .returning('*')
-          .catch(function(err){
-            console.log("There was an error inserting this occpancy record ", err);
-            throw new Error("There was an error inserting this occpancy record ", err);
-          })
-          .then(function(shelterOccupantID){
-            console.log("Successfully added occupancy record with ID ", shelterOccupantID);
-            return shelterOccupantID;
-          });
-  //inserting new 
+  //       return knex('shelterOccupancy')
+  //               .insert({
+  //                 fk_shelterUnitID: unitID,
+  //                 occupiedByName: occupant
+  //               })
+  //               .returning('*')
+  //         .catch(function(err){
+  //           console.log("There was an error inserting this occpancy record ", err);
+  //           throw new Error("There was an error inserting this occpancy record ", err);
+  //         })
+  //         .then(function(shelterOccupantID){
+  //           console.log("Successfully added occupancy record with ID ", shelterOccupantID);
+  //           return shelterOccupantID;
+  //         });
+  // //inserting new 
 };
 
-module.exports.updateShelterOccupancy = function(req, occupancyID){
+module.exports.updateShelterOccupancy = function(req){
   //function for updating shelter occupancy for a given user
   console.log("REQ", req);
 };
