@@ -318,14 +318,14 @@ exports.signIn = function(reqBody, res){
                 if (result.length > 0){
                   return result[0];
                 } else {
-                  throw new Error('User does not exist');
+                  throw 'User does not exist';
                 }
               })
               .catch(function(err){
-                if (err.message === 'User does not exist') {
-                  return {error: 'User does not exist'};
+                if (err === 'User does not exist') {
+                  throw {error: 'User does not exist'};
                 } else {
-                  return {error: 'unknown error in signin'};
+                  throw {error: 'unknown error in signin: ' + err.message};
                 }
               })
               .then(function(user){
