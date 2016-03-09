@@ -124,7 +124,7 @@ it('should insert Shelters', function(){
   });
         });
 
-  it('should update occupants unit', function(){
+  xit('should update occupants unit', function(){
      var updateOccupancy = {occupancy: {name: 'Jimmy McGoo'}};
      return shelterRecs.insertShelter(shelter)
            .then(function(resp){
@@ -147,55 +147,56 @@ it('should insert Shelters', function(){
     }); 
   });
 
-  xit('should fetch shelter occupancy', function(){
-    return shelterRecs.insertShelter()
+  it('should fetch shelter occupancy', function(){
+    var occupancyID;
+    return shelterRecs.insertShelter(shelter)
         .then(function(resp){
-          var shelterId = resp[0].shelterID;
-          return shelterRecs.insertShelterOccupancy(unit);
-        })
+    return shelterRecs.insertShelterUnit(unit)
         .then(function(resp){
-          return shelterRecs.insertShelterUnit(occupant);
-        })
-        .then(function(){
+          occupant.unit = resp;
+    return shelterRecs.insertShelterOccupancy(occupant)
+        .then(function(resp){
+          occupancyID = resp[0].occupancyID;
+    return shelterRecs.selectShelterOccupancy(occupancyID)
+                .then(function(resp){
+                  expect(resp).to.be.an.instanceOf(Array);
+                  expect(resp).to.have.length(1);
+                  expect(resp[0].occupiedByName).to.equal('John Smith');
+                });
           //should be passed just the shelterId directly
-          return shelterRecs.selectShelterOccupancy(shelterId)
-                      .then(function(resp){
-                        expect(resp).to.be.an.instanceOf(Array);
-                        expect(resp).to.have.length(2);
-                        expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
-                        expect(resp[1].occupiedByName).to.equal('John Smith');
-                      });
-        });
-  });
-
-  xit('should delete shelter occupancy', function(){
-    var occupied = {occupancy: {name: 'Jimmy McGoo'}};
-    return shelterRecs.insertShelter()
-        .then(function(resp){
-          var shelterId = resp[0].shelterID;
-          return shelterRecs.insertShelterOccupancy(unit);
-        })
-        .then(function(resp){
-          return shelterRecs.insertShelterUnit(occupant);
-        })
-        .then(function(){     
-    //req should just have the name of the person occuping the unit
-          return shelterRecs.deleteShelterOccupancy(occupied)
-                      .then(function(resp){
-                        expect(resp).to.have.length(1);
-                        expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
-                      });
-        })
-        .then(function(){
-          it('should not fetch deleted occupancy', function(){
-              return shelterRecs.selectShelterOccupancy(shelterId)
-                            .then(function(resp){
-                              expect(resp).to.have.length(1);
-                              expect(resp[0].occupiedByName).to.not.equal('Jimmy McGoo');
-                            });
         });
       });
+    });
   });
+
+  it('should delete shelter occupancy', function(){
+    // var occupied = {occupancy: {name: 'Jimmy McGoo'}};
+    var occupancyID;
+    return shelterRecs.insertShelter(shelter)
+        .then(function(resp){
+    return shelterRecs.insertShelterUnit(unit)
+        .then(function(resp){
+          occupant.unit = resp;
+    return shelterRecs.insertShelterOccupancy(occupant)
+        .then(function(resp){
+          occupancyID = resp[0].occupancyID;     
+    //req should just have the name of the person occuping the unit
+    return shelterRecs.deleteShelterOccupancy(occupancyID)
+        .then(function(resp){
+          console.log("SHOULD DELETE RESP", occupancyID);
+          expect(resp).to.have.length(1);
+          expect(resp[0].occupiedByName).to.equal('John Smith');
+        it('should not fetch deleted occupancy', function(){
+        return shelterRecs.selectShelterOccupancy(occupancyID)
+          .then(function(resp){
+            expect(resp).to.have.length(0);
+            });
+          });
+        });
+      });
+    });
+  });
+});
 
 
   it('should delete shelter eligibility', function(){

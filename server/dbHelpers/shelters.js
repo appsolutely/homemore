@@ -110,7 +110,7 @@ module.exports.selectAllShelters = function(){
                 .from('shelters')
                 .innerJoin('organizations', 'shelters.fk_organizationID', 'organizations.organizationID')
                 .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
-                .leftOuterJoin('hours', 'shelters.fk_hoursID', 'hours.hoursID')
+                .leftOuterJoin('hours', 'shelters.fk_hourID', 'hours.hoursID')
       .catch(function(err){
         console.log("Something went wrong selecting all shelters", err);
         throw new Error("Something went wrong selecting all shelters", err);
@@ -267,32 +267,93 @@ module.exports.deleteShelterEligibility = function(req){
 };
 
 module.exports.insertShelterOccupancy = function(req){
-  // console.log("REQUEST FOR INSERT SHELTER OCCUP:", req);
-  // var occupant = req.occupancy.name;
-  // var unitID = unit[0].shelterUnitID;
-  
-  //       return knex('shelterOccupancy')
-  //               .insert({
-  //                 fk_shelterUnitID: unitID,
-  //                 occupiedByName: occupant
-  //               })
-  //               .returning('*')
-  //         .catch(function(err){
-  //           console.log("There was an error inserting this occpancy record ", err);
-  //           throw new Error("There was an error inserting this occpancy record ", err);
-  //         })
-  //         .then(function(shelterOccupantID){
-  //           console.log("Successfully added occupancy record with ID ", shelterOccupantID);
-  //           return shelterOccupantID;
-  //         });
+  var occupant = req.occupancy.name;
+  var unitID = req.unit[0].shelterUnitID;  
+        return knex('shelterOccupancy')
+                .insert({
+                  fk_shelterUnitID: unitID,
+                  occupiedByName: occupant
+                })
+                .returning('*')
+          .catch(function(err){
+            console.log("There was an error inserting this occpancy record ", err);
+            throw new Error("There was an error inserting this occpancy record ", err);
+          })
+          .then(function(shelterOccupantID){
+            console.log("Successfully added occupancy record");
+            return shelterOccupantID;
+          });
   // //inserting new 
 };
 
-module.exports.updateShelterOccupancy = function(req){
-  //function for updating shelter occupancy for a given user
-  console.log("REQ", req);
+var getOccupancyUnitID = function(occupancyID){
+
+  return knex.select('shelterOccupancy')
+              .where('occupancyID', occupancyID)
+              .returning('fk_shelterUnitID')
+      .catch(function(err){
+        console.log("Something went wrong selecting this occupied unitID", err);
+        throw new Error("Something went wrong selecting this occupied unitID", err);
+      })
+      .then(function(unitID){
+        console.log("Successfully returned unit with ID", unitID);
+        return unitID;
+      });
+
 };
 
-module.exports.deleteShelterOccupancy = function(req, occupancyID){
+
+module.exports.updateShelterOccupancy = function(req){
+  //function for updating shelter occupancy for a given user
+  var occupancyID = req.occupancy.occupancyID;
+  var occupantName = req.occupancy.name;
+    return knex('shelterOccupancy')
+            .where('occupancyID', occupancyID)
+            .update({
+              occupiedByName: occupantName
+            })
+            .returning('*')
+        .catch(function(err){
+          console.log("Error updating this shetler occupancy", err);
+          throw new Error("Error updating this shetler occupancy", err);
+        })
+        .then(function(updatedOccupancy){
+          console.log("Updated shelter occupancy.");
+          return updatedOccupancy;
+        });
+};
+
+module.exports.selectShelterOccupancy = function(req){
+  var occupantID = req;
+    return knex('shelterOccupancy')
+              .where('occupancyID', occupantID)
+              .returning('*')
+          .catch(function(err){
+            console.log("Error selecting this occupancy record", err);
+            throw new Error("Error selecting this occupancy record", err);
+          })
+          .then(function(occupancy){
+            console.log("Successfully selected occupancy", occupancy);
+            return occupancy;
+          });
+
+};
+
+
+module.exports.deleteShelterOccupancy = function(req){
   //function for deleting specific shelter occupancy record
+  var occupantID = req;
+    console.log("DELETE REQ", req);
+    return knex('shelterOccupancy')
+              .returning('*')
+              .where('occupancyID', occupantID)
+              .del()
+          .catch(function(err){
+            console.log("Something went wrong deleting this occupancy record", err);
+            throw new Error("Something went wrong deleting this occupancy record", err);
+          })
+          .then(function(occupancy){
+            console.log("Successfully deleted this occupancy record");
+            return occupancy;
+          });
 };
