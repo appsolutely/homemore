@@ -23,3 +23,9 @@ exports.findSession = function(sessionID){
               return result;
             });
 };
+
+exports.logout = function(sessionID) {
+  return knex('userSession')
+          .where('sessionID', sessionID)
+          .del();
+};
