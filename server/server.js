@@ -235,6 +235,20 @@ routes.post('/api/updateOccupant', function(req, res){
   }
 });
 
+routes.post('/api/updateOccupantUnit', function(req, res){
+  if (req.session) {
+    return shelters.updateOccupancyUnit(req.body)
+            .then(function(updated){
+              res.status(201).send(updated);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error changing data ' + err});
+            });
+  } else {
+    res.status(401).send({error: 'User is not currently signed in'});
+  }
+});
+
 routes.post('/api/addShelterUnit', function(req, res){
   //as with the others check whether user has permission
   //updates the number of beds that the shelter actually has total

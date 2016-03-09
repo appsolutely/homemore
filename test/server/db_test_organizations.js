@@ -75,6 +75,21 @@ xdescribe('Organization DB Calls', function(){
   });
 });
 
+  it('should select all organizations', function(){
+    return orgRecs.insertOrganization(org)
+    .then(function(){
+      org.orgName = 'Homeless Org';
+      return orgRecs.insertOrganization(org);
+    })
+    .then(function(){
+      return orgRecs.selectAllOrganizations();
+    })
+    .then(function(){
+      expect(resp).to.be.an.instanceOf(Array);
+      expect(resp).to.have.length(2);
+    });
+  });
+
   after(function(){
    return db.deleteEverything();
   });

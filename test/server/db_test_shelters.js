@@ -91,7 +91,8 @@ it('should insert Shelters', function(){
             var shelterId = resp[0].shelterID;
     return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
-    return shelterRecs.insertShelterOccupancy(occupant, resp)
+            occupant.unit = resp;
+    return shelterRecs.insertShelterOccupancy(occupant)
           .then(function(resp){
             expect(resp).to.have.length(1);
             expect(resp[0].occupiedByName).to.equal('John Smith');
@@ -108,11 +109,11 @@ it('should insert Shelters', function(){
             var shelterId = resp[0].shelterID;
     return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
-            var shelterUnitID = resp[0].shelterUnitID;
-    return shelterRecs.insertShelterOccupancy(occupant, shelterUnitID)
+            occupant.unit = resp;
+    return shelterRecs.insertShelterOccupancy(occupant)
           .then(function(resp){
-            var occupancyId = resp[0].occupancyID;
-    return shelterRecs.updateShelterOccupancy(updateOccupancy, occupancyId)
+            updateOccupancy.occupancy.occupancyID = resp[0].occupancyID;
+    return shelterRecs.updateShelterOccupancy(updateOccupancy)
             .then(function(resp){
               expect(resp).to.be.an.instanceOf(Array);
               expect(resp).to.have.length(1);
@@ -122,6 +123,29 @@ it('should insert Shelters', function(){
           });
   });
         });
+
+  it('should update occupants unit', function(){
+     var updateOccupancy = {occupancy: {name: 'Jimmy McGoo'}};
+     return shelterRecs.insertShelter(shelter)
+           .then(function(resp){
+             var shelterId = resp[0].shelterID;
+     return shelterRecs.insertShelterUnit(unit)
+           .then(function(resp){
+             occupant.unit = resp;
+             updateOccupancy.occupancy.unit = resp;
+     return shelterRecs.insertShelterOccupancy(occupant)
+           .then(function(resp){
+             updateOccupancy.occupancy.occupancyID = resp[0].occupancyID;
+     return shelterRecs.updateShelterOccupancy(updateOccupancy)
+             .then(function(resp){
+               expect(resp).to.be.an.instanceOf(Array);
+               expect(resp).to.have.length(1);
+               expect(resp[0].occupiedByName).to.equal('Jimmy McGoo');
+             });
+           });
+        });
+    }); 
+  });
 
   xit('should fetch shelter occupancy', function(){
     return shelterRecs.insertShelter()
@@ -225,6 +249,25 @@ it('should insert Shelters', function(){
           });
         });    
       });
+  });
+
+  it('should select all shelters and all their data', function(){
+    return shelterRecs.insertShelter(shelter)
+          .then(function(){
+            shelter.shelterName = 'Emergency Shelter';
+            return shelterRecs.insertShelter(shelter);
+          })
+          .then(function(){
+            shelter.shelterName = 'Emergency Mens Shelter';
+            return shelterRecs.insertShelter(shelter);
+          })
+          .then(function(){
+            return shelterRecs.selectAllShelters();
+          })
+          .then(function(resp){
+            expect(resp).to.be.an.instanceOf(Array);
+            expect(resp).to.have.length(3);
+          });
   });
 
   after(function(){
