@@ -6,7 +6,8 @@
   "scripts": {
     "test": "./test/run.sh",
     "start": "./node_modules/.bin/nodemon server/server.js --ignore client/ --ignore node_modules/",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "migrate": "knex migrate:latest --env test"
   },
   "babel": {
     "presets": [
