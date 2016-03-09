@@ -106,7 +106,11 @@ module.exports.selectShelter = function(req){
 
 
 module.exports.selectAllShelters = function(){
-    return knex.select('*').from('shelters')
+    return knex.select('*')
+                .from('shelters')
+                .innerJoin('organizations', 'shelters.fk_organizationID', 'organizations.organizationID')
+                .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
+                .leftOuterJoin('hours', 'shelters.fk_hoursID', 'hours.hoursID')
       .catch(function(err){
         console.log("Something went wrong selecting all shelters", err);
         throw new Error("Something went wrong selecting all shelters", err);

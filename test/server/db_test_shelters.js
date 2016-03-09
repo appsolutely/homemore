@@ -101,7 +101,7 @@ it('should insert Shelters', function(){
       });
   });
 
-  xit('should update shelter occupancy', function(){
+  it('should update shelter occupancy', function(){
     var updateOccupancy = {occupancy: {name: 'Jimmy McGoo'}};
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
