@@ -24,7 +24,6 @@ var app = express();
 //starts up the database and runs any migrations and seed files required
 require('./../db/db');
 
-
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -121,6 +120,11 @@ routes.post('/api/signin', function(req, res){
                 res.status(400).send({error: 'Incorrect username or password', message: err.message});
               });
 });
+
+routes.get('/api/test',function(req, res, next){
+  res.status(200).send(['arch','otherplace']);
+})
+
 
 routes.post('/api/signupAdmin', function(req, res){
   //path for both creating a new orgAdmin and for creating a new organization

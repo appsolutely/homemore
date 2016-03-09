@@ -1,11 +1,10 @@
+require('../test-helper.js');
+
 var request = require('supertest-as-promised');
-// var should = chai.should();
-var chai = require('chai');
 var knex = require(__db + '/db.js');
 var config = require('../../knexfile.js').test;
 var routes  = require(__server + '/server.js');
-var expect = chai.expect();
-//var shelteredAPI = require(__server + '123123.js');
+
 //
 
 // // all paths GET: api/shelterlist     -- all shelters
@@ -17,7 +16,7 @@ var expect = chai.expect();
 //          
 // 
 
-xdescribe('Sheltered API', function(){
+describe('Sheltered API', function(){
 
   var app = TestHelper.createApp()
   app.use('/', routes)
@@ -33,7 +32,7 @@ xdescribe('Sheltered API', function(){
 
     it('exists',function(){
         return request(app)
-          .get('/api/shelters')
+          .get('/api/test')
           .expect(200)
           .expect(function(response){
             var shelters = response.body;
