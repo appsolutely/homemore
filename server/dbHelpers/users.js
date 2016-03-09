@@ -337,6 +337,10 @@ exports.signIn = function(reqBody){
               });
 };
 
+exports.addShelter = function(reqBody){
+
+};
+
 var selectAdminInfo = function(userID){
   return knex.select('*')
              .from('orgAdmins')
