@@ -250,7 +250,13 @@ routes.post('/api/updateEligibility', function(req, res){
   //check permission
   //updates a shelters eligibility rules
   if (req.session) {
-
+    return shelters.insertShelterEligibility(req.body)
+            .then(function(eligibility){
+              res.status(201).send(eligibility);
+            })
+            .catch(function(err){
+              res.status(400).send({error: 'There was an error inserting data ' + err});
+            });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
@@ -261,7 +267,13 @@ routes.post('/api/deleteEligibility', function(req, res){
   //as it says on the tin
   //should return the rule that way deleted
   if (req.session) {
-
+    return shelters.deleteShelterEligibility(req.body)
+              .then(function(deleted){
+                res.status(201).send(deleted);
+              })
+              .catch(function(err){
+                res.status(400).send({error: 'There was an error deleting data ' + err});
+              });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
   }
