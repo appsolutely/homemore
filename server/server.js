@@ -405,6 +405,14 @@ routes.post('/api/updateUser', function(req, res){
   }
 });
 
+routes.post('/api/logout', function(req, res){
+  return sessions.logout(req.session.sessionID)
+          .then(function(){
+            res.setHeader('Set-Cookie', 'sessionId=' + null);
+            res.status(201).send({success: 'User has been signed out'});
+          });
+});
+
 
 //if the process is anythign other than test create a real server
 if (process.env.NODE_ENV !== 'test') {
