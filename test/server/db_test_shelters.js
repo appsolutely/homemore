@@ -17,7 +17,7 @@ describe('Shelter and eligibility DB calls', function(){
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
     organizations: org.organizations};
   var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
-  var eligibility = {eligibility: {eligibilityOption: 'Vets'}};
+  var eligibility = {eligibility: {eligibilityOption: 'Vets'}, shelterName: 'Arches'};
   var shelterId;
 
   beforeEach(function(){
@@ -62,7 +62,7 @@ it('should insert Shelters', function(){
   it('should insert Shelter units', function(){
       return shelterRecs.insertShelter(shelter)
             .then(function(resp){
-              console.log("Passed in response for test containing: ", resp);
+              // console.log("Passed in response for test containing: ", resp);
               return shelterRecs.insertShelterUnit(unit)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
@@ -76,7 +76,7 @@ it('should insert Shelters', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
-    return shelterRecs.insertShelterEligibility(eligibility, shelterId)
+    return shelterRecs.insertShelterEligibility(eligibility)
             .then(function(resp){
               expect(resp).to.be.an.instanceOf(Array);
               expect(resp).to.have.length(1);
@@ -85,16 +85,20 @@ it('should insert Shelters', function(){
           });
   });
 
-  xit('should insert shelter occupancy', function(){
+  it('should insert shelter occupancy', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterId = resp[0].shelterID;
-        return shelterRecs.insertShelterOccupancy(occupant, shelterId)
-                        .then(function(resp){
-                          expect(resp).to.have.length(1);
-                          expect(resp[0].occupiedByName).to.equal('John Smith');
-                        });
-                    });
+    return shelterRecs.insertShelterUnit(unit)
+          .then(function(resp){
+    return shelterRecs.insertShelterOccupancy(occupant, resp)
+          .then(function(resp){
+            expect(resp).to.have.length(1);
+            expect(resp[0].occupiedByName).to.equal('John Smith');
+          });
+
+      });
+      });
   });
 
   xit('should update shelter occupancy', function(){
@@ -190,7 +194,6 @@ it('should insert Shelters', function(){
           .then(function(resp){
             return shelterRecs.deleteShelterUnit(resp)
                   .then(function(resp){
-                    console.log("RESPONSEIN TEST", resp);
                     expect(resp).to.have.length(1);
                     expect(resp).to.be.an.instanceOf(Array);
                   });

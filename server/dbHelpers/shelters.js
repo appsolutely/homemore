@@ -3,6 +3,19 @@ var config = require('../../knexfile.js');
 var env =  process.env.NODE_ENV || 'development';  
 var knex = require('knex')(config[env]);
 
+
+module.exports.selectAllOrganizations = function(){
+    return knex.select('*').from('organizations')
+      .catch(function(err){
+        console.log("Something went wrong selecting all organizations", err);
+        throw new Error("Something went wrong selecting all organizations", err);
+      })
+      .then(function(organizations){
+        console.log("Returning all organizations");
+        return organizations;
+      });
+};
+
 var getOrgID = function(orgName){
   console.log("Passed in org name", orgName);
   return knex.select('*')
@@ -91,6 +104,19 @@ module.exports.selectShelter = function(req){
         //function for selecting shelter units
 };
 
+
+module.exports.selectAllShelters = function(){
+    return knex.select('*').from('shelters')
+      .catch(function(err){
+        console.log("Something went wrong selecting all shelters", err);
+        throw new Error("Something went wrong selecting all shelters", err);
+      })
+      .then(function(shelters){
+        console.log("Returning all shelters");
+        return shelters;
+      });
+};
+
 module.exports.updateShelter = function(req){
   //function for updating shelter units
     var name = req.shelters.shelterName;
@@ -174,20 +200,80 @@ module.exports.deleteShelterUnit = function(req){
   //function for deleting specific shelter unit
 };
 
-module.exports.insertShelterEligibility = function(req, shelterID){
+
+var getEligibilityID = function(eligibilityOption){
+    // return knex.select('eligibilityOptionID').from('eligibilityOptions')
+    //     .where('eligibilityOption', eligibilityOption)
+    //     .catch(function(err){
+    //       console.log("Something went wrong. This eligibility option may not exist.");
+    //       throw new Error("Something went wrong. This eligibility option may not exist.");
+    //     })
+    //     .then(function(eligibilityOptionID){
+    //       console.log("Returing eligibilityOption with ID ", eligibilityOptionID);
+    //       return eligibilityOptionID;
+    //     });
+};
+
+
+module.exports.insertShelterEligibility = function(req){
   //function for inserting shelter elgibiltiy rules
+  // var eligibility = req.eligibility.eligibilityOption;
+  // return getEligibilityID(eligibility)
+  //     .then(function(eligibilityOptionID){
+  //       var thisEligibilityOptionID = eligibilityOptionID;
+  //     })
+  //     .then(function(eligibilityID){
+  //           return getShelterID(req.shelterName)
+  //           .then(function(shelter){
+  //               var shelterID = shelter[0].shelterID;
+  //               return knex('shelterEligibility')
+  //                       .insert({
+  //                         fk_shelterID: shelterID,
+  //                         fk_eligibilityOptionID: eligibilityID
+  //                       })
+  //                       .returning('*')
+  //               .catch(function(err){
+  //                 console.log("Something went wrong inserting this shelter eligibility", err);
+  //                 throw new Error("Something went wrong inserting this shelter eligibility", err);
+  //               })
+  //               .then(function(shelterEligibility){
+  //                 console.log("Successfully added shelter eligibility ", shelterUnit[0].shelterUnitID);
+  //                 return shelterEligibility;
+  //               });
+
+  //           });
+  //     });
+
 };
 
 module.exports.deleteShelterEligibility = function(req, shelterEligibilityID){
   //function for deleting specific shelter eligibility rule
 };
 
-module.exports.insertShelterOccupancy = function(req, shelterID, userID){
+module.exports.insertShelterOccupancy = function(req, unit){
+  var occupant = req.occupancy.name;
+  var unitID = unit[0].shelterUnitID;
+  
+        return knex('shelterOccupancy')
+                .insert({
+                  fk_shelterUnitID: unitID,
+                  occupiedByName: occupant
+                })
+                .returning('*')
+          .catch(function(err){
+            console.log("There was an error inserting this occpancy record ", err);
+            throw new Error("There was an error inserting this occpancy record ", err);
+          })
+          .then(function(shelterOccupantID){
+            console.log("Successfully added occupancy record with ID ", shelterOccupantID);
+            return shelterOccupantID;
+          });
   //inserting new 
 };
 
 module.exports.updateShelterOccupancy = function(req, occupancyID){
   //function for updating shelter occupancy for a given user
+  console.log("REQ", req);
 };
 
 module.exports.deleteShelterOccupancy = function(req, occupancyID){
