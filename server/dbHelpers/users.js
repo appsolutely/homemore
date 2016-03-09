@@ -116,14 +116,14 @@ exports.addNewAdmin = function(reqBody){
 
 //shelter manager -- generates a random password for the user and on api level shoots off an email
 exports.addNewManager = function(reqBody){
-  console.log('INSIDE NEW MANAGER');
+  console.log('INSIDE NEW MANAGER ', reqBody);
   var userRoleId;
   var user = reqBody.managerUser;
   var response = {};
   var userID;
   var genPass;
-  var shelterName = reqBody.shelters.shelterName;
-  console.log('shelter name passed in ', shelterName);
+  var shelterName = {shelters: reqBody.shelters.shelterName};
+  console.log('shelter name passed in ', reqBody.shelters.shelterName);
 
   return selectRole('Manager')
           .then(function(result){
@@ -146,7 +146,7 @@ exports.addNewManager = function(reqBody){
             response.user = result[0];
             userID = result[0].userID;
             //checking if the shelter already exists
-            return shelterHelpers.selectShelter(shelter);
+            return shelterHelpers.selectShelter(shelterName);
           })
           .then(function(result){
             console.log('returned from select ', result);
@@ -157,13 +157,9 @@ exports.addNewManager = function(reqBody){
             }
           })
           .catch(function(err){
-            console.log('err message ', err);
-            if (err === 'Shelter does not yet exist'){
-              //create the shelter
-              return shelterHelpers.insertShelter(reqBody);
-            } else {
-              throw new Error('There was a problem in create Manager', err);
-            }
+            console.log('err message in catch ', err);
+              //if hit the catch probably need to create a new shelter
+            return shelterHelpers.insertShelter(reqBody);
           })
           .then(function(result){
             console.log('result from finding/creating shelter ', result);
