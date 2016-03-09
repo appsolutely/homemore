@@ -62,7 +62,7 @@ it('should insert Shelters', function(){
   it('should insert Shelter units', function(){
       return shelterRecs.insertShelter(shelter)
             .then(function(resp){
-              console.log("Passed in response for test containing: ", resp);
+              // console.log("Passed in response for test containing: ", resp);
               return shelterRecs.insertShelterUnit(unit)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
