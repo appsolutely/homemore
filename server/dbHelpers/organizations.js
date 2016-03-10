@@ -7,6 +7,20 @@ var knex = require('knex')(config[env]);
 //insertorganizations expects req body to contain (
     //organization.orgName
 //)
+
+
+module.exports.selectAllOrganizations = function(){
+    return knex.select('*').from('organizations')
+      .catch(function(err){
+        console.log("Something went wrong selecting all organizations", err);
+        throw new Error("Something went wrong selecting all organizations", err);
+      })
+      .then(function(organizations){
+        console.log("Returning all organizations");
+        return organizations;
+      });
+};
+
 exports.insertOrganization = function (req) {
   var orgName = req.organizations.orgName;
 
@@ -78,7 +92,21 @@ exports.updateOrganization = function(req){
   //update specific organization 
 
 
-  //update specific organization 
+  //update specific organization  
 };
 
+var getOrgID = function(orgName){
+  console.log("Passed in org name", orgName);
+  return knex.select('*')
+              .from('organizations')
+              .where('organizationName', orgName)
+  .catch(function(err){
+    console.log("Could not find organization with this name.", err);
+    throw new Error("Could not find organization with this name", err);
+  })
+  .then(function(orgID){
+    console.log("Found organization with id ", orgID[0].organizationID);
+    return orgID[0].organizationID;
+  });
+};
 
