@@ -10,7 +10,7 @@ var knex = require('knex')(config);
 
 
 
-describe('Shelter and eligibility DB calls', function(){
+xdescribe('Shelter and eligibility DB calls', function(){
   var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
   var org = {organizations: {orgName: 'FrontSteps'}};
   var shelter = {shelters:

@@ -41,7 +41,7 @@ xdescribe('locations dbHelpers', function(){
             });
   });
 
-  xit('should update locations table', function(){
+  it('should update locations', function(){
     var locationID;
     return locationsRecs.insertLocation(newLocation)
               .then(function(resp){
@@ -57,7 +57,24 @@ xdescribe('locations dbHelpers', function(){
               });
   });
 
-  xit('should delete locations table', function(){
+
+  // it('should update hours', function(){
+  //   var locationID;
+  //   return locationsRecs.insertLocation(newLocation)
+  //             .then(function(resp){
+  //               newLocation.locations.name = 'Different location';
+  //               locationID = resp[0].locationID;
+  //               return locationsRecs.updateLocation(newLocation);
+  //             })
+  //             .then(function(resp){
+  //               expect(resp).to.be.an.instanceOf(Array);
+  //               expect(resp).to.have.length(1);
+  //               expect(resp[0].locationID).to.equal(locationID);
+  //               expect(resp[0].locationName).to.equal('Different location');
+  //             });
+  // });
+
+  it('should delete locations table', function(){
         return locationsRecs.insertLocation(newLocation)
               .then(function(resp){
                 locationID = resp[0].locationID;

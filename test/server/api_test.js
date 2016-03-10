@@ -6,29 +6,29 @@ var config = require('../../knexfile.js').test;
 var routes  = require(__server + '/server.js');
 var knex = require('knex')(config);
 
-//
+var orgRecs = require(__server + '/dbHelpers/organizations');
+var shelterRecs = require(__server + '/dbHelpers/shelters');
+var locRecs = require(__server + '/dbHelpers/locations');
+var userRecs = require(__server + '/dbHelpers/users');
 
-// // all paths GET: api/shelterlist     -- all shelters
-//           POST: api/shelterlist    -- filtered results
-//           POST: api/newPublicUser  -- non-admin     -sign-up
-//           POST: api/newAdminUser   -- array of objects   - test that it's not trying to create a user twice - should check if user already exists
-//           POST: api/signin         -- check for session   - look in shelters.js 
-//           //paths to let them update their names, emails
-//          
-// 
+
 
 describe('Sheltered API', function(){
+  
+  var app = TestHelper.createApp();
+  app.use('/', routes);
+  app.testReady();
+
+  var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
+  var org = {organizations: {orgName: 'FrontSteps'}};
+  var shelter = {shelters:
+      {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
+      organizations: org.organizations};
+  var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
+  var eligibility = {eligibility: {eligibilityOption: 'Vets'}, shelterName: 'Arches'};
   var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
-  var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'},
-  
-  var app = TestHelper.createApp()
-  app.use('/', routes)
-  app.testReady()
-
-  beforeEach(function() {
-    return db.deleteEverything();
-  });
+  var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}};
 
   beforeEach(function() {
       return db.deleteEverything()
@@ -36,95 +36,93 @@ describe('Sheltered API', function(){
           return knex.insert([{userRoleName: 'Public', userRoleDescription: 'a public user'}, 
                               {userRoleName: 'Admin', userRoleDescription: 'an admin user'},
                               {userRoleName: 'Manager', userRoleDescription: 'a shelter manager user'}])
-                      .into('userRoles')
-                      .returning('*');
+                      .into('userRoles');
+        })
+        .then(function(){
+          return knex.insert({eligibilityOption: 'Vets', 
+                              eligibilityOptionDescription: 'beds for vets'})
+                     .into('eligibilityOptions');
+
         });
   });
 
     describe('Examining api/austin/shelters', function(){
+      beforeEach(function(){
+        return orgRecs.insertOrganization(org)
+        .then(function(){
+          return shelterRecs.insertShelter(shelter);
+        });
+      });
 
-          it('exists',function(){
-              return request(app)
-                .get('/api/austin/shelters')
-                .expect(200)
-          })
-
-          it('returns an array of shelters',function(){
-            return request(app)
-              .get('/api/austin/shelters')
-              .expect(200)
-              .expect(function(response){
-                var shelters = response.body;
-                expect(shelters).to.be.an.instanceOf(Array);
-                expect(shelters[0]).to.be.an('object');
-                })
-          })
-    });
-//var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
-    describe('Examining api/signin', function(){
-
-          beforeEach(function(){
-            return userRecs.addNewPublic(publicUser);
-          })
-
-          it('signs a public user in', function(){
-            return request(app)
-            .post('/api/signin')
-            .send({'user':{email: 'machoman@example.com', password: 'creamalwaysrises'}})
-            .expect('Set-Cookie')
-            .expect('sessionID=' + sessionId)
+      it('should return an array of shelters',function(){
+          return request(app)
+            .get('/api/austin/shelters')
             .expect(200)
-          })
+            .expect(function(resp){
+              var shelters = resp.body;
+              expect(shelters).to.be.an.instanceOf(Array);
+              expect(shelters).to.have.length(1);
+              expect(shelters[0].shelterName).to.equal('Arches');
+              expect(shelters[0].organizationName).to.equal('FrontSteps');
+            });
+      });
 
-          it('rejects a user with an incorrect password', function(){
-            return request(app)
-            .post('/api/signin')
-            .send({'user':{email: 'machoman@example.com', password: 'hulkamaniac4life'}})
-            .expect(500)
-          })
     });
+
 
     describe('Examining api/signUpAdmin', function(){
       
-          it('signs up a newAdmin', function(){
-            return request(app)
-            .post('/api/signUpAdmin')
-            .send(newAdmin)
-            .expect(201)
-          })
+      it('should sign up a newAdmin', function(){
+        return request(app)
+        .post('/api/signUpAdmin')
+        .send(newAdmin)
+        .expect(201)
+        .expect(function(resp){
+          var admin = resp.body;
+          expect(admin).to.be.an.instanceOf(Object);
+          expect(admin.success).to.not.equal(undefined);
+          expect(admin.user.userID).to.not.equal(undefined);
+          expect(admin.user.firstName).to.equal('Jane');
+        });
+      });
 
-          xit('rejects a post request from a user without admin privileges', function(){
-            return request(app)
-            .post('/api/signUpAdmin')
-            .send(newAdmin)
-            .expect(500)
-          })
+      // it('rejects a post request from a user without admin privileges', function(){
+      //   return request(app)
+      //   .post('/api/signUpAdmin')
+      //   .send(newAdmin)
+      //   .expect(500)
+      //   .expect(function(resp){
+
+      //   });
+      // });
     }); 
 
-    describe('Examining api/signup', function(){
-          beforeEach(function(){
-            return userRecs.addNewPublic(publicUser);
-          })       
+    xdescribe('Examining api/signup', function(){
+          // before(function(){
+          //   return userRecs.addNewPublic(publicUser);
+          // });      
          
-          it('signs up a public user', function(){
+          it('should sign up a public user', function(){
             return request(app)
             .post('/api/signup')
             .send({pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'creamalwaysrises', email: 'machoman@randysavage.com'}})
             .expect(201)
-            .then(function(res){
-                return request(app)
-                .post('/api/signin')
-                .send({user: {password: 'creamalwaysrises', email: 'machoman@randysavage.com'}})
-                .expect(201)
-            })
-          })
+            .expect(function(resp){
+              var public = resp.body;
 
-          it('rejects if an email already exists', function(){
+            });
+          });
+
+          it('should reject if an email is taken', function(){
             return request(app)
             .post('/api/signup')
             .send(publicUser)
             .expect(400)
-          })
+            .expect(function(resp){
+              expect(resp).to.be.an.instanceOf(Object);
+              expect(resp.error).to.not.equal(undefined);
+            });
+          });
     });   
 
     xdescribe('Examining api/createManager', function(){
@@ -134,14 +132,20 @@ describe('Sheltered API', function(){
             .post('/api/createManager')
             .send(managerUser)
             .expect(201)
-          })
+            .expect(function(resp){
 
-          xit('rejects a post request from a user without a session', function(){
+            });
+          });
+
+          it('rejects a post request from a user without a session', function(){
             return request(app)
             .post('/api/createManager')
             .send(newAdmin)
             .expect(500)
-          })
+            .expect(function(resp){
+
+            });
+          });
     });
 
     xdescribe('Examining api/createManager', function(){
@@ -151,16 +155,50 @@ describe('Sheltered API', function(){
             .post('/api/createManager')
             .send(managerUser)
             .expect(201)
-          })
+            .expect(function(resp){
 
-          xit('rejects a post request from a user without a session', function(){
+            });
+          });
+
+          it('rejects a post request from a user without a session', function(){
             return request(app)
             .post('/api/createManager')
             .send(newAdmin)
             .expect(500)
-          })
+            .expect(function(resp){
+
+            });
+          });
     });  
 
+    xdescribe('Examining api/signin', function(){
+
+          beforeEach(function(){
+            return userRecs.addNewPublic(publicUser);
+          });
+
+          it('signs a public user in', function(){
+            return request(app)
+            .post('/api/signin')
+            .send({'user':{email: 'machoman@example.com', password: 'creamalwaysrises'}})
+            .expect('Set-Cookie')
+            .expect('sessionID=' + sessionId)
+            .expect(200)
+            .expect(function(resp){
+
+            });
+          });
+
+          it('rejects a user with an incorrect password', function(){
+            return request(app)
+            .post('/api/signin')
+            .send({users:{email: 'machoman@example.com', password: 'hulkamaniac4life'}})
+            .expect(500)
+            .expect(function(resp){
+
+            });
+          });
+    });
 
     // describe('Examining api/austin/addShelterManager', function(){
     //       // beforeEach(function() {
