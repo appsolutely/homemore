@@ -29,6 +29,7 @@ brew install postgres
 npm install will run bower install.
 
 ### Linting
+For Frontend work:
 Install eslint globally:
 ```
 npm install -g eslint
