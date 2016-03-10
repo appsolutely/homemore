@@ -13,7 +13,7 @@ var userRecs = require(__server + '/dbHelpers/users');
 
 
 
-xdescribe('Sheltered API', function(){
+describe('Sheltered API', function(){
   
   var app = TestHelper.createApp();
   app.use('/', routes);
@@ -28,8 +28,10 @@ xdescribe('Sheltered API', function(){
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}, shelterName: 'Arches'};
   var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
-  var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}};
-
+  var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, 
+    organizations: {orgName: 'FrontSteps'}, 
+    shelters:{shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
+  };
 
   var signInAdmin = {user: {password: 'k9isthebest', email: 'jane@example.com'}};
   var signInPublic = {user: {password: 'longencryptedstring', email: 'joe@example.com'}};
@@ -108,86 +110,86 @@ xdescribe('Sheltered API', function(){
 
     describe('Examining api/signup', function(){     
          
-          it('should sign up a public user', function(){
+      it('should sign up a public user', function(){
+        return request(app)
+        .post('/api/signup')
+        .send(publicUser)
+        .expect(201)
+        .expect(function(resp){
+          var public = resp.body;
+          expect(public).to.be.an.instanceOf(Object);
+          expect(public.success).to.not.equal(undefined);
+          expect(public.user.userFirstName).to.equal('Joe');
+        });
+      });
+
+      it('should reject if an email is taken', function(){
+        return userRecs.addNewPublic(publicUser)
+          .then(function(){
             return request(app)
             .post('/api/signup')
             .send(publicUser)
-            .expect(201)
+            .expect(400)
             .expect(function(resp){
-              var public = resp.body;
-              expect(public).to.be.an.instanceOf(Object);
-              expect(public.success).to.not.equal(undefined);
-              expect(public.user.userFirstName).to.equal('Joe');
+              expect(resp).to.be.an.instanceOf(Object);
+              expect(resp.error).to.not.equal(undefined);
             });
           });
-
-          it('should reject if an email is taken', function(){
-            return userRecs.addNewPublic(publicUser)
-              .then(function(){
-                return request(app)
-                .post('/api/signup')
-                .send(publicUser)
-                .expect(400)
-                .expect(function(resp){
-                  expect(resp).to.be.an.instanceOf(Object);
-                  expect(resp.error).to.not.equal(undefined);
-                });
-              });
-           });
+       });
     });  
 
     describe('Examining api/signin', function(){
 
-          beforeEach(function(){
-            return userRecs.addNewPublic(publicUser)
-              .then(function(){
-                return userRecs.addNewAdmin(newAdmin);
-              })
-              .then(function(){
-                return userRecs.addNewManager(managerUser);
-              })
-              .then(function(resp){
-                signInManager.user.password = resp[0].genPass;
-              });
+      beforeEach(function(){
+        return userRecs.addNewPublic(publicUser)
+          .then(function(){
+            return userRecs.addNewAdmin(newAdmin);
+          })
+          .then(function(){
+            return userRecs.addNewManager(managerUser);
+          })
+          .then(function(resp){
+            signInManager.user.password = resp[0].genPass;
           });
+      });
 
-          it('signs a public user in', function(){
-            return request(app)
-            .post('/api/signin')
-            .send(signInPublic)
-            .expect(200)
-            .expect(function(resp){
-              expect(resp.cookie).to.not.equal(undefined);
-            });
-          });
+      it('signs a public user in', function(){
+        return request(app)
+        .post('/api/signin')
+        .send(signInPublic)
+        .expect(200)
+        .expect(function(resp){
+          expect(resp.cookie).to.not.equal(undefined);
+        });
+      });
 
-          it('should sign in an admin', function(){
-            return request(app)
-            .post('/api/signin')
-            .send(signInAdmin)
-            .expect(200)
-            .expect(function(resp){
-              expect(resp.cookie).to.not.equal(undefined);
-            });
-          });
+      it('should sign in an admin', function(){
+        return request(app)
+        .post('/api/signin')
+        .send(signInAdmin)
+        .expect(200)
+        .expect(function(resp){
+          expect(resp.cookie).to.not.equal(undefined);
+        });
+      });
 
-          it('should sign in a manager', function(){
-            return request(app)
-            .post('/api/signin')
-            .send(signInManager)
-            .expect(200)
-            .expect(function(resp){
-              expect(resp.cookie).to.not.equal(undefined);
-            });
-          });
+      it('should sign in a manager', function(){
+        return request(app)
+        .post('/api/signin')
+        .send(signInManager)
+        .expect(200)
+        .expect(function(resp){
+          expect(resp.cookie).to.not.equal(undefined);
+        });
+      });
 
-          it('rejects a user with an incorrect password', function(){
-            signInPublic.user.password = 'notrightnow';
-            return request(app)
-            .post('/api/signin')
-            .send(signInPublic)
-            .expect(400);
-          });
+      it('rejects a user with an incorrect password', function(){
+        signInPublic.user.password = 'notrightnow';
+        return request(app)
+        .post('/api/signin')
+        .send(signInPublic)
+        .expect(400);
+      });
     });
 
     xdescribe('Examining api/createManager', function(){
@@ -302,5 +304,9 @@ xdescribe('Sheltered API', function(){
     //           .expect('Location', '/sign-up')
     //         })
     //       })
-    // })       
-})
+    // }) 
+
+  after(function(){
+    return db.deleteEverything();
+  });      
+});
