@@ -13,7 +13,6 @@
     1. [Installing Dependencies](#installing-dependencies)
     1. [Starting Database](#initializing-database)
     1. [Tests](#tests)
-    2. 
 1. [Team](#team)
 1. [Contributing](#contributing)
 
@@ -30,6 +29,7 @@ npm install will run bower install.
 
 ### Linting
 For Frontend work:
+
 Install eslint globally:
 ```
 npm install -g eslint
