@@ -56,6 +56,9 @@ Next, add a .eslintrc.json file to your sheltered root directory.  Copy and past
     }
 }
 ```
+
+For the Backend install and use SublimeLinter-jshint instead.
+
 ### Initializing Database
 ```
 postgres -D /usr/local/var/postgres
@@ -65,14 +68,10 @@ createdb sheltered_dev
 ### Tests
 Once Postgres is running
 ```
+npm install -g knex
 createdb sheltered_test
 npm migrate
 npm test
 ```
-knex not found error in terminal?  
-```
-npm install -g knex
-```
-
 
 ## Contributing
