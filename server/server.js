@@ -4,7 +4,6 @@ var path = require('path');
 var logger = require('morgan');
 var compression = require('compression');
 var bodyParser = require('body-parser');
-var routes = express.Router();
 var React = require('react');
 var ReactDOM = require('react-dom/server');
 var Router = require('react-router');
@@ -67,33 +66,7 @@ app.use(function (req, res, next) {
   }
 });
 
-<<<<<<< HEAD
 
-//server side rendering - front end needs this
-app.use(function(req, res) {
- Router.match({ routes: appRoutes.default, location: req.url }, function(err, redirectLocation, renderProps) {
-    console.log(req.url);
-   if (err) {
-     res.status(500).send(err.message);
-   } else if (redirectLocation) {
-     res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
-   } else if (renderProps) {
-       var html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
-       var page = swig.renderFile('views/index.html', { html: html });
-       res.status(200).send(page);
-   } else {
-     res.status(404).send('Page Not Found');
-   }
- });
-});
-
-routes.get('/api/signin', function(req, res){
-  return res.status(200).send(['YAY']);
-});
-
-
-=======
->>>>>>> move middleware to bottom and exports correct thing
 /* 
 // - All Routes will return an array 
 // - if there is content to return it will have objects inside
@@ -111,8 +84,6 @@ app.get('/api/austin/shelters', function(req, res){
         .catch(function(err){
           return res.status(500).send({error: 'Service Error finding all Shelters ' + err});
         });
-  //should return all shelters with no filtering
-  return res.status(200).send([{'tj':'stuff'},{'shiner':'morestuff'}])
 });
 
 app.post('/api/signin', function(req, res){
@@ -127,16 +98,8 @@ app.post('/api/signin', function(req, res){
               });
 });
 
-<<<<<<< HEAD
-routes.get('/api/test',function(req, res, next){
-  res.status(200).send(['arch','otherplace']);
-})
-
-routes.post('/api/signupAdmin', function(req, res){
-=======
 
 app.post('/api/signupAdmin', function(req, res){
->>>>>>> move middleware to bottom and exports correct thing
   //path for both creating a new orgAdmin and for creating a new organization
   //organizations can't be made without an initial admin
   return users.addNewAdmin(req.body)
