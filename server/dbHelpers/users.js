@@ -294,14 +294,16 @@ exports.findByUserEmail = function(email){
 //will return only the userRoleName
 exports.findUserRole = function(userId){
   //first find the user
-  // console.log('userId passed into userRole ', userId);
+  console.log('userId passed into findUserRole ', userId);
   return this.findByUserID(userId)
       .then(function(res){
+        console.log('inside findUsersRole ', res);
         return knex.select('*')
                    .from('userRoles')
                    .where('userRoleID', res[0].fk_userRole);
       })
       .then(function(res){
+        console.log('found role ', res);
         return res[0].userRoleName;
       });
 };

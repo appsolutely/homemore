@@ -5,7 +5,6 @@ var db = require(__db + '/db.js');
 var config = require('../../knexfile.js').test;
 var routes  = require(__server + '/server.js');
 var knex = require('knex')(config);
-var cookieParser = require('cookie-parser');
 
 var orgRecs = require(__server + '/dbHelpers/organizations');
 var shelterRecs = require(__server + '/dbHelpers/shelters');
@@ -19,6 +18,7 @@ describe('Sheltered API', function(){
   var app = TestHelper.createApp();
   app.use('/', routes);
   app.testReady();
+  // var agent = request.agent(app);
 
   var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
   var org = {organizations: {orgName: 'FrontSteps'}};
@@ -29,7 +29,7 @@ describe('Sheltered API', function(){
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}, shelterName: 'Arches'};
   var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
-  var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, 
+  var managerUser = {headers: {}, managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, 
     organizations: {orgName: 'FrontSteps'}, 
     shelters:{shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
   };
@@ -50,11 +50,10 @@ describe('Sheltered API', function(){
         return knex.insert({eligibilityOption: 'Vets', 
                             eligibilityOptionDescription: 'beds for vets'})
                    .into('eligibilityOptions');
-
       });
   });
 
-    describe('Examining api/austin/shelters', function(){
+    xdescribe('Examining api/austin/shelters', function(){
       beforeEach(function(){
         return orgRecs.insertOrganization(org)
         .then(function(){
@@ -74,11 +73,10 @@ describe('Sheltered API', function(){
               expect(shelters[0].organizationName).to.equal('FrontSteps');
             });
       });
-
     });
 
 
-    describe('Examining api/signUpAdmin', function(){
+    xdescribe('Examining api/signUpAdmin', function(){
       
       it('should sign up a newAdmin', function(){
         return request(app)
@@ -109,7 +107,7 @@ describe('Sheltered API', function(){
 
     }); 
 
-    describe('Examining api/signup', function(){     
+    xdescribe('Examining api/signup', function(){     
          
       it('should sign up a public user', function(){
         return request(app)
@@ -139,7 +137,7 @@ describe('Sheltered API', function(){
        });
     });  
 
-    describe('Examining api/signin', function(){
+    xdescribe('Examining api/signin', function(){
 
       beforeEach(function(){
         return userRecs.addNewPublic(publicUser)
@@ -192,31 +190,37 @@ describe('Sheltered API', function(){
         return request(app)
           .post('/api/signin')
           .send(signInPublic)
-          .expect(400);
+          .expect(400)
+          .then(function(){
+            signInPublic.user.password = 'longencryptedstring';
+          });
       });
     });
 
-    xdescribe('Examining api/createManager', function(){
+    describe('Examining api/createManager', function(){
+
       beforeEach(function(){
         return userRecs.addNewAdmin(newAdmin)
               .then(function(){
                 return userRecs.addNewPublic(publicUser);
               });
       });
+
       it('should create a new manager', function(){
         return request(app)
           .post('/api/signin')
           .send(signInAdmin)
           .then(function(resp){
-            managerUser.cookie = resp.cookie;
+            console.log('set session ', resp.headers['set-cookie'][0]);
             return request(app)
               .post('/api/createManager')
+              .set('Cookie', resp.headers['set-cookie'][0])
               .send(managerUser)
               .expect(201)
               .expect(function(resp){
                 var manager = resp.body;
-                expect(manager).to.be.an.instanceOf(Array);
-                expect(manager.userFirstName).to.equal('Tilly');
+                expect(manager).to.be.an.instanceOf(Object);
+                expect(manager.user[0].user.userFirstName).to.equal('Tilly');
               });
             });
       });
@@ -233,10 +237,10 @@ describe('Sheltered API', function(){
           .post('/api/signin')
           .send(signInPublic)
           .then(function(resp){
-            managerUser.cookie = resp.cookie;
             return request(app)
               .post('/api/createManager')
-              .send(newAdmin)
+              .set('Cookie', resp.headers['set-cookie'][0])
+              .send(managerUser)
               .expect(401);
           });
       });
