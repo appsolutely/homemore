@@ -77,14 +77,14 @@ describe('Organization DB Calls', function(){
 
   it('should select all organizations', function(){
     return orgRecs.insertOrganization(org)
-    .then(function(){
+    .then(function(resp){
       org.orgName = 'Homeless Org';
       return orgRecs.insertOrganization(org);
     })
-    .then(function(){
+    .then(function(resp){
       return orgRecs.selectAllOrganizations();
     })
-    .then(function(){
+    .then(function(resp){
       expect(resp).to.be.an.instanceOf(Array);
       expect(resp).to.have.length(2);
     });

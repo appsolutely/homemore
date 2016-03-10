@@ -4,17 +4,6 @@ var env =  process.env.NODE_ENV || 'development';
 var knex = require('knex')(config[env]);
 
 
-module.exports.selectAllOrganizations = function(){
-    return knex.select('*').from('organizations')
-      .catch(function(err){
-        console.log("Something went wrong selecting all organizations", err);
-        throw new Error("Something went wrong selecting all organizations", err);
-      })
-      .then(function(organizations){
-        console.log("Returning all organizations");
-        return organizations;
-      });
-};
 
 var getOrgID = function(orgName){
   console.log("Passed in org name", orgName);

@@ -16,13 +16,6 @@ module.exports.insertLocation = function(req){
   var state = req.locations.locationState;
   var zip = req.locations.locationZip;
   var phone = req.locations.locationPhone;
-  var monHours = req.locations.locationHoursMonday;
-  var tuesHours = req.locations.locationHoursTuesday;
-  var wedHours = req.locations.locationHoursWednesday;
-  var thursHours = req.locations.locationHoursThursday;
-  var friHours = req.locations.locationHoursFriday;
-  var satHours = req.locations.locationHoursSaturday;
-  var sunHours = req.locations.locationHoursSunday;
   
 };
 
