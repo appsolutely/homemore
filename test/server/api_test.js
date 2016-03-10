@@ -30,6 +30,11 @@ xdescribe('Sheltered API', function(){
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
   var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}};
 
+
+  var signInAdmin = {user: {password: 'k9isthebest', email: 'jane@example.com'}};
+  var signInPublic = {user: {password: 'longencryptedstring', email: 'joe@example.com'}};
+  var signInManager = {user: {email: 'tilly@example.com'}}; //add password after creation
+
   beforeEach(function() {
       return db.deleteEverything()
         .then(function(){
@@ -81,123 +86,156 @@ xdescribe('Sheltered API', function(){
           var admin = resp.body;
           expect(admin).to.be.an.instanceOf(Object);
           expect(admin.success).to.not.equal(undefined);
-          expect(admin.user.firstName).to.equal('Jane');
+          expect(admin.user.userFirstName).to.equal('Jane');
         });
       });
 
-      // it('rejects a post request from a user without admin privileges', function(){
-      //   return request(app)
-      //   .post('/api/signUpAdmin')
-      //   .send(newAdmin)
-      //   .expect(500)
-      //   .expect(function(resp){
-
-      //   });
-      // });
-    }); 
-
-    xdescribe('Examining api/signup', function(){
-          // before(function(){
-          //   return userRecs.addNewPublic(publicUser);
-          // });      
-         
-          it('should sign up a public user', function(){
+      it('should reject if an email is taken', function(){
+        return userRecs.addNewAdmin(newAdmin)
+          .then(function(){
             return request(app)
             .post('/api/signup')
-            .send({pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'creamalwaysrises', email: 'machoman@randysavage.com'}})
-            .expect(201)
-            .expect(function(resp){
-              var public = resp.body;
-
-            });
-          });
-
-          it('should reject if an email is taken', function(){
-            return request(app)
-            .post('/api/signup')
-            .send(publicUser)
+            .send(newAdmin)
             .expect(400)
             .expect(function(resp){
               expect(resp).to.be.an.instanceOf(Object);
               expect(resp.error).to.not.equal(undefined);
             });
           });
-    });   
+       });
 
-    xdescribe('Examining api/createManager', function(){
-      
-          it('signs up a new manager', function(){
+    }); 
+
+    describe('Examining api/signup', function(){     
+         
+          it('should sign up a public user', function(){
             return request(app)
-            .post('/api/createManager')
-            .send(managerUser)
+            .post('/api/signup')
+            .send(publicUser)
             .expect(201)
             .expect(function(resp){
-
+              var public = resp.body;
+              expect(public).to.be.an.instanceOf(Object);
+              expect(public.success).to.not.equal(undefined);
+              expect(public.user.userFirstName).to.equal('Joe');
             });
           });
 
-          it('rejects a post request from a user without a session', function(){
-            return request(app)
-            .post('/api/createManager')
-            .send(newAdmin)
-            .expect(500)
-            .expect(function(resp){
-
-            });
-          });
-    });
-
-    xdescribe('Examining api/createManager', function(){
-      
-          it('signs up a newAdmin', function(){
-            return request(app)
-            .post('/api/createManager')
-            .send(managerUser)
-            .expect(201)
-            .expect(function(resp){
-
-            });
-          });
-
-          it('rejects a post request from a user without a session', function(){
-            return request(app)
-            .post('/api/createManager')
-            .send(newAdmin)
-            .expect(500)
-            .expect(function(resp){
-
-            });
-          });
+          it('should reject if an email is taken', function(){
+            return userRecs.addNewPublic(publicUser)
+              .then(function(){
+                return request(app)
+                .post('/api/signup')
+                .send(publicUser)
+                .expect(400)
+                .expect(function(resp){
+                  expect(resp).to.be.an.instanceOf(Object);
+                  expect(resp.error).to.not.equal(undefined);
+                });
+              });
+           });
     });  
 
-    xdescribe('Examining api/signin', function(){
+    describe('Examining api/signin', function(){
 
           beforeEach(function(){
-            return userRecs.addNewPublic(publicUser);
+            return userRecs.addNewPublic(publicUser)
+              .then(function(){
+                return userRecs.addNewAdmin(newAdmin);
+              })
+              .then(function(){
+                return userRecs.addNewManager(managerUser);
+              })
+              .then(function(resp){
+                signInManager.user.password = resp[0].genPass;
+              });
           });
 
           it('signs a public user in', function(){
             return request(app)
             .post('/api/signin')
-            .send({'user':{email: 'machoman@example.com', password: 'creamalwaysrises'}})
-            .expect('Set-Cookie')
-            .expect('sessionID=' + sessionId)
+            .send(signInPublic)
             .expect(200)
             .expect(function(resp){
+              expect(resp.cookie).to.not.equal(undefined);
+            });
+          });
 
+          it('should sign in an admin', function(){
+            return request(app)
+            .post('/api/signin')
+            .send(signInAdmin)
+            .expect(200)
+            .expect(function(resp){
+              expect(resp.cookie).to.not.equal(undefined);
+            });
+          });
+
+          it('should sign in a manager', function(){
+            return request(app)
+            .post('/api/signin')
+            .send(signInManager)
+            .expect(200)
+            .expect(function(resp){
+              expect(resp.cookie).to.not.equal(undefined);
             });
           });
 
           it('rejects a user with an incorrect password', function(){
+            signInPublic.user.password = 'notrightnow';
             return request(app)
             .post('/api/signin')
-            .send({users:{email: 'machoman@example.com', password: 'hulkamaniac4life'}})
-            .expect(500)
-            .expect(function(resp){
-
-            });
+            .send(signInPublic)
+            .expect(400);
           });
     });
+
+    xdescribe('Examining api/createManager', function(){
+      beforeEach(function(){
+        return userRecs.addNewAdmin(newAdmin)
+              .then(function(){
+                return userRecs.addNewPublic(publicUser);
+              });
+      });
+          it('should create a new manager', function(){
+            return request(app)
+              .post('/api/signin')
+              .send(signInAdmin)
+              .then(function(resp){
+                managerUser.cookie = resp.cookie;
+                return request(app)
+                  .post('/api/createManager')
+                  .send(managerUser)
+                  .expect(201)
+                  .expect(function(resp){
+                    var manager = resp.body;
+                    expect(manager).to.be.an.instanceOf(Array);
+                    expect(manager.userFirstName).to.equal('Tilly');
+                  });
+                });
+          });
+
+          it('should reject a post request from a user without a session', function(){
+            return request(app)
+            .post('/api/createManager')
+            .send(newAdmin)
+            .expect(401);
+          });
+
+          it('should reject a post request from a user with a session but without permission', function(){
+            return request(app)
+              .post('/api/signin')
+              .send(signInPublic)
+              .then(function(resp){
+                managerUser.cookie = resp.cookie;
+                return request(app)
+                  .post('/api/createManager')
+                  .send(newAdmin)
+                  .expect(401);
+              });
+          });
+    });
+
 
     // describe('Examining api/austin/addShelterManager', function(){
     //       // beforeEach(function() {

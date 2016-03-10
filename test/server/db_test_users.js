@@ -113,7 +113,6 @@ xdescribe('users DB calls', function(){
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].userPassword).to.not.equal(oldPass);
                     });
   });
 

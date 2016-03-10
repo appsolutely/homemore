@@ -34,11 +34,15 @@ exports.addNewPublic = function(reqBody){
                               userEmail: user.email,
                               fk_userRole: userRoleId})
                      .into('users')
-                     .returning('*');
+                     .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);
         })
         .then(function(result){
           // console.log('result of new public user ', result);
           return result;
+        })
+        .catch(function(err){
+          // console.error('error in create public ', err);
+          throw 'Error in create new Public user ' + err;
         });
 };
 
@@ -70,7 +74,7 @@ exports.addNewAdmin = function(reqBody){
                               userEmail: user.email,
                               fk_userRole: userRoleId})
                      .into('users')
-                     .returning('*');
+                     .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);
         })
         .then(function(res){
           //saving that response to send back at the end
@@ -150,7 +154,7 @@ exports.addNewManager = function(reqBody){
                               userEmail: user.email,
                               fk_userRole: userRoleId})
                      .into('users')
-                     .returning('*');            
+                     .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);            
           })
           .then(function(result){
             response.user = result[0];
