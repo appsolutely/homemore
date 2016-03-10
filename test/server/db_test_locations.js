@@ -21,7 +21,7 @@ describe('locations dbHelpers', function(){
             .then(function(resp){
               expect(resp).to.be.an.instanceOf(Array);
               expect(resp).to.have.length(1);
-              expect(resp[0].locationName).to.eqaul('Greenfield Apartments');
+              expect(resp[0].locationName).to.equal('Greenfield Apartments');
               expect(resp[0].fk_hoursID).to.not.equal(undefined);
               expect(resp[0].locationID).to.not.equal(undefined);
             });
