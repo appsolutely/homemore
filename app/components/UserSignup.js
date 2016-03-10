@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
+import { Link } from 'react-router';
 
 class UserSignup extends React.Component {
   constructor(){
@@ -18,8 +19,10 @@ class UserSignup extends React.Component {
     })
   }
   submitForm(e){
-    console.log(" state", this.state)
     e.preventDefault();
+  let userInfo = {pubUser: {firstName: this.state.firstName, lastName: this.state.lastName,
+      password: this.state.password, email: this.state.email, phone: this.state.phone}};
+    console.log("User info submit", userInfo)
   }
   render(){
     return (
@@ -41,7 +44,8 @@ class UserSignup extends React.Component {
         <AccountInfo ref = 'phone' update={this.update} />
 
         <br/>
-        <button onClick={this.submitForm.bind(this)}>click me</button>
+        <button type='submit' onClick={this.submitForm.bind(this)}>click me</button>
+
         </form>
       </div>
   )
