@@ -24,7 +24,6 @@ var app = express();
 //starts up the database and runs any migrations and seed files required
 require('./../db/db');
 
-
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -87,7 +86,7 @@ app.use(function(req, res) {
  });
 });
 
-routes.get('/api/test', function(req, res){
+routes.get('/api/signin', function(req, res){
   return res.status(200).send(['YAY']);
 });
 
@@ -108,6 +107,8 @@ routes.get('/api/austin/shelters', function(req, res){
         .catch(function(err){
           return res.status(500).send({error: 'Service Error finding all Shelters ' + err});
         });
+  //should return all shelters with no filtering
+  return res.status(200).send([{'tj':'stuff'},{'shiner':'morestuff'}])
 });
 
 routes.post('/api/signin', function(req, res){
@@ -115,12 +116,16 @@ routes.post('/api/signin', function(req, res){
   return users.signIn(req.body)
               .then(function(sessionId){
                 res.setHeader('Set-Cookie', 'sessionId=' + sessionId);
-                res.status(200).send({success: 'User signed in'});
+                res.status(201).send({success: 'User signed in'});
               })
               .catch(function(err){
                 res.status(400).send({error: 'Incorrect username or password', message: err.message});
               });
 });
+
+routes.get('/api/test',function(req, res, next){
+  res.status(200).send(['arch','otherplace']);
+})
 
 routes.post('/api/signupAdmin', function(req, res){
   //path for both creating a new orgAdmin and for creating a new organization
