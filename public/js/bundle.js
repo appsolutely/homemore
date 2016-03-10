@@ -61,7 +61,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = new _alt2.default();
 
 },{"alt":"alt"}],3:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -69,9 +69,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -87,16 +93,85 @@ var AdminSignup = function (_React$Component) {
   function AdminSignup() {
     _classCallCheck(this, AdminSignup);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(AdminSignup).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AdminSignup).call(this));
+
+    _this.state = { email: "", password: "", firstName: "", lastName: '', phone: '', orgName: '' };
+    _this.update = _this.update.bind(_this);
+    return _this;
   }
 
   _createClass(AdminSignup, [{
-    key: "render",
+    key: 'update',
+    value: function update(e) {
+      this.setState({
+        email: _reactDom2.default.findDOMNode(this.refs.email.refs.inp).value,
+        password: _reactDom2.default.findDOMNode(this.refs.password.refs.inp).value,
+        firstName: _reactDom2.default.findDOMNode(this.refs.firstName.refs.inp).value,
+        lastName: _reactDom2.default.findDOMNode(this.refs.lastName.refs.inp).value,
+        phone: _reactDom2.default.findDOMNode(this.refs.phone.refs.inp).value,
+        orgName: _reactDom2.default.findDOMNode(this.refs.orgName.refs.inp).value
+      });
+    }
+  }, {
+    key: 'submitForm',
+    value: function submitForm(e) {
+      e.preventDefault();
+      var userInfo = { adminUser: { firstName: this.state.firstName, lastName: this.state.lastName,
+          password: this.state.password, email: this.state.email, phone: this.state.phone }, organizations: { orgName: this.state.orgName } };
+      console.log("User info submit", userInfo);
+    }
+  }, {
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { className: "jumbotron col-sm-6 col-sm-offset-3 text-center" },
-        "Admin signup page"
+        'div',
+        { className: 'col-sm-6 col-sm-offset-3 text-center' },
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Email'
+          ),
+          _react2.default.createElement(AccountInfo, { ref: 'email', update: this.update }),
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Password'
+          ),
+          _react2.default.createElement(AccountInfo, { ref: 'password', update: this.update }),
+          _react2.default.createElement(
+            'h1',
+            null,
+            'First Name'
+          ),
+          _react2.default.createElement(AccountInfo, { ref: 'firstName', update: this.update }),
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Last Name'
+          ),
+          _react2.default.createElement(AccountInfo, { ref: 'lastName', update: this.update }),
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Phone Number'
+          ),
+          _react2.default.createElement(AccountInfo, { ref: 'phone', update: this.update }),
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Org Name'
+          ),
+          _react2.default.createElement(AccountInfo, { ref: 'orgName', update: this.update }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'button',
+            { type: 'submit', onClick: this.submitForm.bind(this) },
+            'click me'
+          )
+        )
       );
     }
   }]);
@@ -104,9 +179,33 @@ var AdminSignup = function (_React$Component) {
   return AdminSignup;
 }(_react2.default.Component);
 
+var AccountInfo = function (_React$Component2) {
+  _inherits(AccountInfo, _React$Component2);
+
+  function AccountInfo() {
+    _classCallCheck(this, AccountInfo);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(AccountInfo).apply(this, arguments));
+  }
+
+  _createClass(AccountInfo, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('input', { ref: 'inp', type: 'text',
+          onChange: this.props.update })
+      );
+    }
+  }]);
+
+  return AccountInfo;
+}(_react2.default.Component);
+
 exports.default = AdminSignup;
 
-},{"react":"react"}],4:[function(require,module,exports){
+},{"react":"react","react-dom":"react-dom","react-router":"react-router"}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -521,7 +620,7 @@ var Signup = function (_React$Component) {
 exports.default = Signup;
 
 },{"react":"react","react-router":"react-router"}],10:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -529,9 +628,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -547,49 +652,77 @@ var UserSignup = function (_React$Component) {
   function UserSignup() {
     _classCallCheck(this, UserSignup);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserSignup).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserSignup).call(this));
+
+    _this.state = { email: "", password: "", firstName: "", lastName: '', phone: '' };
+    _this.update = _this.update.bind(_this);
+    //this.submitForm = this.submitForm(this.state);
+    return _this;
   }
 
   _createClass(UserSignup, [{
-    key: "render",
+    key: 'update',
+    value: function update(e) {
+      this.setState({
+        email: _reactDom2.default.findDOMNode(this.refs.email.refs.inp).value,
+        password: _reactDom2.default.findDOMNode(this.refs.password.refs.inp).value,
+        firstName: _reactDom2.default.findDOMNode(this.refs.firstName.refs.inp).value,
+        lastName: _reactDom2.default.findDOMNode(this.refs.lastName.refs.inp).value,
+        phone: _reactDom2.default.findDOMNode(this.refs.phone.refs.inp).value
+      });
+    }
+  }, {
+    key: 'submitForm',
+    value: function submitForm(e) {
+      e.preventDefault();
+      var userInfo = { pubUser: { firstName: this.state.firstName, lastName: this.state.lastName,
+          password: this.state.password, email: this.state.email, phone: this.state.phone } };
+      console.log("User info submit", userInfo);
+    }
+  }, {
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { className: "jumbotron col-sm-6 col-sm-offset-3 text-center" },
+        'div',
+        { className: 'col-sm-6 col-sm-offset-3 text-center' },
         _react2.default.createElement(
-          "ul",
-          { className: "form-fields" },
+          'form',
+          null,
           _react2.default.createElement(
-            "h2",
+            'h1',
             null,
-            "Account Details"
+            'Email'
           ),
+          _react2.default.createElement(AccountInfo, { ref: 'email', update: this.update }),
           _react2.default.createElement(
-            "div",
+            'h1',
             null,
-            _react2.default.createElement("input", { type: "text", ref: "name", placeholder: "Name" })
+            'Password'
           ),
-          _react2.default.createElement("br", null),
+          _react2.default.createElement(AccountInfo, { ref: 'password', update: this.update }),
           _react2.default.createElement(
-            "div",
+            'h1',
             null,
-            _react2.default.createElement("input", { type: "password", ref: "password", placeholder: "Password" })
+            'First Name'
           ),
-          _react2.default.createElement("br", null),
+          _react2.default.createElement(AccountInfo, { ref: 'firstName', update: this.update }),
           _react2.default.createElement(
-            "div",
+            'h1',
             null,
-            _react2.default.createElement("input", { type: "email", ref: "email", placeholder: "email" })
+            'Last Name'
           ),
-          _react2.default.createElement("br", null),
+          _react2.default.createElement(AccountInfo, { ref: 'lastName', update: this.update }),
           _react2.default.createElement(
-            "div",
+            'h1',
             null,
-            _react2.default.createElement(
-              "button",
-              { className: "btn -primary" },
-              "Save & Continue"
-            )
+            'Phone Number'
+          ),
+          _react2.default.createElement(AccountInfo, { ref: 'phone', update: this.update }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'button',
+            { type: 'submit', onClick: this.submitForm.bind(this) },
+            'click me'
           )
         )
       );
@@ -599,9 +732,33 @@ var UserSignup = function (_React$Component) {
   return UserSignup;
 }(_react2.default.Component);
 
+var AccountInfo = function (_React$Component2) {
+  _inherits(AccountInfo, _React$Component2);
+
+  function AccountInfo() {
+    _classCallCheck(this, AccountInfo);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(AccountInfo).apply(this, arguments));
+  }
+
+  _createClass(AccountInfo, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('input', { ref: 'inp', type: 'text',
+          onChange: this.props.update })
+      );
+    }
+  }]);
+
+  return AccountInfo;
+}(_react2.default.Component);
+
 exports.default = UserSignup;
 
-},{"react":"react"}],11:[function(require,module,exports){
+},{"react":"react","react-dom":"react-dom","react-router":"react-router"}],11:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
