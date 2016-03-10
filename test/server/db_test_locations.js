@@ -22,7 +22,7 @@ describe('locations dbHelpers', function(){
               expect(resp).to.be.an.instanceOf(Array);
               expect(resp).to.have.length(1);
               expect(resp[0].locationName).to.equal('Greenfield Apartments');
-              expect(resp[0].fk_hoursID).to.not.equal(undefined);
+              expect(resp[0].fk_hourID).to.not.equal(undefined);
               expect(resp[0].locationID).to.not.equal(undefined);
             });
   });
@@ -45,6 +45,8 @@ describe('locations dbHelpers', function(){
     var locationID;
     return locationsRecs.insertLocation(newLocation)
               .then(function(resp){
+                newLocation.locations.thisLocationID = resp[0].locationID;
+                newLocation.locations.thishourID_fk = resp[0].fk_hourID;
                 newLocation.locations.name = 'Different location';
                 locationID = resp[0].locationID;
                 return locationsRecs.updateLocation(newLocation);
@@ -74,15 +76,17 @@ describe('locations dbHelpers', function(){
   //             });
   // });
 
-  it('should delete locations table', function(){
+  it('should delete locations', function(){
         return locationsRecs.insertLocation(newLocation)
               .then(function(resp){
-                locationID = resp[0].locationID;
+                // console.log("DELETE RESP", resp);
+                newLocation.locations.thisLocationID = resp[0].locationID;
+                newLocation.locations.thishourID_fk = resp[0].fk_hourID;               
                 return locationsRecs.deleteLocation(newLocation);
               })
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
-                expect(resp).to.equal(1);
+                expect(resp).to.have.length(1);
               })
               .then(function(){
                 it('should not fetch deleted locations', function(){
