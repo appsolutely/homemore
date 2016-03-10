@@ -8,7 +8,7 @@ var db = require(__db + '/db.js');
 var config = require('../../knexfile.js').test;
 var knex = require('knex')(config);
 
-describe('Organization DB Calls', function(){
+xdescribe('Organization DB Calls', function(){
   var org = {organizations: {orgName: 'FrontSteps'}};
 
   beforeEach(function() {

@@ -67,6 +67,7 @@ app.use(function (req, res, next) {
   }
 });
 
+<<<<<<< HEAD
 
 //server side rendering - front end needs this
 app.use(function(req, res) {
@@ -91,6 +92,8 @@ routes.get('/api/signin', function(req, res){
 });
 
 
+=======
+>>>>>>> move middleware to bottom and exports correct thing
 /* 
 // - All Routes will return an array 
 // - if there is content to return it will have objects inside
@@ -98,10 +101,11 @@ routes.get('/api/signin', function(req, res){
 */
 
 
-routes.get('/api/austin/shelters', function(req, res){
+app.get('/api/austin/shelters', function(req, res){
   //returns all shelters and associated data with no filtering
-  return shelters.selectAllShelters(req.body)
+  return shelters.selectAllShelters()
         .then(function(shelters){
+          console.log('returning shelters ', shelters);
           return res.status(200).send(shelters);
         })
         .catch(function(err){
@@ -111,7 +115,7 @@ routes.get('/api/austin/shelters', function(req, res){
   return res.status(200).send([{'tj':'stuff'},{'shiner':'morestuff'}])
 });
 
-routes.post('/api/signin', function(req, res){
+app.post('/api/signin', function(req, res){
   //path is the same for all types of users
   return users.signIn(req.body)
               .then(function(sessionId){
@@ -123,11 +127,16 @@ routes.post('/api/signin', function(req, res){
               });
 });
 
+<<<<<<< HEAD
 routes.get('/api/test',function(req, res, next){
   res.status(200).send(['arch','otherplace']);
 })
 
 routes.post('/api/signupAdmin', function(req, res){
+=======
+
+app.post('/api/signupAdmin', function(req, res){
+>>>>>>> move middleware to bottom and exports correct thing
   //path for both creating a new orgAdmin and for creating a new organization
   //organizations can't be made without an initial admin
   return users.addNewAdmin(req.body)
@@ -139,7 +148,7 @@ routes.post('/api/signupAdmin', function(req, res){
               });
 });
 
-routes.post('/api/signup', function(req, res){
+app.post('/api/signup', function(req, res){
   //sign up for public users
   return users.addNewPublic(req.body)
               .then(function(newPublic){
@@ -150,7 +159,7 @@ routes.post('/api/signup', function(req, res){
               });
 });
 
-routes.post('/api/createManager', function(req, res){
+app.post('/api/createManager', function(req, res){
   //path for both creating a new manager for an existing shelter
   //and for creating a new shelter + manager(shelters cannot be made on their own)
   //we generate a password for this user so we need to work out a way to send them a confirmaton email
@@ -172,7 +181,7 @@ routes.post('/api/createManager', function(req, res){
   }
 });
 
-routes.post('/api/addShelterManager', function(req, res){
+app.post('/api/addShelterManager', function(req, res){
   //path to add an existing manager as manager of another shelter
   if (req.session) {
     if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName){
@@ -191,7 +200,7 @@ routes.post('/api/addShelterManager', function(req, res){
   }
 });
 
-routes.post('/api/updateOrganization', function(req, res){
+app.post('/api/updateOrganization', function(req, res){
   //it should check whether the user has permission to access this route or not
   //updateOrganization only actually updates the organizations name as of right now
   if (req.session) {
@@ -211,7 +220,7 @@ routes.post('/api/updateOrganization', function(req, res){
   }
 });
 
-routes.post('/api/updateShelter', function(req, res){
+app.post('/api/updateShelter', function(req, res){
   //should check whether user has permission
   //can update all rows of information about a shelter eg. name, contact info, etc
   if (req.session) {
@@ -232,7 +241,7 @@ routes.post('/api/updateShelter', function(req, res){
   }
 });
 
-routes.post('/api/addOccupant', function(req, res){
+app.post('/api/addOccupant', function(req, res){
   //should check whether user has permission
   //adds occupants to particular units
   if (req.session) {
@@ -253,7 +262,7 @@ routes.post('/api/addOccupant', function(req, res){
   }
 });
 
-routes.post('/api/removeOccupant', function(req, res){
+app.post('/api/removeOccupant', function(req, res){
   //check permission
   //removes occupant from a particular unit
   if (req.session) {
@@ -274,7 +283,7 @@ routes.post('/api/removeOccupant', function(req, res){
   }
 });
 
-routes.post('/api/updateOccupant', function(req, res){
+app.post('/api/updateOccupant', function(req, res){
   //check permission
   //essentially just for updating the name of a occupant(misspelling or something)
   if (req.session) {
@@ -295,7 +304,7 @@ routes.post('/api/updateOccupant', function(req, res){
   }
 });
 
-routes.post('/api/updateOccupantUnit', function(req, res){
+app.post('/api/updateOccupantUnit', function(req, res){
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
@@ -314,7 +323,7 @@ routes.post('/api/updateOccupantUnit', function(req, res){
   }
 });
 
-routes.post('/api/addShelterUnit', function(req, res){
+app.post('/api/addShelterUnit', function(req, res){
   //as with the others check whether user has permission
   //updates the number of beds that the shelter actually has total
   if (req.session) {
@@ -335,7 +344,7 @@ routes.post('/api/addShelterUnit', function(req, res){
   }
 });
 
-routes.post('/api/updateEligibility', function(req, res){
+app.post('/api/updateEligibility', function(req, res){
   //check permission
   //updates a shelters eligibility rules
   if (req.session) {
@@ -356,7 +365,7 @@ routes.post('/api/updateEligibility', function(req, res){
   }
 });
 
-routes.post('/api/deleteEligibility', function(req, res){
+app.post('/api/deleteEligibility', function(req, res){
   //check permission
   //as it says on the tin
   //should return the rule that way deleted
@@ -378,7 +387,7 @@ routes.post('/api/deleteEligibility', function(req, res){
   }
 });
 
-routes.get('/api/fetchUser', function(req, res){
+app.get('/api/fetchUser', function(req, res){
   //if not logged in will return nothing
   //will only return info about the user that is logged in
   //this is all the info for the profile page -- not any shelter or related info
@@ -392,7 +401,7 @@ routes.get('/api/fetchUser', function(req, res){
   }
 });
 
-routes.post('/api/updateUser', function(req, res){
+app.post('/api/updateUser', function(req, res){
   //check permission
   //updates password, email etc. 
   //(all of those functions work so feel free to test only one)
@@ -410,12 +419,30 @@ routes.post('/api/updateUser', function(req, res){
   }
 });
 
-routes.post('/api/logout', function(req, res){
+app.post('/api/logout', function(req, res){
   return sessions.logout(req.session.sessionID)
           .then(function(){
             res.setHeader('Set-Cookie', 'sessionId=' + null);
             res.status(201).send({success: 'User has been signed out'});
           });
+});
+
+//server side rendering - front end needs this
+app.use(function(req, res) {
+ Router.match({ routes: appRoutes.default, location: req.url }, function(err, redirectLocation, renderProps) {
+    console.log(req.url);
+   if (err) {
+     res.status(500).send(err.message);
+   } else if (redirectLocation) {
+     res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
+   } else if (renderProps) {
+       var html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
+       var page = swig.renderFile('views/index.html', { html: html });
+       res.status(200).send(page);
+   } else {
+     res.status(404).send('Page Not Found');
+   }
+ });
 });
 
 
@@ -427,5 +454,5 @@ if (process.env.NODE_ENV !== 'test') {
   console.log("Listening on port ", port);
 } else {
   //else we are in testing mode so export routes for testing
-  module.exports = routes;
+  module.exports = app;
 }
