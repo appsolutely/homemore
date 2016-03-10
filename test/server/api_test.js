@@ -5,6 +5,7 @@ var db = require(__db + '/db.js');
 var config = require('../../knexfile.js').test;
 var routes  = require(__server + '/server.js');
 var knex = require('knex')(config);
+var cookieParser = require('cookie-parser');
 
 var orgRecs = require(__server + '/dbHelpers/organizations');
 var shelterRecs = require(__server + '/dbHelpers/shelters');
@@ -38,19 +39,19 @@ describe('Sheltered API', function(){
   var signInManager = {user: {email: 'tilly@example.com'}}; //add password after creation
 
   beforeEach(function() {
-      return db.deleteEverything()
-        .then(function(){
-          return knex.insert([{userRoleName: 'Public', userRoleDescription: 'a public user'}, 
-                              {userRoleName: 'Admin', userRoleDescription: 'an admin user'},
-                              {userRoleName: 'Manager', userRoleDescription: 'a shelter manager user'}])
-                      .into('userRoles');
-        })
-        .then(function(){
-          return knex.insert({eligibilityOption: 'Vets', 
-                              eligibilityOptionDescription: 'beds for vets'})
-                     .into('eligibilityOptions');
+    return db.deleteEverything()
+      .then(function(){
+        return knex.insert([{userRoleName: 'Public', userRoleDescription: 'a public user'}, 
+                            {userRoleName: 'Admin', userRoleDescription: 'an admin user'},
+                            {userRoleName: 'Manager', userRoleDescription: 'a shelter manager user'}])
+                    .into('userRoles');
+      })
+      .then(function(){
+        return knex.insert({eligibilityOption: 'Vets', 
+                            eligibilityOptionDescription: 'beds for vets'})
+                   .into('eligibilityOptions');
 
-        });
+      });
   });
 
     describe('Examining api/austin/shelters', function(){
@@ -155,40 +156,43 @@ describe('Sheltered API', function(){
 
       it('signs a public user in', function(){
         return request(app)
-        .post('/api/signin')
-        .send(signInPublic)
-        .expect(200)
-        .expect(function(resp){
-          expect(resp.cookie).to.not.equal(undefined);
-        });
+          .post('/api/signin')
+          .send(signInPublic)
+          .expect(201)
+          .expect(function(resp){
+            expect(resp.body.success).to.equal('User signed in');
+            expect(resp.headers['set-cookie']).to.not.equal(undefined);
+          });
       });
 
       it('should sign in an admin', function(){
         return request(app)
-        .post('/api/signin')
-        .send(signInAdmin)
-        .expect(200)
-        .expect(function(resp){
-          expect(resp.cookie).to.not.equal(undefined);
-        });
+          .post('/api/signin')
+          .send(signInAdmin)
+          .expect(201)
+          .expect(function(resp){
+            expect(resp.body.success).to.equal('User signed in');
+            expect(resp.headers['set-cookie']).to.not.equal(undefined);
+          });
       });
 
       it('should sign in a manager', function(){
         return request(app)
-        .post('/api/signin')
-        .send(signInManager)
-        .expect(200)
-        .expect(function(resp){
-          expect(resp.cookie).to.not.equal(undefined);
-        });
+          .post('/api/signin')
+          .send(signInManager)
+          .expect(201)
+          .expect(function(resp){
+            expect(resp.body.success).to.equal('User signed in');
+            expect(resp.headers['set-cookie']).to.not.equal(undefined);
+          });
       });
 
       it('rejects a user with an incorrect password', function(){
-        signInPublic.user.password = 'notrightnow';
+        signInPublic.user.password = 'notrightpassword';
         return request(app)
-        .post('/api/signin')
-        .send(signInPublic)
-        .expect(400);
+          .post('/api/signin')
+          .send(signInPublic)
+          .expect(400);
       });
     });
 
@@ -199,43 +203,43 @@ describe('Sheltered API', function(){
                 return userRecs.addNewPublic(publicUser);
               });
       });
-          it('should create a new manager', function(){
+      it('should create a new manager', function(){
+        return request(app)
+          .post('/api/signin')
+          .send(signInAdmin)
+          .then(function(resp){
+            managerUser.cookie = resp.cookie;
             return request(app)
-              .post('/api/signin')
-              .send(signInAdmin)
-              .then(function(resp){
-                managerUser.cookie = resp.cookie;
-                return request(app)
-                  .post('/api/createManager')
-                  .send(managerUser)
-                  .expect(201)
-                  .expect(function(resp){
-                    var manager = resp.body;
-                    expect(manager).to.be.an.instanceOf(Array);
-                    expect(manager.userFirstName).to.equal('Tilly');
-                  });
-                });
-          });
-
-          it('should reject a post request from a user without a session', function(){
-            return request(app)
-            .post('/api/createManager')
-            .send(newAdmin)
-            .expect(401);
-          });
-
-          it('should reject a post request from a user with a session but without permission', function(){
-            return request(app)
-              .post('/api/signin')
-              .send(signInPublic)
-              .then(function(resp){
-                managerUser.cookie = resp.cookie;
-                return request(app)
-                  .post('/api/createManager')
-                  .send(newAdmin)
-                  .expect(401);
+              .post('/api/createManager')
+              .send(managerUser)
+              .expect(201)
+              .expect(function(resp){
+                var manager = resp.body;
+                expect(manager).to.be.an.instanceOf(Array);
+                expect(manager.userFirstName).to.equal('Tilly');
               });
+            });
+      });
+
+      it('should reject a post request from a user without a session', function(){
+        return request(app)
+        .post('/api/createManager')
+        .send(newAdmin)
+        .expect(401);
+      });
+
+      it('should reject a post request from a user with a session but without permission', function(){
+        return request(app)
+          .post('/api/signin')
+          .send(signInPublic)
+          .then(function(resp){
+            managerUser.cookie = resp.cookie;
+            return request(app)
+              .post('/api/createManager')
+              .send(newAdmin)
+              .expect(401);
           });
+      });
     });
 
 

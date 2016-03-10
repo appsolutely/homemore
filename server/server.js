@@ -90,6 +90,7 @@ app.post('/api/signin', function(req, res){
   //path is the same for all types of users
   return users.signIn(req.body)
               .then(function(sessionId){
+                console.log('session ', sessionId);
                 res.setHeader('Set-Cookie', 'sessionId=' + sessionId);
                 res.status(201).send({success: 'User signed in'});
               })

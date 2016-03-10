@@ -31,6 +31,7 @@ knex.deleteEverything = function () {
     knex('locations').del(),
     knex('orgAdmins').del(),
     knex('organizations').del(),
+    knex('userSessions').del(),
     knex('users').del(),
     knex('userRoles').del()
   ]);
