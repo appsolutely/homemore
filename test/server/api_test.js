@@ -81,7 +81,6 @@ describe('Sheltered API', function(){
           var admin = resp.body;
           expect(admin).to.be.an.instanceOf(Object);
           expect(admin.success).to.not.equal(undefined);
-          expect(admin.user.userID).to.not.equal(undefined);
           expect(admin.user.firstName).to.equal('Jane');
         });
       });
