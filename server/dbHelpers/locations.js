@@ -33,11 +33,11 @@ module.exports.insertLocation = function(req){
           })
           .returning('hoursID')
   .catch(function(err){
-    console.log("Something went wrong inserting these hours.", err);
+    // console.log("Something went wrong inserting these hours.", err);
     throw new Error("Something went wrong inserting these hours.", err);
   })
   .then(function(hours){
-    console.log("Successfully inserted hours");
+    // console.log("Successfully inserted hours");
     var hoursID = hours[0];
     // console.log("HOURS FK ID", hoursID);
 
@@ -53,11 +53,11 @@ module.exports.insertLocation = function(req){
               })
               .returning('*')
       .catch(function(err){
-        console.log("Something went wrong inserting this location", err);
+        // console.log("Something went wrong inserting this location", err);
         throw new Error("Something went wrong inserting this location", err);
       })
       .then(function(location){
-        console.log("Successfully inserted location");
+        // console.log("Successfully inserted location");
         return location;
       });
   });
@@ -71,11 +71,11 @@ var getLocationID = function(name, street){
               'locationStreet': street
             })
   .catch(function(err){
-    console.log("This location does not exist. ", err);
+    // console.log("This location does not exist. ", err);
     throw new Error("This location does not exist. ", err);
   })
   .then(function(location){
-    console.log("Found location with ID: ", location[0].locationID);
+    // console.log("Found location with ID: ", location[0].locationID);
     return location[0].locationID;
   });
 };
@@ -86,15 +86,14 @@ module.exports.selectLocation = function(req){
     var locationStreet = req.locations.street;
     return getLocationID(locationName, locationStreet)
     .then(function(locationID){
-      console.log("SELECT location with ID: ", locationID);
         return knex.select('*').from('locations')
                   .where('locationID', locationID)
         .catch(function(err){
-          console.log("Something went wrong selecting this location", err);
+          // console.log("Something went wrong selecting this location", err);
           throw new Error("Something went wrong selecting this location", err);
         })
         .then(function(location){
-          console.log("Successfully selected location");
+          // console.log("Successfully selected location");
           return location;
         });
     });
@@ -135,7 +134,7 @@ module.exports.updateLocation = function(req){
           })
           .returning('hoursID')
   .catch(function(err){
-    console.log("Something went wrong updating these hours.", err);
+    // console.log("Something went wrong updating these hours.", err);
     throw new Error("Something went wrong updating these hours.", err);
   })
   .then(function(hours){
@@ -156,11 +155,11 @@ module.exports.updateLocation = function(req){
               })
               .returning('*')
       .catch(function(err){
-        console.log("Something went wrong updating this location", err);
+        // console.log("Something went wrong updating this location", err);
         throw new Error("Something went wrong updating this location", err);
       })
       .then(function(location){
-        console.log("Successfully updated location");
+        // console.log("Successfully updated location");
         return location;
       });
   });
@@ -176,11 +175,11 @@ module.exports.deleteLocation = function(req){
               .where('locationID', forLocationID)
               .del()
       .catch(function(err){
-        console.log("Something went wrong deleting this location");
+        // console.log("Something went wrong deleting this location");
         throw new Error("Something went wrong deleting this location");
       })
       .then(function(location){
-        console.log("Deleted location with ID ", location[0].locationID);
+        // console.log("Deleted location with ID ", location[0].locationID);
         return location;
       });
 
