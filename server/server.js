@@ -86,7 +86,7 @@ app.use(function(req, res) {
  });
 });
 
-routes.get('/api/test', function(req, res){
+routes.get('/api/signin', function(req, res){
   return res.status(200).send(['YAY']);
 });
 
@@ -116,7 +116,7 @@ routes.post('/api/signin', function(req, res){
   return users.signIn(req.body)
               .then(function(sessionId){
                 res.setHeader('Set-Cookie', 'sessionId=' + sessionId);
-                res.status(200).send({success: 'User signed in'});
+                res.status(201).send({success: 'User signed in'});
               })
               .catch(function(err){
                 res.status(400).send({error: 'Incorrect username or password', message: err.message});
