@@ -330,6 +330,7 @@ exports.findUserShelter = function(userId){
 
 // passes off to sessions at end
 exports.signIn = function(reqBody){
+  var user;
   //first find user by email
   console.log('inside signin ', reqBody);
   return this.findByUserEmail(reqBody)
@@ -348,15 +349,27 @@ exports.signIn = function(reqBody){
                 }
               })
               .then(function(user){
-                return bcrypt.compare(user.password, reqBody.user.password, null);
+              return new Promise(function(resolve, reject){
+                  bcrypt.compareAsync(reqBody.user.password, user.userPassword, function(err, res){
+                     if (err) {
+                      throw err;
+                     } else if (res === true) {
+                      console.log('heading to sessions');
+                      return resolve(sessions.createNewSession(user.userID));
+                     } else if (res === false) {
+                      console.log('password false');
+                      return reject('incorrect password');
+                     }
+                    });
+                });
+              })
+              .then(function(session){
+                console.log('returned from session ', session);
+                return session;
               })
               .catch(function(err){
-                //password does not match
-                return {error: 'Password incorrect'};
-              })
-              .then(function(){
-                //password correct
-                return sessions.createNewSession(user.userID, res);
+                console.log('there was an error ', err);
+                throw err;
               });
 };
 
