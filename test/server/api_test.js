@@ -13,7 +13,7 @@ var userRecs = require(__server + '/dbHelpers/users');
 
 
 
-describe('Sheltered API', function(){
+xdescribe('Sheltered API', function(){
   
   var app = TestHelper.createApp();
   app.use('/', routes);
