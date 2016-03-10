@@ -354,10 +354,8 @@ exports.signIn = function(reqBody){
                      if (err) {
                       throw err;
                      } else if (res === true) {
-                      console.log('heading to sessions');
                       return resolve(sessions.createNewSession(user.userID));
-                     } else if (res === false) {
-                      console.log('password false');
+                     } else {
                       return reject('incorrect password');
                      }
                     });
