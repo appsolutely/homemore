@@ -94,6 +94,7 @@ app.post('/api/signin', function(req, res){
                 res.status(201).send({success: 'User signed in'});
               })
               .catch(function(err){
+                console.log('error in signin ', err);
                 res.status(400).send({error: 'Incorrect username or password', message: err.message});
               });
 });
@@ -104,9 +105,10 @@ app.post('/api/signupAdmin', function(req, res){
   //organizations can't be made without an initial admin
   return users.addNewAdmin(req.body)
               .then(function(newAdmin){
-                res.status(201).send({success: 'New admin created', user: newAdmin});
+                res.status(201).send({success: 'New admin created', user: newAdmin[0].user});
               })
               .catch(function(err){
+                // console.log(err);
                 res.status(400).send({error: 'There was and error creating account, email probably already in use ' + err});
               });
 });
@@ -115,7 +117,8 @@ app.post('/api/signup', function(req, res){
   //sign up for public users
   return users.addNewPublic(req.body)
               .then(function(newPublic){
-                res.status(201).send({success: 'New Public user created', user: newPublic});
+                // console.log('response from newPublic ', newPublic);
+                res.status(201).send({success: 'New Public user created', user: newPublic[0]});
               })
               .catch(function(err){
                 res.status(400).send({error: 'There was an error creating accout, email probably already in use ' + err});

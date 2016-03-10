@@ -34,11 +34,15 @@ exports.addNewPublic = function(reqBody){
                               userEmail: user.email,
                               fk_userRole: userRoleId})
                      .into('users')
-                     .returning('*');
+                     .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);
         })
         .then(function(result){
           // console.log('result of new public user ', result);
           return result;
+        })
+        .catch(function(err){
+          // console.error('error in create public ', err);
+          throw 'Error in create new Public user ' + err;
         });
 };
 
@@ -70,7 +74,7 @@ exports.addNewAdmin = function(reqBody){
                               userEmail: user.email,
                               fk_userRole: userRoleId})
                      .into('users')
-                     .returning('*');
+                     .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);
         })
         .then(function(res){
           //saving that response to send back at the end
@@ -123,21 +127,21 @@ exports.addNewAdmin = function(reqBody){
 
 //shelter manager -- generates a random password for the user and on api level shoots off an email
 exports.addNewManager = function(reqBody){
-  console.log('INSIDE NEW MANAGER ', reqBody);
+  // console.log('INSIDE NEW MANAGER ', reqBody);
   var userRoleId;
   var user = reqBody.managerUser;
   var response = {};
   var userID;
   var genPass;
   var shelterName = {shelters: reqBody.shelters.shelterName};
-  console.log('shelter name passed in ', reqBody.shelters.shelterName);
+  // console.log('shelter name passed in ', reqBody.shelters.shelterName);
 
   return selectRole('Manager')
           .then(function(result){
             userRoleId = result[0].userRoleID;
             //generate a random password that we will email to the user in their confirmation email
             genPass = generatePassword();
-            console.log('generated password ', genPass);
+            // console.log('generated password ', genPass);
             return bcrypt.genSaltAsync(10);
           })
           .then(function(result) {
@@ -150,7 +154,7 @@ exports.addNewManager = function(reqBody){
                               userEmail: user.email,
                               fk_userRole: userRoleId})
                      .into('users')
-                     .returning('*');            
+                     .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);            
           })
           .then(function(result){
             response.user = result[0];
@@ -159,7 +163,7 @@ exports.addNewManager = function(reqBody){
             return shelterHelpers.selectShelter(shelterName);
           })
           .then(function(result){
-            console.log('returned from select ', result);
+            // console.log('returned from select ', result);
             if (result.length > 0){
               return result;
             } else {
@@ -167,12 +171,12 @@ exports.addNewManager = function(reqBody){
             }
           })
           .catch(function(err){
-            console.log('err message in catch ', err);
+            // console.log('err message in catch ', err);
               //if hit the catch probably need to create a new shelter
             return shelterHelpers.insertShelter(reqBody);
           })
           .then(function(result){
-            console.log('result from finding/creating shelter ', result);
+            // console.log('result from finding/creating shelter ', result);
             //either a brand new shelter or the found shelter
             var shelterID = result[0].shelterID;
             return knex.insert({fk_userID: userID,
@@ -184,7 +188,7 @@ exports.addNewManager = function(reqBody){
           .then(function(result){
             response.shelterID = result[0];
             response.genPass = genPass;
-            console.log('response right before returning new manager ', response);
+            // console.log('response right before returning new manager ', response);
             return [response];
           });
 };
@@ -211,7 +215,7 @@ exports.updateUser = function(reqBody, userId){
                 .where('userID', userId);
           })
           .then(function(result){
-            console.log('response from update password ', result);
+            // console.log('response from update password ', result);
             return result;
           })
           .catch(function(err){
@@ -224,7 +228,7 @@ exports.updateUser = function(reqBody, userId){
     console.log('newEmail ', mainEmail);
     return this.findByUserEmail(reqBody)
         .then(function(res){
-          console.log('checked if email is in use ', res);
+          // console.log('checked if email is in use ', res);
           if (res.length > 0) {
             throw new Error('Email is already in use');
           } else {
@@ -233,7 +237,7 @@ exports.updateUser = function(reqBody, userId){
                 .returning('*')
                 .where('userID', userId)
               .then(function(res){
-                console.log('result from newEmail ', res);
+                // console.log('result from newEmail ', res);
                 return res;
               });
           }
@@ -270,7 +274,7 @@ exports.findByUserID = function(userId){
       .from('users')
       .where('userID', userId)
       .then(function(result){
-        console.log('returned from select ', result);
+        // console.log('returned from select ', result);
         return result;
       });
 };
@@ -282,7 +286,7 @@ exports.findByUserEmail = function(email){
               .from('users')
               .where('userEmail', email.user.email)
               .then(function(result){
-                console.log('retured from select email ', result);
+                // console.log('retured from select email ', result);
                 return result;
               });
 };
@@ -290,7 +294,7 @@ exports.findByUserEmail = function(email){
 //will return only the userRoleName
 exports.findUserRole = function(userId){
   //first find the user
-  console.log('userId passed into userRole ', userId);
+  // console.log('userId passed into userRole ', userId);
   return this.findByUserID(userId)
       .then(function(res){
         return knex.select('*')
@@ -309,7 +313,7 @@ exports.findUserOrganization = function(userId){
             .where('fk_userID', userId)
             .rightOuterJoin('organizations', 'orgAdmins.fk_organizationID', 'organizations.organizationID')
             .then(function(res){
-              console.log('response from select organization ', res);
+              // console.log('response from select organization ', res);
               return res;
             });
 };
@@ -327,7 +331,8 @@ exports.findUserShelter = function(userId){
 // passes off to sessions at end
 exports.signIn = function(reqBody){
   //first find user by email
-  return this.findByUserEmail(reqBody.user.email)
+  console.log('inside signin ', reqBody);
+  return this.findByUserEmail(reqBody)
               .then(function(result){
                 if (result.length > 0){
                   return result[0];
@@ -355,6 +360,8 @@ exports.signIn = function(reqBody){
               });
 };
 
+
+//adds an existing manager to another shelter
 exports.addShelter = function(req){
   var reqBody = req.body;
   var userID = req.session.userID;
@@ -370,7 +377,7 @@ exports.addShelter = function(req){
             }
           })
           .catch(function(err){
-            console.error('Error in user.addShelter ', err);
+            // console.error('Error in user.addShelter ', err);
             return shelterHelpers.insertShelter(reqBody);
           })
           .then(function(result){
