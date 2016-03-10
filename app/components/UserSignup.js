@@ -1,31 +1,62 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 
 class UserSignup extends React.Component {
-  render() {
+  constructor(){
+    super();
+    this.state = {email: "", password: "", firstName: "", lastName: '', phone: ''}
+    this.update = this.update.bind(this);
+    //this.submitForm = this.submitForm(this.state);
+  }
+  update(e){
+    this.setState({
+      email: ReactDOM.findDOMNode(this.refs.email.refs.inp).value,
+      password: ReactDOM.findDOMNode(this.refs.password.refs.inp).value,
+      firstName: ReactDOM.findDOMNode(this.refs.firstName.refs.inp).value,
+      lastName: ReactDOM.findDOMNode(this.refs.lastName.refs.inp).value,
+      phone: ReactDOM.findDOMNode(this.refs.phone.refs.inp).value
+    })
+  }
+  submitForm(e){
+    console.log(" state", this.state)
+    e.preventDefault();
+  }
+  render(){
     return (
-      <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
-        <ul className="form-fields">
-          <h2>Account Details</h2>
+      <div className ="col-sm-6 col-sm-offset-3 text-center">
+        <form>
+        <h1>Email</h1>
+        <AccountInfo ref = 'email' update={this.update} />
 
-            <div>
-            <input type="text" ref="name" placeholder="Name"/>
-            </div>
-              <br />
-          <div>
-            <input type="password" ref="password" placeholder="Password"/>
-            </div>
-              <br />
-          <div>
-            <input type="email" ref="email" placeholder="email"/>
-          </div>
-          <br />
-          <div>
-            <button className="btn -primary" >Save &amp; Continue</button>
-          </div>
-        </ul>
+        <h1>Password</h1>
+        <AccountInfo ref = 'password' update={this.update} />
+
+        <h1>First Name</h1>
+        <AccountInfo ref = 'firstName' update={this.update} />
+
+        <h1>Last Name</h1>
+        <AccountInfo ref = 'lastName' update={this.update} />
+
+        <h1>Phone Number</h1>
+        <AccountInfo ref = 'phone' update={this.update} />
+
+        <br/>
+        <button onClick={this.submitForm.bind(this)}>click me</button>
+        </form>
       </div>
-    );
+  )
   }
 }
 
-export default UserSignup;
+class AccountInfo extends React.Component  {
+  render(){
+    return(
+      <div>
+        <input ref="inp" type = "text"
+          onChange={this.props.update} />
+      </div>)
+  }
+}
+
+
+export default UserSignup
