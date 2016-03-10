@@ -2,7 +2,7 @@
 exports.seed = function(knex, Promise) {
   return Promise.join(
     // Deletes ALL existing entries
-    knex('eligibilityOptions').del(), 
+    // knex('eligibilityOptions').del(), 
 
     // Inserts seed entries
     knex('eligibilityOptions').insert({eligibilityOption: '', 'eligibilityOptionDescription': '', }),
