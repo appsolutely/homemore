@@ -27,7 +27,8 @@ build/Release
 node_modules
 bower_components
 client/js/
-public/*
+*.vendor.js
+*.sheltered.css
 public/css/sheltered.css
 
 

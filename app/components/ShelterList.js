@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import ShelterStore from '../stores/ShelterStore';
 import ShelterActions from '../actions/ShelterActions';
-
+import ShelterProfile from './ShelterProfile';
 
 // extends React.Component no longer binds this like React.createClass, need to do it explicitly
 class Shelter extends React.Component {
@@ -30,7 +30,7 @@ class Shelter extends React.Component {
     const shelters = this.state.shelters.map((shelter) => {
       return (
         <div key={shelter.shelterName} className="shelterCard">
-            <p className="shelterCard">{shelter.shelterName}</p>
+            <p>{shelter.shelterName}</p>
         </div>
       );
     });
