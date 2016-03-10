@@ -3,7 +3,7 @@
 }
 
 
-.home{
+/*.home{
     background-color: green;
     height: 800px;
     width: 1200px;
@@ -13,4 +13,8 @@
     background-color: pink;
     height: 800px;
     width: 1200px;
+}*/
+
+.shelterCard{
+	background-color:#cc5500;
 }

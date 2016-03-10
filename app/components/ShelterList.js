@@ -25,20 +25,20 @@ class Shelter extends React.Component {
   onChange(state) {
     this.setState(state);
   }
-
+// shelterProfile is going to be a separate ajax call, utilizing params.id
   render() {
     const shelters = this.state.shelters.map((shelter) => {
       return (
-        <li key={shelter}>
-          <p>I am a shelter</p>
-        </li>
+        <div key={shelter.shelterName} className="shelterCard">
+            <p className="shelterCard">{shelter.shelterName}</p>
+        </div>
       );
     });
 
 
     return (
       <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
-        <p>I am a shelter</p>
+        <p>List of Shelters</p>
         <ul>
           {shelters}
         </ul>
