@@ -103,12 +103,12 @@ xdescribe('users DB calls', function(){
 
   it('should allow users to update passwords', function(){
     var adminUserId, oldPass;
-    var newPass = {user: {password: 'newlongstring'}};
+    var newPass = {body: {user: {password: 'newlongstring'}}, session: {}};
     return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
-                      adminUserId = resp[0].user.userID;
+                      newPass.session.fk_userID = resp[0].user.userID;
                       oldPass = resp[0].user.userPassword;
-                      return userRecs.updateUser(newPass, adminUserId);
+                      return userRecs.updateUser(newPass);
                     })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -118,11 +118,11 @@ xdescribe('users DB calls', function(){
 
   it('should allow users to update email', function(){
     var adminUserId;
-    var newEmail = {user: {email: 'jane2@email.com'}};
+    var newEmail = {body: {user: {email: 'jane2@email.com'}}, session: {}};
         return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
-                      adminUserId = resp[0].user.userID;
-                      return userRecs.updateUser(newEmail, adminUserId);
+                      newEmail.session.fk_userID = resp[0].user.userID;
+                      return userRecs.updateUser(newEmail);
                     })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -133,11 +133,11 @@ xdescribe('users DB calls', function(){
 
   it('should allow users to update firstname', function(){
     var adminUserId;
-    var newfirst = {user: {firstName: 'Jill'}};
+    var newfirst = {body: {user: {firstName: 'Jill'}}, session: {}};
     return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
-                      adminUserId = resp[0].user.userID;
-                      return userRecs.updateUser(newfirst, adminUserId);
+                      newfirst.session.fk_userID = resp[0].user.userID;
+                      return userRecs.updateUser(newfirst);
                     })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
@@ -148,11 +148,11 @@ xdescribe('users DB calls', function(){
 
   it('should allow users to update lastname', function(){
     var adminUserId;
-    var newlast = {user: {lastName: 'Hill'}};
+    var newlast = {body: {user: {lastName: 'Hill'}}, session: {}};
     return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
-                      adminUserId = resp[0].user.userID;
-                      return userRecs.updateUser(newlast, adminUserId);
+                      newlast.session.fk_userID = resp[0].user.userID;
+                      return userRecs.updateUser(newlast);
                     })
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);

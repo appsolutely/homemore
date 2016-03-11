@@ -194,7 +194,10 @@ exports.addNewManager = function(reqBody){
 };
 
 //requires -- req.body and req.session.userID
-exports.updateUser = function(reqBody, userId){
+exports.updateUser = function(req){
+  console.log('passed in req ', req);
+  var reqBody = req.body;
+  var userId = req.session.fk_userID;
   var password = reqBody.user.password || '';
   var firstname = reqBody.user.firstName || '';
   var lastname = reqBody.user.lastName || '';
@@ -294,14 +297,16 @@ exports.findByUserEmail = function(email){
 //will return only the userRoleName
 exports.findUserRole = function(userId){
   //first find the user
-  // console.log('userId passed into userRole ', userId);
+  console.log('userId passed into findUserRole ', userId);
   return this.findByUserID(userId)
       .then(function(res){
+        console.log('inside findUsersRole ', res);
         return knex.select('*')
                    .from('userRoles')
                    .where('userRoleID', res[0].fk_userRole);
       })
       .then(function(res){
+        console.log('found role ', res);
         return res[0].userRoleName;
       });
 };
@@ -354,10 +359,8 @@ exports.signIn = function(reqBody){
                      if (err) {
                       throw err;
                      } else if (res === true) {
-                      console.log('heading to sessions');
                       return resolve(sessions.createNewSession(user.userID));
-                     } else if (res === false) {
-                      console.log('password false');
+                     } else {
                       return reject('incorrect password');
                      }
                     });
