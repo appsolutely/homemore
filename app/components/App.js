@@ -14,6 +14,7 @@ class App extends React.Component {
   }
 }
 
+// fix for proptype validation in linter
 App.propTypes = {
   children: React.PropTypes.node,
 };

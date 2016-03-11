@@ -27,6 +27,7 @@ class ShelterProfile extends React.Component {
   }
 }
 
+// fixes
 ShelterProfile.propTypes = {
   params: React.PropTypes.object,
 };
