@@ -36,27 +36,36 @@ app.use(cookieParser());
 
 //if there is a cookie find the userID associated with it
 app.use(function (req, res, next) {
+  var session;
+  console.log('inside cookie middleware', req.cookies);
   if (req.cookies.sessionId) {
+    console.log('inside');
     return sessions.findSession(req.cookies.sessionId)
-        .then(function(session) {
-          req.session = session;
-          return users.findUserRole(session.userID);
+        .then(function(resp) {
+          session = resp;
+          console.log('found session ', session[0]);
+          req.session = session[0];
+          return users.findUserRole(session[0].fk_userID);
         })
         .then(function(role){
           req.session.permissionLevel = role;
           if (role === 'Admin') {
-            return user.findUserOrganization(session.userID)
+            return users.findUserOrganization(req.session.fk_userID)
                         .then(function(result){
                           req.session.permissionOrg = result[0].organizationName;
+                          console.log('permission set ', req.session);
                           next();
                         });
           } else if (role === 'Manager') {
-            return user.findUserShelter(session.userID)
+            return users.findUserShelter(req.session.fk_userID)
                         .then(function(result){
                           req.session.permissionShelter = result[0].shelterName;
+                          console.log('permission set ', req.session);
+                          next();
                         });
           } else {
             //they are a public user
+            console.log('public');
             next();
           }
         });
@@ -90,6 +99,7 @@ app.post('/api/signin', function(req, res){
   //path is the same for all types of users
   return users.signIn(req.body)
               .then(function(sessionId){
+                console.log('session ', sessionId);
                 res.setHeader('Set-Cookie', 'sessionId=' + sessionId);
                 res.status(201).send({success: 'User signed in'});
               })
@@ -129,10 +139,12 @@ app.post('/api/createManager', function(req, res){
   //path for both creating a new manager for an existing shelter
   //and for creating a new shelter + manager(shelters cannot be made on their own)
   //we generate a password for this user so we need to work out a way to send them a confirmaton email
+  console.log('inside createmanager ', req.body);
   if (req.session){
-    if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName){
+    if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
       return users.addNewManager(req.body)
               .then(function(newManager){
+                console.log('newManager', newManager);
                 //path for now -- add sending email here or on front end?
                 res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email will be sent to confirm account creation'});
               })
@@ -150,7 +162,7 @@ app.post('/api/createManager', function(req, res){
 app.post('/api/addShelterManager', function(req, res){
   //path to add an existing manager as manager of another shelter
   if (req.session) {
-    if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName){
+    if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
         users.addShelter(req)
             .then(function(updated){
               res.status(201).send(updated);
@@ -170,7 +182,7 @@ app.post('/api/updateOrganization', function(req, res){
   //it should check whether the user has permission to access this route or not
   //updateOrganization only actually updates the organizations name as of right now
   if (req.session) {
-    if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName){
+    if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
       return organizations.updateOrganization(req.body)
             .then(function(updates){
               res.status(201).send(updates);
@@ -190,8 +202,8 @@ app.post('/api/updateShelter', function(req, res){
   //should check whether user has permission
   //can update all rows of information about a shelter eg. name, contact info, etc
   if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
         return shelters.updateShelter(req.body)
                 .then(function(updates){
                   res.statu(201).send(updates);
@@ -211,8 +223,8 @@ app.post('/api/addOccupant', function(req, res){
   //should check whether user has permission
   //adds occupants to particular units
   if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.insertShelterOccupancy(req.body)
             .then(function(occupant){
               res.status(201).send(occupant);
@@ -232,8 +244,8 @@ app.post('/api/removeOccupant', function(req, res){
   //check permission
   //removes occupant from a particular unit
   if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.deleteShelterOccupancy(req.body)
               .then(function(deleted){
                 res.status(201).send(deleted);
@@ -253,8 +265,8 @@ app.post('/api/updateOccupant', function(req, res){
   //check permission
   //essentially just for updating the name of a occupant(misspelling or something)
   if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.updateShelterOccupancy(req.body)
             .then(function(updated){
               res.status(201).send(updated);
@@ -272,8 +284,8 @@ app.post('/api/updateOccupant', function(req, res){
 
 app.post('/api/updateOccupantUnit', function(req, res){
   if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.updateOccupancyUnit(req.body)
             .then(function(updated){
               res.status(201).send(updated);
@@ -293,8 +305,8 @@ app.post('/api/addShelterUnit', function(req, res){
   //as with the others check whether user has permission
   //updates the number of beds that the shelter actually has total
   if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.insertShelterUnit(req.body)
             .then(function(unit){
               res.status(201).send(unit);
@@ -314,8 +326,8 @@ app.post('/api/updateEligibility', function(req, res){
   //check permission
   //updates a shelters eligibility rules
   if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
     return shelters.insertShelterEligibility(req.body)
             .then(function(eligibility){
               res.status(201).send(eligibility);
@@ -336,8 +348,8 @@ app.post('/api/deleteEligibility', function(req, res){
   //as it says on the tin
   //should return the rule that way deleted
   if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.organizations.orgName) || 
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.shelters.shelterName)){
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) || 
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
     return shelters.deleteShelterEligibility(req.body)
               .then(function(deleted){
                 res.status(201).send(deleted);
@@ -358,7 +370,8 @@ app.get('/api/fetchUser', function(req, res){
   //will only return info about the user that is logged in
   //this is all the info for the profile page -- not any shelter or related info
   if (req.session) {
-    return users.findByUserID(req.session.userID)
+    console.log('inside fetchUser ', req.session.fk_userID);
+    return users.findByUserID(req.session.fk_userID)
           .then(function(user){
             res.status(200).send(user);
           });
@@ -373,7 +386,7 @@ app.post('/api/updateUser', function(req, res){
   //(all of those functions work so feel free to test only one)
   //it will return the updated field
   if (req.session) {
-    users.updateUser(req.body)
+    users.updateUser(req)
           .then(function(changes){
             res.status(201).send(changes);
           })
