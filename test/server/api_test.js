@@ -290,8 +290,6 @@ describe('Sheltered API', function(){
 
   });
 
-  // it('should allow admins to ')
-
   after(function(){
     return db.deleteEverything();
   });      
