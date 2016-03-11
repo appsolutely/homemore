@@ -37,13 +37,11 @@ app.use(cookieParser());
 //if there is a cookie find the userID associated with it
 app.use(function (req, res, next) {
   var session;
-  console.log('inside cookie middleware', req.cookies);
   if (req.cookies.sessionId) {
     console.log('inside');
     return sessions.findSession(req.cookies.sessionId)
         .then(function(resp) {
           session = resp;
-          console.log('found session ', session[0]);
           req.session = session[0];
           return users.findUserRole(session[0].fk_userID);
         })
@@ -53,14 +51,12 @@ app.use(function (req, res, next) {
             return users.findUserOrganization(req.session.fk_userID)
                         .then(function(result){
                           req.session.permissionOrg = result[0].organizationName;
-                          console.log('permission set ', req.session);
                           next();
                         });
           } else if (role === 'Manager') {
             return users.findUserShelter(req.session.fk_userID)
                         .then(function(result){
                           req.session.permissionShelter = result[0].shelterName;
-                          console.log('permission set ', req.session);
                           next();
                         });
           } else {
@@ -85,13 +81,12 @@ app.use(function (req, res, next) {
 
 app.get('/api/austin/shelters', function(req, res){
   //testing route - defining var
-  var shelters = [{shelterName: 'ARCH', shelterDaytimePhone: '867-5309', locationStreet: '2001 Guadalupe', locationCity: 'Austin', locationState: 'TX' }, {shelterName: 'BETTY', shelterDaytimePhone: '470-3226', locationStreet: '805 Comal', locationCity: 'Austin', locationState: 'TX' } ]
-  return res.status(200).send(shelters);
+  // var shelters = [{shelterName: 'ARCH', shelterDaytimePhone: '867-5309', locationStreet: '2001 Guadalupe', locationCity: 'Austin', locationState: 'TX' }, {shelterName: 'BETTY', shelterDaytimePhone: '470-3226', locationStreet: '805 Comal', locationCity: 'Austin', locationState: 'TX' } ]
+  // return res.status(200).send(shelters);
   //end of testing var
   //returns all shelters and associated data with no filtering
   return shelters.selectAllShelters()
         .then(function(shelters){
-          console.log('returning shelters ', shelters);
           return res.status(200).send(shelters);
         })
         .catch(function(err){
@@ -129,14 +124,11 @@ app.post('/api/signupAdmin', function(req, res){
 
 app.post('/api/signup', function(req, res){
   //sign up for public users
-  console.log("HI!", req)
   return users.addNewPublic(req.body)
               .then(function(newPublic){
-                console.log('response from newPublic ', newPublic);
                 res.status(201).send({success: 'New Public user created', user: newPublic[0]});
               })
               .catch(function(err){
-                console.log(err)
                 res.status(400).send({error: 'There was an error creating accout, email probably already in use ' + err});
               });
 });

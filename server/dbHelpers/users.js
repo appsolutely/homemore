@@ -195,7 +195,6 @@ exports.addNewManager = function(reqBody){
 
 //requires -- req.body and req.session.userID
 exports.updateUser = function(req){
-  console.log('passed in req ', req);
   var reqBody = req.body;
   var userId = req.session.fk_userID;
   var password = reqBody.user.password || '';
