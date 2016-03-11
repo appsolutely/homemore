@@ -87,7 +87,6 @@ app.get('/api/austin/shelters', function(req, res){
   //returns all shelters and associated data with no filtering
   return shelters.selectAllShelters()
         .then(function(shelters){
-          console.log('returning shelters ', shelters);
           return res.status(200).send(shelters);
         })
         .catch(function(err){
