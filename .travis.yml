@@ -1,13 +1,24 @@
 language: node_js
 sudo: false
 node_js:
-  - "5.6"
-services: 
-  - postgresql
+- '5.6'
+services:
+- postgresql
 before_script:
-  - npm install -g gulp
-  - npm install -g knex
-  - psql -c 'create database sheltered_test;' -U postgres
-  - npm run migrate
-script: 
-  - npm test
+- npm install -g gulp
+- npm install -g knex
+- psql -c 'create database sheltered_test;' -U postgres
+- npm run migrate
+script:
+- npm test
+deploy:
+  provider: heroku
+  api_key:
+    secure: oW0GPZPygMjclVVNKeYHgrfMJizi/70ZVLEF5wutgL3PpZxiEdjWGfJ1xtRTtlned3PfV9AdUhWhAeSZmSErZZYtdbeDOIFVsgZKwvGLqTdq2V4X5WgqRFiPEaJGyo2mDgjhmS91hjm5xJOhfC+kwsLjcR4Mv5spC0KKah7b2WW42TI7pYWEkDd0U/e+Hkto2ses/6pu1FZRTuhhf8EdKLNtph1Zx1QsCGUp/rfdgaqWrkKosSonsa8eVR/4qpx0JWmA8gENMHJSd5W7iTldTL+vpZ+bLnQCPXBOksR/w3n9VzZgc+wZz3bw1gTWrfzmAXA+DrUd/NGIXQ+gzijln/dGNZcvLlNjZ8X1tigmTEshb8I2B8qKpSfJycwEeyWuk8EPq0gwlxCmyIAkF4JXtU4I8jdYJtAHqgx/MbZMYTNvv0Wks5ps50mFQGKMSi5RZhDMzrD+qu5oGlMGaoMqC1jkJihTpuuEYNKzXGOcbyn0MeJCs3kQyQ4pWFXCilD3V3g3WnNpSrghETN2GwoE/Rxk9Xld1EyJP0U79drKoRY8I4sPHFF6u11FLVGDdk1ZQRaulZM/5sOoiLm5x+rRocED14Dji9WzmYbqcqdv5x6WlHzLptyoeK1CZO37vvj4p3ZVRjspJB2h+ST6WXroY8XwVsh4Ty+8+RQH7loyagc=
+  on: master
+  run: npm
+  strategy: git
+  before_deploy:
+    - "echo 'pushing to heroku!'"
+  after_deploy: npm seed 
+
