@@ -370,7 +370,8 @@ app.get('/api/fetchUser', function(req, res){
   //will only return info about the user that is logged in
   //this is all the info for the profile page -- not any shelter or related info
   if (req.session) {
-    return users.findByUserID(req.session.userID)
+    console.log('inside fetchUser ', req.session.fk_userID);
+    return users.findByUserID(req.session.fk_userID)
           .then(function(user){
             res.status(200).send(user);
           });
@@ -385,7 +386,7 @@ app.post('/api/updateUser', function(req, res){
   //(all of those functions work so feel free to test only one)
   //it will return the updated field
   if (req.session) {
-    users.updateUser(req.body)
+    users.updateUser(req)
           .then(function(changes){
             res.status(201).send(changes);
           })

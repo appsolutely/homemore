@@ -53,7 +53,7 @@ describe('Sheltered API', function(){
       });
   });
 
-    xdescribe('Examining api/austin/shelters', function(){
+    describe('Examining api/austin/shelters', function(){
       beforeEach(function(){
         return orgRecs.insertOrganization(org)
         .then(function(){
@@ -76,7 +76,7 @@ describe('Sheltered API', function(){
     });
 
 
-    xdescribe('Examining api/signUpAdmin', function(){
+    describe('Examining api/signUpAdmin', function(){
       
       it('should sign up a newAdmin', function(){
         return request(app)
@@ -107,7 +107,7 @@ describe('Sheltered API', function(){
 
     }); 
 
-    xdescribe('Examining api/signup', function(){     
+    describe('Examining api/signup', function(){     
          
       it('should sign up a public user', function(){
         return request(app)
@@ -137,7 +137,7 @@ describe('Sheltered API', function(){
        });
     });  
 
-    xdescribe('Examining api/signin', function(){
+    describe('Examining api/signin', function(){
 
       beforeEach(function(){
         return userRecs.addNewPublic(publicUser)
@@ -246,73 +246,51 @@ describe('Sheltered API', function(){
       });
     });
 
+  describe('Examine updating and fetching logged in users', function(){
+    var cookie;
+    beforeEach(function(){
+      return userRecs.addNewAdmin(newAdmin)
+        .then(function(){
+          return request(app)
+              .post('/api/signin')
+              .send(signInAdmin)
+              .then(function(resp){
+                cookie = resp.headers['set-cookie'][0];
+              });
+        });
+    });
 
-    // describe('Examining api/austin/addShelterManager', function(){
-    //       // beforeEach(function() {
-    //       //   return knex.deleteEverything();
-    //       // });
+    it('should allow users to fetch their own data', function(){
+      return request(app)
+              .get('/api/fetchUser')
+              .set('Cookie', cookie)
+              .send()
+              .expect(200)
+              .expect(function(resp){
+                var user = resp.body;
+                expect(user).to.be.an.instanceOf(Array);
+                expect(user).to.have.length(1);
+                expect(user[0].userFirstName).to.equal('Jane');
+              });
+    });
 
-    //       it('exists',function(){
-    //           return request(app)
-    //             .get('/api/austin/addShelterManager')
-    //             .expect(200)
-    //       })
+    it('should allow users to update their own data', function(){
+      var newPass = {user: {password: 'newlongstring'}};
+      return request(app)
+              .post('/api/updateUser')
+              .set('Cookie', cookie)
+              .send(newPass)
+              .expect(201)
+              .expect(function(resp){
+                var user = resp.body;
+                expect(user).to.be.an.instanceOf(Array);
+                expect(user).to.have.length(1);
+              });
+    });
 
-    //       it('accepts a post request', function(){
-    //         return request(app)
-    //         .post('/api/addShelterManager')
-    //         .send({ username: 'MachoMan', password: 'creamalwaysrises' })
-    //         .expect(201)
-    //         .expect('Location', '/')
-    //       })
+  });
 
-    //       it('Redirects on a taken username', function(){
-    //         return request(app)
-    //         .post('/api/addShelterManager')
-    //         .send({ username: 'MachoMan', password: 'creamalwaysrises' })
-    //         .expect(302)
-    //         .expect('Location', '/')
-    //         .then(function(res){
-    //           return request(app)
-    //           .post('/api/addShelterManager')
-    //           .send({ username: 'MachoMan', password: 'creamalwaysrises' })
-    //           .expect(302)
-    //           .expect('Location', '/sign-up')
-    //         })
-    //       })
-    // }); 
-
-    // describe('Examining api/austin/createManager', function(){
-
-    //       it('exists',function(){
-    //           return request(app)
-    //             .get('/api/austin/createManager')
-    //             .expect(200)
-    //       })
-
-    //       it('creates a manager record and redirects to shelter admin page', function(){
-    //         return request(app)
-    //         .post('/api/createManager')
-    //         .send({ username: 'MachoMan', password: 'creamalwaysrises' })
-    //         .expect(302)
-    //         .expect('Location', '/updateShelter')
-    //       })
-
-    //       it('Redirects on a taken username', function(){
-    //         return request(app)
-    //         .post('/api/createManager')
-    //         .send({ username: 'MachoMan', password: 'creamalwaysrises' })
-    //         .expect(302)
-    //         .expect('Location', '/updateShelter')
-    //         .then(function(res){
-    //           return request(app)
-    //           .post('/api/createManager')
-    //           .send({ username: 'MachoMan', password: 'creamalwaysrises' })
-    //           .expect(302)
-    //           .expect('Location', '/sign-up')
-    //         })
-    //       })
-    // }) 
+  // it('should allow admins to ')
 
   after(function(){
     return db.deleteEverything();
