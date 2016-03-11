@@ -12,8 +12,6 @@ var generatePassword = require('password-generator');
 //check that no one else has been registered with the email before being passed here
 exports.addNewPublic = function(reqBody){
   console.log('in user ', reqBody);
-  var thing = {adminUser: {first: 'signsd'}};
-  console.log(thing);
   var userRoleId;
   var userID;
   var user = reqBody.pubUser;
@@ -21,7 +19,7 @@ exports.addNewPublic = function(reqBody){
   //hash password
   return selectRole('Registered')  
         .then(function(result){
-          // console.log('result after selectRole ', result);
+          console.log('result after selectRole ', result);
           userRoleId = result[0].userRoleID;
           return;
         })

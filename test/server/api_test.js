@@ -41,7 +41,7 @@ describe('Sheltered API', function(){
   beforeEach(function() {
     return db.deleteEverything()
       .then(function(){
-        return knex.insert([{userRoleName: 'Public', userRoleDescription: 'a public user'}, 
+        return knex.insert([{userRoleName: 'Registered', userRoleDescription: 'a public user'}, 
                             {userRoleName: 'Admin', userRoleDescription: 'an admin user'},
                             {userRoleName: 'Manager', userRoleDescription: 'a shelter manager user'}])
                     .into('userRoles');
