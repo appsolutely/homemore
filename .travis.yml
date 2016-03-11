@@ -11,7 +11,6 @@ before_script:
 - npm run migrate
 script:
 - npm test
-- gulp
 deploy:
   provider: heroku
   api_key:
