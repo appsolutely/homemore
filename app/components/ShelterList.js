@@ -43,9 +43,9 @@ class Shelter extends React.Component {
 
 
     return (
-      <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
+      <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center defaultShelter">
         <p>List of Shelters</p>
-        <ul>
+        <ul className="shelterList">
           {shelters}
         </ul>
       </div>
