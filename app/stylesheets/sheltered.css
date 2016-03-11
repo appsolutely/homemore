@@ -21,9 +21,13 @@
 }
 
 .shelterCard{
-	background-color:#cc5500;
+	background-color:light-grey;
 }
 
+.shelterCard p{
+	color: blue;
+	background-color: black;
+}
 .shelterProfile{
 	background-color: snow;
 	height: 100%;
@@ -34,5 +38,5 @@
 }
 
 .defaultShelter{
-	height: 500px;
+	height: auto;
 }

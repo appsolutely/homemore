@@ -23,6 +23,8 @@ class ShelterProfile extends React.Component {
 			<div className="shelterProfile">
 				<h3>{theShelter.shelterName}</h3>
 				<h4>{theShelter.shelterDaytimePhone}</h4>
+        <h4>{theShelter.shelterEmail}</h4>
+        <h4>{theShelter.locationStreet}</h4>
 			</div>
 		</div>
 	);
