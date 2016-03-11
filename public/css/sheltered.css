@@ -3,7 +3,7 @@
 }
 
 
-.home{
+/*.home{
     background-color: green;
     height: 800px;
     width: 1200px;
@@ -13,4 +13,26 @@
     background-color: pink;
     height: 800px;
     width: 1200px;
+}*/
+
+.appContainer{
+	margin: 0 auto;
+	height: 1200px;
+}
+
+.shelterCard{
+	background-color:#cc5500;
+}
+
+.shelterProfile{
+	background-color: snow;
+	height: 100%;
+}
+
+.shelterList{
+	padding: 0px;
+}
+
+.defaultShelter{
+	height: 500px;
 }
