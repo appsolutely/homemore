@@ -1,5 +1,7 @@
 # Sheltered
 
+[![Build Status](https://travis-ci.org/appsolutely/sheltered.svg?branch=dev)](https://travis-ci.org/appsolutely/sheltered)
+
 ## Team
 - __Product Owner__ - Carly Levy
 - __Scrum Master__ - Julia Brown
