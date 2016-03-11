@@ -9,7 +9,7 @@ class ShelterStore {
 
   onGetSheltersSuccess(data) {
     this.shelters = data;
-    console.log(this.shelters);
+    console.log('I am the shelters', this.shelters);
   }
 
   onGetSheltersFail(jqXhr) {

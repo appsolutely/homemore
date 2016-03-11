@@ -12,7 +12,7 @@ export default (
   <Route component={App}>
     <Route path="/" component={Home} />
     <Route path="/shelter" component={ShelterList} />
-    <Route path="/shelterprofile" component={ShelterProfile} />
+    <Route path="/shelterprofile/:id" component={ShelterProfile} />
     <Route path="/signup" component={Signup} />
     <Route path="/user-signup" component={UserSignup} />
     <Route path="/admin-signup" component={AdminSignup} />
