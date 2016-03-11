@@ -5,9 +5,13 @@ import { Link } from 'react-router';
 class UserSignup extends React.Component {
   constructor(){
     super();
-    this.state = {email: "", password: "", firstName: "", lastName: '', phone: ''}
+    this.state = {email: "adsf", password: "adf", firstName: "adsf", lastName: 'adsf', phone: 'adsf'}
     this.update = this.update.bind(this);
     //this.submitForm = this.submitForm(this.state);
+  }
+  post(data){
+
+    $.post("/api/signup",data).done(function(res){console.log("tacos!",res)});
   }
   update(e){
     this.setState({
@@ -23,6 +27,7 @@ class UserSignup extends React.Component {
   let userInfo = {pubUser: {firstName: this.state.firstName, lastName: this.state.lastName,
       password: this.state.password, email: this.state.email, phone: this.state.phone}};
     console.log("User info submit", userInfo)
+    this.post(userInfo);
   }
   render(){
     return (

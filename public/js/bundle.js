@@ -606,7 +606,7 @@ var Signup = function (_React$Component) {
             _react2.default.createElement(
               'button',
               { type: 'submit' },
-              'Hobo'
+              'Urban Camper'
             )
           )
         )
@@ -654,13 +654,21 @@ var UserSignup = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserSignup).call(this));
 
-    _this.state = { email: "", password: "", firstName: "", lastName: '', phone: '' };
+    _this.state = { email: "adsf", password: "adf", firstName: "adsf", lastName: 'adsf', phone: 'adsf' };
     _this.update = _this.update.bind(_this);
     //this.submitForm = this.submitForm(this.state);
     return _this;
   }
 
   _createClass(UserSignup, [{
+    key: 'post',
+    value: function post(data) {
+
+      $.post("/api/signup", data).done(function (res) {
+        console.log("tacos!", res);
+      });
+    }
+  }, {
     key: 'update',
     value: function update(e) {
       this.setState({
@@ -678,6 +686,7 @@ var UserSignup = function (_React$Component) {
       var userInfo = { pubUser: { firstName: this.state.firstName, lastName: this.state.lastName,
           password: this.state.password, email: this.state.email, phone: this.state.phone } };
       console.log("User info submit", userInfo);
+      this.post(userInfo);
     }
   }, {
     key: 'render',
