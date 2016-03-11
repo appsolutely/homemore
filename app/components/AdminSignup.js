@@ -20,9 +20,26 @@ class AdminSignup extends React.Component {
   }
   submitForm(e){
     e.preventDefault();
-  let userInfo = {adminUser: {firstName: this.state.firstName, lastName: this.state.lastName,
+  let adminInfo = {adminUser: {firstName: this.state.firstName, lastName: this.state.lastName,
       password: this.state.password, email: this.state.email, phone: this.state.phone}, organizations:{ orgName: this.state.orgName}};
     console.log("User info submit", userInfo)
+    this.post(adminInfo)
+  }
+
+  post(data){
+    console.log('data ', data);
+
+    $.ajax({
+      type: 'POST',
+      url: '/api/signupAdmin',
+      data: data,
+      success: function(data){
+        console.log('success ', data);
+      },
+      fail: function(err){
+        console.log('err', err);
+      }
+    });
   }
   render(){
     return (
