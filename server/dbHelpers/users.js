@@ -11,11 +11,15 @@ var generatePassword = require('password-generator');
 
 //check that no one else has been registered with the email before being passed here
 exports.addNewPublic = function(reqBody){
+  console.log('in user ', reqBody);
+  var thing = {adminUser: {first: 'signsd'}};
+  console.log(thing);
   var userRoleId;
   var userID;
   var user = reqBody.pubUser;
+  console.log('user', user);
   //hash password
-  return selectRole('Public')  
+  return selectRole('Registered')  
         .then(function(result){
           // console.log('result after selectRole ', result);
           userRoleId = result[0].userRoleID;
@@ -52,7 +56,7 @@ exports.addNewAdmin = function(reqBody){
   var user = reqBody.adminUser;
   var response = {};
   var userID;
-
+  console.log('user ', user);
   //find userRoleID
   return selectRole('Admin')  
         .then(function(result){
