@@ -26,7 +26,7 @@ require('./../db/db');
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(favicon(path.join(__dirname, 'client', 'favicon.png')));
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -96,7 +96,7 @@ app.get('/api/austin/shelters', function(req, res){
 
 app.post('/api/signin', function(req, res){
   //path is the same for all types of users
-  return users.signIn(req.body)
+  return users.signIn(newUser)
               .then(function(sessionId){
                 console.log('session ', sessionId);
                 res.setHeader('Set-Cookie', 'sessionId=' + sessionId);
@@ -124,6 +124,7 @@ app.post('/api/signupAdmin', function(req, res){
 
 app.post('/api/signup', function(req, res){
   //sign up for public users
+  console.log('in signup ', req.body)
   return users.addNewPublic(req.body)
               .then(function(newPublic){
                 res.status(201).send({success: 'New Public user created', user: newPublic[0]});
