@@ -13,6 +13,7 @@
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
+    1. [Linting](#linting)
     1. [Starting Database](#initializing-database)
     1. [Tests](#tests)
 1. [Team](#team)
