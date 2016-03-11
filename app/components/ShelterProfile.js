@@ -15,10 +15,6 @@ class ShelterProfile extends React.Component {
 
   render() {
     const theShelter = this.state.shelters.filter((shelter) => {
-      console.log('inside of theShelter', shelter.shelterName);
-      if(shelter.shelterName === this.props.params.id){
-      	console.log('found one!!!!')
-      }
       return shelter.shelterName === this.props.params.id;
     })[0];
      // console.log('var should be ', theShelter)
@@ -29,8 +25,11 @@ class ShelterProfile extends React.Component {
 		</div>
 	);
   }
-
 }
+
+ShelterProfile.propTypes = {
+  params: React.PropTypes.object,
+};
 
 export default ShelterProfile;
 
