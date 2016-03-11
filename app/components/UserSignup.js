@@ -9,6 +9,9 @@ class UserSignup extends React.Component {
     this.update = this.update.bind(this);
     //this.submitForm = this.submitForm(this.state);
   }
+  post(data){
+    $.post("/api/signup",data);
+  }
   update(e){
     this.setState({
       email: ReactDOM.findDOMNode(this.refs.email.refs.inp).value,
@@ -23,6 +26,7 @@ class UserSignup extends React.Component {
   let userInfo = {pubUser: {firstName: this.state.firstName, lastName: this.state.lastName,
       password: this.state.password, email: this.state.email, phone: this.state.phone}};
     console.log("User info submit", userInfo)
+    this.post(userInfo);
   }
   render(){
     return (

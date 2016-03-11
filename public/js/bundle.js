@@ -606,7 +606,7 @@ var Signup = function (_React$Component) {
             _react2.default.createElement(
               'button',
               { type: 'submit' },
-              'Hobo'
+              'Urban Camper'
             )
           )
         )
@@ -661,6 +661,11 @@ var UserSignup = function (_React$Component) {
   }
 
   _createClass(UserSignup, [{
+    key: 'post',
+    value: function post(data) {
+      $.post("/api/signup", data);
+    }
+  }, {
     key: 'update',
     value: function update(e) {
       this.setState({
@@ -678,6 +683,7 @@ var UserSignup = function (_React$Component) {
       var userInfo = { pubUser: { firstName: this.state.firstName, lastName: this.state.lastName,
           password: this.state.password, email: this.state.email, phone: this.state.phone } };
       console.log("User info submit", userInfo);
+      this.post(userInfo);
     }
   }, {
     key: 'render',

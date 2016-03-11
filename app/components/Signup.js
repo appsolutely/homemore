@@ -16,7 +16,7 @@ class Signup extends React.Component {
           <div className="Hobo">
             <Link to="/user-signup">
             <button type="submit" >
-              Hobo
+              Urban Camper
             </button>
             </Link>
           </div>
