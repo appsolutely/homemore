@@ -1,6 +1,8 @@
 
 
 exports.seed = function(knex, Promise) {
+
+var org1, org2, org3;
   return Promise.join(
 
     // Deletes ALL existing entries
@@ -10,22 +12,23 @@ exports.seed = function(knex, Promise) {
 
 //seeds insert order:
       // --eligibilityOptions
-      knex('eligibilityOptions')
-        .insert([
-            {eligibilityOption: "Age", eligibilityOptionDescription: "There is an age requirement for this shelter"}, 
-            {eligibilityOption: "Household Size", eligibilityOptionDescription: "There is a household size requirement for this shelter"},
-            {eligibilityOption: "Armed Forces", eligibilityOptionDescription:"There is an armed forces requirement for this shelter"},
-            {eligibilityOption: "Ex-Offenders", eligibilityOptionDescription: "Must be ex-offender"}, 
-            {eligibilityOption: "Health", eligibilityOptionDescription: "There is a health related requirement to qualify for this shelter"},
-            {eligibilityOption: "Trauma Survivors", eligibilityOptionDescription: "There is a trauma related requirement to qualify for this shelter."}
-        ])
-        .returning('*')
+            knex('eligibilityOptions')
+              .insert([
+                  {eligibilityOption: "Age", eligibilityOptionDescription: "There is an age requirement for this shelter"}, 
+                  {eligibilityOption: "Household Size", eligibilityOptionDescription: "There is a household size requirement for this shelter"},
+                  {eligibilityOption: "Armed Forces", eligibilityOptionDescription:"There is an armed forces requirement for this shelter"},
+                  {eligibilityOption: "Ex-Offenders", eligibilityOptionDescription: "Must be ex-offender"}, 
+                  {eligibilityOption: "Health", eligibilityOptionDescription: "There is a health related requirement to qualify for this shelter"},
+                  {eligibilityOption: "Trauma Survivors", eligibilityOptionDescription: "There is a trauma related requirement to qualify for this shelter."}
+              ])
+              .returning('*')
       
       .catch(function(err){
         console.log("There was an error adding this eligibility", err);
         throw new Error("There was an error adding this eligibility", err);
       })
       .then(function(result){
+        console.log("SUCCESS #1");
         var ageID = result[0].eligibilityOptionID;
         var houseSizeID = result[1].eligibilityOptionID;
         var armedForcesID = result[2].eligibilityOptionID;
@@ -45,13 +48,15 @@ exports.seed = function(knex, Promise) {
                   {eligibilityOption: "Families", eligibilityOptionDescription: "Must be families with children", fk_eligibilityParentID: houseSizeID }, 
                   {eligibilityOption: "Domestic and Family Violence", eligibilityOptionDescription: "Must be survivor of domestic or family violence situation.", fk_eligibilityParentID: traumaSurvivorID },
                   {eligibilityOption: "Natural Disasters", eligibilityOptionDescription: "Must be a survivor of natural disaster", fk_eligibilityParentID: traumaSurvivorID }
-              ]);
+              ])
+              .returning('*');
         })
       .catch(function(err){
         console.log("There was an error adding this eligibility", err);
         throw new Error("There was an error adding this eligibility", err);
       })
     .then(function(eligOptions){
+        console.log("SUCCESS #2");      
       var minorsOptID = eligOptions[0].eligibilityOptionID;
       var adultsOptID = eligOptions[1].eligibilityOptionID;
       var substAddictOptID = eligOptions[6].eligibilityOptionID;
@@ -60,22 +65,58 @@ exports.seed = function(knex, Promise) {
 
       //--userRoles
       return knex('userRoles')
-                .insert([
-                  {userRoleName:"Anonymous", userRoleDescription: "Default anonymous user role for all nonregistered users."},
-                  {userRoleName:"Registered", userRoleDescription: "Registered users registered and logged in to site."},
-                  {userRoleName:"Admin", userRoleDescription: "Administrative users managing shelters and real-time bed counts."}, 
-                ])
-      .returning('*');
+            .insert([
+              {userRoleName:"Anonymous", userRoleDescription: "Default anonymous user role for all nonregistered users."},
+              {userRoleName:"Registered", userRoleDescription: "Registered users registered and logged in to site."},
+              {userRoleName:"Admin", userRoleDescription: "Administrative users managing shelters and real-time bed counts."}, 
+            ])
+            .returning('*');
     })
     .catch(function(err){
         console.log("There was an error adding this user role", err);
         throw new Error("There was an error adding this user role", err);     
     })
-    .then(function(userRoles){
-      var anonUserID = userRoles[0].userRoleID;
-      var registeredUserID = userRoles[1].userRoleID;
-      var adminUserID = userRoles[2].userRoleID;
+    // .then(function(userRoles){
+    //     console.log("SUCCESS #3");
+    //   var anonUserID = userRoles[0].userRoleID;
+    //   var registeredUserID = userRoles[1].userRoleID;
+    //   var adminUserID = userRoles[2].userRoleID;
+    //   console.log(anonUserID, registeredUserID, adminUserID);
 
+    //     //--users
+    //   return knex('users')
+    //         .insert([
+    //             {fk_userRoleID: anonUserID, userFirstName:"Harry", userLastName: "Henderson", userPhone: "512-555-1234", userEmail: "harry@email.com", userPassword: "1234"},
+    //             {fk_userRoleID: registeredUserID, userFirstName:"Rebecca", userLastName: "Rogers", userPhone: "713-555-5432", userEmail: "rebecca@email.com", userPassword: "1234"},
+    //             {fk_userRoleID: adminUserID, userFirstName:"Michelle", userLastName: "McCalister", userPhone: "512-544-5678", userEmail: "michelle@email.com", userPassword: "1234"}
+    //           ])
+    //         .returning('*');
+    // })
+    // .catch(function(err){
+    //   console.log("There was an error adding these users", err);
+    //   throw new Error("There was an error adding these users", err);
+    // })
+    // .then(function(users){
+    //     console.log("SUCCESS #4");      
+    //   var user1 = users[0].userID;
+    //   var user2 = users[1].userID;
+    //   var user3 = users[2].userID;
+
+    //     //--userEligibility
+    //   return knex('userEligibility')
+    //         .insert([
+    //           {fk_eligibilityOptionID: vetsOptID, fk_userID: user2},
+    //           {fk_eligibilityOptionID: adultsOptID, fk_userID: user2}
+    //          ])
+    //         .returning('*');
+    // })
+    // .catch(function(err){
+    //   console.log("There was an error adding these user eligibility records", err);
+    //   throw new Error("There was an error adding these user eligibility records", err);
+    // })    
+    .then(function(results){
+        console.log("SUCCESS #5");      
+      // var userEligResults = results;
       //--organizations      
       return knex('organizations')
             .insert([
@@ -83,66 +124,38 @@ exports.seed = function(knex, Promise) {
                 {organizationName: "Salvation Army"}, 
                 {organizationName: "Safe Place"}, 
               ])
-      .returning('*');
+            .returning('*');
       })
       .catch(function(err){
         console.log("There was an error adding these organizations", err);
         throw new Error("There was an error adding these organizations", err);
       })
       .then(function(orgs){
-        var org1 = orgs[0].organizationID;
-        var org2 = orgs[1].organizationID;
-        var org3 = orgs[2].organizationID;
+        console.log("SUCCESS #6");        
+          org1 = orgs[0].organizationID;
+          org2 = orgs[1].organizationID;
+          org3 = orgs[2].organizationID;
 
-        //--users
-      return knex('users')
-            .insert([
-                {fk_userRoleID: anonUserID, userFirstName:"Harry", userLastName: "Henderson", userPhone: "512-555-1234", userEmail: "harry@email.com"},
-                {fk_userRoleID: registeredUserID, userFirstName:"Rebecca", userLastName: "Rogers", userPhone: "713-555-5432", userEmail: "rebecca@email.com"},
-                {fk_userRoleID: adminUserID, userFirstName:"Michelle", userLastName: "McCalister", userPhone: "512-544-5678", userEmail: "michelle@email.com"}
-              ])
-      .returning('*');
-    })
-    .catch(function(err){
-      console.log("There was an error adding these users", err);
-      throw new Error("There was an error adding these users", err);
-    })
-    .then(function(users){
-      var user1 = users[0].userID;
-      var user2 = users[1].userID;
-      var user3 = users[2].userID;
 
-        //--userEligibility
-      return knex('userEligibility')
-            .insert([
-              {fk_eligibilityOptionID: vetsOptID, fk_userID: user2},
-              {fk_eligibilityOptionID: adultsOptID, fk_userID: user2}
-             ])
-      .returning('*');
-    })
-    .catch(function(err){
-      console.log("There was an error adding these user eligibility records", err);
-      throw new Error("There was an error adding these user eligibility records", err);
-    })    
-    .then(function(){
         //--hours
-      return knex('hours')
-            .insert([
-              {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-              {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-              {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-              {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-              {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-              {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-              {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"}
-            ])
-      .returning('*');
+        return knex('hours')
+              .insert([
+                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
+                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
+                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
+                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
+                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
+                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
+                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"}
+              ])
+              .returning('*');
     })
     .catch(function(err){
       console.log("There was an error adding these hours", err);
       throw new Error("There was an error adding these hours", err);
     })
     .then(function(hours){
+        console.log("SUCCESS #7");      
       var hours1ID = hours[0].hoursID;
       var hours2ID = hours[1].hoursID;  
       var hours3ID = hours[2].hoursID;
@@ -150,8 +163,7 @@ exports.seed = function(knex, Promise) {
       var hours5ID = hours[4].hoursID;
       var hours6ID = hours[5].hoursID;
       var hours7ID = hours[6].hoursID;
-    })
-    .then(function(){
+
         //--locations
       return knex('locations')
             .insert([
@@ -163,13 +175,14 @@ exports.seed = function(knex, Promise) {
               {locationName:"Popup Shelter", locationStreet:"505 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78703", locationPhone:"512-305-4105", fk_hourID:hours6ID},
               {locationName:"Alpha Center" , locationStreet:"506 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78787", locationPhone:"512-305-4106", fk_hourID:hours7ID}
             ])
-      .returning('*');
+            .returning('*');
     })
     .catch(function(err){
       console.log("There was an error adding these locations", err);
       throw new Error("There was an error adding these locations", err);
     })
     .then(function(locations){
+        console.log("SUCCESS #8"); 
       var location1ID = locations[0].locationID;
       var location2ID = locations[1].locationID;
       var location3ID = locations[2].locationID; 
@@ -177,31 +190,31 @@ exports.seed = function(knex, Promise) {
       var location5ID = locations[4].locationID; 
       var location6ID = locations[5].locationID; 
       var location7ID = locations[6].locationID; 
-    })
-    .then(function(){
+
         //--shelters
       return knex('shelters')
             .insert([
-              {shelterName: "Men Emergency Night Shelter", shelterEmail: "email@MEN.com", shelterDaytimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445", fk_shelterOrganizationID: org1, fk_shelterLocationID:location1ID},
-              {shelterName: "MEN Day Sleep", shelterEmail: "email@MEN.com", shelterDaytimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445", fk_shelterOrganizationID: org2, fk_shelterLocationID:location1ID},
-              {shelterName: "MEN Weather Shelter Program", shelterEmail: "MENweathershelter@frontsteps.org", shelterDaytimePhone:"512-444-4233" , shelterEmergencyPhone:"512-444-4445", fk_shelterOrganizationID: org3, fk_shelterLocationID:location2ID},
-              {shelterName: "women Emergency Night Shelter", shelterEmail: "email@women.com", shelterDaytimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335", fk_shelterOrganizationID: org1, fk_shelterLocationID:location3ID},
-              {shelterName: "women Day Sleep", shelterEmail: "email@women.com", shelterDaytimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335", fk_shelterOrganizationID: org2, fk_shelterLocationID:location4ID},
-              {shelterName: "women Weather Shelter Program", shelterEmail: "womenweathershelter@frontsteps.org", shelterDaytimePhone:"512-333-4233" , shelterEmergencyPhone:"512-333-3335", fk_shelterOrganizationID: org3, fk_shelterLocationID:location4ID},
-              {shelterName: "children Emergency Night Shelter", shelterEmail: "email@children.com", shelterDaytimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225", fk_shelterOrganizationID: org1, fk_shelterLocationID:location5ID},
-              {shelterName: "children Day Sleep", shelterEmail: "email@children.com", shelterDaytimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225", fk_shelterOrganizationID: org2, fk_shelterLocationID:location6ID},
-              {shelterName: "children Weather Shelter Program", shelterEmail: "childrenweathershelter@frontsteps.org", shelterDaytimePhone:"512-222-4233" , shelterEmergencyPhone:"512-222-2225", fk_shelterOrganizationID: org3, fk_shelterLocationID:location7ID},
-              {shelterName: "ARCH Emergency Night Shelter", shelterEmail: "email@email.com", shelterDaytimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555", fk_shelterOrganizationID: org1, fk_shelterLocationID:location7ID},
-              {shelterName: "ARCH Day Sleep", shelterEmail: "email@email.com", shelterDaytimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555", fk_shelterOrganizationID: org2, fk_shelterLocationID:location6ID},
-              {shelterName: "Cold Weather Shelter Program", shelterEmail: "coldweathershelter@frontsteps.org", shelterDaytimePhone:"512-305-4233" , shelterEmergencyPhone:"512-555-5555", fk_shelterOrganizationID: org3, fk_shelterLocationID:location5ID}
+              {shelterName: "Men Emergency Night Shelter", shelterEmail: "email@MEN.com", shelterDaytimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445", fk_organizationID: org1, fk_locationID:location1ID},
+              {shelterName: "MEN Day Sleep", shelterEmail: "email@MEN.com", shelterDaytimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445", fk_organizationID: org2, fk_locationID:location1ID},
+              {shelterName: "MEN Weather Shelter Program", shelterEmail: "MENweathershelter@frontsteps.org", shelterDaytimePhone:"512-444-4233" , shelterEmergencyPhone:"512-444-4445", fk_organizationID: org3, fk_locationID:location2ID},
+              {shelterName: "women Emergency Night Shelter", shelterEmail: "email@women.com", shelterDaytimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335", fk_organizationID: org1, fk_locationID:location3ID},
+              {shelterName: "women Day Sleep", shelterEmail: "email@women.com", shelterDaytimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335", fk_organizationID: org2, fk_locationID:location4ID},
+              {shelterName: "women Weather Shelter Program", shelterEmail: "womenweathershelter@frontsteps.org", shelterDaytimePhone:"512-333-4233" , shelterEmergencyPhone:"512-333-3335", fk_organizationID: org3, fk_locationID:location4ID},
+              {shelterName: "children Emergency Night Shelter", shelterEmail: "email@children.com", shelterDaytimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225", fk_organizationID: org1, fk_locationID:location5ID},
+              {shelterName: "children Day Sleep", shelterEmail: "email@children.com", shelterDaytimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225", fk_organizationID: org2, fk_locationID:location6ID},
+              {shelterName: "children Weather Shelter Program", shelterEmail: "childrenweathershelter@frontsteps.org", shelterDaytimePhone:"512-222-4233" , shelterEmergencyPhone:"512-222-2225", fk_organizationID: org3, fk_locationID:location7ID},
+              {shelterName: "ARCH Emergency Night Shelter", shelterEmail: "email@email.com", shelterDaytimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555", fk_organizationID: org1, fk_locationID:location7ID},
+              {shelterName: "ARCH Day Sleep", shelterEmail: "email@email.com", shelterDaytimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555", fk_organizationID: org2, fk_locationID:location6ID},
+              {shelterName: "Cold Weather Shelter Program", shelterEmail: "coldweathershelter@frontsteps.org", shelterDaytimePhone:"512-305-4233" , shelterEmergencyPhone:"512-555-5555", fk_organizationID: org3, fk_locationID:location5ID}
             ])
-      .returning('*');
+            .returning('*');
     })
     .catch(function(err){
       console.log("There was an error adding these shelters", err);
       throw new Error("There was an error adding these shelters", err);
     })
     .then(function(shelters){
+        console.log("SUCCESS #9");      
       var shelter1ID = shelters[0].shelterID;
       var shelter2ID = shelters[1].shelterID;
       var shelter3ID = shelters[2].shelterID;
@@ -254,34 +267,34 @@ exports.seed = function(knex, Promise) {
               {unitSize: "1BD", fk_shelterID:shelter11ID}, 
               {unitSize: "1BD", fk_shelterID:shelter12ID}
             ])
-      .returning('*');
+            .returning('*');
     })
     .catch(function(err){
       console.log("There was an error adding these shelter units", err);
       throw new Error("There was an error adding these shelter units", err);
     })
     .then(function(units){
-      var unit1ID = units[0].unitID;
-      var unit2ID = units[1].unitID;
-      var unit3ID = units[2].unitID;
-      var unit4ID = units[3].unitID;
-      var unit5ID = units[4].unitID;
-      var unit6ID = units[5].unitID;
-      var unit7ID = units[6].unitID;
-      var unit8ID = units[7].unitID;
-      var unit9ID = units[8].unitID;
-      var unit10ID = units[9].unitID;
-      var unit11ID = units[10].unitID;
-      var unit12ID = units[11].unitID;
-      var unit13ID = units[12].unitID;
-      var unit14ID = units[13].unitID;
-      var unit15ID = units[14].unitID;
-      var unit16ID = units[15].unitID;
-      var unit17ID = units[16].unitID;
-      var unit18ID = units[17].unitID;
-      var unit19ID = units[18].unitID;
-    })
-    .then(function(){
+        console.log("SUCCESS #10");      
+      var unit1ID = units[0].shelterUnitID;
+      var unit2ID = units[1].shelterUnitID;
+      var unit3ID = units[2].shelterUnitID;
+      var unit4ID = units[3].shelterUnitID;
+      var unit5ID = units[4].shelterUnitID;
+      var unit6ID = units[5].shelterUnitID;
+      var unit7ID = units[6].shelterUnitID;
+      var unit8ID = units[7].shelterUnitID;
+      var unit9ID = units[8].shelterUnitID;
+      var unit10ID = units[9].shelterUnitID;
+      var unit11ID = units[10].shelterUnitID;
+      var unit12ID = units[11].shelterUnitID;
+      var unit13ID = units[12].shelterUnitID;
+      var unit14ID = units[13].shelterUnitID;
+      var unit15ID = units[14].shelterUnitID;
+      var unit16ID = units[15].shelterUnitID;
+      var unit17ID = units[16].shelterUnitID;
+      var unit18ID = units[17].shelterUnitID;
+      var unit19ID = units[18].shelterUnitID;
+
         //--shelterOccupancy
       return knex('shelterOccupancy')
             .insert([
@@ -292,35 +305,39 @@ exports.seed = function(knex, Promise) {
               {fk_shelterUnitID:unit6ID, occupiedByName:"Murphy Brown"},
               {fk_shelterUnitID:unit12ID, occupiedByName:"Bart Simpson"}
             ])
-      .returning('*');
+            .returning('*');
     })
      .catch(function(err){
       console.log("There was an error adding these occupancy records", err);
       throw new Error("There was an error adding these occupancy records", err);
     })   
-    .then(function(){
-        // --shelterManagers
-      return knex('shelterManagers')
-            .insert([
-              {accessApproved: true, fk_userID: user3, fk_shelterID: shelter1ID}
-            ])
-      .returning('*');
-    })
-     .catch(function(err){
-      console.log("There was an error adding these shelter managers", err);
-      throw new Error("There was an error adding these shelter managers", err);
-    })   
-    .then(function(){
-        // --orgAdmins
-      return knex('orgAdmins')
-            .insert([
-              {fk_userID: user3, fk_organizationID: org1}
-            ])
-      .returning('*');
-    })
-     .catch(function(err){
-      console.log("There was an error adding these organization admins", err);
-      throw new Error("There was an error adding these organization admins", err);
-    })   
+    // .then(function(results){
+    //     console.log("SUCCESS #11");      
+    //   var shelterOccupancyResults = results;
+    //     // --shelterManagers
+    //   return knex('shelterManagers')
+    //         .insert([
+    //             {accessApproved: true, fk_userID: user3, fk_shelterID: shelter1ID}
+    //         ])
+    //         .returning('*');
+    // })
+    //  .catch(function(err){
+    //   console.log("There was an error adding these shelter managers", err);
+    //   throw new Error("There was an error adding these shelter managers", err);
+    // })   
+    // .then(function(results){
+    //     console.log("SUCCESS #12");      
+    //   var shelterManagersresults = results;
+    //     // --orgAdmins
+    //   return knex('orgAdmins')
+    //         .insert([
+    //             {fk_userID: user3, fk_organizationID: org1}
+    //           ])
+    //         .returning('*');
+    // })
+    //  .catch(function(err){
+    //   console.log("There was an error adding these organization admins", err);
+    //   throw new Error("There was an error adding these organization admins", err);
+    // })   
 );
 };
