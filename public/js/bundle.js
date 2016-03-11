@@ -654,7 +654,7 @@ var UserSignup = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserSignup).call(this));
 
-    _this.state = { email: "", password: "", firstName: "", lastName: '', phone: '' };
+    _this.state = { email: "adsf", password: "adf", firstName: "adsf", lastName: 'adsf', phone: 'adsf' };
     _this.update = _this.update.bind(_this);
     //this.submitForm = this.submitForm(this.state);
     return _this;
@@ -663,7 +663,10 @@ var UserSignup = function (_React$Component) {
   _createClass(UserSignup, [{
     key: 'post',
     value: function post(data) {
-      $.post("/api/signup", data);
+
+      $.post("/api/signup", data).done(function (res) {
+        console.log("tacos!", res);
+      });
     }
   }, {
     key: 'update',
