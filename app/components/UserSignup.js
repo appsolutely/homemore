@@ -10,8 +10,19 @@ class UserSignup extends React.Component {
     //this.submitForm = this.submitForm(this.state);
   }
   post(data){
+    console.log('data ', data);
 
-    $.post("/api/signup",data).done(function(res){console.log("tacos!",res)});
+    $.ajax({
+      type: 'POST',
+      url: '/api/signup',
+      data: data,
+      success: function(data){
+        console.log('success ', data);
+      },
+      fail: function(err){
+        console.log('err', err);
+      }
+    });
   }
   update(e){
     this.setState({
