@@ -84,6 +84,10 @@ app.use(function (req, res, next) {
 
 
 app.get('/api/austin/shelters', function(req, res){
+  //testing route - defining var
+  var shelters = [{shelterName: 'ARCH', shelterDaytimePhone: '867-5309', locationStreet: '2001 Guadalupe', locationCity: 'Austin', locationState: 'TX' }, {shelterName: 'BETTY', shelterDaytimePhone: '470-3226', locationStreet: '805 Comal', locationCity: 'Austin', locationState: 'TX' } ]
+  return res.status(200).send(shelters);
+  //end of testing var
   //returns all shelters and associated data with no filtering
   return shelters.selectAllShelters()
         .then(function(shelters){

@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import ShelterStore from '../stores/ShelterStore';
 import ShelterActions from '../actions/ShelterActions';
 
-
 // extends React.Component no longer binds this like React.createClass, need to do it explicitly
 class Shelter extends React.Component {
   constructor(props) {
@@ -26,19 +25,26 @@ class Shelter extends React.Component {
     this.setState(state);
   }
 
+  handleClick(i) {
+    console.log('You clicked: ', i);
+  }
+// shelterProfile is going to be a separate ajax call, utilizing params.id
   render() {
-    const shelters = this.state.shelters.map((shelter) => {
+    const shelters = this.state.shelters.map((shelter, i) => {
+      const bound = this.handleClick.bind(this, i);
       return (
-        <li key={shelter}>
-          <p>I am a shelter</p>
-        </li>
+        <div key={shelter.shelterName} className="shelterCard" onClick={bound}>
+          <Link to={"/shelterprofile/" + shelter.shelterName}>
+            <p>{shelter.shelterName}</p>
+          </Link>
+        </div>
       );
     });
 
 
     return (
       <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
-        <p>I am a shelter</p>
+        <p>List of Shelters</p>
         <ul>
           {shelters}
         </ul>

@@ -27,6 +27,9 @@ build/Release
 node_modules
 bower_components
 client/js/
+*.vendor.js
+*.sheltered.css
+public/css/sheltered.css
 
 
 # Optional npm cache directory
