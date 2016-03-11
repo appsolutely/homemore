@@ -26,7 +26,7 @@ build/Release
 # Dependency directory
 node_modules
 bower_components
-client/js/
+public/js/
 *.vendor.js
 *.sheltered.css
 public/css/sheltered.css
