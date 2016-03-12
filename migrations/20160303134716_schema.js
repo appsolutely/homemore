@@ -15,6 +15,7 @@ exports.up = function(knex, Promise) {
     table.string('userPassword').notNullable();
     table.dateTime('userDOB').notNullable();
     table.string('userEmail').unique();
+    table.string('userPhone').nullable();
     table.integer('fk_userRole').notNullable() 
     			.references('userRoleID')
     			.inTable('userRoles');
@@ -22,14 +23,13 @@ exports.up = function(knex, Promise) {
 
   knex.schema.createTableIfNotExists('shelterManagers', function(table){
     table.increments('managerID').primary();
-    table.integer('managerPhone').notNullable();
     table.integer('fk_shelterID').notNullable() 
     			.references('shelterID')
     			.inTable('shelters');
     table.integer('fk_userID').notNullable() 
     			.references('userID')
     			.inTable('users');
-    table.string('managerEmail').notNullable();
+    table.boolean('accessApproved').defaultTo(false);
   }),
 
   knex.schema.createTableIfNotExists('organizations', function(table){
@@ -43,11 +43,12 @@ exports.up = function(knex, Promise) {
     			.references('organizationID')
     			.inTable('organizations');
     table.string('shelterName').notNullable();
-    table.string('shelterLatLong');
+    table.integer('fk_locationID').nullable()
+          .references('locationID')
+          .inTable('locations');
     table.string('shelterEmail').notNullable();
     table.string('shelterEmergencyPhone').notNullable();
     table.string('shelterDaytimePhone').notNullable();
-    table.string('shelterAddress').notNullable();
   }),
 
   knex.schema.createTableIfNotExists('shelterUnits', function(table){
@@ -63,9 +64,8 @@ exports.up = function(knex, Promise) {
     table.integer('fk_shelterUnitID').notNullable() 
     			.references('shelterUnitID')
     			.inTable('shelterUnits');
-    table.integer('fk_userID').notNullable() 
-    			.references('userID')
-    			.inTable('users');
+    table.string('occupiedByName');
+    table.string('DOB');
     table.unique(['fk_shelterUnitID', 'fk_userID']);
   }),
 
@@ -74,6 +74,16 @@ exports.up = function(knex, Promise) {
     table.integer('fk_userID').notNullable() 
     			.references('userID')
     			.inTable('users');
+  }),
+
+  knex.schema.createTableIfNotExists('orgAdmins', function(table){
+    table.increments('orgAdminID').primary();
+    table.integer('fk_userID').notNullable()
+          .references('userID')
+          .inTable('users');
+    table.integer('fk_organizationID').notNullable()
+          .references('organizationID')
+          .inTable('organizations');
   }),
 
   knex.schema.createTableIfNotExists('eligibilityOptions', function(table){
@@ -97,20 +107,59 @@ exports.up = function(knex, Promise) {
           .inTable('eligibilityOptions')
           .notNullable();
     table.unique(['fk_shelterID', 'fk_eligibilityOptionID']);
-  })
+  }),
+
+  knex.schema.createTable('hours', function(table){
+      table.increments('hoursID').primary();
+      table.string('hoursMonday').defaultTo('Open 24 hours');
+      table.string('hoursTuesday').defaultTo('Open 24 hours');
+      table.string('hoursWednesday').defaultTo('Open 24 hours');
+      table.string('hoursThursday').defaultTo('Open 24 hours');
+      table.string('hoursFriday').defaultTo('Open 24 hours');
+      table.string('hoursSaturday').defaultTo('Open 24 hours');
+      table.string('hoursSunday').defaultTo('Open 24 hours');
+    }),
+
+  knex.schema.createTable('userEligibility', function(table){
+    table.increments('userEligibilityID').primary();
+    table.integer('fk_userID').notNullable()
+            .references('userID')
+            .inTable('users');
+    table.integer('fk_eligibilityOptionID').notNullable()
+            .references('eligibilityOptionID')
+            .inTable('eligibilityOptions');
+    table.unique(['fk_userID', 'fk_eligibilityOptionID']);
+  }),
+
+  knex.schema.createTableIfNotExists('locations', function(table){
+    table.increments('locationID').primary();
+    table.string('locationName');
+    table.string('locationStreet');
+    table.string('locationCity');
+    table.string('locationState');
+    table.string('locationZip');
+    table.string('locationPhone');
+    table.integer('fk_hourID').nullable()
+              .references('hoursID')
+              .inTable('hours');
+  }),
 
   ]);
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTableIfExists('userSessions'),
-    knex.schema.dropTableIfExists('shelterOccupancy'),
-    knex.schema.dropTableIfExists('shelterUnits'),
-    knex.schema.dropTableIfExists('shelterManagers'),
-    knex.schema.dropTableIfExists('shelters'),
-    knex.schema.dropTableIfExists('organizations'),
-    knex.schema.dropTableIfExists('users'),
-    knex.schema.dropTableIfExists('userRoles')
-  ]);
+    knex.schema.dropTable('userRoles'),
+    knex.schema.dropTable('users'),
+    knex.schema.dropTable('shelterManagers'),
+    knex.schema.dropTable('organizations'),
+    knex.schema.dropTable('shelters'),
+    knex.schema.dropTable('shelterUnits'),
+    knex.schema.dropTable('shelterOccupancy'),
+    knex.schema.dropTable('userSessions'),
+    knex.schema.dropTable('locations'),
+    knex.schema.dropTable('orgAdmins'),
+    knex.schema.dropTable('userEligibility'),
+    knex.schema.dropTable('hours')
+  ]); 
 };
