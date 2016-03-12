@@ -9,6 +9,7 @@ knex.migrate.latest()
 .then(function () {
   if (process.env.NODE_ENV === 'production') {
     // run real seed files
+    console.log('in production version');
     knex.seed.run()
     .catch(function(err){
       console.log(err);
