@@ -10,6 +10,9 @@
     "migrate": "knex migrate:latest --env test",
     "seed": "knex seed:run"
   },
+  "engines": {
+    "node": "5.5.0"
+  },
   "babel": {
     "presets": [
       "es2015",
@@ -37,6 +40,7 @@
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.3.3",
     "body-parser": "^1.14.1",
+    "bower": "^1.7.7",
     "colors": "^1.1.2",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.1",
