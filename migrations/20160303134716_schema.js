@@ -13,7 +13,6 @@ exports.up = function(knex, Promise) {
     table.string('userFirstName').notNullable();
     table.string('userLastName').notNullable();
     table.string('userPassword').notNullable();
-    table.dateTime('userDOB').notNullable();
     table.string('userEmail').unique();
     table.string('userPhone').nullable();
     table.integer('fk_userRole').notNullable() 
@@ -59,6 +58,9 @@ exports.up = function(knex, Promise) {
     table.integer('fk_locationID').nullable()
           .references('locationID')
           .inTable('locations');
+    table.integer('fk_hourID').nullable()
+              .references('hoursID')
+              .inTable('hours');
     table.string('shelterEmail').notNullable();
     table.string('shelterEmergencyPhone').notNullable();
     table.string('shelterDaytimePhone').notNullable();
