@@ -19,7 +19,7 @@ knex.migrate.latest()
     });
   } else {
     // run test version seed files
-    console.log('Running test version');
+    console.log('Not running production version');
   }
 })
 .catch(function(err){

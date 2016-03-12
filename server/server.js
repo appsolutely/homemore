@@ -10,6 +10,7 @@ var Router = require('react-router');
 var appRoutes = require('../app/routes');
 var swig = require('swig');
 var cookieParser = require('cookie-parser');
+var nodemailer = require('nodemailer');
 
 //dbHelpers
 var shelters = require('./dbHelpers/shelters.js');
@@ -144,6 +145,7 @@ app.post('/api/createManager', function(req, res){
               .then(function(newManager){
                 console.log('newManager', newManager);
                 //path for now -- add sending email here or on front end?
+                sendManagerEmail(newManager, res);
                 res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email will be sent to confirm account creation'});
               })
               .catch(function(err){
@@ -403,6 +405,41 @@ app.post('/api/logout', function(req, res){
             res.status(201).send({success: 'User has been signed out'});
           });
 });
+
+app.post('/helloWorld', function(req, res){
+  handleSayHello(req, res);
+});
+
+//setup for emailing from server
+function sendManagerEmail(manager, res) {
+  var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: ' appsolutelysheltered@gmail.com',
+      pass: "eg&4{jeEDL^RS'x%"
+    }
+  });
+  var text = 'A new Account has been created for you on Sheltered. \n\n The password ' + manager.genPass +
+   ' has been randomly generated for you. \n\n Please head to sheltered.herokuapp.com and change it. \n\n Welcome from the Appsolutely Team!';
+  var mailOptions = {
+    from: 'appsolutelysheltered@gmail.com',
+    to: manager.user.userEmail,
+    subject: 'Account Created On Sheltered',
+    text: text
+  };
+
+  transporter.sendMail(mailOptions, function(err, info){
+    if (err){
+      console.log(err);
+      res.json({yo: 'error'});
+    } else {
+      console.log('Message sent: ' + info.response);
+      res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email has been sent to confirm account creation'});
+    }
+  });
+}
+
+
 
 //server side rendering - front end needs this
 app.use(function(req, res) {
