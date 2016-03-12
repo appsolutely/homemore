@@ -21,6 +21,7 @@ class Header extends React.Component {
 
     console.log("login info! ", signInInfo)
     this.signIn(signInInfo)
+    this.state = {email: "", password: ""}
 
   }
 
