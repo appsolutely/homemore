@@ -99,7 +99,7 @@ app.post('/api/signin', function(req, res){
   return users.signIn(req.body)
               .then(function(sessionId){
                 console.log('session ', sessionId);
-                res.setHeader('Set-Cookie', 'sessionId=' + sessionId);
+                res.setHeader('Set-Cookie', 'sessionId=' + sessionId + '; path=/');
                 res.status(201).send({success: 'User signed in'});
               })
               .catch(function(err){
