@@ -21,6 +21,9 @@ knex.migrate.latest()
     // run test version seed files
     console.log('Running test version');
   }
+})
+.catch(function(err){
+  console.log('Oh no ', err);
 });
 
 
