@@ -18,7 +18,6 @@ deploy:
   on:
     branch: master
   run:
-  - restart
   - npm seed
   - gulp
   before_deploy:
