@@ -166,7 +166,7 @@ app.post('/api/addShelterManager', function(req, res){
               res.status(201).send(updated);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error updating data ' + err});
+              res.status(500).send({error: 'There was an error updating data ' + err});
             });
           } else {
             res.status(401).send({error: 'User does not have permission for this action'});
@@ -186,7 +186,7 @@ app.post('/api/updateOrganization', function(req, res){
               res.status(201).send(updates);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error changing data ' + err});
+              res.status(500).send({error: 'There was an error changing data ' + err});
             });
           } else {
             res.status(401).send({error: 'User does not have permission for this action'});
@@ -207,7 +207,7 @@ app.post('/api/updateShelter', function(req, res){
                   res.statu(201).send(updates);
                 })
                 .catch(function(err){
-                  res.status(400).send({error: 'There was an error changing data ' + err});
+                  res.status(500).send({error: 'There was an error changing data ' + err});
                 });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -228,7 +228,7 @@ app.post('/api/addOccupant', function(req, res){
               res.status(201).send(occupant);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error inserting data ' + err });
+              res.status(500).send({error: 'There was an error inserting data ' + err });
             });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -249,7 +249,7 @@ app.post('/api/removeOccupant', function(req, res){
                 res.status(201).send(deleted);
               })
               .catch(function(err){
-                res.status(400).send({error: 'There was an error deleting data ' + err});
+                res.status(500).send({error: 'There was an error deleting data ' + err});
               });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -270,7 +270,7 @@ app.post('/api/updateOccupant', function(req, res){
               res.status(201).send(updated);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error changing data ' + err});
+              res.status(500).send({error: 'There was an error changing data ' + err});
             });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -289,7 +289,7 @@ app.post('/api/updateOccupantUnit', function(req, res){
               res.status(201).send(updated);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error changing data ' + err});
+              res.status(500).send({error: 'There was an error changing data ' + err});
             });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -310,7 +310,7 @@ app.post('/api/addShelterUnit', function(req, res){
               res.status(201).send(unit);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error adding data ' + err});
+              res.status(500).send({error: 'There was an error adding data ' + err});
             });
     } else {
      res.status(401).send({error: 'User does not have permission for this action'});
@@ -331,7 +331,7 @@ app.post('/api/updateEligibility', function(req, res){
               res.status(201).send(eligibility);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error inserting data ' + err});
+              res.status(500).send({error: 'There was an error inserting data ' + err});
             });
     } else {
      res.status(401).send({error: 'User does not have permission for this action'});
@@ -353,7 +353,7 @@ app.post('/api/deleteEligibility', function(req, res){
                 res.status(201).send(deleted);
               })
               .catch(function(err){
-                res.status(400).send({error: 'There was an error deleting data ' + err});
+                res.status(500).send({error: 'There was an error deleting data ' + err});
               });
     } else {
      res.status(401).send({error: 'User does not have permission for this action'});
@@ -389,7 +389,7 @@ app.post('/api/updateUser', function(req, res){
             res.status(201).send(changes);
           })
           .catch(function(err){
-              res.status(400).send({error: 'There was an error changing data'});
+              res.status(500).send({error: 'There was an error changing data'});
           });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
