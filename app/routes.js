@@ -7,6 +7,9 @@ import ShelterProfile from './components/ShelterProfile';
 import Signup from './components/Signup';
 import AdminSignup from './components/AdminSignup';
 import UserSignup from './components/UserSignup';
+import AdminProfile from './components/AdminProfile';
+import UserProfile from './components/UserProfile';
+import ManagerProfile from './components/ManagerProfile';
 
 export default (
   <Route component={App}>
@@ -16,5 +19,8 @@ export default (
     <Route path="/signup" component={Signup} />
     <Route path="/user-signup" component={UserSignup} />
     <Route path="/admin-signup" component={AdminSignup} />
+    <Route path="/admin-page" component={AdminProfile} />
+    <Route path="/manager-page" component={ManagerProfile} />
+    <Route path="/user-page" component={UserProfile} />
   </Route>
 );
