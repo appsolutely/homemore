@@ -1,0 +1,1 @@
+web: forever -m 5 server/index.js
