@@ -7,8 +7,15 @@ module.exports = knex;
 // runs latest migration (if any) to update the database
 knex.migrate.latest()
 .then(function () {
-  if (process.env.NODE_ENV !== 'test') {
+  if (process.env.NODE_ENV === 'production') {
     // run real seed files
+    knex.seed.run()
+    .catch(function(err){
+      console.log(err);
+    })
+    .then(function(res){
+      console.log('ran seed file');
+    });
   } else {
     // run test version seed files
     console.log('Running test version');
