@@ -257,11 +257,14 @@ module.exports.deleteShelterEligibility = function(req){
 
 module.exports.insertShelterOccupancy = function(req){
   var occupant = req.occupancy.name;
-  var unitID = req.unit[0].shelterUnitID;  
+  var occupantDOB = req.occupancy.dob;
+  var unitID = req.unit[0].shelterUnitID; 
+
         return knex('shelterOccupancy')
                 .insert({
                   fk_shelterUnitID: unitID,
-                  occupiedByName: occupant
+                  occupiedByName: occupant,
+                  DOB: occupantDOB
                 })
                 .returning('*')
           .catch(function(err){
@@ -296,20 +299,40 @@ module.exports.updateShelterOccupancy = function(req){
   //function for updating shelter occupancy for a given user
   var occupancyID = req.occupancy.occupancyID;
   var occupantName = req.occupancy.name;
+  var occupantDOB = req.occupancy.dob;
+
+  if (occupantName){
+  return knex('shelterOccupancy')
+          .where('occupancyID', occupancyID)
+          .update({
+            occupiedByName: occupantName
+          })
+          .returning('*')
+          .catch(function(err){
+      // console.log("Error updating this shetler occupancy", err);
+      throw new Error("Error updating this shetler occupancy", err);
+    })
+    .then(function(updatedOccupancy){
+      // console.log("Updated shelter occupancy.");
+      return updatedOccupancy;
+    });
+  } else {
     return knex('shelterOccupancy')
-            .where('occupancyID', occupancyID)
-            .update({
-              occupiedByName: occupantName
-            })
-            .returning('*')
-        .catch(function(err){
-          // console.log("Error updating this shetler occupancy", err);
-          throw new Error("Error updating this shetler occupancy", err);
-        })
-        .then(function(updatedOccupancy){
-          // console.log("Updated shelter occupancy.");
-          return updatedOccupancy;
-        });
+      .where('occupancyID', occupancyID)
+      .update({
+        DOB: occupantDOB
+      })
+      .returning('*')
+      .catch(function(err){
+        // console.log("Error updating this shetler occupancy", err);
+        throw new error("Error updating this shetler occupancy", err);
+      })
+      .then(function(updatedOccupancy){
+        // console.log("Updated shelter occupancy.");
+        return updatedOccupancy;
+      });
+    }
+        
 };
 
 module.exports.selectShelterOccupancy = function(req){
