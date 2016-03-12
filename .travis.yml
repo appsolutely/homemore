@@ -21,5 +21,7 @@ deploy:
   strategy: git
   before_deploy:
     - "echo 'pushing to heroku!'"
-  after_deploy: npm seed 
+  after_deploy: 
+  - npm seed 
+  - gulp
 
