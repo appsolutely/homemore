@@ -9,6 +9,7 @@ class Footer extends React.Component {
           <div>Location: Austin,TX</div>
           <div>Phone: (555)555-5555</div>
           <div>Email: Contact@Email.com</div>
+          <div><a href="https://github.com/appsolutely/sheltered">GitHub</a></div>
         </div>
       </footer>
     );
