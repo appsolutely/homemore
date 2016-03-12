@@ -21,27 +21,40 @@ exports.up = function(knex, Promise) {
     			.inTable('userRoles');
   }),
 
-  knex.schema.createTableIfNotExists('shelterManagers', function(table){
-    table.increments('managerID').primary();
-    table.integer('fk_shelterID').notNullable() 
-    			.references('shelterID')
-    			.inTable('shelters');
-    table.integer('fk_userID').notNullable() 
-    			.references('userID')
-    			.inTable('users');
-    table.boolean('accessApproved').defaultTo(false);
-  }),
+  knex.schema.createTable('hours', function(table){
+      table.increments('hoursID').primary();
+      table.string('hoursMonday').defaultTo('Open 24 hours');
+      table.string('hoursTuesday').defaultTo('Open 24 hours');
+      table.string('hoursWednesday').defaultTo('Open 24 hours');
+      table.string('hoursThursday').defaultTo('Open 24 hours');
+      table.string('hoursFriday').defaultTo('Open 24 hours');
+      table.string('hoursSaturday').defaultTo('Open 24 hours');
+      table.string('hoursSunday').defaultTo('Open 24 hours');
+    }),
 
   knex.schema.createTableIfNotExists('organizations', function(table){
     table.increments('organizationID').primary();
     table.string('organizationName').notNullable();
   }),
 
+  knex.schema.createTableIfNotExists('locations', function(table){
+    table.increments('locationID').primary();
+    table.string('locationName');
+    table.string('locationStreet');
+    table.string('locationCity');
+    table.string('locationState');
+    table.string('locationZip');
+    table.string('locationPhone');
+    table.integer('fk_hourID').nullable()
+              .references('hoursID')
+              .inTable('hours');
+  }),
+
   knex.schema.createTableIfNotExists('shelters', function(table){
     table.increments('shelterID').primary();
     table.integer('fk_organizationID').notNullable() 
-    			.references('organizationID')
-    			.inTable('organizations');
+          .references('organizationID')
+          .inTable('organizations');
     table.string('shelterName').notNullable();
     table.integer('fk_locationID').nullable()
           .references('locationID')
@@ -50,30 +63,41 @@ exports.up = function(knex, Promise) {
     table.string('shelterEmergencyPhone').notNullable();
     table.string('shelterDaytimePhone').notNullable();
   }),
+  
+  knex.schema.createTableIfNotExists('shelterManagers', function(table){
+    table.increments('managerID').primary();
+    table.integer('fk_shelterID').notNullable() 
+          .references('shelterID')
+          .inTable('shelters');
+    table.integer('fk_userID').notNullable() 
+          .references('userID')
+          .inTable('users');
+    table.boolean('accessApproved').defaultTo(false);
+  }),
 
   knex.schema.createTableIfNotExists('shelterUnits', function(table){
     table.increments('shelterUnitID').primary();
     table.integer('fk_shelterID').notNullable() 
-    			.references('shelterID')
-    			.inTable('shelters');
+          .references('shelterID')
+          .inTable('shelters');
     table.string('unitSize').notNullable().defaultTo('1BD');
   }),
 
   knex.schema.createTableIfNotExists('shelterOccupancy', function(table){
     table.increments('occupancyID').primary();
     table.integer('fk_shelterUnitID').notNullable() 
-    			.references('shelterUnitID')
-    			.inTable('shelterUnits');
+          .references('shelterUnitID')
+          .inTable('shelterUnits');
     table.string('occupiedByName');
     table.string('DOB');
-    table.unique(['fk_shelterUnitID', 'fk_userID']);
+    table.unique(['fk_shelterUnitID', 'occupiedByName']);
   }),
 
   knex.schema.createTableIfNotExists('userSessions', function(table){
     table.uuid('sessionId').primary(); 
     table.integer('fk_userID').notNullable() 
-    			.references('userID')
-    			.inTable('users');
+          .references('userID')
+          .inTable('users');
   }),
 
   knex.schema.createTableIfNotExists('orgAdmins', function(table){
@@ -109,17 +133,6 @@ exports.up = function(knex, Promise) {
     table.unique(['fk_shelterID', 'fk_eligibilityOptionID']);
   }),
 
-  knex.schema.createTable('hours', function(table){
-      table.increments('hoursID').primary();
-      table.string('hoursMonday').defaultTo('Open 24 hours');
-      table.string('hoursTuesday').defaultTo('Open 24 hours');
-      table.string('hoursWednesday').defaultTo('Open 24 hours');
-      table.string('hoursThursday').defaultTo('Open 24 hours');
-      table.string('hoursFriday').defaultTo('Open 24 hours');
-      table.string('hoursSaturday').defaultTo('Open 24 hours');
-      table.string('hoursSunday').defaultTo('Open 24 hours');
-    }),
-
   knex.schema.createTable('userEligibility', function(table){
     table.increments('userEligibilityID').primary();
     table.integer('fk_userID').notNullable()
@@ -129,20 +142,7 @@ exports.up = function(knex, Promise) {
             .references('eligibilityOptionID')
             .inTable('eligibilityOptions');
     table.unique(['fk_userID', 'fk_eligibilityOptionID']);
-  }),
-
-  knex.schema.createTableIfNotExists('locations', function(table){
-    table.increments('locationID').primary();
-    table.string('locationName');
-    table.string('locationStreet');
-    table.string('locationCity');
-    table.string('locationState');
-    table.string('locationZip');
-    table.string('locationPhone');
-    table.integer('fk_hourID').nullable()
-              .references('hoursID')
-              .inTable('hours');
-  }),
+  })
 
   ]);
 };
