@@ -65,10 +65,6 @@ class Shelter extends React.Component {
           shelters={this.state.shelters}
           women={this.state.womenz}
         />
-        <p>List of Shelters</p>
-        <ul>
-          hi
-        </ul>
       </div>
     );
   }
