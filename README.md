@@ -10,15 +10,11 @@
 
 ## Table of Contents
 1. [Team](#team)
-1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Linting](#linting)
     1. [Starting Database](#initializing-database)
     1. [Tests](#tests)
-1. [Contributing](#contributing)
-
-## Requirements
 
 ## Development
 
@@ -76,5 +72,3 @@ createdb sheltered_test
 npm run migrate
 npm test
 ```
-
-## Contributing
