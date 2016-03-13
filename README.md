@@ -9,14 +9,13 @@
 - __VP of Misc. Stuff__ - James Ross
 
 ## Table of Contents
-1. [Usage](#Usage)
+1. [Team](#team)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Linting](#linting)
     1. [Starting Database](#initializing-database)
     1. [Tests](#tests)
-1. [Team](#team)
 1. [Contributing](#contributing)
 
 ## Requirements
@@ -28,7 +27,7 @@
 npm install
 brew install postgres
 ```
-npm install will run bower install.
+npm install will run bower install and gulp build.
 
 ### Linting
 For Frontend work:
@@ -74,7 +73,7 @@ Once Postgres is running
 ```
 npm install -g knex
 createdb sheltered_test
-npm migrate
+npm run migrate
 npm test
 ```
 
