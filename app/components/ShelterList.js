@@ -29,10 +29,6 @@ class Shelter extends React.Component {
     this.setState(state);
   }
 
-  handleClick(i) {
-    console.log('You clicked: ', i);
-  }
-
   handleUserInput(filter, women) {
     this.setState({
       filterText: filter,
@@ -41,17 +37,6 @@ class Shelter extends React.Component {
   }
 // shelterProfile is going to be a separate ajax call, utilizing params.id
   render() {
-    const shelters = this.state.shelters.map((shelter, i) => {
-      const bound = this.handleClick.bind(this, i);
-      return (
-        <div key={shelter.shelterName} className="shelterCard" onClick={bound}>
-          <Link to={"/shelterprofile/" + shelter.shelterName}>
-            <p>{shelter.shelterName}</p>
-          </Link>
-        </div>
-      );
-    });
-
 
     return (
       <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
@@ -69,40 +54,6 @@ class Shelter extends React.Component {
     );
   }
 }
-
-
-// class SearchBar extends React.Component {
-//   constructor() {
-//     super()
-//     console.log(this)
-//     this.handleChange = this.handleChange.bind(this)
-//   }
-//   handleChange() {
-//     //console.log(this)
-//     this.props.onInput (
-//       this.refs.filterTextInput.value,
-//       this.refs.gender.checked
-//     );
-//   }
-//   render() {
-//     return (
-//     <form>
-//         <input type="text"
-//           placeholder="Search..."
-//           value={this.props.filter}
-//           ref="filterTextInput"
-//           onChange={this.handleChange}
-//         />
-//         <p>
-//           <input type="checkbox" ref="gender" checked={this.props.women} />
-//           {' '}
-//           Womenz
-//         </p>
-//     </form>
-//     );
-//   }
-// }
-
 
 
 export default Shelter;

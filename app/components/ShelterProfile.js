@@ -15,7 +15,8 @@ class ShelterProfile extends React.Component {
 
   render() {
     const theShelter = this.state.shelters.filter((shelter) => {
-      return shelter.shelterName === this.props.params.id;
+      console.log(shelter.shelterName.toLowerCase())
+      return shelter.shelterName.toLowerCase() === this.props.params.id.toLowerCase();
     })[0];
      // console.log('var should be ', theShelter)
     return (
