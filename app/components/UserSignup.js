@@ -3,35 +3,35 @@ import ReactDOM from 'react-dom'
 import { Link } from 'react-router';
 
 class UserSignup extends React.Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {email: "adsf", password: "adf", firstName: "adsf", lastName: 'adsf', phone: 'adsf'}
     this.update = this.update.bind(this);
     //this.submitForm = this.submitForm(this.state);
   }
-  post(data){
+  post(data) {
     console.log('data ', data);
 
     $.ajax({
       type: 'POST',
       url: '/api/signup',
       data: data,
-      success: function(data){
+      success: function(data) {
         window.location.href = "./"
       },
-      fail: function(err){
+      fail: function(err) {
         console.log('err', err);
       }
     });
   }
-  update(e){
+  update(e) {
     this.setState({
       email: ReactDOM.findDOMNode(this.refs.email.refs.inp).value,
       password: ReactDOM.findDOMNode(this.refs.password.refs.inp).value,
       firstName: ReactDOM.findDOMNode(this.refs.firstName.refs.inp).value,
       lastName: ReactDOM.findDOMNode(this.refs.lastName.refs.inp).value,
-      phone: ReactDOM.findDOMNode(this.refs.phone.refs.inp).value
-    })
+      phone: ReactDOM.findDOMNode(this.refs.phone.refs.inp).value,
+    });
   }
   submitForm(e){
     e.preventDefault();

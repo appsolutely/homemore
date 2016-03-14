@@ -10,12 +10,12 @@ import Search from './Search';
 class Shelter extends React.Component {
   constructor(props) {
     super(props);
-// set initial state
+  // set initial state
     this.handleUserInput = this.handleUserInput.bind(this);
     this.state = ShelterStore.getState();
     this.onChange = this.onChange.bind(this);
   }
-
+  // on load, will fetch list of shelters - this needs to happen every load to maintain bedcount
   componentDidMount() {
     ShelterStore.listen(this.onChange);
     ShelterActions.getShelters();
@@ -29,26 +29,31 @@ class Shelter extends React.Component {
     this.setState(state);
   }
 
-  handleUserInput(filter, women) {
+  handleUserInput(filter, women, family, zip) {
     this.setState({
       filterText: filter,
       womenz: women,
+      family: family,
+      zip: zip,
     });
   }
 // shelterProfile is going to be a separate ajax call, utilizing params.id
   render() {
-
     return (
       <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
         <Search
           filter={this.state.filterText}
           women={this.state.womenz}
-          onInput={this.handleUserInput.bind(this)}
+          family={this.state.family}
+          zip={this.state.zip}
+          onInput={this.handleUserInput}
         />
         <ShelterListing
           filter={this.state.filterText}
           shelters={this.state.shelters}
           women={this.state.womenz}
+          family={this.state.family}
+          zip={this.state.zip}
         />
       </div>
     );

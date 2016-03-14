@@ -6,22 +6,23 @@ class ShelterListings extends React.Component {
     super();
   }
 
-	render() {
-		const rows = this.props.shelters.map((shelter,i) =>{
-			if (shelter.shelterName.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0){
-				console.log(shelter);
-				return(
-					<div key={shelter.shelterID} className='shelterCard'>
+  render() {
+    const rows = this.props.shelters.map((shelter) => {
+    	console.log(this.props.zip)
+      if (shelter.shelterName.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0){
+				// console.log(shelter);
+				return (
+					<div key={shelter.shelterID} className="shelterCard">
 						<Link to={"/shelterprofile/" + shelter.shelterName}>
 							<p>{shelter.shelterName}</p>
 						</Link>
 					</div>
-				)
-			}
-		});
+				);
+      }
+    });
 		return (
 		<div>
-			{rows}	
+			{rows}
 		</div>
 		);
 	}
