@@ -73,10 +73,12 @@ app.use(function (req, res, next) {
         .catch(function(err){
           if (err === 'User is not approved') {
             //the user is logged in but they haven't yet been approved 
-            //so continue as registered user
+            //so continue as public user
+            console.log('not approved');
             next();
           } else {
-            console.error('Unknown error ', err);
+            console.error('Unknown error in permissions ', err);
+            next();
           }
         });
   } else {
@@ -87,17 +89,13 @@ app.use(function (req, res, next) {
 
 
 /*
-// - All Routes will return an array
+// - All Information routes will return an array
 // - if there is content to return it will have objects inside
 // - the names of those objects can typically be found inside of the db test files -JCB
 */
 
 
 app.get('/api/austin/shelters', function(req, res){
-  //testing route - defining var
-  // var shelters = [{shelterName: 'ARCH', shelterDaytimePhone: '867-5309', locationStreet: '2001 Guadalupe', locationCity: 'Austin', locationState: 'TX' }, {shelterName: 'BETTY', shelterDaytimePhone: '470-3226', locationStreet: '805 Comal', locationCity: 'Austin', locationState: 'TX' } ]
-  // return res.status(200).send(shelters);
-  //end of testing var
   //returns all shelters and associated data with no filtering
   return shelters.selectAllShelters()
         .then(function(shelters){
@@ -423,8 +421,23 @@ app.post('/api/logout', function(req, res){
           });
 });
 
-app.post('/helloWorld', function(req, res){
-  handleSayHello(req, res);
+app.post('/api/approve', function(req, res){
+  var userID;
+  return users.findByUserEmail(req.user.email)
+        .then(function(user){
+          userID = user[0].userID;
+          return users.findUserRole(userID);
+        })
+        .then(function(role){
+          return users.setAccessTrue(userID, role);
+        })
+        .then(function(result){
+          res.status(201).send({success: 'User has been approved', user: result});
+        })
+        .catch(function(err){
+          console.error('Error in approving user ', err);
+          res.status(500).send({error: 'Service error approving user', message: err.message});
+        });
 });
 
 /*
