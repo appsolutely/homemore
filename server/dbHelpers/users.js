@@ -284,11 +284,12 @@ exports.findByUserID = function(userId){
 };
 
 //pass in just the email
-exports.findByUserEmail = function(email){
-  console.log('email passed in ', email);
+exports.findByUserEmail = function(reqBody){
+  console.log('email passed in ', reqBody);
+  var email = reqBody.user.email || reqBody.user.userEmail;
   return knex.select('*')
               .from('users')
-              .where('userEmail', email.user.email)
+              .where('userEmail', email)
               .then(function(result){
                 // console.log('retured from select email ', result);
                 return result;
@@ -411,12 +412,12 @@ exports.addShelter = function(req){
 
 exports.setAccessTrue = function(userID, role){
   if (role === 'Admin'){
-    return knex(orgAdmins)
+    return knex('orgAdmins')
             .update('accessApproved', true)
             .where('fk_userID', userID)
             .returning('*');
   } else {
-    return knex(shelterManagers)
+    return knex('shelterManagers')
           .update('accessApproved', true)
           .where('fk_userID', userID)
           .returning('*');
@@ -424,19 +425,35 @@ exports.setAccessTrue = function(userID, role){
 };
 
 exports.findUserAccess = function(userID, role) {
+  console.log('findUserAccess')
   if (role === 'Admin'){
     return knex.select('accessApproved')
-            .from(orgAdmins)
+            .from('orgAdmins')
             .where('accessApproved', true)
-            .andWhere('fk_userID', userID);
+            .andWhere('fk_userID', userID)
+            .then(function(res){
+              console.log(res);
+              if (res[0]){
+                return res;
+              } else {
+                throw 'User is not approved';
+              }
+            });
   } else if (role === 'Manager'){
     return knex.select('accessApproved')
-            .from(shelterManagers)
+            .from('shelterManagers')
             .where('accessApproved', true)
-            .andWhere('fk_userID', userID);
+            .andWhere('fk_userID', userID)
+            .then(function(res){
+              if (res[0]){
+                return res;
+              } else {
+                throw 'User is not approved';
+              }
+            });
   } else {
     //they are a public user so they don't have access
-    return false;
+    throw 'User is not approved';
   }
 };
 
