@@ -391,6 +391,10 @@ return this.findByUserEmail(req.body)
             userID = resp[0].userID;
             return;
           })
+          .catch(function(err){
+            console.error('User does not exist', err);
+            throw 'User does not exist';
+          })
           .then(function(){
             //first check if the shelter already exists
             return shelterHelpers.selectShelter(shelterName);
@@ -403,6 +407,9 @@ return this.findByUserEmail(req.body)
             }
           })
           .catch(function(err){
+            if (err === 'User does not exist'){
+              throw 'User does not exist';
+            }
             // console.error('Error in user.addShelter ', err);
             return shelterHelpers.insertShelter(reqBody);
           })
