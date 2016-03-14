@@ -5,6 +5,8 @@ class ShelterStore {
   constructor() {
     this.bindActions(ShelterActions);
     this.shelters = [];
+    this.filterText = '';
+    this.womenz = false;
   }
 
   onGetSheltersSuccess(data) {

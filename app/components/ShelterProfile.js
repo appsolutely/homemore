@@ -8,10 +8,10 @@ class ShelterProfile extends React.Component {
     super(props);
     this.state = alt.stores.ShelterStore.state;
   }
-  componentDidMount() {
-    console.log('shelter name', this.props.params.id);
-    console.log('I mounted sugar', alt.stores.ShelterStore.state);
-  }
+  // componentDidMount() {
+  //   console.log('shelter name', this.props.params.id);
+  //   console.log('I mounted sugar', alt.stores.ShelterStore.state);
+  // }
 
   render() {
     const theShelter = this.state.shelters.filter((shelter) => {
@@ -19,11 +19,13 @@ class ShelterProfile extends React.Component {
     })[0];
      // console.log('var should be ', theShelter)
     return (
-		<div className="shelterProfile">
-			<h3>{theShelter.shelterName}</h3>
-			<h4>{theShelter.shelterDaytimePhone}</h4>
-		</div>
-	);
+       <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
+    		<div className="shelterProfile">
+    			<h3>{theShelter.shelterName}</h3>
+    			<h4>{theShelter.shelterDaytimePhone}</h4>
+    		</div>
+       </div>
+	  );
   }
 }
 

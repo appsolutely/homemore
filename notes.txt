@@ -1,0 +1,5 @@
+separate component hierarchy   -  parent component is shelterList app
+
+will need separate search component
+
+will need separate result component/possibly separate result rows for each shelter
