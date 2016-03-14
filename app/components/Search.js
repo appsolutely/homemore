@@ -5,6 +5,7 @@ class SearchBar extends React.Component {
     super()
     this.handleChange = this.handleChange.bind(this)
   }
+
   handleChange() {
     //console.log(this)
     this.props.onInput (
@@ -22,7 +23,11 @@ class SearchBar extends React.Component {
           onChange={this.handleChange}
         />
         <p>
-          <input type="checkbox" ref="gender" checked={this.props.women} />
+          <input type="checkbox" 
+            ref="gender" 
+            checked={this.props.women} 
+            onChange={this.handleChange}
+          />
           {' '}
           Womenz
         </p>
