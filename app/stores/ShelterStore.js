@@ -7,11 +7,13 @@ class ShelterStore {
     this.shelters = [];
     this.filterText = '';
     this.womenz = false;
+    this.family = false;
+    this.zip = false;
   }
 
   onGetSheltersSuccess(data) {
     this.shelters = data;
-    console.log('I am the shelters', this.shelters);
+    // console.log('I am the shelters', this.shelters);
   }
 
   onGetSheltersFail(jqXhr) {

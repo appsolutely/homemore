@@ -22,7 +22,7 @@ class AdminSignup extends React.Component {
     e.preventDefault();
   let adminInfo = {adminUser: {firstName: this.state.firstName, lastName: this.state.lastName,
       password: this.state.password, email: this.state.email, phone: this.state.phone}, organizations:{ orgName: this.state.orgName}};
-    console.log("User info submit", userInfo)
+    console.log("User info submit", adminInfo)
     this.post(adminInfo)
   }
 

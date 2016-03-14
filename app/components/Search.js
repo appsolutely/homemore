@@ -1,16 +1,17 @@
 import React from 'react';
 
 class SearchBar extends React.Component {
-  constructor() { 
-    super()
-    this.handleChange = this.handleChange.bind(this)
+  constructor() {
+    super();
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange() {
-    //console.log(this)
-    this.props.onInput (
+    this.props.onInput(
       this.refs.filterTextInput.value,
-      this.refs.gender.checked
+      this.refs.gender.checked,
+      this.refs.family.checked,
+      this.refs.zip.checked
     );
   }
   render() {
@@ -23,17 +24,36 @@ class SearchBar extends React.Component {
           onChange={this.handleChange}
         />
         <p>
-          <input type="checkbox" 
-            ref="gender" 
-            checked={this.props.women} 
+          <input type="checkbox"
+            ref="gender"
+            defaultChecked={this.props.women}
             onChange={this.handleChange}
           />
-          {' '}
           Womenz
+        </p>
+        <p>
+          <input type="checkbox"
+            ref="family"
+            defaultChecked={this.props.family}
+            onChange={this.handleChange}
+          />
+          Families
+        </p>
+        <p>
+          <input type="checkbox"
+            ref="zip"
+            checked={this.props.zip}
+            onChange={this.handleChange}
+          />
+          Zip place holder
         </p>
     </form>
     );
   }
 }
+
+SearchBar.propTypes = {
+  params: React.PropTypes.object,
+};
 
 export default SearchBar;
