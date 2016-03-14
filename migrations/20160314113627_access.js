@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return Promise.all([
-    knex.schema.table('orgAdmins', function(){
+    knex.schema.table('orgAdmins', function(table){
       table.boolean('accessApproved').defaultTo(false);
     })
   ]);
