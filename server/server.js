@@ -37,7 +37,7 @@ app.use(cookieParser());
 
 //if there is a cookie find the userID associated with it
 app.use(function (req, res, next) {
-  var session;
+  var session, role;
   if (req.cookies.sessionId) {
     console.log('inside');
     return sessions.findSession(req.cookies.sessionId)
@@ -46,7 +46,11 @@ app.use(function (req, res, next) {
           req.session = session[0];
           return users.findUserRole(session[0].fk_userID);
         })
-        .then(function(role){
+        .then(function(userRole){
+          role = userRole;
+          return users.findUserAccess(session[0].fk_userID, role);
+        })
+        .then(function(){
           req.session.permissionLevel = role;
           if (role === 'Admin') {
             return users.findUserOrganization(req.session.fk_userID)
@@ -65,9 +69,18 @@ app.use(function (req, res, next) {
             console.log('public');
             next();
           }
+        })
+        .catch(function(err){
+          if (err === 'User is not approved') {
+            //the user is logged in but they haven't yet been approved 
+            //so continue as registered user
+            next();
+          } else {
+            console.error('Unknown error ', err);
+          }
         });
   } else {
-    // No session to fetch; continue
+    // No session to fetch so continue
     next();
   }
 });
@@ -98,10 +111,14 @@ app.get('/api/austin/shelters', function(req, res){
 app.post('/api/signin', function(req, res){
   //path is the same for all types of users
   return users.signIn(req.body)
-              .then(function(sessionId){
-                console.log('session ', sessionId);
-                res.setHeader('Set-Cookie', 'sessionId=' + sessionId + '; path=/');
-                res.status(201).send({success: 'User signed in'});
+              .then(function(session){
+                console.log('session ', session.sessionId);
+                res.setHeader('Set-Cookie', 'sessionId=' + session.sessionId + '; path=/');
+                return users.findByUserID(session.fk_userID);
+              })
+              .then(function(user){
+                delete user[0].userPassword;
+                res.status(201).send({success: 'User signed in', user: user[0]});
               })
               .catch(function(err){
                 console.log('error in signin ', err);
@@ -410,36 +427,83 @@ app.post('/helloWorld', function(req, res){
   handleSayHello(req, res);
 });
 
-//setup for emailing from server
-function sendManagerEmail(manager, res) {
-  var transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: ' appsolutelysheltered@gmail.com',
-      pass: "eg&4{jeEDL^RS'x%"
-    }
+/*
+EMAIL SETUP
+*/
+
+//the email our messages are sent from
+var transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: ' appsolutelysheltered@gmail.com',
+    pass: "eg&4{jeEDL^RS'x%"
+  }
+});
+
+//ourEmail
+var ourEmail = 'appsolutelysheltered@gmail.com';
+
+//function to actually send off the email returns a promise
+var sendEmail = function(mailOptions){
+  return transporter.sendMail(mailOptions, function(err, info){
+    return new Promise(function(resolve, reject){
+      if (err){
+        console.log(err);
+        res.json({yo: 'error'});
+      } else {
+        console.log('Message sent: ' + info.response);
+        resolve(info);
+      }
+    });
   });
-  var text = 'A new Account has been created for you on Sheltered. \n\n The password ' + manager.genPass +
+};
+
+//setup for emailing from server
+var sendManagerEmail = function (manager, res) {
+  var text = 'A new account has been created for you on Sheltered. \n\n The password ' + manager.genPass +
    ' has been randomly generated for you. \n\n Please head to sheltered.herokuapp.com and change it. \n\n Welcome from the Appsolutely Team!';
   var mailOptions = {
-    from: 'appsolutelysheltered@gmail.com',
+    from: ourEmail,
     to: manager.user.userEmail,
     subject: 'Account Created On Sheltered',
     text: text
   };
+  return sendEmail(mailOptions);
+};
 
-  transporter.sendMail(mailOptions, function(err, info){
-    if (err){
-      console.log(err);
-      res.json({yo: 'error'});
-    } else {
-      console.log('Message sent: ' + info.response);
-      res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email has been sent to confirm account creation'});
-    }
-  });
-}
+var sendGeneralSignUpEmail = function(user, res) {
+  var text = 'A new account has been created with this email on Sheltered. \n\n Welcome from the Sheltered Team!';
+  var mailOptions = {
+    from: ourEmail,
+    to: user.user.userEmail,
+    subject: 'Account Created On Sheltered',
+    text: text
+  };
+return sendEmail(mailOptions);
+};
 
 
+//if Org does not already exist email us
+var sendOrgConfirmEmail = function(org, res){
+  var text = 'A new account has been created on Sheltered for ' + org.organizationName +
+  '. \n\n Please go to sheltred.herokuapp.com to confirm the new user. \n\n Welcome from the Sheltered Team!';
+  var mailOptions = {
+    from: ourEmail,
+    to: ourEmail,
+    subject: 'Account Created On Sheltered'
+  };
+};
+
+//if Org does exist email to an existing admin
+var sendAdminConfirmEmail = function(org, res){
+  var text = 'A new account has been created on Sheltered for ' + org.organizationName +
+  '. \n\n Please go to sheltred.herokuapp.com to confirm the new user. \n\n Welcome from the Sheltered Team!';
+  var mailOptions = {
+    from: ourEmail,
+    to: org.email,
+    subject: 'Account Created On Sheltered'
+  };
+};
 
 //server side rendering - front end needs this
 app.use(function(req, res) {
