@@ -78,44 +78,7 @@ var org1, org2, org3;
         console.log("There was an error adding this user role", err);
         throw new Error("There was an error adding this user role", err);     
     })
-    // .then(function(userRoles){
-    //     console.log("SUCCESS #3");
-    //   var anonUserID = userRoles[0].userRoleID;
-    //   var registeredUserID = userRoles[1].userRoleID;
-    //   var adminUserID = userRoles[2].userRoleID;
-    //   console.log(anonUserID, registeredUserID, adminUserID);
 
-    //     //--users
-    //   return knex('users')
-    //         .insert([
-    //             {fk_userRoleID: anonUserID, userFirstName:"Harry", userLastName: "Henderson", userPhone: "512-555-1234", userEmail: "harry@email.com", userPassword: "1234"},
-    //             {fk_userRoleID: registeredUserID, userFirstName:"Rebecca", userLastName: "Rogers", userPhone: "713-555-5432", userEmail: "rebecca@email.com", userPassword: "1234"},
-    //             {fk_userRoleID: adminUserID, userFirstName:"Michelle", userLastName: "McCalister", userPhone: "512-544-5678", userEmail: "michelle@email.com", userPassword: "1234"}
-    //           ])
-    //         .returning('*');
-    // })
-    // .catch(function(err){
-    //   console.log("There was an error adding these users", err);
-    //   throw new Error("There was an error adding these users", err);
-    // })
-    // .then(function(users){
-    //     console.log("SUCCESS #4");      
-    //   var user1 = users[0].userID;
-    //   var user2 = users[1].userID;
-    //   var user3 = users[2].userID;
-
-    //     //--userEligibility
-    //   return knex('userEligibility')
-    //         .insert([
-    //           {fk_eligibilityOptionID: vetsOptID, fk_userID: user2},
-    //           {fk_eligibilityOptionID: adultsOptID, fk_userID: user2}
-    //          ])
-    //         .returning('*');
-    // })
-    // .catch(function(err){
-    //   console.log("There was an error adding these user eligibility records", err);
-    //   throw new Error("There was an error adding these user eligibility records", err);
-    // })    
     .then(function(results){
         console.log("SUCCESS #5");      
       // var userEligResults = results;
@@ -230,15 +193,7 @@ var org1, org2, org3;
       var shelter11ID = shelters[10].shelterID;
       var shelter12ID = shelters[11].shelterID;           
  
-    // .then(function(){
-    //     //--shelterEligibility
-    //   return knex('shelterEligibility')
-    //         .insert([
 
-
-    //         ])
-    //   .returning('*')
-    // })
     
         //--shelterUnits
       return knex('shelterUnits')
@@ -313,33 +268,6 @@ var org1, org2, org3;
       console.log("There was an error adding these occupancy records", err);
       throw new Error("There was an error adding these occupancy records", err);
     })   
-    // .then(function(results){
-    //     console.log("SUCCESS #11");      
-    //   var shelterOccupancyResults = results;
-    //     // --shelterManagers
-    //   return knex('shelterManagers')
-    //         .insert([
-    //             {accessApproved: true, fk_userID: user3, fk_shelterID: shelter1ID}
-    //         ])
-    //         .returning('*');
-    // })
-    //  .catch(function(err){
-    //   console.log("There was an error adding these shelter managers", err);
-    //   throw new Error("There was an error adding these shelter managers", err);
-    // })   
-    // .then(function(results){
-    //     console.log("SUCCESS #12");      
-    //   var shelterManagersresults = results;
-    //     // --orgAdmins
-    //   return knex('orgAdmins')
-    //         .insert([
-    //             {fk_userID: user3, fk_organizationID: org1}
-    //           ])
-    //         .returning('*');
-    // })
-    //  .catch(function(err){
-    //   console.log("There was an error adding these organization admins", err);
-    //   throw new Error("There was an error adding these organization admins", err);
-    // })   
+
 );
 };

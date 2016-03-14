@@ -23,3 +23,9 @@
 	background-color: snow;
 	height: 100%;
 }
+
+.logo{
+    max-width: 30%;
+    float: left;
+    
+}
