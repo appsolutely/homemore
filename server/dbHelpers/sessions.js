@@ -11,7 +11,7 @@ exports.createNewSession = function(userID){
             .into('userSessions')
             .returning('*')
             .then(function(result){
-              return result[0].sessionId;
+              return result[0];
             });
 };
 

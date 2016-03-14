@@ -409,6 +409,38 @@ exports.addShelter = function(req){
           });
 };
 
+exports.setAccessTrue = function(userID, role){
+  if (role === 'Admin'){
+    return knex(orgAdmins)
+            .update('accessApproved', true)
+            .where('fk_userID', userID)
+            .returning('*');
+  } else {
+    return knex(shelterManagers)
+          .update('accessApproved', true)
+          .where('fk_userID', userID)
+          .returning('*');
+  }
+};
+
+exports.findUserAccess = function(userID, role) {
+  if (role === 'Admin'){
+    return knex.select('accessApproved')
+            .from(orgAdmins)
+            .where('accessApproved', true)
+            .andWhere('fk_userID', userID);
+  } else if (role === 'Manager'){
+    return knex.select('accessApproved')
+            .from(shelterManagers)
+            .where('accessApproved', true)
+            .andWhere('fk_userID', userID);
+  } else {
+    //they are a public user so they don't have access
+    return false;
+  }
+};
+
+
 var selectAdminInfo = function(userID){
   return knex.select('*')
              .from('orgAdmins')

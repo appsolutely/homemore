@@ -10,6 +10,7 @@ var Router = require('react-router');
 var appRoutes = require('../app/routes');
 var swig = require('swig');
 var cookieParser = require('cookie-parser');
+var nodemailer = require('nodemailer');
 
 //dbHelpers
 var shelters = require('./dbHelpers/shelters.js');
@@ -36,7 +37,7 @@ app.use(cookieParser());
 
 //if there is a cookie find the userID associated with it
 app.use(function (req, res, next) {
-  var session;
+  var session, role;
   if (req.cookies.sessionId) {
     console.log('inside');
     return sessions.findSession(req.cookies.sessionId)
@@ -45,7 +46,11 @@ app.use(function (req, res, next) {
           req.session = session[0];
           return users.findUserRole(session[0].fk_userID);
         })
-        .then(function(role){
+        .then(function(userRole){
+          role = userRole;
+          return users.findUserAccess(session[0].fk_userID, role);
+        })
+        .then(function(){
           req.session.permissionLevel = role;
           if (role === 'Admin') {
             return users.findUserOrganization(req.session.fk_userID)
@@ -64,26 +69,33 @@ app.use(function (req, res, next) {
             console.log('public');
             next();
           }
+        })
+        .catch(function(err){
+          if (err === 'User is not approved') {
+            //the user is logged in but they haven't yet been approved 
+            //so continue as public user
+            console.log('not approved');
+            next();
+          } else {
+            console.error('Unknown error in permissions ', err);
+            next();
+          }
         });
   } else {
-    // No session to fetch; continue
+    // No session to fetch so continue
     next();
   }
 });
 
 
 /*
-// - All Routes will return an array
+// - All Information routes will return an array
 // - if there is content to return it will have objects inside
 // - the names of those objects can typically be found inside of the db test files -JCB
 */
 
 
 app.get('/api/austin/shelters', function(req, res){
-  //testing route - defining var
-  // var shelters = [{shelterName: 'ARCH', shelterDaytimePhone: '867-5309', locationStreet: '2001 Guadalupe', locationCity: 'Austin', locationState: 'TX' }, {shelterName: 'BETTY', shelterDaytimePhone: '470-3226', locationStreet: '805 Comal', locationCity: 'Austin', locationState: 'TX' } ]
-  // return res.status(200).send(shelters);
-  //end of testing var
   //returns all shelters and associated data with no filtering
   return shelters.selectAllShelters()
         .then(function(shelters){
@@ -97,10 +109,14 @@ app.get('/api/austin/shelters', function(req, res){
 app.post('/api/signin', function(req, res){
   //path is the same for all types of users
   return users.signIn(req.body)
-              .then(function(sessionId){
-                console.log('session ', sessionId);
-                res.setHeader('Set-Cookie', 'sessionId=' + sessionId + '; path=/');
-                res.status(201).send({success: 'User signed in'});
+              .then(function(session){
+                console.log('session ', session.sessionId);
+                res.setHeader('Set-Cookie', 'sessionId=' + session.sessionId + '; path=/');
+                return users.findByUserID(session.fk_userID);
+              })
+              .then(function(user){
+                delete user[0].userPassword;
+                res.status(201).send({success: 'User signed in', user: user[0]});
               })
               .catch(function(err){
                 console.log('error in signin ', err);
@@ -144,6 +160,7 @@ app.post('/api/createManager', function(req, res){
               .then(function(newManager){
                 console.log('newManager', newManager);
                 //path for now -- add sending email here or on front end?
+                sendManagerEmail(newManager, res);
                 res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email will be sent to confirm account creation'});
               })
               .catch(function(err){
@@ -166,7 +183,7 @@ app.post('/api/addShelterManager', function(req, res){
               res.status(201).send(updated);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error updating data ' + err});
+              res.status(500).send({error: 'There was an error updating data ' + err});
             });
           } else {
             res.status(401).send({error: 'User does not have permission for this action'});
@@ -186,7 +203,7 @@ app.post('/api/updateOrganization', function(req, res){
               res.status(201).send(updates);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error changing data ' + err});
+              res.status(500).send({error: 'There was an error changing data ' + err});
             });
           } else {
             res.status(401).send({error: 'User does not have permission for this action'});
@@ -207,7 +224,7 @@ app.post('/api/updateShelter', function(req, res){
                   res.statu(201).send(updates);
                 })
                 .catch(function(err){
-                  res.status(400).send({error: 'There was an error changing data ' + err});
+                  res.status(500).send({error: 'There was an error changing data ' + err});
                 });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -228,7 +245,7 @@ app.post('/api/addOccupant', function(req, res){
               res.status(201).send(occupant);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error inserting data ' + err });
+              res.status(500).send({error: 'There was an error inserting data ' + err });
             });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -249,7 +266,7 @@ app.post('/api/removeOccupant', function(req, res){
                 res.status(201).send(deleted);
               })
               .catch(function(err){
-                res.status(400).send({error: 'There was an error deleting data ' + err});
+                res.status(500).send({error: 'There was an error deleting data ' + err});
               });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -270,7 +287,7 @@ app.post('/api/updateOccupant', function(req, res){
               res.status(201).send(updated);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error changing data ' + err});
+              res.status(500).send({error: 'There was an error changing data ' + err});
             });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -289,7 +306,7 @@ app.post('/api/updateOccupantUnit', function(req, res){
               res.status(201).send(updated);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error changing data ' + err});
+              res.status(500).send({error: 'There was an error changing data ' + err});
             });
     } else {
       res.status(401).send({error: 'User does not have permission for this action'});
@@ -310,7 +327,7 @@ app.post('/api/addShelterUnit', function(req, res){
               res.status(201).send(unit);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error adding data ' + err});
+              res.status(500).send({error: 'There was an error adding data ' + err});
             });
     } else {
      res.status(401).send({error: 'User does not have permission for this action'});
@@ -331,7 +348,7 @@ app.post('/api/updateEligibility', function(req, res){
               res.status(201).send(eligibility);
             })
             .catch(function(err){
-              res.status(400).send({error: 'There was an error inserting data ' + err});
+              res.status(500).send({error: 'There was an error inserting data ' + err});
             });
     } else {
      res.status(401).send({error: 'User does not have permission for this action'});
@@ -353,7 +370,7 @@ app.post('/api/deleteEligibility', function(req, res){
                 res.status(201).send(deleted);
               })
               .catch(function(err){
-                res.status(400).send({error: 'There was an error deleting data ' + err});
+                res.status(500).send({error: 'There was an error deleting data ' + err});
               });
     } else {
      res.status(401).send({error: 'User does not have permission for this action'});
@@ -389,7 +406,7 @@ app.post('/api/updateUser', function(req, res){
             res.status(201).send(changes);
           })
           .catch(function(err){
-              res.status(400).send({error: 'There was an error changing data'});
+              res.status(500).send({error: 'There was an error changing data'});
           });
   } else {
     res.status(401).send({error: 'User is not currently signed in'});
@@ -403,6 +420,103 @@ app.post('/api/logout', function(req, res){
             res.status(201).send({success: 'User has been signed out'});
           });
 });
+
+app.post('/api/approve', function(req, res){
+  var userID;
+  return users.findByUserEmail(req.user.email)
+        .then(function(user){
+          userID = user[0].userID;
+          return users.findUserRole(userID);
+        })
+        .then(function(role){
+          return users.setAccessTrue(userID, role);
+        })
+        .then(function(result){
+          res.status(201).send({success: 'User has been approved', user: result});
+        })
+        .catch(function(err){
+          console.error('Error in approving user ', err);
+          res.status(500).send({error: 'Service error approving user', message: err.message});
+        });
+});
+
+/*
+EMAIL SETUP
+*/
+
+//the email our messages are sent from
+var transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: ' appsolutelysheltered@gmail.com',
+    pass: "eg&4{jeEDL^RS'x%"
+  }
+});
+
+//ourEmail
+var ourEmail = 'appsolutelysheltered@gmail.com';
+
+//function to actually send off the email returns a promise
+var sendEmail = function(mailOptions){
+  return transporter.sendMail(mailOptions, function(err, info){
+    return new Promise(function(resolve, reject){
+      if (err){
+        console.log(err);
+        res.json({yo: 'error'});
+      } else {
+        console.log('Message sent: ' + info.response);
+        resolve(info);
+      }
+    });
+  });
+};
+
+//setup for emailing from server
+var sendManagerEmail = function (manager, res) {
+  var text = 'A new account has been created for you on Sheltered. \n\n The password ' + manager.genPass +
+   ' has been randomly generated for you. \n\n Please head to sheltered.herokuapp.com and change it. \n\n Welcome from the Appsolutely Team!';
+  var mailOptions = {
+    from: ourEmail,
+    to: manager.user.userEmail,
+    subject: 'Account Created On Sheltered',
+    text: text
+  };
+  return sendEmail(mailOptions);
+};
+
+var sendGeneralSignUpEmail = function(user, res) {
+  var text = 'A new account has been created with this email on Sheltered. \n\n Welcome from the Sheltered Team!';
+  var mailOptions = {
+    from: ourEmail,
+    to: user.user.userEmail,
+    subject: 'Account Created On Sheltered',
+    text: text
+  };
+return sendEmail(mailOptions);
+};
+
+
+//if Org does not already exist email us
+var sendOrgConfirmEmail = function(org, res){
+  var text = 'A new account has been created on Sheltered for ' + org.organizationName +
+  '. \n\n Please go to sheltred.herokuapp.com to confirm the new user. \n\n Welcome from the Sheltered Team!';
+  var mailOptions = {
+    from: ourEmail,
+    to: ourEmail,
+    subject: 'Account Created On Sheltered'
+  };
+};
+
+//if Org does exist email to an existing admin
+var sendAdminConfirmEmail = function(org, res){
+  var text = 'A new account has been created on Sheltered for ' + org.organizationName +
+  '. \n\n Please go to sheltred.herokuapp.com to confirm the new user. \n\n Welcome from the Sheltered Team!';
+  var mailOptions = {
+    from: ourEmail,
+    to: org.email,
+    subject: 'Account Created On Sheltered'
+  };
+};
 
 //server side rendering - front end needs this
 app.use(function(req, res) {
