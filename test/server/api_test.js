@@ -214,10 +214,10 @@ describe('Sheltered API', function(){
           .then(function(resp){
             console.log('set session ', cookie);
             cookie = resp.headers['set-cookie'][0];
-            resp.permission = 'JCB';
+            resp.body.permission = 'JCB';
             return request(app)
               .post('/api/approve')
-              .send(resp)
+              .send(resp.body)
               .then(function(){
                 return request(app)
                   .post('/api/createManager')

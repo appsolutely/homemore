@@ -131,16 +131,13 @@ app.post('/api/signupAdmin', function(req, res){
   //organizations can't be made without an initial admin
   return users.addNewAdmin(req.body)
               .then(function(resp){
-                console.log('sending general email');
                 newUser = resp;
                 return sendGeneralSignUpEmail(newUser[0].user, res);
               })
               .then(function(){
-                console.log('sent general email');
                 return sendOrgConfirmEmail(newUser[0].user, res);
               })
               .then(function(info){
-                console.log('newUser', newUser[0]);
                 res.status(201).send({success: 'New admin created', user: newUser[0].user, info: info});
               })
               .catch(function(err){
@@ -171,18 +168,21 @@ app.post('/api/createManager', function(req, res){
   //and for creating a new shelter + manager(shelters cannot be made on their own)
   //we generate a password for this user so we need to work out a way to send them a confirmaton email
   console.log('inside createmanager ', req.body);
+  var newUser;
   if (req.session){
     if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
       return users.addNewManager(req.body)
               .then(function(newManager){
                 console.log('newManager', newManager);
+                newUser = newManager;
                 //path for now -- add sending email here or on front end?
                 return sendManagerEmail(newManager[0], res);
               })
               .then(function(info){
-                res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email has been sent to confirm', info: info});
+                res.status(201).send({success: 'New Manager created', user: newUser, message: 'Email has been sent to confirm', info: info});
               })
               .catch(function(err){
+                console.log('err', err);
                 res.status(400).send({error: 'There was an error creating account, email probably already in use ' + err});
               });
     } else {
@@ -442,8 +442,10 @@ app.post('/api/logout', function(req, res){
 
 app.post('/api/approve', function(req, res){
   var userID;
-  if (req.permission === 'JCB'){
-    return users.findByUserEmail(req.user.userEmail)
+  console.log('in approve');
+  console.log('reqBody', req.body);
+  if (req.body.permission === 'JCB'){
+    return users.findByUserEmail(req.body)
           .then(function(user){
             userID = user[0].userID;
             return users.findUserRole(userID);
@@ -517,7 +519,7 @@ var sendManagerEmail = function (manager, res) {
    ' has been randomly generated for you. \n\n Please head to sheltered.herokuapp.com and change it. \n\n Welcome from the Appsolutely Team!';
   var mailOptions = {
     from: ourEmail,
-    to: manager[0].user.userEmail,
+    to: manager.user.userEmail,
     subject: 'Account Created On Sheltered',
     text: text
   };
