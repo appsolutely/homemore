@@ -382,11 +382,19 @@ exports.signIn = function(reqBody){
 //adds an existing manager to another shelter
 exports.addShelter = function(req){
   var reqBody = req.body;
-  var userID = req.session.userID;
+  var userID;
   var shelterName = {shelters: reqBody.shelters.shelterName};
 
-//first check if the shelter already exists
-  return shelterHelpers.selectShelter(shelterName)
+
+return this.findByUserEmail(req.body)
+          .then(function(resp){
+            userID = resp[0].userID;
+            return;
+          })
+          .then(function(){
+            //first check if the shelter already exists
+            return shelterHelpers.selectShelter(shelterName);
+          })
           .then(function(resp){
             if (resp.length > 0) {
               return resp;
