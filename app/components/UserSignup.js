@@ -44,19 +44,19 @@ class UserSignup extends React.Component {
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
         <form>
-        <h1>Email</h1>
-        <AccountInfo ref = 'email' update={this.update} />
 
-        <h1>Password</h1>
-        <AccountInfo ref = 'password' update={this.update} />
-
-        <h1>First Name</h1>
+        <p>First Name</p>
         <AccountInfo ref = 'firstName' update={this.update} />
 
-        <h1>Last Name</h1>
+        <p>Last Name</p>
         <AccountInfo ref = 'lastName' update={this.update} />
+        <p>Email</p>
+        <AccountInfo ref = 'email' update={this.update} />
 
-        <h1>Phone Number</h1>
+        <p>Password</p>
+        <AccountInfo ref = 'password' update={this.update} />
+
+        <p>Phone Number</p>
         <AccountInfo ref = 'phone' update={this.update} />
 
         <br/>
