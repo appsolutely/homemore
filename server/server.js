@@ -131,18 +131,21 @@ app.post('/api/signupAdmin', function(req, res){
   //organizations can't be made without an initial admin
   return users.addNewAdmin(req.body)
               .then(function(resp){
+                console.log('sending general email');
                 newUser = resp;
-                return sendGeneralSignUpEmail(newUser, res);
+                return sendGeneralSignUpEmail(newUser[0].user, res);
               })
               .then(function(){
-                return sendOrgConfirmEmail(newUser, res);
+                console.log('sent general email');
+                return sendOrgConfirmEmail(newUser[0].user, res);
               })
               .then(function(info){
+                console.log('newUser', newUser[0]);
                 res.status(201).send({success: 'New admin created', user: newUser[0].user, info: info});
               })
               .catch(function(err){
-                // console.log(err);
-                res.status(400).send({error: 'There was and error creating account, email probably already in use ' + err});
+                console.log(err);
+                res.status(400).send({error: 'There was an error creating account, ' + err.message, message: err});
               });
 });
 
@@ -152,12 +155,13 @@ app.post('/api/signup', function(req, res){
   return users.addNewPublic(req.body)
               .then(function(newPublic){
                 newUser = newPublic;
-                return sendGeneralSignUpEmail(newPublic, res);
+                return sendGeneralSignUpEmail(newPublic[0], res);
               })
               .then(function(info){
                 res.status(201).send({success: 'New Public user created', user: newUser[0], info: info});
               })
               .catch(function(err){
+                console.error(err);
                 res.status(400).send({error: 'There was an error creating accout, ' + err.message, content: err});
               });
 });
@@ -173,8 +177,10 @@ app.post('/api/createManager', function(req, res){
               .then(function(newManager){
                 console.log('newManager', newManager);
                 //path for now -- add sending email here or on front end?
-                sendManagerEmail(newManager, res);
-                res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email will be sent to confirm account creation'});
+                return sendManagerEmail(newManager[0], res);
+              })
+              .then(function(info){
+                res.status(201).send({success: 'New Manager created', user: newManager, message: 'Email has been sent to confirm', info: info});
               })
               .catch(function(err){
                 res.status(400).send({error: 'There was an error creating account, email probably already in use ' + err});
@@ -436,21 +442,25 @@ app.post('/api/logout', function(req, res){
 
 app.post('/api/approve', function(req, res){
   var userID;
-  return users.findByUserEmail(req.user.email)
-        .then(function(user){
-          userID = user[0].userID;
-          return users.findUserRole(userID);
-        })
-        .then(function(role){
-          return users.setAccessTrue(userID, role);
-        })
-        .then(function(result){
-          res.status(201).send({success: 'User has been approved', user: result});
-        })
-        .catch(function(err){
-          console.error('Error in approving user ', err);
-          res.status(500).send({error: 'Service error approving user', message: err.message});
-        });
+  if (req.permission === 'JCB'){
+    return users.findByUserEmail(req.user.userEmail)
+          .then(function(user){
+            userID = user[0].userID;
+            return users.findUserRole(userID);
+          })
+          .then(function(role){
+            return users.setAccessTrue(userID, role);
+          })
+          .then(function(result){
+            res.status(201).send({success: 'User has been approved', user: result});
+          })
+          .catch(function(err){
+            console.error('Error in approving user ', err);
+            res.status(500).send({error: 'Service error approving user', message: err.message});
+          });
+    } else {
+      res.status(401).send('You need permission for this action');
+    }
 });
 
 /*
@@ -473,6 +483,9 @@ var ourEmail = 'appsolutelysheltered@gmail.com';
 var sendEmail = function(mailOptions, res){
   return transporter.sendMail(mailOptions, function(err, info){
     return new Promise(function(resolve, reject){
+      if (process.env.NODE_ENV === 'test'){
+        resolve();
+      }
       if (err){
         console.log(err);
         res.json({yo: 'error'});
@@ -486,10 +499,11 @@ var sendEmail = function(mailOptions, res){
 
 //functions to call to actually send the emails
 var sendGeneralSignUpEmail = function(user, res) {
+  console.log('inside send email general ', user);
   var text = 'A new account has been created with this email on Sheltered. \n\n Welcome from the Sheltered Team!';
   var mailOptions = {
     from: ourEmail,
-    to: user.user.userEmail,
+    to: user.userEmail,
     subject: 'Account Created On Sheltered',
     text: text
   };
@@ -498,11 +512,12 @@ return sendEmail(mailOptions, res);
 
 //new manager has been created send them their generated password
 var sendManagerEmail = function (manager, res) {
+  console.log('inside send email ', manager);
   var text = 'A new account has been created for you on Sheltered. \n\n The password ' + manager.genPass +
    ' has been randomly generated for you. \n\n Please head to sheltered.herokuapp.com and change it. \n\n Welcome from the Appsolutely Team!';
   var mailOptions = {
     from: ourEmail,
-    to: manager.user.userEmail,
+    to: manager[0].user.userEmail,
     subject: 'Account Created On Sheltered',
     text: text
   };
@@ -511,8 +526,7 @@ var sendManagerEmail = function (manager, res) {
 
 //if Org does not already exist email us
 var sendOrgConfirmEmail = function(org, res){
-  var text = 'A new account has been created on Sheltered for ' + org.organizationName +
-  '. \n\n Please go to sheltered.herokuapp.com to confirm the new user. \n\n Welcome from the Sheltered Team!';
+  var text = 'A new account has been created on Sheltered for a new organization by userID ,'+ org.userID + '. \n\n Please go to sheltered.herokuapp.com to confirm the new user. \n\n Welcome from the Sheltered Team!';
   var mailOptions = {
     from: ourEmail,
     to: ourEmail,

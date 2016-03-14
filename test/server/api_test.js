@@ -207,20 +207,28 @@ describe('Sheltered API', function(){
       });
 
       it('should create a new manager', function(){
+        var cookie;
         return request(app)
           .post('/api/signin')
           .send(signInAdmin)
           .then(function(resp){
-            console.log('set session ', resp.headers['set-cookie'][0]);
+            console.log('set session ', cookie);
+            cookie = resp.headers['set-cookie'][0];
+            resp.permission = 'JCB';
             return request(app)
-              .post('/api/createManager')
-              .set('Cookie', resp.headers['set-cookie'][0])
-              .send(managerUser)
-              .expect(201)
-              .expect(function(resp){
-                var manager = resp.body;
-                expect(manager).to.be.an.instanceOf(Object);
-                expect(manager.user[0].user.userFirstName).to.equal('Tilly');
+              .post('/api/approve')
+              .send(resp)
+              .then(function(){
+                return request(app)
+                  .post('/api/createManager')
+                  .set('Cookie', cookie)
+                  .send(managerUser)
+                  .expect(201)
+                  .expect(function(resp){
+                    var manager = resp.body;
+                    expect(manager).to.be.an.instanceOf(Object);
+                    expect(manager.user[0].user.userFirstName).to.equal('Tilly');
+                  });
               });
             });
       });
