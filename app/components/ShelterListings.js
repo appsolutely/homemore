@@ -8,7 +8,7 @@ class ShelterListings extends React.Component {
 
 	render() {
 		const rows = this.props.shelters.map((shelter,i) =>{
-			if (shelter.shelterName.indexOf(this.props.filter) >= 0){
+			if (shelter.shelterName.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0){
 				console.log(shelter);
 				return(
 					<div key={shelter.shelterID} className='shelterCard'>
