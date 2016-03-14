@@ -23,3 +23,7 @@
 	background-color: snow;
 	height: 100%;
 }
+
+.welcome{
+  display: none;
+}
