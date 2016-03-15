@@ -34,6 +34,7 @@ exports.addNewPublic = function(reqBody){
                               userLastName: user.lastName,
                               userPassword: hashed, 
                               userEmail: user.email,
+                              userPhone: user.phone,
                               fk_userRole: userRoleId})
                      .into('users')
                      .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);
@@ -74,6 +75,7 @@ exports.addNewAdmin = function(reqBody){
                               userLastName: user.lastName,
                               userPassword: hashed, 
                               userEmail: user.email,
+                              userPhone: user.phone,
                               fk_userRole: userRoleId})
                      .into('users')
                      .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);
@@ -154,6 +156,7 @@ exports.addNewManager = function(reqBody){
                               userLastName: user.lastName,
                               userPassword: hashed, 
                               userEmail: user.email,
+                              userPhone: user.phone,
                               fk_userRole: userRoleId})
                      .into('users')
                      .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);            
@@ -199,76 +202,98 @@ exports.addNewManager = function(reqBody){
 exports.updateUser = function(req){
   var reqBody = req.body;
   var userId = req.session.fk_userID;
-  var password = reqBody.user.password || '';
-  var firstname = reqBody.user.firstName || '';
-  var lastname = reqBody.user.lastName || '';
-  var mainEmail = reqBody.user.email || '';
-  var managerEmail = reqBody.user.managerEmail || '';
+  var password = reqBody.user.password || 'placeholder';
+  var firstname = reqBody.user.firstName || 'placeholder';
+  var lastname = reqBody.user.lastName || 'placeholder';
+  var mainEmail = reqBody.user.email || 'placeholder';
+  var phone = reqBody.user.phone || 'placeholder';
+  var changingEmail = reqBody.emailChanged || false; //flag to tell if they are changing their email
+  var changingPassword = reqBody.passwordChanged || false;
+  var hashed;
 
-  if (password.length > 0){
-    //hash new password and update
-    console.log('inside update password');
-    return bcrypt.genSaltAsync(10)
+
+if(changingPassword){
+  return bcrypt.genSaltAsync(10)
           .then(function(salt) {
             return bcrypt.hashAsync(password, salt, null);
           })
-          .then(function(hashed){
+          .then(function(newPass){
+            hashed = newPass;
+            if (changingEmail) {
+            //then check the email if they are changing it
+            return this.findByUserEmail(reqBody);
+            } else {
+            return '';
+            }
+          })
+          .then(function(resp){
+            if (resp.length > 0) {
+              throw 'UserEmail is already taken';
+            } else {
+              return;
+            }
+          })
+          .then(function(){
           return knex('users')
-                .update('userPassword', hashed)
-                .returning('userID')
+                .update({'userPassword': hashed,
+                         'userEmail': mainEmail, 
+                         'userFirstName': firstname,
+                         'userPhone': phone, 
+                         'userLastName': lastname})
+                .returning(['userEmail', 'userFirstName', 'userLastName'])
                 .where('userID', userId);
           })
           .then(function(result){
-            // console.log('response from update password ', result);
+            console.log('response from update user ', result);
             return result;
           })
           .catch(function(err){
-            console.error('error in update password', err);
-            return;
+            console.error('error in update User', err);
+            throw err;
           });
-  } else if (mainEmail.length > 0){
-    //first check if email is already being used
-    //then update
-    console.log('newEmail ', mainEmail);
+  } else if (changingEmail) {
+            //then check the email if they are changing it
     return this.findByUserEmail(reqBody)
-        .then(function(res){
-          // console.log('checked if email is in use ', res);
-          if (res.length > 0) {
-            throw new Error('Email is already in use');
-          } else {
-            return knex('users')
-                .update('userEmail', mainEmail)
-                .returning('*')
-                .where('userID', userId)
-              .then(function(res){
-                // console.log('result from newEmail ', res);
-                return res;
-              });
-          }
-        });
-  } else if (firstname.length > 0){
-    return knex('users')
-        .update('userFirstName', firstname)
-        .where('userID', userId)
-        .returning('*')
-        .then(function(res){
-          return res;
-        });
-  } else if (lastname.length > 0){
-    return knex('users')
-        .update('userLastName', lastname)
-        .where('userID', userId)
-        .returning('*')
-        .then(function(res){
-          return res;
-        });    
-  } else if (managerEmail.length > 0){
-    //not sure if this will exist yet
-    //manager table currently in flux
-    return;
-  } else {
-    throw new Error('Nothing provided to update');
-  }
+          .then(function(resp){
+            if (resp.length > 0) {
+              throw 'UserEmail is already taken';
+            } else {
+              return;
+            }
+          })
+          .then(function(){
+          return knex('users')
+                .update({userEmail: mainEmail, 
+                         userFirstName: firstname, 
+                         userPhone: phone,
+                         userLastName: lastname})
+                .returning(['userEmail', 'userFirstName', 'userLastName'])
+                .where('userID', userId);
+          })
+          .then(function(result){
+            console.log('response from update user ', result);
+            return result;
+          })
+          .catch(function(err){
+            console.error('error in update User', err);
+            throw err;
+          });
+    } else {
+      return knex('users')
+          .update({userFirstName: firstname, 
+                   userPhone: phone,
+                   userLastName: lastname})
+          .returning(['userEmail', 'userFirstName', 'userLastName'])
+          .where('userID', userId)
+          .then(function(result){
+            console.log('response from update user ', result);
+            return result;
+          })
+          .catch(function(err){
+            console.error('error in update User', err);
+            throw err;
+          });
+    }
 };
 
 //pass in just the userId
@@ -318,9 +343,10 @@ exports.findUserOrganization = function(userId){
   return knex.select('*')
             .from('orgAdmins')
             .where('fk_userID', userId)
-            .rightOuterJoin('organizations', 'orgAdmins.fk_organizationID', 'organizations.organizationID')
+            .fullOuterJoin('organizations', 'orgAdmins.fk_organizationID', 'organizations.organizationID')
+            .fullOuterJoin('shelters', 'organizations.organizationID', 'shelters.fk_organizationID')
             .then(function(res){
-              // console.log('response from select organization ', res);
+              console.log('response from select organization ', res);
               return res;
             });
 };

@@ -276,7 +276,8 @@ describe('Sheltered API', function(){
               .expect(200)
               .expect(function(resp){
                 var user = resp.body;
-                expect(user).to.be.an.instanceOf(Array);
+                console.log('user ', user);
+                expect(user).to.be.an.instanceOf(Object);
                 expect(user).to.have.length(1);
                 expect(user[0].userFirstName).to.equal('Jane');
               });
