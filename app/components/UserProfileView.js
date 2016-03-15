@@ -2,33 +2,32 @@ import React from 'react';
 import { Link } from 'react-router';
 import alt from '../alt';
 
-class UserProfileEdit extends React.Component {
+class UserProfileView extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = alt.stores.UserStore.state;
 	}
 
   render() {
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">User Profile
-        <h2>User Profile</h2>
+      <div>
         <div className='profileFieldName'>
           <h3>First Name:</h3>
-          <p>{this.state.userObject.userFirstName}</p>
+          <p>{this.props.userFirstName}</p>
           <h3>Last Name:</h3>
-          <p>{this.state.userObject.userLastName}</p>
+          <p>{this.props.userLastName}</p>
         </div>
         <div className='profileFieldEmail'>
           <h3>Email:</h3>
-          <p>{this.state.userObject.userEmail}</p>
+          <p>{this.props.userEmail}</p>
         </div>
         <div className="profileFieldPhone">
           <h3>Phone:</h3>
-          <p>{this.state.userObject.userPhone}</p>
+          <p>{this.props.userPhone}</p>
         </div>
-        <div className="editButton" onClick={this.handleClick}>Edit me</div>
       </div>
     );
   }
 }
 
-export default UserProfileEdit;
+export default UserProfileView;

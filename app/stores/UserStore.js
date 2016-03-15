@@ -5,6 +5,7 @@ class UserStore {
   constructor() {
     this.bindActions(UserProfileActions);
     this.userObject = {};
+    this.clicked = false;
   }
 
   onGetUserSuccess(data) {

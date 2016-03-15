@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import UserStore from '../stores/UserStore';
 import UserProfileActions from '../actions/UserProfileActions';
+import UserProfileView from '../components/UserProfileView';
+import UserProfileEdit from '../components/UserProfileEdit';
 
 class UserProfile extends React.Component {
   constructor() {
@@ -9,6 +11,7 @@ class UserProfile extends React.Component {
   // set initial state
     this.state = UserStore.getState();
     this.onChange = this.onChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -20,32 +23,25 @@ class UserProfile extends React.Component {
     this.setState(state);
   }
 
+  handleClick() {
+    this.setState({
+      clicked: this.state.clicked ? false : true,
+    })
+    console.log(this.state.clicked)
+  }
+
   render() {
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">User Profile
         <h2>User Profile</h2>
-        <div className='profileFieldName'>
-          <h3>First Name:</h3>
-          <p>{this.state.userObject.userFirstName}</p>
-          <h3>Last Name:</h3>
-          <p>{this.state.userObject.userLastName}</p>
-        </div>
-        <div className='profileFieldEmail'>
-          <h3>Email:</h3>
-          <p>{this.state.userObject.userEmail}</p>
-        </div>
-        <div className="profileFieldPhone">
-          <h3>Phone:</h3>
-          <p>{this.state.userObject.userPhone}</p>
-        </div>
-        <div className="editButton">
-          <Link to={'/user-profile-edit/'}>
-            <p>Edit!!!</p>
-          </Link>
-        </div>  
+          <UserProfileView user={this.state.userObject} />
+        <button className="editButton" onClick={this.handleClick}>Edit Me</button>
       </div>
     );
   }
 }
 
 export default UserProfile;
+
+
+
