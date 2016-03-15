@@ -13,7 +13,7 @@ var knex = require('knex')(config);
 describe('users DB calls', function(){
   var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
   var adminUser = {adminUser: {firstName: 'Billy', lastName: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
-  var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
+  var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com', phone: '12345567'}, organizations: {orgName: 'FrontSteps'}};
   var email = {user: {email: 'jane@example.com'}};
   var org = {organizations: {orgName: 'FrontSteps'}};
   var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, 
@@ -103,7 +103,7 @@ describe('users DB calls', function(){
 
   it('should allow users to update passwords', function(){
     var adminUserId, oldPass;
-    var newPass = {body: {user: {password: 'newlongstring'}}, session: {}};
+    var newPass = {body: {user: {password: 'newlongstring', passwordChanged: true}}, session: {}};
     return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
                       newPass.session.fk_userID = resp[0].user.userID;
@@ -118,7 +118,7 @@ describe('users DB calls', function(){
 
   it('should allow users to update email', function(){
     var adminUserId;
-    var newEmail = {body: {user: {email: 'jane2@email.com'}}, session: {}};
+    var newEmail = {body: {user: {email: 'jane2@email.com'}, emailChanged: true}, session: {}};
         return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
                       newEmail.session.fk_userID = resp[0].user.userID;
@@ -142,7 +142,7 @@ describe('users DB calls', function(){
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].userFirstName).to.not.equal('Jane');
+                      expect(resp[0].userFirstName).to.equal('Jill');
                     });
   });
 
@@ -157,7 +157,7 @@ describe('users DB calls', function(){
                     .then(function(resp){
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
-                      expect(resp[0].userLastName).to.not.equal('Smith');
+                      expect(resp[0].userLastName).to.equal('Hill');
                     });
   });
 

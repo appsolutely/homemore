@@ -408,6 +408,7 @@ app.get('/api/fetchUser', function(req, res){
     console.log('inside fetchUser ', req.session.fk_userID);
     return users.findByUserID(req.session.fk_userID)
           .then(function(user){
+            user[0].userPassword = null;
             res.status(200).send(user);
           });
   } else {
