@@ -17,9 +17,7 @@ class ShelterActions {
   			console.log('failll');
 			this.actions.getSheltersFail(jqXhr);
 		});
-		// return{
-		// 	shelters: ['arch','others']
-		// }
+
   }
 }
 

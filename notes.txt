@@ -3,3 +3,10 @@ separate component hierarchy   -  parent component is shelterList app
 will need separate search component
 
 will need separate result component/possibly separate result rows for each shelter
+
+
+corrupt —
+
+dropdb sheltered_dev
+created sheltered_dev
+knee seed:run

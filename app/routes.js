@@ -21,6 +21,6 @@ export default (
     <Route path="/admin-signup" component={AdminSignup} />
     <Route path="/admin-page" component={AdminProfile} />
     <Route path="/manager-page" component={ManagerProfile} />
-    <Route path="/user-page" component={UserProfile} />
+    <Route path="/user-profile" component={UserProfile} />
   </Route>
 );
