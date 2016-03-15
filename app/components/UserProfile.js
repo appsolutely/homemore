@@ -28,7 +28,7 @@ class UserProfile extends React.Component {
       // clicked: this.state.clicked ? false : true,
       clicked: click,
     })
-    console.log(this.state.clicked)
+    console.log(this.state.userObject)
   }
 
   render() {

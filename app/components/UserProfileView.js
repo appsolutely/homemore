@@ -5,6 +5,7 @@ import alt from '../alt';
 class UserProfileView extends React.Component {
 	constructor(props) {
 		super(props);
+    console.log('inside of profile view',this.props.user.userFirstName)
     this.handleClick = this.handleClick.bind(this);
 	}
 
@@ -20,17 +21,17 @@ class UserProfileView extends React.Component {
       <div>
         <div className='profileFieldName'>
           <h3>First Name:</h3>
-            <p>{this.props.userFirstName}</p>
+            <p>{this.props.user.userFirstName}</p>
           <h3>Last Name:</h3>
-            <p>{this.props.userLastName}</p>
+            <p>{this.props.user.userLastName}</p>
         </div>
         <div className='profileFieldEmail'>
           <h3>Email:</h3>
-            <p>{this.props.userEmail}</p>
+            <p>{this.props.user.userEmail}</p>
         </div>
         <div className="profileFieldPhone">
           <h3>Phone:</h3>
-            <p>{this.props.userPhone}</p>
+            <p>{this.props.user.userPhone}</p>
         </div>
         <button className="editButton" onClick={this.handleClick}>Edit Me</button>
       </div>
