@@ -10,7 +10,6 @@ import UserSignup from './components/UserSignup';
 import AdminProfile from './components/AdminProfile';
 import UserProfile from './components/UserProfile';
 import ManagerProfile from './components/ManagerProfile';
-import UserProfileEdit from './components/UserProfileEdit';
 
 export default (
   <Route component={App}>
@@ -23,6 +22,5 @@ export default (
     <Route path="/admin-page" component={AdminProfile} />
     <Route path="/manager-page" component={ManagerProfile} />
     <Route path="/user-profile" component={UserProfile} />
-    <Route path="/user-profile-edit" component={UserProfileEdit} />
   </Route>
 );
