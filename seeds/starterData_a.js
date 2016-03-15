@@ -65,7 +65,7 @@ var shelterWomens_ID, shelterWomens2_ID, shelterWomens3_ID, shelterChildren_ID, 
               throw new Error("Something went wrong selecting these shelter", err);           
             })
             .then(function(shelters){
-            console.log("Successfully returned select shelters", shelters );
+            console.log("Successfully returned select shelters");
               for (var j=0;j<shelters.length;j++){
                 if (shelters[j].shelterName === "Men Emergency Night Shelter") {
                   shelterMens_ID = shelters[j].shelterID;
@@ -118,7 +118,7 @@ var shelterWomens_ID, shelterWomens2_ID, shelterWomens3_ID, shelterChildren_ID, 
           })
           .then(function(results){
             console.log("ID", shelterChildren3_ID, reqID_Men);
-            console.log("Successfully added shelter eligibility records", results);
+            console.log("Successfully added shelter eligibility records");
             return results;
           });
         });

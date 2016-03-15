@@ -100,6 +100,7 @@ module.exports.selectAllShelters = function(){
                 .innerJoin('organizations', 'shelters.fk_organizationID', 'organizations.organizationID')
                 .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
                 .leftOuterJoin('hours', 'shelters.fk_hourID', 'hours.hoursID')
+                .leftOuterJoin('shelterEligibility', 'shelters.shelterID', 'shelterEligibility.fk_shelterID')
       .catch(function(err){
         // console.log("Something went wrong selecting all shelters", err);
         throw new Error("Something went wrong selecting all shelters", err);
@@ -145,7 +146,7 @@ module.exports.deleteShelter = function(req){
         throw new Error("Something went wrong deleting this shelter");
       })
       .then(function(shelter){
-        // console.log("Deleted shelter with ID ", shelter[0].shelterID);
+        console.log("Deleted shelter with ID ", shelter[0].shelterID);
         return shelter;
       });
 
@@ -256,15 +257,18 @@ module.exports.deleteShelterEligibility = function(req){
 };
 
 module.exports.insertShelterOccupancy = function(req){
+  console.log("INSERT SHELTER OCC", req);
   var occupant = req.occupancy.name;
-  var occupantDOB = req.occupancy.dob;
+  var entranceDate = req.occupancy.entranceDate;
+  var exitDate = req.occupancy.exitDate;
+  // var occupantDOB = req.occupancy.dob;
   var unitID = req.unit[0].shelterUnitID; 
 
         return knex('shelterOccupancy')
                 .insert({
                   fk_shelterUnitID: unitID,
                   occupiedByName: occupant,
-                  DOB: occupantDOB
+                  // DOB: occupantDOB
                 })
                 .returning('*')
           .catch(function(err){
@@ -296,10 +300,12 @@ var getOccupancyUnitID = function(occupancyID){
 
 
 module.exports.updateShelterOccupancy = function(req){
+  console.log("UPDATE SHELTER OCC", req);
   //function for updating shelter occupancy for a given user
   var occupancyID = req.occupancy.occupancyID;
   var occupantName = req.occupancy.name;
-  var occupantDOB = req.occupancy.dob;
+  var entranceDate = req.occupancy.entranceDate;
+  var exitDate = req.occupancy.exitDate;  
 
   if (occupantName){
   return knex('shelterOccupancy')
@@ -309,9 +315,9 @@ module.exports.updateShelterOccupancy = function(req){
           })
           .returning('*')
           .catch(function(err){
-      // console.log("Error updating this shetler occupancy", err);
-      throw new Error("Error updating this shetler occupancy", err);
-    })
+            console.log("Error updating this shetler occupancy", err);
+            throw new Error("Error updating this shetler occupancy", err);
+          })
     .then(function(updatedOccupancy){
       // console.log("Updated shelter occupancy.");
       return updatedOccupancy;
@@ -320,7 +326,8 @@ module.exports.updateShelterOccupancy = function(req){
     return knex('shelterOccupancy')
       .where('occupancyID', occupancyID)
       .update({
-        DOB: occupantDOB
+        entranceDate: entranceDate,
+        exitDate: exitDate
       })
       .returning('*')
       .catch(function(err){
@@ -355,7 +362,6 @@ module.exports.selectShelterOccupancy = function(req){
 module.exports.deleteShelterOccupancy = function(req){
   //function for deleting specific shelter occupancy record
   var occupantID = req;
-    console.log("DELETE REQ", req);
     return knex('shelterOccupancy')
               .returning('*')
               .where('occupancyID', occupantID)
@@ -369,3 +375,12 @@ module.exports.deleteShelterOccupancy = function(req){
             return occupancy;
           });
 };
+
+// module.exports.shelterSummary = function(req){
+//     return knex.select('*')
+//                 .count('shelterUnitID as totalUnits')
+//                 .from('shelters')
+//                 .innerJoin('shelterUnits', 'shelters'.'shelterID', 'shelterUnits'.'fk_shelterID')
+//                 .rightOuterJoin('shelterEligibility', 'shelters.shelterID', 'shelterEligibility.fk_shelterID')
+
+// }
