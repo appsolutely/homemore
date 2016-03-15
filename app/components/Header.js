@@ -24,8 +24,6 @@ class SignInFields extends React.Component {
     submitLogin(e){
       e.preventDefault();
       let signInInfo = {user: {password: this.state.password, email: this.state.email}}
-
-      console.log("login info! ", this.state)
       this.signIn(signInInfo)
 
     }
@@ -61,7 +59,7 @@ class SignInFields extends React.Component {
           </Link>
           </div>
           <div className="welcome">
-            <Link to="/user-page">
+            <Link to="/user-profile">
               My Account
             </Link>
           </div>
