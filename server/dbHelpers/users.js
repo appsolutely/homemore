@@ -344,8 +344,9 @@ exports.findUserOrganization = function(userId){
             .from('orgAdmins')
             .where('fk_userID', userId)
             .rightOuterJoin('organizations', 'orgAdmins.fk_organizationID', 'organizations.organizationID')
+            .rightOuterJoin('shelters', 'organizations.organizationID', 'shelters.fk_organizationID')
             .then(function(res){
-              // console.log('response from select organization ', res);
+              console.log('response from select organization ', res);
               return res;
             });
 };

@@ -106,6 +106,7 @@ describe('users DB calls', function(){
     var newPass = {body: {user: {password: 'newlongstring', passwordChanged: true}}, session: {}};
     return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
+                      console.log('resp ', resp[0]);
                       newPass.session.fk_userID = resp[0].user.userID;
                       oldPass = resp[0].user.userPassword;
                       return userRecs.updateUser(newPass);
@@ -208,6 +209,7 @@ describe('users DB calls', function(){
                       return userRecs.findUserOrganization(adminUserId);
                     })
                     .then(function(resp){
+                      console.log(resp)
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].organizationName).to.equal('FrontSteps');
