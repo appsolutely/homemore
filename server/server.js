@@ -552,7 +552,7 @@ var sendAdminConfirmEmail = function(org, res){
 app.post('/api/getGeocode', function(req, res){
   return google.findGeolocation(req.body)
             .then(function(resp){
-              return resp;
+              res.status(200).send(resp[0]);
             });
 });
 
