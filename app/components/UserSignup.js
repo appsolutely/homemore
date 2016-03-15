@@ -17,7 +17,7 @@ class UserSignup extends React.Component {
       url: '/api/signup',
       data: data,
       success: function(data) {
-        window.location.href = "./"
+        window.location.href = "./";
       },
       fail: function(err) {
         console.log('err', err);
