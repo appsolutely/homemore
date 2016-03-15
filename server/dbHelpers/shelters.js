@@ -369,3 +369,12 @@ module.exports.deleteShelterOccupancy = function(req){
             return occupancy;
           });
 };
+
+// module.exports.shelterSummary = function(req){
+//     return knex.select('*')
+//                 .count('shelterUnitID as totalUnits')
+//                 .from('shelters')
+//                 .innerJoin('shelterUnits', 'shelters'.'shelterID', 'shelterUnits'.'fk_shelterID')
+//                 .rightOuterJoin('shelterEligibility', 'shelters.shelterID', 'shelterEligibility.fk_shelterID')
+
+// }
