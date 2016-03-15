@@ -29,7 +29,7 @@ class SearchBar extends React.Component {
             defaultChecked={this.props.women}
             onChange={this.handleChange}
           />
-          Womenz
+          Women
         </p>
         <p>
           <input type="checkbox"

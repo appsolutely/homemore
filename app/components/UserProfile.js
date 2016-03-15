@@ -9,7 +9,6 @@ class UserProfile extends React.Component {
   // set initial state
     this.state = UserStore.getState();
     this.onChange = this.onChange.bind(this);
-    console.log(this.state.jeff)
   }
 
   componentDidMount() {
@@ -23,7 +22,23 @@ class UserProfile extends React.Component {
 
   render() {
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">User Profile</div>
+      <div className ="col-sm-6 col-sm-offset-3 text-center">User Profile
+        <h2>User Profile</h2>
+        <div className='profileFieldName'>
+          <h3>First Name:</h3>
+          <p>{this.state.userObject.userFirstName}</p>
+          <h3>Last Name:</h3>
+          <p>{this.state.userObject.userLastName}</p>
+        </div>
+        <div className='profileFieldEmail'>
+          <h3>Email:</h3>
+          <p>{this.state.userObject.userEmail}</p>
+        </div>
+        <div className="profileFieldPhone">
+          <h3>Phone:</h3>
+          <p>{this.state.userObject.userPhone}</p>
+        </div>
+      </div>
     );
   }
 }
