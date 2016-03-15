@@ -62,6 +62,8 @@ For the Backend install and use SublimeLinter-jshint instead.
 ```
 postgres -D /usr/local/var/postgres
 createdb sheltered_dev
+npm start
+knex seed:run
 ```
 
 ### Tests
