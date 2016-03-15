@@ -207,16 +207,45 @@ describe('users DB calls', function(){
   });
 
   it('should be able to find an admins organization', function(){
+    var adminUserId;
     return userRecs.addNewAdmin(newAdmin)
                     .then(function(resp){
-                      var adminUserId = resp[0].user.userID;
+                      adminUserId = resp[0].user.userID;
+                      return userRecs.setAccessTrue(adminUserId, 'Admin');
+                    })
+                    .then(function(){
+                      return userRecs.addNewManager(managerUser);
+                    })
+                    .then(function(){
+                      console.log('made manager');
                       return userRecs.findUserOrganization(adminUserId);
                     })
                     .then(function(resp){
-                      console.log('resp adminOrg ', resp)
+                      console.log('resp adminOrg ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].organizationName).to.equal('FrontSteps');
+                    });
+  });
+
+  it('should be able to find a mangers organization and shelters', function(){
+    var managerID;
+    return userRecs.addNewAdmin(newAdmin)
+                    .then(function(){
+                      return userRecs.addNewManager(managerUser);
+                    })
+                    .then(function(resp){
+                      managerID = resp[0].user.userID;
+                      return userRecs.setAccessTrue(managerID, 'Manager');
+                    })
+                    .then(function(){
+                      return userRecs.findUserShelter(managerID);
+                    })
+                    .then(function(resp){
+                      console.log('resp manager ', resp);
+                      expect(resp).to.be.an.instanceOf(Array);
+                      expect(resp).to.have.length(1);
+                      expect(resp[0].shelterName).to.equal('Arches');
                     });
   });
 

@@ -61,7 +61,7 @@ module.exports.insertLocation = function(req){
       .then(function(location){
         inserted = location;
         // console.log("Successfully inserted location");
-        return google.findGeolocation();
+        return google.findGeolocation(req);
       });
   });
 };

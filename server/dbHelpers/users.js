@@ -466,7 +466,7 @@ exports.setAccessTrue = function(userID, role){
 };
 
 exports.findUserAccess = function(userID, role) {
-  console.log('findUserAccess')
+  console.log('findUserAccess');
   if (role === 'Admin'){
     return knex.select('accessApproved')
             .from('orgAdmins')
