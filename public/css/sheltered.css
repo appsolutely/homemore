@@ -20,12 +20,12 @@
 }
 
 .shelterProfile{
-	background-color: snow;
+	background-color: black;
 	height: 100%;
 }
 
 .logo{
-    max-width: 30%;
+    max-width: 160px;
     float: left;
 
 }
