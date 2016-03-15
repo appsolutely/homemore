@@ -256,14 +256,27 @@ describe('Sheltered API', function(){
 
   describe('Examine updating and fetching logged in users', function(){
     var cookie;
+
     beforeEach(function(){
+      var adminID;
       return userRecs.addNewAdmin(newAdmin)
-        .then(function(){
+        .then(function(resp){
+          adminID = resp[0].user.userID;
+          console.log(adminID);
           return request(app)
               .post('/api/signin')
               .send(signInAdmin)
               .then(function(resp){
                 cookie = resp.headers['set-cookie'][0];
+              })
+              .then(function(){
+                return userRecs.setAccessTrue(adminID, 'Admin');
+              })
+              .then(function(resp){
+                console.log('Admin Access True ', resp);
+              })
+              .catch(function(err){
+                console.error('admin access ', err);
               });
         });
     });
@@ -275,11 +288,11 @@ describe('Sheltered API', function(){
               .send()
               .expect(200)
               .expect(function(resp){
-                var user = resp.body;
-                console.log('user ', user);
-                expect(user).to.be.an.instanceOf(Object);
-                expect(user).to.have.length(1);
-                expect(user[0].userFirstName).to.equal('Jane');
+                console.log('user ', resp.body);
+                expect(resp.body).to.be.an.instanceOf(Object);
+                expect(resp.body.user.userFirstName).to.equal('Jane')
+                expect(resp.body.shelters).to.be.an.instanceOf(Array);
+                expect(resp.body.shelters).to.have.length(1);
               });
     });
 

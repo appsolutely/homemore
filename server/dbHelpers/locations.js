@@ -2,6 +2,7 @@ var db = require('../../db/db.js');
 var config = require('../../knexfile.js');  
 var env =  process.env.NODE_ENV || 'development';  
 var knex = require('knex')(config[env]);
+var google = require('../googleMapsHelpers.js');
 
 
 module.exports.insertLocation = function(req){
@@ -20,6 +21,7 @@ module.exports.insertLocation = function(req){
   var hoursFri = req.hours.friday;
   var hoursSat = req.hours.saturday;
   var hoursSun = req.hours.sunday;
+  var inserted;
 
   return knex('hours')
           .insert({
@@ -57,8 +59,13 @@ module.exports.insertLocation = function(req){
         throw new Error("Something went wrong inserting this location", err);
       })
       .then(function(location){
+        inserted = location;
         // console.log("Successfully inserted location");
-        return location;
+        return google.findGeolocation(req);
+      })
+      .then(function(resp){
+        console.log('resp ', resp);
+        return resp;
       });
   });
 };

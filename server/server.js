@@ -405,13 +405,14 @@ app.get('/api/fetchUser', function(req, res){
   //if not logged in will return nothing
   //will only return info about the user that is logged in
   //this is all the info for the profile page -- not any shelter or related info
-  var response;
+  var response = {user: [], shelters: []};
   if (req.session) {
     console.log('inside fetchUser ', req.session.fk_userID);
     return users.findByUserID(req.session.fk_userID)
           .then(function(user){
             user[0].userPassword = null;
-            response = user; 
+            response.user = user[0]; 
+            console.log('response before findUserOrganization ', response);
             if(req.session.permissionLevel === 'Admin') {
               return users.findUserOrganization(req.session.fk_userID);
             } else if (req.session.permissionLevel === 'Manager') {
@@ -422,6 +423,10 @@ app.get('/api/fetchUser', function(req, res){
           })
           .then(function(resp){
             response.shelters = resp;
+            console.log('sending fetchUser ', response);
+            return;
+          })
+          .then(function(){
             res.status(200).send(response);
           });
   } else {

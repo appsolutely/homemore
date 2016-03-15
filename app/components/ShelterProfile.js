@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import alt from '../alt';
+import { GoogleMap } from 'react-google-maps';
 
 
 class ShelterProfile extends React.Component {
@@ -19,7 +20,6 @@ class ShelterProfile extends React.Component {
          <div className="shelterProfile">
           <h3>{theShelter.shelterName}</h3>
           <h3>{theShelter.shelterDaytimePhone}</h3>
-          //Google Maps here
           <h3>Hours</h3>
           <table>
             <tbody>
