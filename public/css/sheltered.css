@@ -27,5 +27,9 @@
 .logo{
     max-width: 30%;
     float: left;
-    
+
+}
+
+.welcome{
+  display: none;
 }
