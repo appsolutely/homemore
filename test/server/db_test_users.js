@@ -10,7 +10,7 @@ var knex = require('knex')(config);
 
 
 
-describe('users DB calls', function(){
+xdescribe('users DB calls', function(){
   var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
   var adminUser = {adminUser: {firstName: 'Billy', lastName: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com', phone: '12345567'}, organizations: {orgName: 'FrontSteps'}};
