@@ -22,8 +22,9 @@ exports.findGeolocation = function(address){
   return request
           .get({uri: fullURL})
           .then(function(resp){
-            console.log('response from googleAPI', resp.geometry);
-            var location = resp.geometry.location;
+            var response = JSON.parse(resp);
+            console.log('response from googleAPI', response.results[1]);
+            var location = response.results[1].geometry.location;
             return knex('locations')
                         .update({lat: location.lat, long: location.long})
                         .where('locationStreet', address.locations.street)
