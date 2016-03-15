@@ -9,8 +9,9 @@ class UserStore {
   }
 
   onGetUserSuccess(data) {
-    this.userObject = data[0];
-    console.log('the store is',this.userObject)
+    this.userObject = data.user;
+    console.log('the store is',data.user)
+    console.log('the userObject is',this.userObject)
   }
 
   onGetUserFail(err) {
