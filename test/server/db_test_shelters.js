@@ -16,7 +16,7 @@ describe('Shelter and eligibility DB calls', function(){
   var shelter = {shelters:
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
     organizations: org.organizations};
-  var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
+  var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD', entranceDate:'04/08/2015', exitDate:'04/14/2015'}};
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}, shelterName: 'Arches'};
   var shelterId;
 
@@ -183,7 +183,6 @@ it('should insert Shelters', function(){
     //req should just have the name of the person occuping the unit
     return shelterRecs.deleteShelterOccupancy(occupancyID)
         .then(function(resp){
-          console.log("SHOULD DELETE RESP", occupancyID);
           expect(resp).to.have.length(1);
           expect(resp[0].occupiedByName).to.equal('John Smith');
         it('should not fetch deleted occupancy', function(){
@@ -262,10 +261,11 @@ it('should insert Shelters', function(){
             shelter.shelterName = 'Emergency Mens Shelter';
             return shelterRecs.insertShelter(shelter);
           })
-          .then(function(){
+          .then(function(resp){
             return shelterRecs.selectAllShelters();
           })
           .then(function(resp){
+            console.log("RESP", resp);
             expect(resp).to.be.an.instanceOf(Array);
             expect(resp).to.have.length(3);
           });

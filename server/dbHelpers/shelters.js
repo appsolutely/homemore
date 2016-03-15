@@ -100,7 +100,7 @@ module.exports.selectAllShelters = function(){
                 .innerJoin('organizations', 'shelters.fk_organizationID', 'organizations.organizationID')
                 .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
                 .leftOuterJoin('hours', 'shelters.fk_hourID', 'hours.hoursID')
-                .rightOuterJoin('shelterEligibility', 'shelters.shelterID', 'shelterEligibility.fk_shelterID')
+                .leftOuterJoin('shelterEligibility', 'shelters.shelterID', 'shelterEligibility.fk_shelterID')
       .catch(function(err){
         // console.log("Something went wrong selecting all shelters", err);
         throw new Error("Something went wrong selecting all shelters", err);
@@ -259,6 +259,8 @@ module.exports.deleteShelterEligibility = function(req){
 module.exports.insertShelterOccupancy = function(req){
   console.log("INSERT SHELTER OCC", req);
   var occupant = req.occupancy.name;
+  var entranceDate = req.occupancy.entranceDate;
+  var exitDate = req.occupancy.exitDate;
   // var occupantDOB = req.occupancy.dob;
   var unitID = req.unit[0].shelterUnitID; 
 
@@ -302,7 +304,8 @@ module.exports.updateShelterOccupancy = function(req){
   //function for updating shelter occupancy for a given user
   var occupancyID = req.occupancy.occupancyID;
   var occupantName = req.occupancy.name;
-  // var occupantDOB = req.occupancy.dob;
+  var entranceDate = req.occupancy.entranceDate;
+  var exitDate = req.occupancy.exitDate;  
 
   if (occupantName){
   return knex('shelterOccupancy')
@@ -312,9 +315,9 @@ module.exports.updateShelterOccupancy = function(req){
           })
           .returning('*')
           .catch(function(err){
-      // console.log("Error updating this shetler occupancy", err);
-      throw new Error("Error updating this shetler occupancy", err);
-    })
+            console.log("Error updating this shetler occupancy", err);
+            throw new Error("Error updating this shetler occupancy", err);
+          })
     .then(function(updatedOccupancy){
       // console.log("Updated shelter occupancy.");
       return updatedOccupancy;
@@ -322,9 +325,10 @@ module.exports.updateShelterOccupancy = function(req){
   } else {
     return knex('shelterOccupancy')
       .where('occupancyID', occupancyID)
-      // .update({
-      //   DOB: occupantDOB
-      // })
+      .update({
+        entranceDate: entranceDate,
+        exitDate: exitDate
+      })
       .returning('*')
       .catch(function(err){
         // console.log("Error updating this shetler occupancy", err);
