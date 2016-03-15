@@ -1,24 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
-import UserStore from '../stores/UserStore';
-import UserProfileActions from '../actions/UserProfileActions';
+import alt from '../alt';
 
-class UserProfile extends React.Component {
-  constructor() {
-    super();
-  // set initial state
-    this.state = UserStore.getState();
-    this.onChange = this.onChange.bind(this);
-  }
-
-  componentDidMount() {
-    UserStore.listen(this.onChange);
-    UserProfileActions.getUser();
-  }
-
-  onChange(state) {
-    this.setState(state);
-  }
+class UserProfileEdit extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = alt.stores.UserStore.state;
+	}
 
   render() {
     return (
@@ -38,14 +26,9 @@ class UserProfile extends React.Component {
           <h3>Phone:</h3>
           <p>{this.state.userObject.userPhone}</p>
         </div>
-        <div className="editButton">
-          <Link to={'/user-profile-edit/'}>
-            <p>Edit!!!</p>
-          </Link>
-        </div>  
       </div>
     );
   }
 }
 
-export default UserProfile;
+export default UserProfileEdit;
