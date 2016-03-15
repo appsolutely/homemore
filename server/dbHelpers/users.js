@@ -235,12 +235,12 @@ if(changingPassword){
           })
           .then(function(){
           return knex('users')
-                .update({userPassword: hashed,
-                         userEmail: mainEmail, 
-                         userFirstName: firstname,
-                         userPhone: phone, 
-                         userLastName: lastname})
-                .returning('userEmail, userFirstName, userLastName')
+                .update({'userPassword': hashed,
+                         'userEmail': mainEmail, 
+                         'userFirstName': firstname,
+                         'userPhone': phone, 
+                         'userLastName': lastname})
+                .returning(['userEmail', 'userFirstName', 'userLastName'])
                 .where('userID', userId);
           })
           .then(function(result){
@@ -267,7 +267,7 @@ if(changingPassword){
                          userFirstName: firstname, 
                          userPhone: phone,
                          userLastName: lastname})
-                .returning('userEmail, userFirstName, userLastName')
+                .returning(['userEmail', 'userFirstName', 'userLastName'])
                 .where('userID', userId);
           })
           .then(function(result){
@@ -283,7 +283,7 @@ if(changingPassword){
           .update({userFirstName: firstname, 
                    userPhone: phone,
                    userLastName: lastname})
-          .returning('userEmail, userFirstName, userLastName')
+          .returning(['userEmail', 'userFirstName', 'userLastName'])
           .where('userID', userId)
           .then(function(result){
             console.log('response from update user ', result);
@@ -343,8 +343,8 @@ exports.findUserOrganization = function(userId){
   return knex.select('*')
             .from('orgAdmins')
             .where('fk_userID', userId)
-            .rightOuterJoin('organizations', 'orgAdmins.fk_organizationID', 'organizations.organizationID')
-            .rightOuterJoin('shelters', 'organizations.organizationID', 'shelters.fk_organizationID')
+            .fullOuterJoin('organizations', 'orgAdmins.fk_organizationID', 'organizations.organizationID')
+            .fullOuterJoin('shelters', 'organizations.organizationID', 'shelters.fk_organizationID')
             .then(function(res){
               console.log('response from select organization ', res);
               return res;

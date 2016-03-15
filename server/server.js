@@ -404,13 +404,13 @@ app.get('/api/fetchUser', function(req, res){
   //if not logged in will return nothing
   //will only return info about the user that is logged in
   //this is all the info for the profile page -- not any shelter or related info
-  var response = {user: {}, shelters: {}};
+  var response;
   if (req.session) {
     console.log('inside fetchUser ', req.session.fk_userID);
     return users.findByUserID(req.session.fk_userID)
           .then(function(user){
             user[0].userPassword = null;
-            response.user = user; 
+            response = user; 
             if(req.session.permissionLevel === 'Admin') {
               return users.findUserOrganization(req.session.fk_userID);
             } else if (req.session.permissionLevel === 'Manager') {

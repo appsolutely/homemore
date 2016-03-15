@@ -112,6 +112,7 @@ describe('users DB calls', function(){
                       return userRecs.updateUser(newPass);
                     })
                     .then(function(resp){
+                      console.log('resp ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                     });
@@ -126,6 +127,7 @@ describe('users DB calls', function(){
                       return userRecs.updateUser(newEmail);
                     })
                     .then(function(resp){
+                      console.log('resp ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].userEmail).to.equal('jane2@email.com');
@@ -141,6 +143,7 @@ describe('users DB calls', function(){
                       return userRecs.updateUser(newfirst);
                     })
                     .then(function(resp){
+                      console.log('resp ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].userFirstName).to.equal('Jill');
@@ -156,6 +159,7 @@ describe('users DB calls', function(){
                       return userRecs.updateUser(newlast);
                     })
                     .then(function(resp){
+                      console.log('resp ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].userLastName).to.equal('Hill');
@@ -209,7 +213,7 @@ describe('users DB calls', function(){
                       return userRecs.findUserOrganization(adminUserId);
                     })
                     .then(function(resp){
-                      console.log(resp)
+                      console.log('resp adminOrg ', resp)
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].organizationName).to.equal('FrontSteps');
