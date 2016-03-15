@@ -5,12 +5,11 @@ class UserStore {
   constructor() {
     this.bindActions(UserProfileActions);
     this.userObject = {};
-    this.jeff = 'tj';
+    this.clicked = false;
   }
 
   onGetUserSuccess(data) {
-    this.userObject = data;
-    console.log('I am the userObj ', this.userObject);
+    this.userObject = data[0];
   }
 
   onGetUserFail(err) {
