@@ -45,18 +45,18 @@ class SignInFields extends React.Component {
 
     render() {
     return (
-      <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
+      <div className ="col-sm-6 col-sm-offset-3 text-left">
       <Link to="/">
         <img className="logo" src="/img/SHELTERED-logo.png" />
       </Link>
 
-          <div className="loginFields">
-            email: <SignInInfo ref = 'email' update={this.update} placeholder="Username"/>
-            password: <SignInInfo ref = 'password' update={this.update} placeholder="Username"/>
-          <button type='submit' onClick={this.submitLogin.bind(this)}>Sign In</button>
-          <Link to="/signup">
-            sign up
-          </Link>
+          <div className="navbar loginFields">
+            <div className="col-sm-3">email: <SignInInfo ref = 'email' update={this.update} placeholder="Username"/></div>
+            <div className="col-sm-3">password: <SignInInfo ref = 'password' update={this.update} placeholder="Username"/></div>
+          
+            <button type='submit' className="btn btn-primary" onClick={this.submitLogin.bind(this)}>Sign In</button>
+          
+          <Link to="/signup">sign up</Link>
           </div>
           <div className="welcome">
             <Link to="/user-profile">
