@@ -17,6 +17,7 @@ var shelters = require('./dbHelpers/shelters.js');
 var users = require('./dbHelpers/users.js');
 var sessions = require('./dbHelpers/sessions.js');
 var organizations = require('./dbHelpers/organizations.js');
+var google = require('./googleMapsHelpers.js');
 
 
 var app = express();
@@ -546,6 +547,14 @@ var sendAdminConfirmEmail = function(org, res){
     subject: 'Account Created On Sheltered'
   };
 };
+
+
+app.post('/api/getGeocode', function(req, res){
+  return google.findGeolocation(req.body)
+            .then(function(resp){
+              return resp;
+            });
+});
 
 //server side rendering - front end needs this
 app.use(function(req, res) {
