@@ -265,7 +265,6 @@ it('should insert Shelters', function(){
             return shelterRecs.selectAllShelters();
           })
           .then(function(resp){
-            console.log("RESP", resp);
             expect(resp).to.be.an.instanceOf(Array);
             expect(resp).to.have.length(3);
           });
