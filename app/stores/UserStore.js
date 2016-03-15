@@ -10,6 +10,7 @@ class UserStore {
 
   onGetUserSuccess(data) {
     this.userObject = data[0];
+    console.log('the store is',this.userObject)
   }
 
   onGetUserFail(err) {
