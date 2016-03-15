@@ -9,23 +9,21 @@ class UserProfileEdit extends React.Component {
 
   render() {
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">User Profile
-        <h2>User Profile</h2>
+      <div>
         <div className='profileFieldName'>
-          <h3>First Name:</h3>
-          <p>{this.state.userObject.userFirstName}</p>
-          <h3>Last Name:</h3>
-          <p>{this.state.userObject.userLastName}</p>
+          <h3>Edit First Name:</h3>
+          <p>{this.props.userFirstName}</p>
+          <h3>Edit Last Name:</h3>
+          <p>{this.props.userLastName}</p>
         </div>
         <div className='profileFieldEmail'>
-          <h3>Email:</h3>
-          <p>{this.state.userObject.userEmail}</p>
+          <h3>Edit Email:</h3>
+          <p>{this.props.userEmail}</p>
         </div>
         <div className="profileFieldPhone">
-          <h3>Phone:</h3>
-          <p>{this.state.userObject.userPhone}</p>
+          <h3>Edit Phone:</h3>
+          <p>{this.props.userPhone}</p>
         </div>
-        <div className="editButton" onClick={this.handleClick}>Edit me</div>
       </div>
     );
   }
