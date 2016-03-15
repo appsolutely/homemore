@@ -33,7 +33,7 @@ class UserProfile extends React.Component {
 
   render() {
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">User Profile
+      <div className ="col-sm-6 col-sm-offset-3 text-center">
         <h2>User Profile</h2>
           {this.state.clicked ? <UserProfileEdit user={this.state.userObject} /> : <UserProfileView user={this.state.userObject} clicker={this.handleUserInput} clicked={this.state.clicked} />}
       </div>
