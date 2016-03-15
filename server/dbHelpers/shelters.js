@@ -257,15 +257,16 @@ module.exports.deleteShelterEligibility = function(req){
 };
 
 module.exports.insertShelterOccupancy = function(req){
+  console.log("INSERT SHELTER OCC", req);
   var occupant = req.occupancy.name;
-  var occupantDOB = req.occupancy.dob;
+  // var occupantDOB = req.occupancy.dob;
   var unitID = req.unit[0].shelterUnitID; 
 
         return knex('shelterOccupancy')
                 .insert({
                   fk_shelterUnitID: unitID,
                   occupiedByName: occupant,
-                  DOB: occupantDOB
+                  // DOB: occupantDOB
                 })
                 .returning('*')
           .catch(function(err){
@@ -297,10 +298,11 @@ var getOccupancyUnitID = function(occupancyID){
 
 
 module.exports.updateShelterOccupancy = function(req){
+  console.log("UPDATE SHELTER OCC", req);
   //function for updating shelter occupancy for a given user
   var occupancyID = req.occupancy.occupancyID;
   var occupantName = req.occupancy.name;
-  var occupantDOB = req.occupancy.dob;
+  // var occupantDOB = req.occupancy.dob;
 
   if (occupantName){
   return knex('shelterOccupancy')
@@ -320,9 +322,9 @@ module.exports.updateShelterOccupancy = function(req){
   } else {
     return knex('shelterOccupancy')
       .where('occupancyID', occupancyID)
-      .update({
-        DOB: occupantDOB
-      })
+      // .update({
+      //   DOB: occupantDOB
+      // })
       .returning('*')
       .catch(function(err){
         // console.log("Error updating this shetler occupancy", err);
