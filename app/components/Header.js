@@ -71,10 +71,7 @@ class Header extends React.Component {
             <div className="col-sm-3">email: <input ref = 'email' onChange={this.update} type = "text" placeholder="Username"/></div>
             <div className="col-sm-3">password: <input ref = 'password' onChange={this.update} type="password" placeholder = "password"/></div>
             <br/>
-
-
-
-          </span>
+          </div>
           <div className="welcome">
             <Link className="btn btn-primary" to="/user-profile">My Account</Link> 
             <button className="btn btn-primary" type='button' onClick={this.logOut.bind(this)}>Log Out</button>
