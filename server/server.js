@@ -74,7 +74,7 @@ app.use(function (req, res, next) {
         })
         .catch(function(err){
           if (err === 'User is not approved') {
-            //the user is logged in but they haven't yet been approved 
+            //the user is logged in but they haven't yet been approved
             //so continue as public user
             console.log('not approved');
             next();
@@ -411,7 +411,7 @@ app.get('/api/fetchUser', function(req, res){
     return users.findByUserID(req.session.fk_userID)
           .then(function(user){
             user[0].userPassword = null;
-            response.user = user[0]; 
+            response.user = user[0];
             console.log('response before findUserOrganization ', response);
             if(req.session.permissionLevel === 'Admin') {
               return users.findUserOrganization(req.session.fk_userID);
@@ -422,7 +422,7 @@ app.get('/api/fetchUser', function(req, res){
             }
           })
           .then(function(resp){
-            response.shelters = 'jeff';
+            response.shelters = resp;
             console.log('sending fetchUser ', response);
             return;
           })

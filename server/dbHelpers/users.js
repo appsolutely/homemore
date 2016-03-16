@@ -1,6 +1,6 @@
 var db = require('../../db/db.js');
-var config = require('../../knexfile.js');  
-var env =  process.env.NODE_ENV || 'development';  
+var config = require('../../knexfile.js');
+var env =  process.env.NODE_ENV || 'development';
 var knex = require('knex')(config[env]);
 var Promise = require('bluebird');
 var bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'));
@@ -17,7 +17,7 @@ exports.addNewPublic = function(reqBody){
   var user = reqBody.pubUser;
   console.log('user', user);
   //hash password
-  return selectRole('Registered')  
+  return selectRole('Registered')
         .then(function(result){
           console.log('result after selectRole ', result);
           userRoleId = result[0].userRoleID;
@@ -32,7 +32,7 @@ exports.addNewPublic = function(reqBody){
         .then(function(hashed){
           return knex.insert({userFirstName: user.firstName,
                               userLastName: user.lastName,
-                              userPassword: hashed, 
+                              userPassword: hashed,
                               userEmail: user.email,
                               userPhone: user.phone,
                               fk_userRole: userRoleId})
@@ -49,7 +49,7 @@ exports.addNewPublic = function(reqBody){
         });
 };
 
-// var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};    
+// var adminUser = {adminUser: {firstName: 'Billy', lastname: 'the kid', password: 'anotherlongstring', email: 'billy@example.com'}, organizations:{orgName:'FrontSteps'}};
 exports.addNewAdmin = function(reqBody){
   var userRoleId;
   var user = reqBody.adminUser;
@@ -57,7 +57,7 @@ exports.addNewAdmin = function(reqBody){
   var userID;
   console.log('user ', user);
   //find userRoleID
-  return selectRole('Admin')  
+  return selectRole('Admin')
         .then(function(result){
           userRoleId = result[0].userRoleID;
           return;
@@ -73,7 +73,7 @@ exports.addNewAdmin = function(reqBody){
           //then create the new user
           return knex.insert({userFirstName: user.firstName,
                               userLastName: user.lastName,
-                              userPassword: hashed, 
+                              userPassword: hashed,
                               userEmail: user.email,
                               userPhone: user.phone,
                               fk_userRole: userRoleId})
@@ -154,12 +154,12 @@ exports.addNewManager = function(reqBody){
           .then(function(hashed){
           return knex.insert({userFirstName: user.firstName,
                               userLastName: user.lastName,
-                              userPassword: hashed, 
+                              userPassword: hashed,
                               userEmail: user.email,
                               userPhone: user.phone,
                               fk_userRole: userRoleId})
                      .into('users')
-                     .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);            
+                     .returning(['userID', 'userFirstName', 'userLastName', 'userEmail']);
           })
           .then(function(result){
             response.user = result[0];
@@ -236,9 +236,9 @@ if(changingPassword){
           .then(function(){
           return knex('users')
                 .update({'userPassword': hashed,
-                         'userEmail': mainEmail, 
+                         'userEmail': mainEmail,
                          'userFirstName': firstname,
-                         'userPhone': phone, 
+                         'userPhone': phone,
                          'userLastName': lastname})
                 .returning(['userEmail', 'userFirstName', 'userLastName'])
                 .where('userID', userId);
@@ -263,8 +263,8 @@ if(changingPassword){
           })
           .then(function(){
           return knex('users')
-                .update({userEmail: mainEmail, 
-                         userFirstName: firstname, 
+                .update({userEmail: mainEmail,
+                         userFirstName: firstname,
                          userPhone: phone,
                          userLastName: lastname})
                 .returning(['userEmail', 'userFirstName', 'userLastName'])
@@ -280,7 +280,7 @@ if(changingPassword){
           });
     } else {
       return knex('users')
-          .update({userFirstName: firstname, 
+          .update({userFirstName: firstname,
                    userPhone: phone,
                    userLastName: lastname})
           .returning(['userEmail', 'userFirstName', 'userLastName'])
@@ -348,6 +348,9 @@ exports.findUserOrganization = function(userId){
             .then(function(res){
               console.log('response from select organization ', res);
               return res;
+            })
+            .catch(function(err){
+              console.error('There was an error selecting organizations ', err);
             });
 };
 
@@ -440,7 +443,7 @@ return this.findByUserEmail(req.body)
             return shelterHelpers.insertShelter(reqBody);
           })
           .then(function(result){
-            return knex.insert({fk_userID: userID, 
+            return knex.insert({fk_userID: userID,
                                 fk_shelterID: result[0].shelterID,
                                 accessApproved: true})
              .into('shelterManagers')
@@ -514,4 +517,3 @@ var selectRole = function(role){
               return result;
              });
 };
-
