@@ -16,8 +16,11 @@ class SignInFields extends React.Component {
     }
     componentDidMount() {
       if(!document.cookie){
-        console.log("this is COOKIE!",document.cookie)
+        console.log("this is COOKIE!", window.location.pathname)
         $( ".loginFields" ).show();
+      if(window.location.pathname != '/'){
+        window.location.href = "./";
+      }
       }
       else{
         $( ".loginFields" ).hide();
@@ -45,6 +48,7 @@ class SignInFields extends React.Component {
       document.cookie = "sessionId" + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       $( ".loginFields" ).show();
       $( ".welcome" ).hide();
+      window.location.href = "./";
   }
 
     signIn(creds){
