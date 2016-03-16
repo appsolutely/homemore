@@ -14,6 +14,7 @@ class ShelterStore {
   onGetSheltersSuccess(data) {
     this.shelters = data;
     console.log('I am the shelters', data);
+    console.log('I am the shelters', this.shelters);
   }
 
   onGetSheltersFail(jqXhr) {
