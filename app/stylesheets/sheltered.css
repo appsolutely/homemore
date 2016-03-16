@@ -23,6 +23,10 @@ body{
     color:#ce5555;
 }
 
+.orgName, .locationName{
+    font-weight: bold;
+}
+
 .shelterInfo{
     color:#f4f4f4;
 }
