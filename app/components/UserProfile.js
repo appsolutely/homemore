@@ -18,6 +18,7 @@ class UserProfile extends React.Component {
   componentDidMount() {
     UserStore.listen(this.onChange);
     UserProfileActions.getUser();
+    console.log(this.state.userObject)
   }
 
   onChange(state) {
@@ -30,7 +31,7 @@ class UserProfile extends React.Component {
       // clicked: this.state.clicked ? false : true,
       clicked: click,
     })
-    console.log(this.state.clicked)
+    console.log(this.state.userObject)
   }
 
   handleUpdate(firstName, lastName, email, password, phone, passwordFlag) {
@@ -52,7 +53,7 @@ class UserProfile extends React.Component {
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
         <h2>User Profile</h2>
-          {this.state.clicked ? <UserProfileEdit user={this.state.userObject} save={this.handleUpdate} clicker={this.handleUserInput} clicked={this.state.clicked} /> : <UserProfileView user={this.state.userObject} clicker={this.handleUserInput} clicked={this.state.clicked} />}
+          {this.state.clicked ? <UserProfileEdit userInfo={this.state.userObject} save={this.handleUpdate} clicker={this.handleUserInput} clicked={this.state.clicked} /> : <UserProfileView userInfo={this.state.userObject} clicker={this.handleUserInput} clicked={this.state.clicked} />}
       </div>
     );
   }

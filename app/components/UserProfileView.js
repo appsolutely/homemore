@@ -5,8 +5,10 @@ import alt from '../alt';
 class UserProfileView extends React.Component {
 	constructor(props) {
 		super(props);
-    console.log('inside of profile view',this.props.user.userFirstName)
+    // console.log('inside of profile view',this.props.user)
     this.handleClick = this.handleClick.bind(this);
+    console.log('inside of UserProfileView', this.props.userInfo)
+    console.log('props are', props)
 	}
 
   //define handler that will pass back to parent component 
@@ -21,13 +23,13 @@ class UserProfileView extends React.Component {
       <div>
         <div className='profileFieldName'>
           <h3>First Name:</h3>
-            <p>{this.props.user.userFirstName}</p>
+            <p>{this.props.userInfo.userFirstName}</p>
           <h3>Last Name:</h3>
-            <p>{this.props.user.userLastName}</p>
+            <p>{this.props.userInfo.userLastName}</p>
         </div>
         <div className='profileFieldEmail'>
           <h3>Email:</h3>
-            <p>{this.props.user.userEmail}</p>
+            <p>{this.props.userInfo.userEmail}</p>
         </div>
         <div className='profileFieldPassword'>
           <h3>Password:</h3>
@@ -35,7 +37,7 @@ class UserProfileView extends React.Component {
         </div>
         <div className="profileFieldPhone">
           <h3>Phone:</h3>
-            <p>{this.props.user.userPhone}</p>
+            <p>{this.props.userInfo.userPhone}</p>
         </div>
         <button className="editButton" onClick={this.handleClick}>Edit Me</button>
       </div>
