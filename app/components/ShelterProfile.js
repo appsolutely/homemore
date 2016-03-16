@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import alt from '../alt';
-import { GoogleMapLoader, GoogleMap } from 'react-google-maps';
+//import component
 
 
 class ShelterProfile extends React.Component {
@@ -20,25 +20,8 @@ class ShelterProfile extends React.Component {
          <div className="shelterProfile">
           <h3>{theShelter.shelterName}</h3>
           <h3>{theShelter.shelterDaytimePhone}</h3>
-          <div className="maps">
-                <GoogleMapLoader
-                  containerElement={
-                    <div
-                      style={{
-                        height: '100%',
-                      }}
-                    />
-                  }
-                  googleMapElement={
-                    <GoogleMap
-                      ref = {(map) => { console.log(map);}}
-                      defaultZoom={3}
-                      defaultCenter={{ lat: -25.363882, lng: 131.044922 }}>
-                      </GoogleMap>
-                  }
-                />
-                Map Goes Here
-              </div>
+          <div className="map">
+          </div>
           <h3>Hours</h3>
           <table>
             <tbody>
