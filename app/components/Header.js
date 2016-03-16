@@ -14,7 +14,20 @@ class SignInFields extends React.Component {
       this.state = {email: "", password: ""}
       this.update = this.update.bind(this);
     }
+    componentDidMount() {
+      if(!document.cookie){
+        console.log("this is COOKIE!",document.cookie)
+        $( ".loginFields" ).show();
+      }
+      else{
+        $( ".loginFields" ).hide();
+        $( ".welcome" ).show();
+      }
+    }
 
+    test(){
+      console.log('pew pew pew')
+    }
     update(e){
       this.setState({
         email: ReactDOM.findDOMNode(this.refs.email.refs.inp).value,
@@ -27,6 +40,12 @@ class SignInFields extends React.Component {
       this.signIn(signInInfo)
 
     }
+
+    logOut(){
+      document.cookie = "sessionId" + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      $( ".loginFields" ).show();
+      $( ".welcome" ).hide();
+  }
 
     signIn(creds){
       $.ajax({
@@ -55,15 +74,16 @@ class SignInFields extends React.Component {
             <div className="col-sm-3">email: <SignInInfo ref = 'email' update={this.update} placeholder="Username"/></div>
             <div className="col-sm-3">password: <SignInInfo ref = 'password' update={this.update} placeholder="Username"/></div>
             <br/>
-          
+
             <div className="col-sm-3"><button type='button' onClick={this.submitLogin.bind(this)}>Sign In</button></div>
           <div className="col-sm-3"><Link to="/signup">sign up</Link></div>
-          
+
+          </div>
           <div className="welcome">
             <Link to="/user-profile">
               My Account
             </Link>
-          </div>
+            <div className="col-sm-3"><button type='button' onClick={this.logOut.bind(this)}>Log Out</button></div>
           </div>
       </div>
 
