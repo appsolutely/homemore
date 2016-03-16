@@ -28,7 +28,7 @@ exports.findGeolocation = function(address){
             return knex('locations')
                         .update({lat: location.lat, long: location.long})
                         .where('locationStreet', address.locations.street)
-                        .returning('*')
+                        .returning('*');
           })
           .catch(function(err){
             console.error('There was an error getting geocode from google ', err);

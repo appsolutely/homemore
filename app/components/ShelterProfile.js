@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import alt from '../alt';
-import { GoogleMap } from 'react-google-maps';
+import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps';
 
 
 class ShelterProfile extends React.Component {
@@ -20,6 +20,25 @@ class ShelterProfile extends React.Component {
          <div className="shelterProfile">
           <h3>{theShelter.shelterName}</h3>
           <h3>{theShelter.shelterDaytimePhone}</h3>
+          <section style={{ height: '100%' }}>
+                <GoogleMapLoader
+                  containerElement={
+                    <div
+                      {...this.props}
+                      style={{
+                        height: '100%',
+                      }}
+                    />
+                  }
+                  googleMapElement={
+                    <GoogleMap
+                      ref = {(map) => { console.log(map);}}
+                      defaultZoom={3}
+                      defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+                    />
+                  }
+                />
+              </section>
           <h3>Hours</h3>
           <table>
             <tbody>
