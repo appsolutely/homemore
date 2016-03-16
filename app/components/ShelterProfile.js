@@ -16,7 +16,7 @@ class ShelterProfile extends React.Component {
     })[0];
      // console.log('var should be ', theShelter)
     return (
-       <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
+       <div className ="well col-sm-6 col-sm-offset-3 text-left">
          <div className="shelterProfile">
           <h3>{theShelter.shelterName}</h3>
           <h3>{theShelter.shelterDaytimePhone}</h3>

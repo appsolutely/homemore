@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 function Home() {
   return (
-    <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
+    <div className ="well col-sm-6 col-sm-offset-3 text-center">
       <div>
         <input type="text" />
       <Link to="/shelter">
