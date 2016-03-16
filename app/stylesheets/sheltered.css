@@ -6,35 +6,32 @@ body{
     background-color: #e6e6e6;
 }
 
-
-/*.home{
-    background-color: green;
-    height: 800px;
-    width: 1200px;
-}
-
-.shelter{
-    background-color: pink;
-    height: 800px;
-    width: 1200px;
-}*/
-
 .loginFields{
     clear: both;
 }
+
 .shelterCard{
-	background-color:#E25454;
-}
-.shelterCard p{
-    color:#e6e6e6;
+    background-color:#C15A5A;
+    border: 1px solid #f4f4f4;
+    font-size: 1em;
     text-transform: capitalize;
-    text-decoration: none;
-    font-size: 1.15em;
 }
 
-.shelterCard :hover{
+.shelterCard.shelterInfo{
+    color:#f4f4f4;
+}
+
+.shelterInfo{
+    color:#f4f4f4;
     text-decoration: none;
-    background-color: #D40000;
+}
+
+.shelterInfo:hover{
+    text-decoration: none;
+}
+
+.shelterCard:hover{
+    background-color: #A30000;
 }
 
 .shelterProfile{
