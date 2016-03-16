@@ -8,6 +8,7 @@ body{
 
 .loginFields{
     clear: both;
+    float: right;
 }
 
 .shelterCard{
@@ -41,8 +42,8 @@ body{
 
 .logo{
     max-width: 160px;
-    float: left;
     clear:both;
+    padding-bottom: 20px;
 
 }
 
