@@ -13,12 +13,16 @@ class UserProfile extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleUserInput= this.handleUserInput.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.obj = this.state.userObject.user
   }
 // will need to add in handleUserINput to accomodate edits from the main page
   componentDidMount() {
     UserStore.listen(this.onChange);
     UserProfileActions.getUser();
-    console.log(this.state.userObject)
+  }
+
+  componentWillUnmount() {
+    UserStore.unlisten(this.onChange);
   }
 
   onChange(state) {
@@ -36,7 +40,7 @@ class UserProfile extends React.Component {
 
   handleUpdate(firstName, lastName, email, password, phone, passwordFlag) {
     this.setState({
-      userObject: {
+      userObjectProfile: {
       userFirstName: firstName,
       userLastName: lastName,
       userEmail: email,
@@ -53,7 +57,7 @@ class UserProfile extends React.Component {
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
         <h2>User Profile</h2>
-          {this.state.clicked ? <UserProfileEdit userInfo={this.state.userObject} save={this.handleUpdate} clicker={this.handleUserInput} clicked={this.state.clicked} /> : <UserProfileView userInfo={this.state.userObject} clicker={this.handleUserInput} clicked={this.state.clicked} />}
+        {this.state.clicked ? <UserProfileEdit userInfo={this.state.userObjectProfile} save={this.handleUpdate} clicker={this.handleUserInput} clicked={this.state.clicked} /> : <UserProfileView userInfo={this.state.userObjectProfile} clicker={this.handleUserInput} clicked={this.state.clicked} />}
       </div>
     );
   }

@@ -5,13 +5,15 @@ class UserStore {
   constructor() {
     this.bindActions(UserProfileActions);
     this.userObject = {};
+    this.userObjectProfile = {};
     this.clicked = false;
   }
 
   onGetUserSuccess(data) {
     this.userObject = data;
-    console.log('the store is',data)
-    console.log('the userObject is',this.userObject)
+    this.userObjectProfile = data.user;
+    console.log('the response is', data)
+    console.log('without an object', this.userObjectProfile)
   }
 
   onGetUserFail(err) {
