@@ -1,29 +1,30 @@
+
 body{
     margin-top: 30px;
+    font-family: 'Helvetica', sans-serif;
 }
+
 
 .footer{
     background-color: #e6e6e6;
 }
 
-.loginFields{
-    clear: both;
-}
 
 .shelterCard{
     background-color:#C15A5A;
-    border: 1px solid #f4f4f4;
-    font-size: 1em;
-    text-transform: capitalize;
 }
+
 
 .shelterCard.shelterInfo{
     color:#f4f4f4;
 }
 
+.shelterCard.shelterInfo:hover{
+    color:#ce5555;
+}
+
 .shelterInfo{
     color:#f4f4f4;
-    text-decoration: none;
 }
 
 .shelterInfo:hover{
@@ -40,9 +41,9 @@ body{
 }
 
 .logo{
-    max-width: 160px;
-    float: left;
     clear:both;
+    max-width: 160px;
+    padding-bottom: 20px;
 
 }
 

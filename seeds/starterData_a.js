@@ -117,7 +117,6 @@ var shelterWomens_ID, shelterWomens2_ID, shelterWomens3_ID, shelterChildren_ID, 
             throw new Error("There was an error adding these shelter eligibility records", err);
           })
           .then(function(results){
-            console.log("ID", shelterChildren3_ID, reqID_Men);
             console.log("Successfully added shelter eligibility records");
             return results;
           });

@@ -10,18 +10,18 @@ class ShelterListings extends React.Component {
     const rows = this.props.shelters.map((shelter) => {
       if (shelter.shelterName.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0) {
         return (
-          <div key={shelter.shelterID} className="shelterCard">
+          <div key={shelter.shelterID} className="well shelterCard">
 						<Link to={'/shelterprofile/' + shelter.shelterName}>
-              <div>
-              <p></p>
-                  <p>
-                  <div className="shelterInfo">
-                  {shelter.shelterName}
-                 <div> organizied by {shelter.organizationName} located at {shelter.locationName}</div>
-                </div>
-                </p>
-
+              
+              
+                  
+              <div className="text-left shelterInfo">
+                  <h4>{shelter.shelterName}</h4>
+                 <h5 className="text-lowercase"> operated by <em>{shelter.organizationName}</em> at {shelter.locationName}</h5>
               </div>
+                
+
+             
 						</Link>
 					</div>
 				);

@@ -61,26 +61,20 @@ class Header extends React.Component {
 
     render() {
     return (
-      <div className ="well col-sm-6 col-sm-offset-3 text-left">
-      <Link to="/">
-        <img className="logo" src="/img/SHELTERED-logo.png" />
-      <br/><br/><br/>
-      </Link>
+      <div className ="col-sm-6 col-sm-offset-3">
+        <Link className="col-sm-3" to="/">
+          <img className="logo" src="/img/SHELTERED-logo.png" />
+        
+        </Link>
 
           <div className="loginFields">
             <div className="col-sm-3">email: <input ref = 'email' onChange={this.update} type = "text" placeholder="Username"/></div>
             <div className="col-sm-3">password: <input ref = 'password' onChange={this.update} type="password" placeholder = "password"/></div>
             <br/>
-
-            <div className="col-sm-3"><button type='button' onClick={this.submitLogin.bind(this)}>Sign In</button></div>
-          <div className="col-sm-3"><Link to="/signup">sign up</Link></div>
-
           </div>
           <div className="welcome">
-            <Link to="/user-profile">
-              My Account
-            </Link>
-            <div className="col-sm-3"><button type='button' onClick={this.logOut.bind(this)}>Log Out</button></div>
+            <Link className="btn btn-primary" to="/user-profile">My Account</Link> 
+            <button className="btn btn-primary" type='button' onClick={this.logOut.bind(this)}>Log Out</button>
           </div>
       </div>
 
