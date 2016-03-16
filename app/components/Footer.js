@@ -4,12 +4,11 @@ class Footer extends React.Component {
   render() {
     return (
       <footer>
-        <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
-          <div>Shelter Inc.</div>
-          <div>Location: Austin,TX</div>
-          <div>Phone: (555)555-5555</div>
-          <div>Email: Contact@Email.com</div>
-          <div><a href="https://github.com/appsolutely/sheltered">GitHub</a></div>
+        <div className ="well col-sm-6 col-sm-offset-3 text-center">
+          <div>Sheltered Inc.</div>
+          <div>Made with love in Austin,TX</div>
+          <div><a href="mailto:appsolutelysheltered@gmail.com">appsolutelysheltered@gmail.com</a></div>
+          <div>see the code on <a href="https://github.com/appsolutely/sheltered">github</a></div> 
         </div>
       </footer>
     );

@@ -40,7 +40,7 @@ class Shelter extends React.Component {
 // shelterProfile is going to be a separate ajax call, utilizing params.id
   render() {
     return (
-      <div className ="jumbotron col-sm-6 col-sm-offset-3 text-center">
+      <div className ="well col-sm-6 col-sm-offset-3 text-center">
         <Search
           filter={this.state.filterText}
           women={this.state.womenz}
