@@ -29,6 +29,10 @@ class UserProfileView extends React.Component {
           <h3>Email:</h3>
             <p>{this.props.user.userEmail}</p>
         </div>
+        <div className='profileFieldPassword'>
+          <h3>Password:</h3>
+            <p>******</p>
+        </div>
         <div className="profileFieldPhone">
           <h3>Phone:</h3>
             <p>{this.props.user.userPhone}</p>
