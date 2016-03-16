@@ -12,6 +12,7 @@ class AdminProfile extends React.Component {
   componentDidMount() {
     //UserStore.listen(this.onChange);
     UserProfileActions.getUser();
+    console.log(this.state.shelters)
   }
 
   approveAccount(){
@@ -32,6 +33,10 @@ class AdminProfile extends React.Component {
     });
   }
 
+  createShelter(){
+    console.log("Pew Pew Pew")
+  }
+
   render() {
     return (
       <div>
@@ -41,7 +46,40 @@ class AdminProfile extends React.Component {
       <br />
       add shelter
 
-       
+      <div>
+        manager info
+        <br />
+        <input type= "text" placeholder ="firstName"/>
+        <input type= "text" placeholder ="lastName"/>
+        <br />
+        <br />
+        <input type= "text" placeholder ="email"/>
+        <br />
+        <br />
+        shelter
+        <br />
+        <input type= "text" placeholder ="orgName"/>
+        <br />
+        <br />
+        <input type= "text" placeholder ="shelterName"/>
+        <br />
+        <br />
+        <input type= "text" placeholder ="shelterEmail"/>
+        <br />
+        <br />
+        <input type= "text" placeholder ="shelterEmergencyPhone"/>
+        <br />
+        <br />
+        <input type= "text" placeholder ="shelterAddress"/>
+        <br />
+        <br />
+        <input type= "text" placeholder ="shelterDayTimePhone"/>
+        <br />
+        <br />
+        <button onClick={this.createShelter.bind(this)}>PEW PEW PEW</button>
+      </div>
+
+
       </div>
       </div>
     );

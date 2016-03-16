@@ -16,11 +16,10 @@ class SignInFields extends React.Component {
     }
     componentDidMount() {
       if(!document.cookie){
-        console.log("this is COOKIE!", window.location.pathname)
         $( ".loginFields" ).show();
-      if(window.location.pathname != '/'){
-        window.location.href = "./";
-      }
+        if(window.location.pathname != '/'){
+          window.location.href = "./";
+        }
       }
       else{
         $( ".loginFields" ).hide();
