@@ -3,12 +3,6 @@ import ReactDOM from 'react-dom'
 import { Link } from 'react-router';
 
 class Header extends React.Component {
-  render() {
-    return (<div><SignInFields /></div>);
-  }
-}
-
-class SignInFields extends React.Component {
   constructor(){
     super()
       this.state = {email: "", password: ""}
@@ -32,15 +26,15 @@ class SignInFields extends React.Component {
     }
     update(e){
       this.setState({
-        email: ReactDOM.findDOMNode(this.refs.email.refs.inp).value,
-        password: ReactDOM.findDOMNode(this.refs.password.refs.inp).value,
+        email: ReactDOM.findDOMNode(this.refs.email).value,
+        password: ReactDOM.findDOMNode(this.refs.password).value,
       })
+
     }
     submitLogin(e){
       e.preventDefault();
       let signInInfo = {user: {password: this.state.password, email: this.state.email}}
       this.signIn(signInInfo)
-
     }
 
     logOut(){
@@ -74,8 +68,8 @@ class SignInFields extends React.Component {
       </Link>
 
           <div className="loginFields">
-            <div className="col-sm-3">email: <SignInInfo ref = 'email' update={this.update} placeholder="Username"/></div>
-            <div className="col-sm-3">password: <SignInInfo ref = 'password' update={this.update} placeholder="Username"/></div>
+            <div className="col-sm-3">email: <input ref = 'email' onChange={this.update} type = "text" placeholder="Username"/></div>
+            <div className="col-sm-3">password: <input ref = 'password' onChange={this.update} type="password" placeholder = "password"/></div>
             <br/>
 
             <div className="col-sm-3"><button type='button' onClick={this.submitLogin.bind(this)}>Sign In</button></div>
@@ -94,14 +88,5 @@ class SignInFields extends React.Component {
     }
 }
 
-class SignInInfo extends React.Component  {
-  render(){
-    return(
-      <div>
-        <input ref="inp" type = "text"
-          onChange={this.props.update} />
-      </div>)
-  }
-}
 
 export default Header;
