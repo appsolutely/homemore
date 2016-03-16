@@ -105,13 +105,13 @@ var org1, org2, org3;
         //--hours
         return knex('hours')
               .insert([
+                {hoursMonday: "Open 8am to 4pm", hoursTuesday: "Open 8am to 4pm", hoursWednesday: "Open 8am to 4pm", hoursThursday: "Open 8am to 4pm", hoursFriday: "Open 8am to 4pm", hoursSaturday: "Open 8am to 4pm", hoursSunday: "Open 8am to 4pm"},
                 {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
                 {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
+                {hoursMonday: "Open 6am to 5pm", hoursTuesday: "Open 6am to 5pm", hoursWednesday: "Open 6am to 5pm", hoursThursday: "Open 6am to 5pm", hoursFriday: "Open 6am to 5pm", hoursSaturday: "Open 6am to 5pm", hoursSunday: "Open 6am to 5pm"},
                 {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"},
-                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Open 24"}
+                {hoursMonday: "Open 7am to 3pm", hoursTuesday: "Open 7am to 3pm", hoursWednesday: "Open 7am to 3pm", hoursThursday: "Open 7am to 3pm", hoursFriday: "Open 7am to 3pm", hoursSaturday: "Open 7am to 3pm", hoursSunday: "Open 7am to 3pm"},
+                {hoursMonday: "Open 24", hoursTuesday: "Open 24", hoursWednesday: "Open 24", hoursThursday: "Open 24", hoursFriday: "Open 24", hoursSaturday: "Open 24", hoursSunday: "Closed"}
               ])
               .returning('*');
     })
@@ -132,13 +132,13 @@ var org1, org2, org3;
         //--locations
       return knex('locations')
             .insert([
-              {locationName:"Front Steps", locationStreet:"500 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78701", locationPhone:"512-305-4100", fk_hourID:hours1ID},
+              {locationName:"Front Steps Main Building", locationStreet:"500 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78701", locationPhone:"512-305-4100", fk_hourID:hours1ID},
               {locationName:"Stepfield Church" , locationStreet:"501 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78777", locationPhone:"512-305-4101", fk_hourID:hours2ID},
               {locationName:"Convention Center", locationStreet:"502 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78745", locationPhone:"512-305-4102", fk_hourID:hours3ID},
               {locationName:"Healing Home" , locationStreet:"503 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78756", locationPhone:"512-305-4103", fk_hourID:hours4ID},
               {locationName:"Bolder Building", locationStreet:"504 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78704", locationPhone:"512-305-4104", fk_hourID:hours5ID},
-              {locationName:"Popup Shelter", locationStreet:"505 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78703", locationPhone:"512-305-4105", fk_hourID:hours6ID},
-              {locationName:"Alpha Center" , locationStreet:"506 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78787", locationPhone:"512-305-4106", fk_hourID:hours7ID}
+              {locationName:"Popup Shelter on 7th", locationStreet:"505 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78703", locationPhone:"512-305-4105", fk_hourID:hours6ID},
+              {locationName:"Alpha Delta Phi Helping Home" , locationStreet:"506 E 7th St" , locationCity:"Austin" , locationState:"TX" , locationZip:"78787", locationPhone:"512-305-4106", fk_hourID:hours7ID}
             ])
             .returning('*');
     })
@@ -159,18 +159,18 @@ var org1, org2, org3;
         //--shelters
       return knex('shelters')
             .insert([
-              {shelterName: "Men Emergency Night Shelter", shelterEmail: "email@MEN.com", shelterDaytimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445", fk_organizationID: org1, fk_locationID:location1ID},
-              {shelterName: "MEN Day Sleep", shelterEmail: "email@MEN.com", shelterDaytimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445", fk_organizationID: org2, fk_locationID:location1ID},
-              {shelterName: "MEN Weather Shelter Program", shelterEmail: "MENweathershelter@frontsteps.org", shelterDaytimePhone:"512-444-4233" , shelterEmergencyPhone:"512-444-4445", fk_organizationID: org3, fk_locationID:location2ID},
-              {shelterName: "women Emergency Night Shelter", shelterEmail: "email@women.com", shelterDaytimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335", fk_organizationID: org1, fk_locationID:location3ID},
-              {shelterName: "women Day Sleep", shelterEmail: "email@women.com", shelterDaytimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335", fk_organizationID: org2, fk_locationID:location4ID},
-              {shelterName: "women Weather Shelter Program", shelterEmail: "womenweathershelter@frontsteps.org", shelterDaytimePhone:"512-333-4233" , shelterEmergencyPhone:"512-333-3335", fk_organizationID: org3, fk_locationID:location4ID},
-              {shelterName: "children Emergency Night Shelter", shelterEmail: "email@children.com", shelterDaytimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225", fk_organizationID: org1, fk_locationID:location5ID},
-              {shelterName: "children Day Sleep", shelterEmail: "email@children.com", shelterDaytimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225", fk_organizationID: org2, fk_locationID:location6ID},
-              {shelterName: "children Weather Shelter Program", shelterEmail: "childrenweathershelter@frontsteps.org", shelterDaytimePhone:"512-222-4233" , shelterEmergencyPhone:"512-222-2225", fk_organizationID: org3, fk_locationID:location7ID},
+              {shelterName: "Men Emergency Night Shelter", shelterEmail: "email@men.com", shelterDaytimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445", fk_organizationID: org1, fk_locationID:location1ID},
+              {shelterName: "men's Day Sleep", shelterEmail: "email@men.com", shelterDaytimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445", fk_organizationID: org2, fk_locationID:location1ID},
+              {shelterName: "Men's Cold Weather Shelter", shelterEmail: "MENweathershelter@frontsteps.org", shelterDaytimePhone:"512-444-4233" , shelterEmergencyPhone:"512-444-4445", fk_organizationID: org3, fk_locationID:location2ID},
+              {shelterName: "Women's Emergency Night Shelter", shelterEmail: "email@women.com", shelterDaytimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335", fk_organizationID: org1, fk_locationID:location3ID},
+              {shelterName: "Women's Day Sleep", shelterEmail: "email@women.com", shelterDaytimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335", fk_organizationID: org2, fk_locationID:location4ID},
+              {shelterName: "Women's Cold Weather Shelter", shelterEmail: "womenweathershelter@frontsteps.org", shelterDaytimePhone:"512-333-4233" , shelterEmergencyPhone:"512-333-3335", fk_organizationID: org3, fk_locationID:location4ID},
+              {shelterName: "Children and Teen's Emergency Night Shelter", shelterEmail: "email@children.com", shelterDaytimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225", fk_organizationID: org1, fk_locationID:location5ID},
+              {shelterName: "Youth Day Sleep", shelterEmail: "email@children.com", shelterDaytimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225", fk_organizationID: org2, fk_locationID:location6ID},
+              {shelterName: "Children's Cold Weather Shelter Program", shelterEmail: "childrenweathershelter@frontsteps.org", shelterDaytimePhone:"512-222-4233" , shelterEmergencyPhone:"512-222-2225", fk_organizationID: org3, fk_locationID:location7ID},
               {shelterName: "ARCH Emergency Night Shelter", shelterEmail: "email@email.com", shelterDaytimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555", fk_organizationID: org1, fk_locationID:location7ID},
-              {shelterName: "ARCH Day Sleep", shelterEmail: "email@email.com", shelterDaytimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555", fk_organizationID: org2, fk_locationID:location6ID},
-              {shelterName: "Cold Weather Shelter Program", shelterEmail: "coldweathershelter@frontsteps.org", shelterDaytimePhone:"512-305-4233" , shelterEmergencyPhone:"512-555-5555", fk_organizationID: org3, fk_locationID:location5ID}
+              {shelterName: "Emergency Night Shelter", shelterEmail: "email@email.com", shelterDaytimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555", fk_organizationID: org2, fk_locationID:location6ID},
+              {shelterName: "Emergency Shelter for Women and Children", shelterEmail: "coldweathershelter@frontsteps.org", shelterDaytimePhone:"512-305-4233" , shelterEmergencyPhone:"512-555-5555", fk_organizationID: org3, fk_locationID:location5ID}
             ])
             .returning('*');
     })
@@ -255,10 +255,10 @@ var org1, org2, org3;
         //--shelterOccupancy
       return knex('shelterOccupancy')
             .insert([
-              {fk_shelterUnitID:unit1ID, occupiedByName:"Carly Levy"},
-              {fk_shelterUnitID:unit3ID, occupiedByName:"Carlos Levandez"},
-              {fk_shelterUnitID:unit9ID, occupiedByName:"Scott Tail"},
-              {fk_shelterUnitID:unit14ID, occupiedByName:"Lisa Sue"},
+              {fk_shelterUnitID:unit1ID, occupiedByName:"OJ Simpson"},
+              {fk_shelterUnitID:unit3ID, occupiedByName:"George Bush Sr."},
+              {fk_shelterUnitID:unit9ID, occupiedByName:"Zac Morris"},
+              {fk_shelterUnitID:unit14ID, occupiedByName:"Prince"},
               {fk_shelterUnitID:unit6ID, occupiedByName:"Murphy Brown"},
               {fk_shelterUnitID:unit12ID, occupiedByName:"Bart Simpson"}
             ])
