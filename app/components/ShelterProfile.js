@@ -20,7 +20,9 @@ class ShelterProfile extends React.Component {
          <div className="shelterProfile">
           <h3>{theShelter.shelterName}</h3>
           <h3>{theShelter.shelterDaytimePhone}</h3>
-          <ShelterMap />
+          <ShelterMap
+            shelters={theShelter}
+          />
           <h3>Hours</h3>
           <table>
             <tbody>
