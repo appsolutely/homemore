@@ -10,7 +10,7 @@ class UserProfileEdit extends React.Component {
 
   render() {
     return (
-      <div>
+      <form>
         <div className='profileFieldName'>
           <h3>Edit First Name:</h3>
           <p>{this.props.user.userFirstName}</p>
@@ -25,7 +25,8 @@ class UserProfileEdit extends React.Component {
           <h3>Edit Phone:</h3>
           <p>{this.props.user.userPhone}</p>
         </div>
-      </div>
+        <button className="editButton" onClick={this.handleClick}>Save Changes</button>
+      </form>
     );
   }
 }

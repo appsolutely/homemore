@@ -19,8 +19,8 @@ export default (
     <Route path="/signup" component={Signup} />
     <Route path="/user-signup" component={UserSignup} />
     <Route path="/admin-signup" component={AdminSignup} />
-    <Route path="/admin-page" component={AdminProfile} />
-    <Route path="/manager-page" component={ManagerProfile} />
+    <Route path="/admin-profile" component={AdminProfile} />
+    <Route path="/manager-profile" component={ManagerProfile} />
     <Route path="/user-profile" component={UserProfile} />
   </Route>
 );
