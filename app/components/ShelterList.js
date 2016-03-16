@@ -32,7 +32,7 @@ class Shelter extends React.Component {
   handleUserInput(filter, women, family, zip) {
     this.setState({
       filterText: filter,
-      womenz: women,
+      women: women,
       family: family,
       zip: zip,
     });
@@ -43,7 +43,7 @@ class Shelter extends React.Component {
       <div className ="well col-sm-6 col-sm-offset-3 text-center">
         <Search
           filter={this.state.filterText}
-          women={this.state.womenz}
+          women={this.state.women}
           family={this.state.family}
           zip={this.state.zip}
           onInput={this.handleUserInput}
@@ -51,7 +51,7 @@ class Shelter extends React.Component {
         <ShelterListing
           filter={this.state.filterText}
           shelters={this.state.shelters}
-          women={this.state.womenz}
+          women={this.state.women}
           family={this.state.family}
           zip={this.state.zip}
         />
