@@ -61,8 +61,8 @@ class Header extends React.Component {
 
     render() {
     return (
-      <div className ="well col-sm-6 col-sm-offset-3">
-        <Link to="/">
+      <div className ="col-sm-6 col-sm-offset-3">
+        <Link className="col-sm-3" to="/">
           <img className="logo" src="/img/SHELTERED-logo.png" />
         
         </Link>
@@ -73,14 +73,12 @@ class Header extends React.Component {
             <br/>
 
 
-            <div className="col-sm-4"><button className="btn btn-primary" type='button' onClick={this.submitLogin.bind(this)}>Sign In</button></div>
-          <div className="col-sm-4"><Link className="btn btn-primary" to="/signup">Sign up</Link></div>
 
-          </div>
+          </span>
           <div className="welcome">
             <Link className="btn btn-primary" to="/user-profile">My Account</Link> 
             <button className="btn btn-primary" type='button' onClick={this.logOut.bind(this)}>Log Out</button>
-            </div>
+          </div>
       </div>
 
     );

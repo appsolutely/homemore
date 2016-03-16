@@ -12,16 +12,16 @@ class ShelterListings extends React.Component {
         return (
           <div key={shelter.shelterID} className="well shelterCard">
 						<Link to={'/shelterprofile/' + shelter.shelterName}>
-              <div>
               
-                  <p>
-                  <div className="shelterInfo">
-                  {shelter.shelterName}
-                 <div> organizied by {shelter.organizationName} located at {shelter.locationName}</div>
-                </div>
-                </p>
-
+              
+                  
+              <div className="text-left shelterInfo">
+                  <h4>{shelter.shelterName}</h4>
+                 <h5 className="text-lowercase"> operated by <em>{shelter.organizationName}</em> at {shelter.locationName}</h5>
               </div>
+                
+
+             
 						</Link>
 					</div>
 				);

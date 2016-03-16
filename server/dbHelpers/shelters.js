@@ -2,6 +2,7 @@ var db = require('../../db/db.js');
 var config = require('../../knexfile.js');  
 var env =  process.env.NODE_ENV || 'development';  
 var knex = require('knex')(config[env]);
+var location = require('./locations.js');
 
 
 
@@ -33,30 +34,45 @@ module.exports.insertShelter = function(req){
     var email = req.shelters.shelterEmail;
     var emergencyPhone = req.shelters.shelterEmergencyPhone;
     var daytimePhone = req.shelters.shelterDayTimePhone;
-  
-    return getOrgID(req.organizations.orgName)
-      .then(function(org){
-        // console.log("result from look up org: ", org);
-        return knex('shelters')
-                .insert({
-                    shelterName: name, 
-                    shelterEmail: email, 
-                    shelterEmergencyPhone: emergencyPhone, 
-                    shelterDaytimePhone: daytimePhone,
-                    fk_organizationID: org
-                    // fk_shelterlocationID: shelterLocation,
-                    // fk_hoursID: shelterHours
-                  })
-                .returning('*')
-          .catch(function(err){
-            // console.log("Something went wrong inserting this shelter ", err);
-            throw new Error("Something went wrong inserting this shelter ", err);
-          })
-          .then(function(shelter){
-            // console.log('Successfully inserted shelter with ID ', shelter[0].shelterID);
-            return shelter;
-          });     
+    var locationID;
+    
+    return location.insertLocations(req)
+      .then(function(resp){
+        locationID = resp[0].locationID;
+        return;
+      })
+      .catch(function(err){
+        console.log("There was a problem adding this location");
+      })
+      .then(function(){
+        return getOrgID(req.organizations.orgName)
+          .then(function(org){
+            // console.log("result from look up org: ", org);
+            return knex('shelters')
+                    .insert({
+                        shelterName: name, 
+                        shelterEmail: email, 
+                        shelterEmergencyPhone: emergencyPhone, 
+                        shelterDaytimePhone: daytimePhone,
+                        fk_organizationID: org,
+                        fk_shelterlocationID: locationID
+                        // fk_hoursID: shelterHours
+                      })
+                    .returning('*')
+              .catch(function(err){
+                // console.log("Something went wrong inserting this shelter ", err);
+                throw new Error("Something went wrong inserting this shelter ", err);
+              })
+              .then(function(shelter){
+                // console.log('Successfully inserted shelter with ID ', shelter[0].shelterID);
+                return shelter;
+              });     
+          });
+        
       });
+
+
+
 
 };
 
