@@ -53,17 +53,16 @@ exports.deleteOrganization = function(req){
     throw new Error("Something went wrong deleting this organization ", err);
   })
   .then(function(organizations){
-    console.log("Deleted organization ", organizations);
+    // console.log("Deleted organization ", organizations);
     return organizations;
   });
 };
 
 exports.selectOrganization = function(req){
   var orgName = req.organizations.orgName;
-  console.log('passed in orgName ', orgName);
+  // console.log('passed in orgName ', orgName);
   //select specific organization ID
 return knex.select('*').table('organizations')
-            // .returning('*')
             .where('organizationName', orgName)
   .catch(function(err){
     // console.log("Something went wrong selecting this organization ", err);
@@ -79,38 +78,29 @@ return knex.select('*').table('organizations')
 exports.updateOrganization = function(req){
   var orgName = req.organizations.orgName;
   var updatedOrgName = req.organizations.updatedOrgName;
-    console.log('passed in orgName ', orgName);
 
   return knex('organizations')
           .returning('*')
           .where('organizationName', orgName)
           .update('organizationName', updatedOrgName)
   .catch(function(err){
-    // console.log("Something went wrong updating this organization ", err);
+    console.log("Something went wrong updating this organization ", err);
     throw new Error("Something went wrong updating this organization ", err);
   })
   .then(function(organization){
-    // console.log("Updated organization from ", orgName, " to ", updatedOrgName);
     return organization;
   });
-
-  //update specific organization 
-
-
-  //update specific organization  
 };
 
 var getOrgID = function(orgName){
-  console.log("Passed in org name", orgName);
   return knex.select('*')
               .from('organizations')
               .where('organizationName', orgName)
   .catch(function(err){
-    // console.log("Could not find organization with this name.", err);
+    console.log("Could not find organization with this name.", err);
     throw new Error("Could not find organization with this name", err);
   })
   .then(function(orgID){
-    // console.log("Found organization with id ", orgID[0].organizationID);
     return orgID[0].organizationID;
   });
 };
