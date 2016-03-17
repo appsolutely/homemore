@@ -54,7 +54,7 @@ class UserProfile extends React.Component {
 
   render() {
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">
+      <div className ="well col-sm-6 col-sm-offset-3 text-center">
         <h2>User Profile</h2>
         {this.state.clicked ? <UserProfileEdit userInfo={this.state.userObjectProfile} save={this.handleUpdate} clicker={this.handleUserInput} clicked={this.state.clicked} /> : <UserProfileView userInfo={this.state.userObjectProfile} clicker={this.handleUserInput} clicked={this.state.clicked} />}
       </div>
