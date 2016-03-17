@@ -3,7 +3,8 @@ import alt from '../alt';
 class ShelterActions {
   constructor() {
     this.generateActions(
-		'getSheltersSuccess'
+		'getSheltersSuccess',
+		'getSheltersFail'
 	);
   }
 

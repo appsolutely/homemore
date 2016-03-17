@@ -21,6 +21,14 @@ class UserStore {
     return err;
   }
 
+  // onUpdateUserSuccess(data) {
+  //   console.log('successfully updated info', data);
+  // }
+
+  onUpdateUserFail(err){
+    console.log('update failed because:', err)
+  }
+
 }
 
 export default alt.createStore(UserStore);

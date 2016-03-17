@@ -30,7 +30,6 @@ class UserProfile extends React.Component {
   }
 
   handleUserInput(click) {
-    console.log('making it back to the clicker', click)
     this.setState({
       // clicked: this.state.clicked ? false : true,
       clicked: click,
@@ -38,7 +37,8 @@ class UserProfile extends React.Component {
     console.log(this.state.userObject)
   }
 
-  handleUpdate(firstName, lastName, email, password, phone, passwordFlag) {
+  handleUpdate(firstName, lastName, email, password, phone, passwordFlag, emailFlag) {
+    //update state regardless of post success
     this.setState({
       userObjectProfile: {
       userFirstName: firstName,
@@ -49,6 +49,8 @@ class UserProfile extends React.Component {
       userPasswordFlag: passwordFlag,
       }
     });
+    //send profile data
+    UserProfileActions.updateUser(firstName, lastName, email, password, phone, passwordFlag, emailFlag)
     // console.log('made it back to handleUpdate', this.state.userObject)
   }
 

@@ -6,7 +6,6 @@ class UserProfileEdit extends React.Component {
 	constructor(props) {
 		super(props);
     this.handleClick = this.handleClick.bind(this);
-    console.log('inside of UserProfileEdit', this.props)
 	}
 //(firstName, lastName, email, password, phone, passwordFlag)
   // passes updated components back to parent for processing in UserProfileActions
@@ -32,7 +31,6 @@ class UserProfileEdit extends React.Component {
     this.props.clicker(
       this.props.clicked ? false : true
     )
-    console.log('clicked', this.props.clicked)
   }
 
   render() {
@@ -42,7 +40,7 @@ class UserProfileEdit extends React.Component {
           <h3>Edit First Name:</h3>
           <input type='text' ref='firstName' placeholder={this.props.userInfo.userFirstName} />
           <h3>Edit Last Name:</h3>
-          <input type='text' ref='lastName' placeholder={this.props.userInfo.userLastName} onChange=''/>
+          <input type='text' ref='lastName' placeholder={this.props.userInfo.userLastName} />
         </div>
         <div className='profileFieldEmail'>
           <h3>Edit Email:</h3>
