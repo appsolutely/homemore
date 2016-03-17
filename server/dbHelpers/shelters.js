@@ -247,7 +247,6 @@ module.exports.deleteShelterEligibility = function(req){
 };
 
 module.exports.insertShelterOccupancy = function(req){
-  console.log("INSERT SHELTER OCC", req);
   var occupant = req.occupancy.name;
   var entranceDate = req.occupancy.entranceDate;
   var exitDate = req.occupancy.exitDate;
@@ -367,21 +366,48 @@ module.exports.findShelterByID = function(shelterID) {
               .from('shelters')
               .fullOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
               .where('shelterID', shelterID)
-              .then(function(result){
-                console.log('result of find shelterByID ', result);
-                return result[0];
-              })
-              .catch(function(err){
-                console.error('There was an error in findShelterByID ', err);
-                throw err;
-              });
+        .catch(function(err){
+          console.error('There was an error in findShelterByID ', err);
+          throw err;
+        })
+        .then(function(result){
+          console.log('result of find shelterByID ', result);
+          return result[0];
+        });
 };
 
-// module.exports.shelterSummary = function(req){
-//     return knex.select('*')
-//                 .count('shelterUnitID as totalUnits')
-//                 .from('shelters')
-//                 .innerJoin('shelterUnits', 'shelters'.'shelterID', 'shelterUnits'.'fk_shelterID')
-//                 .rightOuterJoin('shelterEligibility', 'shelters.shelterID', 'shelterEligibility.fk_shelterID')
+module.exports.shelterOccupancyDetails = function(){
+  return knex.select('*')
+              .from('organizations')
+              .leftOuterJoin('shelters', 'organizations.organizationID', 'shelters.fk_organizationID')
+              .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
+              .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
+        .catch(function(err){
+          console.log('There was an error selecting this shelter occupancy details', err);
+          throw new Error('There was an error selecting this shelter occupancy details', err);
+        })
+        .then(function(result){
+          console.log('Successfully returned shelter occupancy details');
+          return result;
+        });
+};
 
-// }
+module.exports.shelterOccupancySummary = function(){
+  return knex.select('shelterID', 'shelterName')
+              .count('shelterUnitID as total_units')
+              .count('occupancyID as occupied_units')
+              .from('shelters')
+              .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
+              .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
+              .groupBy('shelterID')
+      .catch(function(err){
+        console.log('There was a problem returning this shelter occupancy summary', err);
+        throw new Error('There was a problem returning this shelter occupancy summary', err);
+      })
+      .then(function(result){
+        console.log("Successfully returned shelter occupancy summary");
+        return result;
+
+      });
+
+};
