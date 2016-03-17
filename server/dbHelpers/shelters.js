@@ -79,11 +79,11 @@ module.exports.selectShelter = function(req){
     return getShelterID(shelter)
       .then(function(shelter){
         var shelterID = shelter[0].shelterID;
-        return knex.select('*')
+        return knex.select('shelterID', 'fk_organizationID', 'shelterName', 'fk_locationID', 'fk_hourID', 'shelterEmail', 'shelterEmergencyPhone', 'shelterDaytimePhone', 'locationID', 'locationName', 'locationStreet', 'locationCity', 'locationState', 'locationZip', 'locationPhone', 'fk_hourID', 'lat', 'long')
                   .count('shelterUnitID as total_units')
                   .count('occupancyID as occupied_units')
                   .from('shelters')
-                  .fullOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
+                  .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
                   .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
                   .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')                  
                   .where('shelterID', shelterID)
