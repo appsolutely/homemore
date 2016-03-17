@@ -26,7 +26,7 @@ module.exports.insertShelter = function(req){
     var daytimePhone = req.shelters.shelterDayTimePhone;
     var locationID;
     
-    return location.insertLocations(req)
+    return location.insertLocation(req)
       .then(function(resp){
         locationID = resp[0].locationID;
         return;
@@ -45,16 +45,16 @@ module.exports.insertShelter = function(req){
                         shelterEmergencyPhone: emergencyPhone, 
                         shelterDaytimePhone: daytimePhone,
                         fk_organizationID: org,
-                        fk_shelterlocationID: locationID
+                        fk_locationID: locationID
                         // fk_hoursID: shelterHours
                       })
                     .returning('*')
               .catch(function(err){
-                // console.log("Something went wrong inserting this shelter ", err);
+                console.error("Something went wrong inserting this shelter ", err);
                 throw new Error("Something went wrong inserting this shelter ", err);
               })
               .then(function(shelter){
-                // console.log('Successfully inserted shelter with ID ', shelter[0].shelterID);
+                console.log('Successfully inserted shelter', shelter);
                 return shelter;
               });     
           });
