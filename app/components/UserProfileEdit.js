@@ -35,7 +35,7 @@ class UserProfileEdit extends React.Component {
 
   render() {
     return (
-      <form className="text-right">
+      <form className="text-left">
         <div>
           <label>First Name</label>
           <input type='text' ref='firstName' placeholder={this.props.userInfo.userFirstName} />
