@@ -68,4 +68,3 @@ ShelterProfile.propTypes = {
 };
 
 export default ShelterProfile;
-
