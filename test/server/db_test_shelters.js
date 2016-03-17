@@ -267,8 +267,10 @@ it('should insert Shelters', function(){
             return shelterRecs.selectAllShelters();
           })
           .then(function(resp){
+            console.log('result of select all shelters ', resp)
             expect(resp).to.be.an.instanceOf(Array);
             expect(resp).to.have.length(3);
+            expect(resp[0].hoursID).to.not.equal(null);
           });
   });
 
