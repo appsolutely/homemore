@@ -34,7 +34,6 @@ class Shelter extends React.Component {
       filterText: filter,
       women: women,
       family: family,
-      zip: zip,
     });
   }
 // shelterProfile is going to be a separate ajax call, utilizing params.id
@@ -45,7 +44,6 @@ class Shelter extends React.Component {
           filter={this.state.filterText}
           women={this.state.women}
           family={this.state.family}
-          zip={this.state.zip}
           onInput={this.handleUserInput}
         />
         <ShelterListing
@@ -53,7 +51,6 @@ class Shelter extends React.Component {
           shelters={this.state.shelters}
           women={this.state.women}
           family={this.state.family}
-          zip={this.state.zip}
         />
       </div>
     );
