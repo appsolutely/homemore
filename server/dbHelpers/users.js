@@ -176,7 +176,7 @@ exports.addNewManager = function(reqBody){
             }
           })
           .catch(function(err){
-            // console.log('err message in catch ', err);
+            console.error('err message in catch ', err);
               //if hit the catch probably need to create a new shelter
             return shelterHelpers.insertShelter(reqBody);
           })
@@ -191,9 +191,12 @@ exports.addNewManager = function(reqBody){
                        .returning('*');
           })
           .then(function(result){
-            response.shelterID = result[0];
             response.genPass = genPass;
-            // console.log('response right before returning new manager ', response);
+            console.log('response right before returning new manager ', response);
+            return shelterHelpers.findShelterByID(result[0].fk_shelterID);
+          })
+          .then(function(result){
+            response.shelter = result;
             return [response];
           });
 };

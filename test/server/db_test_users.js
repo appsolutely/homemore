@@ -81,7 +81,7 @@ describe('users DB calls', function(){
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
                     expect(resp[0].user.userFirstName).to.equal('Tilly');
-                    expect(resp[0].shelterID.managerID).to.not.equal(undefined);
+                    expect(resp[0].shelter.shelterName).to.not.equal(undefined);
                     expect(resp[0].user.userID).to.not.equal(undefined);
                   });
   });
@@ -95,11 +95,12 @@ describe('users DB calls', function(){
                     return userRecs.addNewManager(newManagerUser);
                   })
                   .then(function(resp){
+                    console.log('RESPONSE ', resp);
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
                     expect(resp[0].user.userFirstName).to.equal('Bob');
                     expect(resp[0].user.userID).to.not.equal(undefined);
-                    expect(resp[0].shelterID.managerID).to.not.equal(undefined);
+                    expect(resp[0].shelter.shelterName).to.not.equal(undefined);
                   });
   });
 

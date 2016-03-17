@@ -168,14 +168,16 @@ app.post('/api/signup', function(req, res){
 app.post('/api/createManager', function(req, res){
   //path for both creating a new manager for an existing shelter
   //and for creating a new shelter + manager(shelters cannot be made on their own)
-  //we generate a password for this user so we need to work out a way to send them a confirmaton email
+  //we generate a password for this user so we send them a confirmaton email
   // console.log('inside createmanager ', req.body);
   var newUser;
   if (req.session){
     if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
       return users.addNewManager(req.body)
               .then(function(newManager){
-                // console.log('newManager', newManager);
+                console.log();
+                console.log('NEW MANAGER', newManager);
+                console.log();
                 newUser = newManager;
                 //path for now -- add sending email here or on front end?
                 return sendManagerEmail(newManager[0], res);

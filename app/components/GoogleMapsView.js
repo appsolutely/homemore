@@ -18,7 +18,6 @@ class ShelterMap extends React.Component {
             />
           }
          />
-         {{ shelterLoc }}
          </div>
       );
   }
