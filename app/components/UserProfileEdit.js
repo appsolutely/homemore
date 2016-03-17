@@ -36,23 +36,23 @@ class UserProfileEdit extends React.Component {
   render() {
     return (
       <form className="text-right">
-        <div className='profileFieldName'>
+        <div>
           <label>First Name</label>
           <input type='text' ref='firstName' placeholder={this.props.userInfo.userFirstName} />
         </div>
-        <div className="profileFieldName">
+        <div>
           <label>Last Name</label>
           <input type='text' ref='lastName' placeholder={this.props.userInfo.userLastName} />
         </div>
-        <div className='profileFieldEmail'>
+        <div>
           <label>Email:</label>
           <input type='email' ref='email' placeholder={this.props.userInfo.userEmail} />
         </div>
-        <div className='profileFieldPassword'>
+        <div>
           <label>Password</label>
             <input type='password' ref='password' size='6' />
         </div>
-        <div className="profileFieldPhone">
+        <div>
           <label>Phone</label>
           <input type='tel' ref='phone' placeholder={this.props.userInfo.userPhone} />
         </div>

@@ -45,26 +45,32 @@ class AdminSignup extends React.Component {
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
         <form>
-        <h1>Email</h1>
-        <AccountInfo ref = 'email' update={this.update} />
-
-        <h1>Password</h1>
-        <PasswordInfo ref = 'password' update={this.update} />
-
-        <h1>First Name</h1>
-        <AccountInfo ref = 'firstName' update={this.update} />
-
-        <h1>Last Name</h1>
-        <AccountInfo ref = 'lastName' update={this.update} />
-
-        <h1>Phone Number</h1>
-        <AccountInfo ref = 'phone' update={this.update} />
-
-        <h1>Org Name</h1>
-        <AccountInfo ref = 'orgName' update={this.update} />
-
+        <div>
+          <label>Email</label>
+          <AccountInfo ref = 'email' update={this.update} />
+        </div>
+        <div>
+          <label>Password</label>
+          <PasswordInfo ref = 'password' update={this.update} />
+        </div>
+        <div>
+          <label>First Name</label>
+          <AccountInfo ref = 'firstName' update={this.update} />
+        </div>
+        <div>
+          <label>Last Name</label>
+          <AccountInfo ref = 'lastName' update={this.update} />
+        </div>
+        <div>
+          <label>Phone Number</label>
+          <AccountInfo ref = 'phone' update={this.update} />
+        </div>
+        <div>
+          <label>Org Name</label>
+          <AccountInfo ref = 'orgName' update={this.update} />
+        </div>
         <br/>
-        <button type='submit' onClick={this.submitForm.bind(this)}>click me</button>
+        <button type='submit' onClick={this.submitForm.bind(this)}>Sign Up</button>
 
         </form>
       </div>

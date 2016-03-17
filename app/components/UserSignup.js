@@ -43,7 +43,7 @@ class UserSignup extends React.Component {
   render(){
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
-        <form>
+        <form className="text-left">
 
         <p>First Name</p>
         <AccountInfo ref = 'firstName' update={this.update} />
