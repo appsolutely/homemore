@@ -11,7 +11,6 @@ class SearchBar extends React.Component {
       this.refs.filterTextInput.value,
       this.refs.gender.checked,
       this.refs.family.checked,
-      this.refs.zip.checked
     );
   }
   render() {
@@ -38,14 +37,6 @@ class SearchBar extends React.Component {
             onChange={this.handleChange}
           />
           Families
-        </p>
-        <p>
-          <input type="checkbox"
-            ref="zip"
-            checked={this.props.zip}
-            onChange={this.handleChange}
-          />
-          Zip place holder
         </p>
     </form>
     );
