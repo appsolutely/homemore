@@ -22,7 +22,6 @@ class AdminProfile extends React.Component {
 
   approveAccount(){
     this.post(this.state.userObject.user.userEmail)
-    console.log(this.state.userObject.shelters[0].organizationName)
   }
 
   post(data){
