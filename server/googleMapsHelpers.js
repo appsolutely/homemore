@@ -13,17 +13,14 @@ exports.findGeolocation = function(address){
   var street = encodeURIComponent(address.locations.street);
   var city = encodeURIComponent(address.locations.city);
   var state = encodeURIComponent(address.locations.state);
-  console.log(street, city, state);
   var apiToken = process.env.GOOGLE_GEOCODE;
   var baseURL = "https://maps.googleapis.com/maps/api/geocode/json?";
   var fullURL = baseURL + 'address=' + street + ',%20' + city + ',%20' + state + '&key=' + apiToken;
-  console.log('fullUrl ', fullURL);
 
   return request
           .get({uri: fullURL})
           .then(function(resp){
             var response = JSON.parse(resp);
-            console.log('response from googleAPI', response.results[1]);
             var location = response.results[1].geometry.location;
             return knex('locations')
                         .update({lat: location.lat, long: location.lng})

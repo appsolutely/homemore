@@ -80,6 +80,7 @@ module.exports.selectShelter = function(req){
       .then(function(shelter){
         var shelterID = shelter[0].shelterID;
         return knex.select('*').from('shelters')
+                  .fullOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
                   .where('shelterID', shelterID)
           .catch(function(err){
             console.log("Something went wrong selecting this shelter ", err);
@@ -359,6 +360,21 @@ module.exports.deleteShelterOccupancy = function(req){
             // console.log("Successfully deleted this occupancy record");
             return occupancy;
           });
+};
+
+module.exports.findShelterByID = function(shelterID) {
+  return knex.select('*')
+              .from('shelters')
+              .fullOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
+              .where('shelterID', shelterID)
+              .then(function(result){
+                console.log('result of find shelterByID ', result);
+                return result[0];
+              })
+              .catch(function(err){
+                console.error('There was an error in findShelterByID ', err);
+                throw err;
+              });
 };
 
 // module.exports.shelterSummary = function(req){
