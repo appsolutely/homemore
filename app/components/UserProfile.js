@@ -13,9 +13,8 @@ class UserProfile extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleUserInput= this.handleUserInput.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.obj = this.state.userObject.user
   }
-// will need to add in handleUserINput to accomodate edits from the main page
+
   componentDidMount() {
     UserStore.listen(this.onChange);
     UserProfileActions.getUser();
@@ -30,15 +29,13 @@ class UserProfile extends React.Component {
   }
 
   handleUserInput(click) {
-    console.log('making it back to the clicker', click)
     this.setState({
-      // clicked: this.state.clicked ? false : true,
       clicked: click,
     })
-    console.log(this.state.userObject)
   }
-
-  handleUpdate(firstName, lastName, email, password, phone, passwordFlag) {
+  // state agnostic child components is the goal 
+  handleUpdate(firstName, lastName, email, password, phone, passwordFlag, emailFlag) {
+    // update state regardless of post success
     this.setState({
       userObjectProfile: {
       userFirstName: firstName,
@@ -49,6 +46,8 @@ class UserProfile extends React.Component {
       userPasswordFlag: passwordFlag,
       }
     });
+    //send profile data
+    UserProfileActions.updateUser(firstName, lastName, email, password, phone, passwordFlag, emailFlag)
     // console.log('made it back to handleUpdate', this.state.userObject)
   }
 

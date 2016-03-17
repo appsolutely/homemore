@@ -213,7 +213,8 @@ exports.updateUser = function(req){
   var changingEmail = reqBody.emailChanged || false; //flag to tell if they are changing their email
   var changingPassword = reqBody.passwordChanged || false;
   var hashed;
-
+  console.log('making it to db helper', reqBody)
+  console.log(changingPassword)
 
 if(changingPassword){
   return bcrypt.genSaltAsync(10)

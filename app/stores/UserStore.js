@@ -12,13 +12,20 @@ class UserStore {
   onGetUserSuccess(data) {
     this.userObject = data;
     this.userObjectProfile = data.user;
-    console.log('the response is', data)
-    console.log('without an object', this.userObjectProfile)
   }
 
   onGetUserFail(err) {
     console.log('failed to get user info', err);
     return err;
+  }
+  // since success forces a redraw
+  onUpdateUserSuccess(data) {
+    this.userObjectProfile = data.user;
+    console.log('successfully updated info', data);
+  }
+
+  onUpdateUserFail(err){
+    console.log('update failed because:', err)
   }
 
 }
