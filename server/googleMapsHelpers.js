@@ -17,11 +17,12 @@ exports.findGeolocation = function(address){
   var baseURL = "https://maps.googleapis.com/maps/api/geocode/json?";
   var fullURL = baseURL + 'address=' + street + ',%20' + city + ',%20' + state + '&key=' + apiToken;
 
+
   return request
           .get({uri: fullURL})
           .then(function(resp){
             var response = JSON.parse(resp);
-            var location = response.results[1].geometry.location;
+            var location = response.results[0].geometry.location;
             return knex('locations')
                         .update({lat: location.lat, long: location.lng})
                         .where('locationStreet', address.locations.street)
@@ -29,6 +30,11 @@ exports.findGeolocation = function(address){
           })
           .catch(function(err){
             console.error('There was an error getting geocode from google ', err);
+            throw err;
+          })
+          .then(function(result){
+            // console.log('result from google ', result);
+            return result;
           });
 };
 

@@ -26,8 +26,8 @@ class ShelterProfile extends React.Component {
             <div><label>Emergency Phone:</label> {theShelter.shelterEmergencyPhone}</div>
             <div><a href="mailto:{theShelter.shelterEmail}">{theShelter.shelterEmail}</a></div>
           </div>
+          <ShelterMap />
           <div>
-
             <label>Hours</label>
             <div>
               <div>Monday {theShelter.hoursMonday}</div>
