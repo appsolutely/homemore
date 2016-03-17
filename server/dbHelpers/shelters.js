@@ -376,7 +376,8 @@ module.exports.findShelterByID = function(shelterID) {
         });
 };
 
-module.exports.shelterOccupancyDetails = function(){
+module.exports.shelterOccupancyDetails = function(req){
+  var orgID = req;
   return knex.select('*')
               .from('organizations')
               .leftOuterJoin('shelters', 'organizations.organizationID', 'shelters.fk_organizationID')
