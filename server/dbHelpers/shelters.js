@@ -106,7 +106,7 @@ module.exports.selectAllShelters = function(){
                 .from('shelters')
                 .innerJoin('organizations', 'shelters.fk_organizationID', 'organizations.organizationID')
                 .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
-                .leftOuterJoin('hours', 'shelters.fk_hourID', 'hours.hoursID')
+                .leftOuterJoin('hours', 'locations.fk_hourID', 'hours.hoursID')
                 .leftOuterJoin('shelterEligibility', 'shelters.shelterID', 'shelterEligibility.fk_shelterID')
       .catch(function(err){
         console.error("Something went wrong selecting all shelters", err);

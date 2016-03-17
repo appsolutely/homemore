@@ -32,15 +32,15 @@ module.exports.insertLocation = function(req){
             hoursSaturday: hoursSat,
             hoursSunday: hoursSun
           })
-          .returning('hoursID')
+          .returning('*')
   .catch(function(err){
     // console.log("Something went wrong inserting these hours.", err);
     throw new Error("Something went wrong inserting these hours.", err);
   })
   .then(function(hours){
-    // console.log("Successfully inserted hours");
-    var hoursID = hours[0];
-    // console.log("HOURS FK ID", hoursID);
+    console.log("Successfully inserted hours", hours);
+    var hoursID = hours[0].hoursID;
+    console.log("HOURS FK ID", hoursID);
 
       return knex('locations')
               .insert({
