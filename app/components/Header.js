@@ -62,25 +62,26 @@ class Header extends React.Component {
     render() {
     return (
       <div className ="col-sm-6 col-sm-offset-3">
-        <Link className="col-sm-3" to="/">
-          <img className="logo" src="/img/SHELTERED-logo.png" />
-
-        </Link>
-
-          <div className="loginFields">
-            <div className="col-sm-3">email: <input ref = 'email' onChange={this.update} type = "text" placeholder="Username"/></div>
-            <div className="col-sm-3">password: <input ref = 'password' onChange={this.update} type="password" placeholder = "password"/></div>
-            <div className="col-sm-3"><button className="btn btn-primary" type='button' onClick={this.submitLogin.bind(this)}>Sign In</button></div>
-            <div className="col-sm-3"><Link className="btn btn-primary" to="/signup">Sign up</Link></div>
-            <br/>
-          </div>
-
-          <div className="welcome">
-            <Link to="/user-profile">
-            My Account
+        <span className="col-sm-3">
+          <Link to="/">
+            <img className="logo" src="/img/SHELTERED-logo.png" />
           </Link>
+        </span>
+        <div className="row">
+          <span className="loginFields text-right">
+            <div>email: <input ref = 'email' onChange={this.update} type = "text" placeholder="Username"/></div>
+            <div>password: <input ref = 'password' onChange={this.update} type="password" placeholder = "password"/></div>
+            <div>
+              <button className="btn btn-primary" type='button' onClick={this.submitLogin.bind(this)}>Sign In</button>
+              <Link className="btn btn-primary" to="/signup">Sign up</Link>
+            </div>
+          </span>
+          <div className="welcome text-right">
+            <Link to="/user-profile"> My Account </Link>
             <button className="btn btn-primary" type='button' onClick={this.logOut.bind(this)}>Log Out</button>
           </div>
+        </div>
+
       </div>
 
     );
