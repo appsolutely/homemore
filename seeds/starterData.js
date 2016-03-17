@@ -175,7 +175,7 @@ var org1, org2, org3;
     })
 
     .then(function(results){
-        console.log("SUCCESS #5");       
+        console.log("SUCCESS #3");       
       return knex('organizations')
             .insert([
                 {organizationName: "Front Steps"}, 
@@ -209,7 +209,7 @@ var org1, org2, org3;
       throw new Error("There was an error adding these shelters", err);
     })
     .then(function(shelters){
-        console.log("SUCCESS #9"); 
+        console.log("SUCCESS #4"); 
         console.log('shelters ', shelters);    
         //--shelterUnits
       return Promise.all([
@@ -245,7 +245,7 @@ var org1, org2, org3;
       throw new Error("There was an error adding these shelter units", err);
     })
     .then(function(units){
-        console.log("SUCCESS #10");
+        console.log("SUCCESS #5");
         console.log('units! ', units);     
         var unit1ID = units[0].shelterUnitID;
         var unit2ID = units[2].shelterUnitID;
@@ -274,6 +274,10 @@ var org1, org2, org3;
      .catch(function(err){
       console.log("There was an error adding these occupancy records", err);
       throw new Error("There was an error adding these occupancy records", err);
-    })   
+    }) 
+    .then(function(res){
+      console.log('SUCCESS #6');
+      console.log('occupancies ', res);
+    })  
   );
 };

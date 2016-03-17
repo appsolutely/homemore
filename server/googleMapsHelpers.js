@@ -29,6 +29,10 @@ exports.findGeolocation = function(address){
           })
           .catch(function(err){
             console.error('There was an error getting geocode from google ', err);
+            throw err;
+          })
+          .then(function(result){
+            return result;
           });
 };
 
