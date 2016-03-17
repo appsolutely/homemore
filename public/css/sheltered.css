@@ -9,19 +9,24 @@ body{
     background-color: #e6e6e6;
 }
 
+.shelterInfo:hover{
+    text-decoration: none;
+}
 
 .shelterCard{
     background-color:#C15A5A;
+    color:#e4e4e4;
 }
 
+.shelterInfo p{
+    background-color: #232d3f;
+    color:#e4e4e4;
+}
 
 .shelterCard.shelterInfo{
     color:#f4f4f4;
 }
 
-.shelterCard.shelterInfo:hover{
-    color:#ce5555;
-}
 
 .orgName, .locationName{
     font-weight: bold;
