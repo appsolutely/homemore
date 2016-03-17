@@ -79,9 +79,15 @@ module.exports.selectShelter = function(req){
     return getShelterID(shelter)
       .then(function(shelter){
         var shelterID = shelter[0].shelterID;
-        return knex.select('*').from('shelters')
+        return knex.select('*')
+                  .count('shelterUnitID as total_units')
+                  .count('occupancyID as occupied_units')
+                  .from('shelters')
                   .fullOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
+                  .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
+                  .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')                  
                   .where('shelterID', shelterID)
+                  .groupBy('shelterID')
           .catch(function(err){
             console.log("Something went wrong selecting this shelter ", err);
             throw new Error("Something went wrong selecting this shelter", err);           
@@ -383,6 +389,7 @@ module.exports.shelterOccupancyDetails = function(req){
               .leftOuterJoin('shelters', 'organizations.organizationID', 'shelters.fk_organizationID')
               .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
               .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
+              .where('organizationID', orgID)
         .catch(function(err){
           console.log('There was an error selecting this shelter occupancy details', err);
           throw new Error('There was an error selecting this shelter occupancy details', err);
