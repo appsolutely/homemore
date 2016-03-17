@@ -19,10 +19,10 @@ class UserStore {
     return err;
   }
   // since success forces a redraw
-  onUpdateUserSuccess(data) {
-    this.userObjectProfile = data.user;
-    console.log('successfully updated info', data);
-  }
+  // onUpdateUserSuccess(data) {
+  //   this.userObjectProfile = data.user;
+  //   console.log('successfully updated info', data);
+  // }
 
   onUpdateUserFail(err){
     console.log('update failed because:', err)
