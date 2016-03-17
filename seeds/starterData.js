@@ -165,7 +165,6 @@ var org1, org2, org3;
               {userRoleName:"Registered", userRoleDescription: "Registered users registered and logged in to site."},
               {userRoleName:"Admin", userRoleDescription: "Administrative users managing organizations."}, 
               {userRoleName:"Manager", userRoleDescription: "Administrative users managing shelters and real-time bed counts."}
-
             ])
             .returning('*');
     })
