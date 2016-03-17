@@ -15,6 +15,7 @@ var getOrgID = function(orgName){
     throw new Error("Could not find organization with this name", err);
   })
   .then(function(orgID){
+
     return orgID[0].organizationID;
   });
 };
@@ -47,7 +48,7 @@ module.exports.insertShelter = function(req){
                         shelterDaytimePhone: daytimePhone,
                         fk_organizationID: org,
                         fk_locationID: locationID,
-                        fk_hoursID: hoursID
+                        fk_hourID: hoursID
                       })
                     .returning('*')
               .catch(function(err){
@@ -55,7 +56,7 @@ module.exports.insertShelter = function(req){
                 throw new Error("Something went wrong inserting this shelter ", err);
               })
               .then(function(shelter){
-                console.log('Successfully inserted shelter', shelter);
+                // console.log('Successfully inserted shelter', shelter);
                 return shelter;
               });     
           });
@@ -159,6 +160,7 @@ module.exports.insertShelterUnit = function(req){
   var unitSize = req.shelterUnit.unitSize;
   return getShelterID(req.shelterName)
       .then(function(shelter){
+        console.log(req.shelterName, ' returned from find shelter ', shelter);
         var shelterID = shelter[0].shelterID;
         return knex('shelterUnits')
                 .insert({
