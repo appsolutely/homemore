@@ -12,18 +12,15 @@ body{
     background-color: #e6e6e6;
 }
 
-.shelterInfo:hover{
-    text-decoration: none;
-}
-
 .shelterCard{
-    background-color:#C15A5A;
+    background-color:#A2A2A2;
     color:#e4e4e4;
 }
 
 .shelterInfo p{
-    background-color: #232d3f;
-    color:#e4e4e4;
+    background-color: #4F7BB0;
+    text-decoration: none;
+
 }
 
 .shelterCard.shelterInfo{
@@ -44,7 +41,7 @@ body{
 }
 
 .shelterCard:hover{
-    background-color: #A30000;
+    background-color: #E25454;
 }
 
 .shelterProfile{
