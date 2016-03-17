@@ -10,7 +10,7 @@ class SearchBar extends React.Component {
     this.props.onInput(
       this.refs.filterTextInput.value,
       this.refs.gender.checked,
-      this.refs.family.checked,
+      this.refs.family.checked
     );
   }
   render() {
