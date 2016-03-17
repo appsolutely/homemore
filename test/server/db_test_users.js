@@ -19,6 +19,8 @@ describe('users DB calls', function(){
   var managerUser = {managerUser: {firstName: 'Tilly', lastName: 'Smalls', email: 'tilly@example.com'}, 
   organizations: {orgName: 'FrontSteps'}, 
   shelters:{shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
+  locations:{name: 'Greenfield Apartments', street: '1352 N. Austin Blvd.', city: 'Austin', state: 'TX', zip: '78703', phone: '555-5555'}, 
+  hours: {monday: 'Open 9-18', tuesday: 'Open 9-18', wednesday: 'Open 9-18', thursday: 'Open 9-18', friday: 'Open 9-18', saturday: 'Open 9-18', sunday: 'Open 9-18'}
 };
   var newManagerUser = {managerUser: {firstName: 'Bob', lastName: 'Bobingson', email: 'newGuy@example.com'}, organizations: {orgName: 'FrontSteps'}, shelters: {shelterName: 'Arches'}};
 

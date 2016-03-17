@@ -104,8 +104,6 @@ module.exports.selectLocation = function(req){
           return location;
         });
     });
-
-//select physical location
 };
 
 

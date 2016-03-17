@@ -112,7 +112,7 @@ app.post('/api/signin', function(req, res){
   //path is the same for all types of users
   return users.signIn(req.body)
               .then(function(session){
-                console.log('session ', session.sessionId);
+                // console.log('session ', session.sessionId);
                 res.setHeader('Set-Cookie', 'sessionId=' + session.sessionId + '; path=/');
                 return users.findByUserID(session.fk_userID);
               })
@@ -169,13 +169,13 @@ app.post('/api/createManager', function(req, res){
   //path for both creating a new manager for an existing shelter
   //and for creating a new shelter + manager(shelters cannot be made on their own)
   //we generate a password for this user so we need to work out a way to send them a confirmaton email
-  console.log('inside createmanager ', req.body);
+  // console.log('inside createmanager ', req.body);
   var newUser;
   if (req.session){
     if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
       return users.addNewManager(req.body)
               .then(function(newManager){
-                console.log('newManager', newManager);
+                // console.log('newManager', newManager);
                 newUser = newManager;
                 //path for now -- add sending email here or on front end?
                 return sendManagerEmail(newManager[0], res);
@@ -407,12 +407,12 @@ app.get('/api/fetchUser', function(req, res){
   //this is all the info for the profile page -- not any shelter or related info
   var response = {user: [], shelters: []};
   if (req.session) {
-    console.log('inside fetchUser ', req.session.fk_userID);
+    // console.log('inside fetchUser ', req.session.fk_userID);
     return users.findByUserID(req.session.fk_userID)
           .then(function(user){
             user[0].userPassword = null;
-            response.user = user[0];
-            console.log('response before findUserOrganization ', response);
+            response.user = user[0]; 
+            // console.log('response before findUserOrganization ', response);
             if(req.session.permissionLevel === 'Admin') {
               return users.findUserOrganization(req.session.fk_userID);
             } else if (req.session.permissionLevel === 'Manager') {
@@ -427,7 +427,6 @@ app.get('/api/fetchUser', function(req, res){
             return;
           })
           .then(function(){
-            console.log('in the then, I am the response', response)
             res.status(200).send(response);
           });
   } else {
@@ -464,7 +463,6 @@ app.post('/api/logout', function(req, res){
 app.post('/api/approve', function(req, res){
   var userID;
   console.log('in approve');
-  console.log('reqBody', req.body);
   if (req.body.permission === 'JCB'){
     return users.findByUserEmail(req.body)
           .then(function(user){
@@ -522,7 +520,6 @@ var sendEmail = function(mailOptions, res){
 
 //functions to call to actually send the emails
 var sendGeneralSignUpEmail = function(user, res) {
-  console.log('inside send email general ', user);
   var text = 'A new account has been created with this email on Sheltered. \n\n Welcome from the Sheltered Team!';
   var mailOptions = {
     from: ourEmail,
@@ -535,7 +532,6 @@ return sendEmail(mailOptions, res);
 
 //new manager has been created send them their generated password
 var sendManagerEmail = function (manager, res) {
-  console.log('inside send email ', manager);
   var text = 'A new account has been created for you on Sheltered. \n\n The password ' + manager.genPass +
    ' has been randomly generated for you. \n\n Please head to sheltered.herokuapp.com and change it. \n\n Welcome from the Appsolutely Team!';
   var mailOptions = {
@@ -579,7 +575,6 @@ app.post('/api/getGeocode', function(req, res){
 //server side rendering - front end needs this
 app.use(function(req, res) {
  Router.match({ routes: appRoutes.default, location: req.url }, function(err, redirectLocation, renderProps) {
-    console.log(req.url);
    if (err) {
      res.status(500).send(err.message);
    } else if (redirectLocation) {
