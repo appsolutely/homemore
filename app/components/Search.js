@@ -15,30 +15,38 @@ class SearchBar extends React.Component {
   }
   render() {
     return (
-    <form>
-        <input type="text"
-          placeholder="Search..."
+    <div className="well text-left">
+        <label>Search Shelters: </label>
+        <div><input type="text"
+          placeholder="emergency shelter"
           value={this.props.filter}
           ref="filterTextInput"
           onChange={this.handleChange}
         />
-        <p>
+        </div>
+        <div>
+        <div>
+        <label>Filter by: </label>
+        </div>
+        <span className="filterOpt">
           <input type="checkbox"
             ref="gender"
             defaultChecked={this.props.women}
             onChange={this.handleChange}
           />
           Women
-        </p>
-        <p>
+        </span>
+        <span className="filterOpt">
           <input type="checkbox"
             ref="family"
             defaultChecked={this.props.family}
             onChange={this.handleChange}
           />
           Families
-        </p>
-    </form>
+        </span>
+        
+        </div>
+    </div> 
     );
   }
 }
