@@ -4,6 +4,9 @@ body{
     font-family: 'Helvetica', sans-serif;
 }
 
+.filterOpt{
+    padding-right: 20px;
+}
 
 .footer{
     background-color: #e6e6e6;
