@@ -18,12 +18,13 @@ class SearchBar extends React.Component {
     <div className="well text-left">
         <label>Search Shelters: </label>
         <div><input type="text"
-          placeholder="emergency shelter"
+          placeholder="start typing here..."
           value={this.props.filter}
           ref="filterTextInput"
           onChange={this.handleChange}
         />
         </div>
+        <br/>
         <div>
         <div>
         <label>Filter by: </label>
