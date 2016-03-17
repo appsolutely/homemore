@@ -29,6 +29,7 @@ module.exports.insertShelter = function(req){
     return location.insertLocation(req)
       .then(function(resp){
         locationID = resp[0].locationID;
+        hoursID = resp[0].fk_hoursID;
         return;
       })
       .catch(function(err){
@@ -45,8 +46,8 @@ module.exports.insertShelter = function(req){
                         shelterEmergencyPhone: emergencyPhone, 
                         shelterDaytimePhone: daytimePhone,
                         fk_organizationID: org,
-                        fk_locationID: locationID
-                        // fk_hoursID: shelterHours
+                        fk_locationID: locationID,
+                        fk_hoursID: hoursID
                       })
                     .returning('*')
               .catch(function(err){
@@ -255,7 +256,7 @@ module.exports.deleteShelterEligibility = function(req){
 module.exports.insertShelterOccupancy = function(req){
   var occupant = req.occupancy.name;
   var entranceDate = req.occupancy.entranceDate;
-  var exitDate = req.occupancy.exitDate;
+  var exitDate = req.occupancy.exitDate || null;
   // var occupantDOB = req.occupancy.dob;
   var unitID = req.unit[0].shelterUnitID; 
 
@@ -263,6 +264,8 @@ module.exports.insertShelterOccupancy = function(req){
                 .insert({
                   fk_shelterUnitID: unitID,
                   occupiedByName: occupant,
+                  entranceDate: entranceDate,
+                  exitDate: exitDate
                 })
                 .returning('*')
           .catch(function(err){
