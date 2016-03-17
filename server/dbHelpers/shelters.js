@@ -79,9 +79,15 @@ module.exports.selectShelter = function(req){
     return getShelterID(shelter)
       .then(function(shelter){
         var shelterID = shelter[0].shelterID;
-        return knex.select('*').from('shelters')
-                  .fullOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
+        return knex.select('shelterID', 'fk_organizationID', 'shelterName', 'fk_locationID', 'fk_hourID', 'shelterEmail', 'shelterEmergencyPhone', 'shelterDaytimePhone', 'locationID', 'locationName', 'locationStreet', 'locationCity', 'locationState', 'locationZip', 'locationPhone', 'fk_hourID', 'lat', 'long')
+                  .count('shelterUnitID as total_units')
+                  .count('occupancyID as occupied_units')
+                  .from('shelters')
+                  .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
+                  .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
+                  .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')                  
                   .where('shelterID', shelterID)
+                  .groupBy('shelterID')
           .catch(function(err){
             console.log("Something went wrong selecting this shelter ", err);
             throw new Error("Something went wrong selecting this shelter", err);           
@@ -376,12 +382,14 @@ module.exports.findShelterByID = function(shelterID) {
         });
 };
 
-module.exports.shelterOccupancyDetails = function(){
+module.exports.shelterOccupancyDetails = function(req){
+  var orgID = req;
   return knex.select('*')
               .from('organizations')
               .leftOuterJoin('shelters', 'organizations.organizationID', 'shelters.fk_organizationID')
               .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
               .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
+              .where('organizationID', orgID)
         .catch(function(err){
           console.log('There was an error selecting this shelter occupancy details', err);
           throw new Error('There was an error selecting this shelter occupancy details', err);
