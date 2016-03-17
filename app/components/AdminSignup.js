@@ -49,7 +49,7 @@ class AdminSignup extends React.Component {
         <AccountInfo ref = 'email' update={this.update} />
 
         <h1>Password</h1>
-        <AccountInfo ref = 'password' update={this.update} />
+        <PasswordInfo ref = 'password' update={this.update} />
 
         <h1>First Name</h1>
         <AccountInfo ref = 'firstName' update={this.update} />
@@ -69,6 +69,15 @@ class AdminSignup extends React.Component {
         </form>
       </div>
   )
+  }
+}
+class PasswordInfo extends React.Component {
+  render(){
+    return(
+      <div>
+        <input ref="inp" type = "password"
+          onChange={this.props.update} />
+      </div>)
   }
 }
 

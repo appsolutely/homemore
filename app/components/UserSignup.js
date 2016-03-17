@@ -54,7 +54,7 @@ class UserSignup extends React.Component {
         <AccountInfo ref = 'email' update={this.update} />
 
         <p>Password</p>
-        <AccountInfo ref = 'password' update={this.update} />
+        <PasswordInfo ref = 'password' update={this.update} />
 
         <p>Phone Number</p>
         <AccountInfo ref = 'phone' update={this.update} />
@@ -65,6 +65,16 @@ class UserSignup extends React.Component {
         </form>
       </div>
   )
+  }
+}
+
+class PasswordInfo extends React.Component {
+  render(){
+    return(
+      <div>
+        <input ref="inp" type = "password"
+          onChange={this.props.update} />
+      </div>)
   }
 }
 

@@ -13,7 +13,7 @@ import ManagerProfile from './components/ManagerProfile';
 
 export default (
   <Route component={App}>
-    <Route path="/" component={Home} />
+    <Route path="/" component={ShelterList} />
     <Route path="/shelter" component={ShelterList} />
     <Route path="/shelterprofile/:id" component={ShelterProfile} />
     <Route path="/signup" component={Signup} />
