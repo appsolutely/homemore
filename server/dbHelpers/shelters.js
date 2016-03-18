@@ -81,7 +81,7 @@ module.exports.selectShelter = function(req){
     return getShelterID(shelter)
       .then(function(shelter){
         var shelterID = shelter[0].shelterID;
-        return knex.select('shelterID', 'fk_organizationID', 'shelterName', 'fk_locationID', 'shelters.fk_hourID', 'shelterEmail', 'shelterEmergencyPhone', 'shelterDaytimePhone', 'locationName', 'locationStreet', 'locationCity', 'locationState', 'locationZip', 'locationPhone', 'lat', 'long')
+        return knex.select('shelterID', 'fk_organizationID', 'shelterName', 'fk_locationID', 'shelterEmail', 'shelterEmergencyPhone', 'shelterDaytimePhone', 'locationName', 'locationStreet', 'locationCity', 'locationState', 'locationZip', 'locationPhone', 'lat', 'long')
                   .count('shelterUnitID as total_units')
                   .count('occupancyID as occupied_units')
                   .from('shelters')
@@ -89,7 +89,7 @@ module.exports.selectShelter = function(req){
                   .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
                   .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')                  
                   .where('shelterID', shelterID)
-                  .groupBy('shelterID', 'locationName', 'locationStreet', 'locationCity', 'locationState', 'locationZip', 'locationPhone', 'lat', 'long')
+                  .groupBy('shelterID', 'locationID')
           .catch(function(err){
             console.log("Something went wrong selecting this shelter ", err);
             throw new Error("Something went wrong selecting this shelter", err);           
@@ -102,12 +102,18 @@ module.exports.selectShelter = function(req){
 
 
 module.exports.selectAllShelters = function(){
-    return knex.select('*')
+    return knex.select('organizationID', 'organizationName', 'shelterID', 'fk_organizationID', 'shelterName', 'fk_locationID', 'shelterEmail', 'shelterEmergencyPhone', 'shelterDaytimePhone', 'locationName', 'locationStreet', 'locationCity', 'locationState', 'locationZip', 'locationPhone', 'lat', 'long', 'hoursMonday', 'hoursTuesday', 'hoursWednesday', 'hoursThursday', 'hoursFriday', 'hoursSaturday', 'hoursSunday')
+                .count('shelterUnitID as total_units')
+                .count('occupancyID as occupied_units')
+                .count('shelterEligibilityID as eligibility_rules')
                 .from('shelters')
                 .innerJoin('organizations', 'shelters.fk_organizationID', 'organizations.organizationID')
                 .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
                 .leftOuterJoin('hours', 'locations.fk_hourID', 'hours.hoursID')
                 .leftOuterJoin('shelterEligibility', 'shelters.shelterID', 'shelterEligibility.fk_shelterID')
+                .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
+                .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
+                .groupBy('organizationID', 'shelterID', 'locationID',  'hoursID')              
       .catch(function(err){
         console.error("Something went wrong selecting all shelters", err);
         throw new Error("Something went wrong selecting all shelters", err);
