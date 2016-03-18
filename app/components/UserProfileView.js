@@ -20,26 +20,24 @@ class UserProfileView extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className='profileFieldName'>
-          <h3>First Name:</h3>
-            <p>{this.props.userInfo.userFirstName}</p>
-          <h3>Last Name:</h3>
-            <p>{this.props.userInfo.userLastName}</p>
-        </div>
-        <div className='profileFieldEmail'>
-          <h3>Email:</h3>
-            <p>{this.props.userInfo.userEmail}</p>
-        </div>
-        <div className='profileFieldPassword'>
-          <h3>Password:</h3>
-            <p>******</p>
-        </div>
-        <div className="profileFieldPhone">
-          <h3>Phone:</h3>
-            <p>{this.props.userInfo.userPhone}</p>
-        </div>
-        <button className="editButton" onClick={this.handleClick}>Edit Me</button>
+      <div className="text-left">
+      
+          <div className="profileFieldName text-capitalize">
+            <label>First Name: </label> {this.props.userInfo.userFirstName}
+            <br/>
+            <label>Last Name:</label> {this.props.userInfo.userLastName}
+          </div>
+          <div className="profileFieldEmail">
+            <label>Email:</label> {this.props.userInfo.userEmail}
+          </div>
+          <div className="profileFieldPassword">
+            <label>Password:</label> ******
+          </div>
+          <div className="profileFieldPhone">
+            <label>Phone:</label> {this.props.userInfo.userPhone}
+          </div>
+
+          <button className="btn btn-primary editButton" onClick={this.handleClick}>Edit Me</button>
       </div>
     );
   }

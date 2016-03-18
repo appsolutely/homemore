@@ -35,26 +35,28 @@ class UserProfileEdit extends React.Component {
 
   render() {
     return (
-      <form>
-        <div className='profileFieldName'>
-          <h3>Edit First Name:</h3>
+      <form className="text-left">
+        <div>
+          <label>First Name</label>
           <input type='text' ref='firstName' placeholder={this.props.userInfo.userFirstName} />
-          <h3>Edit Last Name:</h3>
+        </div>
+        <div>
+          <label>Last Name</label>
           <input type='text' ref='lastName' placeholder={this.props.userInfo.userLastName} />
         </div>
-        <div className='profileFieldEmail'>
-          <h3>Edit Email:</h3>
-          <input type='text' ref='email' placeholder={this.props.userInfo.userEmail} />
+        <div>
+          <label>Email:</label>
+          <input type='email' ref='email' placeholder={this.props.userInfo.userEmail} />
         </div>
-        <div className='profileFieldPassword'>
-          <h3>Password:</h3>
+        <div>
+          <label>Password</label>
             <input type='password' ref='password' size='6' />
         </div>
-        <div className="profileFieldPhone">
-          <h3>Edit Phone:</h3>
-          <input type='text' ref='phone' placeholder={this.props.userInfo.userPhone} />
+        <div>
+          <label>Phone</label>
+          <input type='tel' ref='phone' placeholder={this.props.userInfo.userPhone} />
         </div>
-        <button className="editButton" onClick={this.handleClick}>Save Changes</button>
+        <button className="btn btn-primary editButton" onClick={this.handleClick}>Save Changes</button>
       </form>
     );
   }

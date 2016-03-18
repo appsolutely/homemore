@@ -16,8 +16,8 @@ class ShelterListings extends React.Component {
               
                   
               <div className="text-left shelterInfo">
-                  <p><em>Shelter Name</em></p>
-                  <h4><span className="shelterName">{shelter.shelterName}</span></h4>
+                  <div className="org text-capitalize"><p><b>{shelter.organizationName}</b></p></div>
+                  <h4><span className="shelterName"><b>{shelter.shelterName}</b></span></h4>
                  <h5 className="text-lowercase"> operated by <span className="orgName text-capitalize"><em>{shelter.organizationName}</em></span> @ the <span className="locationName text-capitalize">{shelter.locationName}</span></h5>
               </div>
                 

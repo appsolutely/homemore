@@ -20,7 +20,12 @@ class ShelterProfile extends React.Component {
          <div className="well shelterProfile">
          <div className="bg-primary"><h3>{theShelter.organizationName}</h3></div>
           <div className="text-capitalize"><h2>{theShelter.shelterName}</h2></div>
-          <div className="text-left"><h4>at {theShelter.locationName}</h4></div>
+          <div className="text-left">
+          <span className="col-sm-5"><h4>at <b>{theShelter.locationName}</b></h4></span>
+ 
+          
+
+          </div>
           <div className="contactInfo text-right">
             <div><label>Daytime Phone:</label> {theShelter.shelterDaytimePhone}</div>
             <div><label>Emergency Phone:</label> {theShelter.shelterEmergencyPhone}</div>
@@ -32,13 +37,13 @@ class ShelterProfile extends React.Component {
           <div>
             <label>Hours</label>
             <div>
-              <div>Monday {theShelter.hoursMonday}</div>
-              <div>Tuesday {theShelter.hoursTuesday}</div>
-              <div>Wednesday {theShelter.hoursWednesday}</div>
-              <div>Thursday {theShelter.hoursThursday}</div>
-              <div>Friday {theShelter.hoursFriday}</div>
-              <div>Saturday {theShelter.hoursSaturday}</div>
-              <div>Sunday {theShelter.hoursSunday}</div>
+              <div>Monday: {theShelter.hoursMonday}</div>
+              <div>Tuesday: {theShelter.hoursTuesday}</div>
+              <div>Wednesday: {theShelter.hoursWednesday}</div>
+              <div>Thursday: {theShelter.hoursThursday}</div>
+              <div>Friday: {theShelter.hoursFriday}</div>
+              <div>Saturday: {theShelter.hoursSaturday}</div>
+              <div>Sunday: {theShelter.hoursSunday}</div>
             </div>
        </div>
           </div>
