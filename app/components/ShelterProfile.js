@@ -1,20 +1,50 @@
 import React from 'react';
 import { Link } from 'react-router';
 import alt from '../alt';
+import ShelterActions from '../actions/ShelterActions';
+import ShelterStore from '../stores/ShelterStore';
 import ShelterMap from './GoogleMapsView.js';
 
 
 class ShelterProfile extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = alt.stores.ShelterStore.state;
+    this.state = ShelterStore.getState();
+    this.onChange = this.onChange.bind(this);
+  }
+
+  componentDidMount() {
+    ShelterStore.listen(this.onChange);
+    ShelterActions.getShelters();
+  }
+
+  onChange(state) {
+    this.setState(state);
   }
 
   render() {
+    const defaultShelter = { organizationName: '',
+         shelterName: '',
+         locationName: '',
+         shelterDaytimePhone: '',
+         shelterEmergencyPhone: '',
+         shelterEmail: '',
+         hoursMonday: '',
+         hoursTuesday: '',
+         hoursWednesday: '',
+         hoursThursday: '',
+         hoursFriday: '',
+         hoursSaturday: '',
+         hoursSunday: '',
+         long: 97.44,
+         lat: 30.16,
+       };
     const theShelter = this.state.shelters.filter((shelter) => {
       return shelter.shelterName === this.props.params.id;
-    })[0];
-     console.log('var should be ', theShelter)
+    })[0] || defaultShelter;
+    const location = { lat: theShelter.lat, lng: theShelter.long };
+    console.log('the shelter ', theShelter);
     return (
        <div className ="well col-sm-6 col-sm-offset-3 text-left">
          <div className="well shelterProfile">
@@ -23,18 +53,12 @@ class ShelterProfile extends React.Component {
           <div className="text-left">
           <span className="col-sm-5">at <b>{theShelter.locationName} </b>
             {theShelter.locationStreet}
-            <br/>
-            {theShelter.locationCity}, 
-            {theShelter.locationState} 
+            <br />
+            {theShelter.locationCity},
+            {theShelter.locationState}
             {theShelter.locationZip}
 
-
-
           </span>
-
- 
-          
-
           </div>
           <div className="contactInfo text-right">
             <div><h5>Daytime Phone: {theShelter.shelterDaytimePhone}</h5></div>
@@ -42,21 +66,21 @@ class ShelterProfile extends React.Component {
             <div><a href="mailto:{theShelter.shelterEmail}">{theShelter.shelterEmail}</a></div>
           </div>
           <ShelterMap
-            shelters={theShelter}
+            shelters={location}
           />
           <span>
           <div>
-          
             <h3>
               <div className="">{theShelter.total_units} units at this location: </div>
-              <br/>
-              <div className="label label-danger">{theShelter.occupied_units} taken</div> 
-              <div className="label label-success">{theShelter.total_units - theShelter.occupied_units} available</div>                        
+              <br />
+              <div className="label label-danger">{theShelter.occupied_units} taken</div>
+              <div className="label label-success">
+              {theShelter.total_units - theShelter.occupied_units} available</div>
             </h3>
-            <br/>
-          <h4>Reach them by phone @ {theShelter.locationPhone}</h4> 
-          <br/>
-            <h4>Hours</h4>
+            <br />
+          <label>Reach them by phone @ </label> {theShelter.locationPhone}
+          <br />
+            <label>Hours</label>
             <div>
               <div>Monday: {theShelter.hoursMonday}</div>
               <div>Tuesday: {theShelter.hoursTuesday}</div>

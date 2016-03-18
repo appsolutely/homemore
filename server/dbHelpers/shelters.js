@@ -26,6 +26,7 @@ module.exports.insertShelter = function(req){
     var emergencyPhone = req.shelters.shelterEmergencyPhone;
     var daytimePhone = req.shelters.shelterDayTimePhone;
     var locationID;
+    var hoursID;
     
     return location.insertLocation(req)
       .then(function(resp){
