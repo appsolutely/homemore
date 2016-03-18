@@ -17,14 +17,15 @@ class ShelterProfile extends React.Component {
     console.log('will mount');
   }
 
-  PewPew(){
-    console.log("state", this.state)
-  }
-
   componentDidMount() {
     console.log('did mount');
     ShelterActions.getShelters();
     console.log('current state ', this.state);
+    this.forceUpdate();
+  }
+
+  PewPew() {
+    console.log('state', this.state);
   }
 
   render() {
