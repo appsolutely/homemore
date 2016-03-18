@@ -10,10 +10,10 @@ class ManagerActions{
 	getManagerProfile() {
 		$.ajax({ url: '/api/fetchUser/' })
 	       .done((data) => {
-	         this.actions.getUserSuccess(data);
+	         this.actions.getManagerProfileSuccess(data);
 	       })
 	       .fail((jqXhr) => {
-	         this.actions.getUserFail(jqXhr);
+	         this.actions.getManagerProfileFail(jqXhr);
 	       });
 		}
 }

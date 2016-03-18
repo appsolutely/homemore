@@ -5,14 +5,14 @@ class ManagerStore {
 	constructor(){
 		this.bindActions(ManagerActions);
 		this.managerObjectProfile = {};
-		this.managerObjectShelters = {}
+		this.managerObjectShelters = [];
 
 	}
 
 	onGetManagerProfileSuccess(data){
 		this.managerObjectProfile = data.user;
 		this.managerObjectShelters = data.shelters;
-		console.log(this.managerObjectShelters);
+		console.log(data);
 	}
 
 	onGetManagerProfileFail(err){

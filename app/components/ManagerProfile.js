@@ -26,8 +26,25 @@ class ManagerProfile extends React.Component {
   }
 
   render() {
+  	console.log(this.state.managerObjectShelters)
+  	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
+  		return(
+	  		<div key={shelter.organizationName} className="well shelterCard">
+	              <div className="text-left shelterInfo">
+	                  <div className="org text-capitalize"><p><b>{shelter.organizationName}</b></p></div>
+	              </div>
+	  		</div>
+	  	)
+  	})
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">Manager Profile</div>
+      <div className ="col-sm-6 col-sm-offset-3 text-center">
+      	<h2>Manager Profile</h2>
+      		<p>Hello {this.state.managerObjectProfile.userFirstName} !</p>
+      		<p>You currently manage the following shelter(s):</p>
+      	<div>
+      		{managedShelters}
+      	</div>
+      </div>
     );
   }
 }
