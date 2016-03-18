@@ -108,6 +108,24 @@ app.get('/api/austin/shelters', function(req, res){
         });
 });
 
+app.post('/api/getShelter', function(req, res){
+    //adds occupants to particular units
+  if (req.session) {
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
+        return shelters.selectShelter(req)
+              .then(function(shelter){
+                res.status(200).send(shelter);
+              })
+              .catch(function(err){
+                res.status(500).send({error: 'There was an error fetching data ' + err});
+              });
+      }
+      res.status(401).send({error: 'User does not have permission to access this information'});
+    }
+    res.status(401).send({error: 'User is not signed in'});
+});
+
 app.post('/api/signin', function(req, res){
   //path is the same for all types of users
   return users.signIn(req.body)
