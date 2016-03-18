@@ -21,7 +21,17 @@ class ShelterProfile extends React.Component {
          <div className="bg-primary"><h3>{theShelter.organizationName}</h3></div>
           <div className="text-capitalize"><h2>{theShelter.shelterName}</h2></div>
           <div className="text-left">
-          <span className="col-sm-5"><h4>at <b>{theShelter.locationName}</b></h4></span>
+          <span className="col-sm-5">at <b>{theShelter.locationName} </b>
+            {theShelter.locationStreet}
+            <br/>
+            {theShelter.locationCity}, 
+            {theShelter.locationState} 
+            {theShelter.locationZip}
+
+
+
+          </span>
+
  
           
 
@@ -34,7 +44,18 @@ class ShelterProfile extends React.Component {
           <ShelterMap
             shelters={theShelter}
           />
+          <span>
           <div>
+          
+            <h3>
+              <div className="">{theShelter.total_units} units at this location: </div>
+              <br/>
+              <div className="label label-danger">{theShelter.occupied_units} taken</div> 
+              <div className="label label-success">{theShelter.total_units - theShelter.occupied_units} available</div>                        
+            </h3>
+            <br/>
+          <label>Reach them by phone @ </label> {theShelter.locationPhone}
+          <br/>
             <label>Hours</label>
             <div>
               <div>Monday: {theShelter.hoursMonday}</div>
@@ -45,7 +66,8 @@ class ShelterProfile extends React.Component {
               <div>Saturday: {theShelter.hoursSaturday}</div>
               <div>Sunday: {theShelter.hoursSunday}</div>
             </div>
-       </div>
+          </div>
+          </span>
           </div>
         </div>
     );
