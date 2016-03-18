@@ -86,53 +86,55 @@ class AdminProfile extends React.Component {
   render() {
     return (
       <div>
-      <div className ="col-sm-6 col-sm-offset-3 text-center">
-      <button type='submit' onClick={this.approveAccount.bind(this)}>Approve ME</button>
-      <br />
-      <br />
-      add shelter
+      <div className ="well col-sm-6 col-sm-offset-3 text-left">
+      <button className="btn btn-default" type='submit' onClick={this.approveAccount.bind(this)}>Approve</button>
+
 
       <div>
-        manager info
-        <br />
-        <input ref="firstName" type= "text" placeholder ="firstName" />
-        <input ref="lastName" type= "text" placeholder ="lastName"/>
-        <input ref="email" type= "text" placeholder ="email"/>
-        <br />
-        <br />
-        shelter
-        <br />
-        <input ref="shelterName" type= "text" placeholder ="shelterName"/>
-        <input ref="shelterEmail" type= "text" placeholder ="shelterEmail"/>
-        <input ref="shelterEmergencyPhone" type= "text" placeholder ="shelterEmergencyPhone"/>
-        <input ref="shelterAddress" type= "text" placeholder ="shelterAddress"/>
-        <input ref="shelterDayTimePhone" type= "text" placeholder ="shelterDayTimePhone"/>
-        <br />
-        <br />
-        location
-        <br />
-        <input ref="name" type= "text" placeholder ="name" />
-        <input ref="street" type= "text" placeholder ="street"/>
-        <input ref="city" type= "text" placeholder ="city"/>
-        <input ref="state" type= "text" placeholder ="state" />
-        <input ref="zip" type= "text" placeholder ="zip"/>
-        <input ref="phone" type= "text" placeholder ="phone"/>
-        <br />
-        <br />
-        hours
-        <br />
-        <input ref="monday" type= "text" placeholder ="monday" />
-        <input ref="tuesday" type= "text" placeholder ="tuesday"/>
-        <input ref="wednesday" type= "text" placeholder ="wednesday"/>
-        <input ref="thursday" type= "text" placeholder ="thursday" />
-        <input ref="friday" type= "text" placeholder ="friday"/>
-        <input ref="saturday" type= "text" placeholder ="saturday"/>
-        <input ref="sunday" type= "text" placeholder ="sunday"/>
-        <br />
-        <br />
-        <button onClick={this.createShelter.bind(this)}>PEW PEW PEW</button>
-        <br />
-        <br />
+        <span className="row">
+          <span className="col-sm-6">
+            <h3>Manager Information</h3>
+              <div><label>First Name: </label><input ref="firstName" type= "text" placeholder ="first name" /></div>
+              <div><label>Last Name: </label><input ref="lastName" type= "text" placeholder ="last name"/></div>
+              <div><label>Email: </label><input ref="email" type= "text" placeholder ="email"/></div>
+          </span>
+        </span>
+        <span className="row">
+          <span className="col-sm-6">
+            <h3>Shelter Information</h3>
+            <div><label>Shelter Name:</label><input ref="shelterName" type= "text" placeholder ="shelter name"/></div>
+            <div><label>Email:</label><input ref="shelterEmail" type= "text" placeholder ="email"/></div>
+            <div><label>Daytime Phone:</label><input ref="shelterDayTimePhone" type= "text" placeholder ="daytime phone"/></div>
+            <div><label>911 Phone:</label><input ref="shelterEmergencyPhone" type= "text" placeholder ="emergency phone"/></div>
+          </span>
+        </span>
+
+        <span className="row">
+          <span className="col-sm-6">
+            <h4>Location Information</h4>
+            <div><label>Location Name</label> <input ref="name" type= "text" placeholder ="name" /></div>
+            <div><label>Street:</label> <input ref="street" type= "text" placeholder ="street address"/></div>
+            <div><label>City:</label> <input ref="city" type= "text" placeholder ="city"/></div>
+            <div><label>State:</label> <input ref="state" type= "text" placeholder ="state" /></div>
+            <div><label>Zip:</label> <input ref="zip" type= "text" placeholder ="zip"/></div>
+            <div><label>Phone:</label> <input ref="phone" type= "text" placeholder ="phone"/></div>
+          </span>
+        
+ 
+          <span className="col-sm-6">
+            <h4>Hours of Operation</h4>
+            <div><label>Monday:</label> <input ref="monday" type= "text" placeholder ="open 24 hours" /></div>
+            <div><label>Tuesday:</label> <input ref="tuesday" type= "text" placeholder ="open 24 hours"/></div>
+            <div><label>Wednesday:</label> <input ref="wednesday" type= "text" placeholder ="open 24 hours"/></div>
+            <div><label>Thursday:</label> <input ref="thursday" type= "text" placeholder ="open 24 hours" /></div>
+            <div><label>Friday:</label> <input ref="friday" type= "text" placeholder ="open 24 hours"/></div>
+            <div><label>Saturday:</label> <input ref="saturday" type= "text" placeholder ="open 24 hours"/></div>
+            <div><label>Sunday:</label> <input ref="sunday" type= "text" placeholder ="open 24 hours"/></div>
+          </span>
+        </span>
+
+        <button className="btn btn-primary" onClick={this.createShelter.bind(this)}>Create Shelter</button>
+
       </div>
 
 

@@ -16,7 +16,7 @@ class SearchBar extends React.Component {
   render() {
     return (
     <div className="well text-left">
-        <label>Search Shelters: </label>
+        <h4>Search Shelters:</h4>
         <div><input type="text"
           placeholder="start typing here..."
           value={this.props.filter}
@@ -27,7 +27,7 @@ class SearchBar extends React.Component {
         <br/>
         <div>
         <div>
-        <label>Filter by: </label>
+        <h4>Filter by: </h4>
         </div>
         <span className="filterOpt">
           <input type="checkbox"
