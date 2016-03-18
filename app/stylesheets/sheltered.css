@@ -13,18 +13,18 @@ body{
 }
 
 .shelterCard{
-    background-color:#A2A2A2;
-    color:#e4e4e4;
+    background-color: #E4E4E4;
+}
+
+.shelterCard :hover{
+    text-decoration: none;
 }
 
 .shelterInfo p{
-    background-color: #4F7BB0;
+    background-color: #337AB7;
     text-decoration: none;
+    color:#585858;
 
-}
-
-.shelterCard.shelterInfo{
-    color:#f4f4f4;
 }
 
 
@@ -33,15 +33,12 @@ body{
 }
 
 .shelterInfo{
-    color:#f4f4f4;
-}
-
-.shelterInfo:hover{
-    text-decoration: none;
+    color:#222222;
 }
 
 .shelterCard:hover{
-    background-color: #E25454;
+    background-color: #A2A4A4;
+
 }
 
 .shelterProfile{
@@ -53,9 +50,12 @@ body{
     clear:both;
     max-width: 160px;
     padding-bottom: 20px;
-
 }
 
 .welcome{
   display: none;
+}
+
+.org p{
+    color:#fff;
 }
