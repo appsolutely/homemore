@@ -37,8 +37,8 @@ class ShelterProfile extends React.Component {
 
           </div>
           <div className="contactInfo text-right">
-            <div><label>Daytime Phone:</label> {theShelter.shelterDaytimePhone}</div>
-            <div><label>Emergency Phone:</label> {theShelter.shelterEmergencyPhone}</div>
+            <div><h5>Daytime Phone: {theShelter.shelterDaytimePhone}</h5></div>
+            <div><h5>Emergency Phone: {theShelter.shelterEmergencyPhone}</h5></div>
             <div><a href="mailto:{theShelter.shelterEmail}">{theShelter.shelterEmail}</a></div>
           </div>
           <ShelterMap
@@ -54,9 +54,9 @@ class ShelterProfile extends React.Component {
               <div className="label label-success">{theShelter.total_units - theShelter.occupied_units} available</div>                        
             </h3>
             <br/>
-          <label>Reach them by phone @ </label> {theShelter.locationPhone}
+          <h4>Reach them by phone @ {theShelter.locationPhone}</h4> 
           <br/>
-            <label>Hours</label>
+            <h4>Hours</h4>
             <div>
               <div>Monday: {theShelter.hoursMonday}</div>
               <div>Tuesday: {theShelter.hoursTuesday}</div>
