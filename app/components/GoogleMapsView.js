@@ -4,7 +4,9 @@ import { GoogleMapLoader, GoogleMap } from 'react-google-maps';
 class ShelterMap extends React.Component {
 
   render() {
-    const theShelter = this.props.shelters;
+    // const theShelter = this.props.shelters;
+    const location = this.props.shelters;
+    console.log('props ', this.props.shelters);
     return (
       <div className="map" style={{ height: '300px', border: '1px black solid' }}>
          <GoogleMapLoader
@@ -13,7 +15,7 @@ class ShelterMap extends React.Component {
            googleMapElement={
             <GoogleMap
               defaultZoom={18}
-              defaultCenter={{ lat: theShelter.lat, lng: theShelter.long }}
+              defaultCenter={ location }
             />
           }
          />
@@ -23,7 +25,7 @@ class ShelterMap extends React.Component {
 }
 
 ShelterMap.propTypes = {
-  shelters: React.PropTypes.array,
+  shelters: React.PropTypes.object,
 };
 
 export default ShelterMap;
