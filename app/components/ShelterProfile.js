@@ -1,22 +1,56 @@
 import React from 'react';
 import { Link } from 'react-router';
 import alt from '../alt';
+import ShelterActions from '../actions/ShelterActions';
 import ShelterMap from './GoogleMapsView.js';
 
 
 class ShelterProfile extends React.Component {
+
   constructor(props) {
     super(props);
+    console.log(props.params);
     this.state = alt.stores.ShelterStore.state;
+    console.log('current State ', this.state);
+  }
+  componentWillMount() {
+    console.log('will mount');
+  }
+
+  PewPew(){
+    console.log("state", this.state)
+  }
+
+  componentDidMount() {
+    console.log('did mount');
+    ShelterActions.getShelters();
+    console.log('current state ', this.state);
   }
 
   render() {
+    const defaultShelter = { organizationName: '',
+         shelterName: '',
+         locationName: '',
+         shelterDaytimePhone: '',
+         shelterEmergencyPhone: '',
+         shelterEmail: '',
+         hoursMonday: '',
+         hoursTuesday: '',
+         hoursWednesday: '',
+         hoursThursday: '',
+         hoursFriday: '',
+         hoursSaturday: '',
+         hoursSunday: '',
+         long: 97.44,
+         lat: 30.16,
+       };
     const theShelter = this.state.shelters.filter((shelter) => {
       return shelter.shelterName === this.props.params.id;
-    })[0];
-     console.log('var should be ', theShelter)
+    })[0] || defaultShelter;
+    console.log('var should be ', theShelter);
     return (
        <div className ="well col-sm-6 col-sm-offset-3 text-left">
+       <button onClick={this.PewPew.bind(this)}>click</button>
          <div className="well shelterProfile">
          <div className="bg-primary"><h3>{theShelter.organizationName}</h3></div>
           <div className="text-capitalize"><h2>{theShelter.shelterName}</h2></div>
@@ -31,10 +65,6 @@ class ShelterProfile extends React.Component {
 
 
           </span>
-
- 
-          
-
           </div>
           <div className="contactInfo text-right">
             <div><h5>Daytime Phone: {theShelter.shelterDaytimePhone}</h5></div>

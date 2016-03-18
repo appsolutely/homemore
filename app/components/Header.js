@@ -8,18 +8,18 @@ class Header extends React.Component {
       this.state = {email: "", password: ""}
       this.update = this.update.bind(this);
     }
-    componentDidMount() {
-      if(!document.cookie){
-        $( ".loginFields" ).show();
-        if(window.location.pathname != '/'){
-          window.location.href = "./";
-        }
-      }
-      else{
-        $( ".loginFields" ).hide();
-        $( ".welcome" ).show();
-      }
-    }
+    // componentDidMount() {
+    //   if(!document.cookie){
+    //     $( ".loginFields" ).show();
+    //     if(window.location.pathname != '/'){
+    //       window.location.href = "./";
+    //     }
+    //   }
+    //   else{
+    //     $( ".loginFields" ).hide();
+    //     $( ".welcome" ).show();
+    //   }
+    // }
 
     test(){
       console.log('pew pew pew')

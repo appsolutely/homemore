@@ -12,7 +12,7 @@ class ShelterStore {
   }
 
   onGetSheltersSuccess(data) {
-    this.shelters = data;
+    this.setState({ shelters: data });
   }
 
   onGetSheltersFail(jqXhr) {
