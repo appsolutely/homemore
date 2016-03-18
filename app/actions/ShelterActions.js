@@ -11,7 +11,8 @@ class ShelterActions {
   getShelters() {
     $.ajax({ url: '/api/austin/shelters' })
 		.done((data) => {
-			console.log('success!');
+			console.log(data)
+			console.log('success yo!');
 			this.actions.getSheltersSuccess(data);
 		})
 		.fail((jqXhr) => {
