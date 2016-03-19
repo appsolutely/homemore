@@ -37,8 +37,8 @@ class ShelterProfile extends React.Component {
          hoursFriday: '',
          hoursSaturday: '',
          hoursSunday: '',
-         long: 97.44,
-         lat: 30.16,
+         long: -97.7375,
+         lat: 30.2679,
        };
     const theShelter = this.state.shelters.filter((shelter) => {
       return shelter.shelterName === this.props.params.id;

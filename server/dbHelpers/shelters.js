@@ -79,7 +79,8 @@ var getShelterID = function(shelterName){
 
 module.exports.selectShelter = function(req){
     var shelter = req.shelters;
-    return getShelterID(shelter)
+    console.log('inside selectShelter ', shelter)
+    return getShelterID(shelter.shelterName)
       .then(function(shelter){
         var shelterID = shelter[0].shelterID;
         return knex.select('shelterID', 'fk_organizationID', 'shelterName', 'fk_locationID', 'shelterEmail', 'shelterEmergencyPhone', 'shelterDaytimePhone', 'locationName', 'locationStreet', 'locationCity', 'locationState', 'locationZip', 'locationPhone', 'lat', 'long')
