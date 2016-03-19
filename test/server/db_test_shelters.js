@@ -93,6 +93,7 @@ it('should insert Shelters', function(){
             var shelterId = resp[0].shelterID;
     return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
+            console.log('unit response ', resp);
             occupant.unit = resp;
     return shelterRecs.insertShelterOccupancy(occupant)
           .then(function(resp){
