@@ -31,8 +31,14 @@ class ManagerProfile extends React.Component {
   		return(
   			<Link to={'/occupy/' + shelter.shelterName}>
 		  		<div key={shelter.shelterID} className="well shelterCard">
-		              <div className="text-left shelterInfo">
-		                  <div className="org text-capitalize"><p><b>{shelter.shelterName}</b></p></div>
+		              <div className="text-left">
+		                  <div className="org text-capitalize"><p><b>{shelter.shelterName}</b></p>
+
+                      <p>{shelter.shelterDaytimePhone}</p>
+                      <p>{shelter.shelterEmergencyPhone}</p>
+                      <p>{shelter.shelterEmail}</p>
+                      <h3>{shelter.organizationName}</h3>
+                      </div>
 		              </div>
 		  		</div>
 		  	</Link>

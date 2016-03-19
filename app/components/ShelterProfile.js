@@ -63,9 +63,9 @@ class ShelterProfile extends React.Component {
           </div>
           <div className="contactInfo text-right">
             <h4>Contact this shelter</h4>
-            <div><h5>Daytime <span className="glyphicon glyphicon-phone-alt"></span> {theShelter.shelterDaytimePhone}</h5></div>
-            <div><h5>Emergency <span className="glyphicon glyphicon-phone-alt"></span> {theShelter.shelterEmergencyPhone}</h5></div>
-            <div><span className="glyphicon glyphicon-envelope"></span> <a href="mailto:{theShelter.shelterEmail}">{theShelter.shelterEmail}</a></div>
+            <div><h5>Daytime {theShelter.shelterDaytimePhone} <span className="glyphicon glyphicon-phone-alt"></span> </h5></div>
+            <div><h5>Emergency {theShelter.shelterEmergencyPhone} <span className="glyphicon glyphicon-phone-alt"></span> </h5></div>
+            <div> <a href="mailto:{theShelter.shelterEmail}">{theShelter.shelterEmail}</a> <span className="glyphicon glyphicon-envelope"> </span></div>
           </div>
           <ShelterMap
             shelters={location}
@@ -82,7 +82,7 @@ class ShelterProfile extends React.Component {
    
             <h4>Contact {theShelter.locationName}</h4>
 
-          <h5><span className="glyphicon glyphicon-phone-alt"></span> {theShelter.locationPhone} </h5>
+          <h5>{theShelter.locationPhone} <span className="glyphicon glyphicon-phone-alt"></span></h5>
   
             <h4>Hours</h4>
             <div>

@@ -34,14 +34,16 @@ class Occupy extends React.Component {
 
   render(){
     return(
-      <div className ="col-sm-6 col-sm-offset-3 text-center">
-        <h1 >Add occupants</h1>
+      <div className ="well col-sm-6 col-sm-offset-3 text-left">
+        <h2>Edit Shelter Occupancy</h2>
 
-          <form onSubmit={this.addTask}>
-            <input onChange={this.onChange} type="text" value={this.state.task}/>
-            <button> Add </button>
+          <form className="text-left" onSubmit={this.addTask}>
+            <input onChange={this.onChange} type="text" value={this.state.task} placeholder="type name here"/>
+            <button>Add Occupant</button>
             </form>
+            <span className="text-left">
             <List items={this.state.items} deleteTask={this.deleteTask} />
+            </span>
           </div>
         );
       }

@@ -553,11 +553,12 @@ var sendEmail = function(mailOptions, res){
 
 //functions to call to actually send the emails
 var sendGeneralSignUpEmail = function(user, res) {
-  var text = 'A new account has been created with this email on Sheltered. \n\n Welcome from the Sheltered Team!';
+  var text = 'Thanks for signing up for Sheltered! \n\n A new account has been created with this email on Sheltered. ' + 
+  '\n\n Welcome to Appsolutely Sheltered!';
   var mailOptions = {
     from: ourEmail,
     to: user.userEmail,
-    subject: 'Account Created On Sheltered',
+    subject: 'Thanks for signing up!',
     text: text
   };
 return sendEmail(mailOptions, res);
@@ -565,8 +566,8 @@ return sendEmail(mailOptions, res);
 
 //new manager has been created send them their generated password
 var sendManagerEmail = function (manager, res) {
-  var text = 'A new account has been created for you on Sheltered. \n\n The password ' + manager.genPass +
-   ' has been randomly generated for you. \n\n Please head to sheltered.herokuapp.com and change it. \n\n Welcome from the Appsolutely Team!';
+  var text = 'Thanks for creating a new account on Sheltered! \n\n The password ' + manager.genPass +
+   ' has been randomly generated for you. \n\n Visit sheltered.herokuapp.com to change it. \n\n Thanks again and welcome to Appsolutely Sheltered!';
   var mailOptions = {
     from: ourEmail,
     to: manager.user.userEmail,
@@ -578,7 +579,8 @@ var sendManagerEmail = function (manager, res) {
 
 //if Org does not already exist email us
 var sendOrgConfirmEmail = function(org, res){
-  var text = 'A new account has been created on Sheltered for a new organization by userID ,'+ org.userID + '. \n\n Please go to sheltered.herokuapp.com to confirm the new user. \n\n Welcome from the Sheltered Team!';
+  var text = 'Thanks for creating a new account on Sheltered! A new account has been created on Sheltered for a new organization by userID ,'+ 
+  org.userID + '. \n\n Please go to sheltered.herokuapp.com to confirm the new user. \n\n Thanks again and welcome to Appsolutely Sheltered!';
   var mailOptions = {
     from: ourEmail,
     to: ourEmail,
@@ -588,8 +590,8 @@ var sendOrgConfirmEmail = function(org, res){
 
 //if Org does exist email to an existing admin
 var sendAdminConfirmEmail = function(org, res){
-  var text = 'A new account has been created on Sheltered for ' + org.organizationName +
-  '. \n\n Please go to sheltered.herokuapp.com to confirm the new user. \n\n Welcome from the Sheltered Team!';
+  var text = 'Thanks for creating a new administrative account on Sheltered for ' + org.organizationName + '!' +
+  '\n\n Visit sheltered.herokuapp.com to confirm the new user. \n\n Thanks again and welcome to Appsolutely Sheltered!';
   var mailOptions = {
     from: ourEmail,
     to: org.email,
