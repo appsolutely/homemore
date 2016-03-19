@@ -433,11 +433,12 @@ module.exports.shelterOccupancySummary = function(){
 
 };
 
-module.exports.selectAllOccupants = function(shelterID) {
+module.exports.selectAllOccupants = function(shelterName) {
   return knex.select('occupiedByName', 'fk_shelterUnitID', 'occupancyID', 'entranceDate', 'exitDate')
               .from('shelterOccupancy')
               .fullOuterJoin('shelterUnits', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
-              .fullOuterJoin('shelters', 'shelters.shelterName', shelterName)
+              .fullOuterJoin('shelters', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
+              .where('shelters.shelterName', shelterName)
               .groupBy('occupancyID');
 };
 
