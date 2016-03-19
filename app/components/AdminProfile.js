@@ -12,7 +12,7 @@ class AdminProfile extends React.Component {
       organizations: {orgName: ''},
       shelters:{shelterName: '', shelterEmail: '', shelterEmergencyPhone: '', shelterAddress: '', shelterDayTimePhone: ''},
       locations:{name: '', street: '', city: '', state: '', zip: '', phone: ''},
-      hours: {monday: '', tuesday: '', wednesday: '', thursday: '', friday: '', saturday: '', sunday: ''}
+      hours: {monday: 'Open 24 Hours', tuesday: 'Open 24 Hours', wednesday: 'Open 24 Hours', thursday: 'Open 24 Hours', friday: 'Open 24 Hours', saturday: 'Open 24 Hours', sunday: 'Open 24 Hours'}
     }
   }
   componentDidMount() {

@@ -317,6 +317,59 @@ describe('Sheltered API', function(){
 
   });
 
+  describe('Examining fetch all of a single shelters information', function(){
+    var cookie;
+    var indivShelter = {shelters: {shelterName: 'Arches'}, organizations: {orgName: 'FrontSteps'}}
+    var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD', entranceDate:'04/08/2015', exitDate:'04/14/2015'}};
+    var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
+
+    beforeEach(function(){
+      var adminID;
+      return userRecs.addNewAdmin(newAdmin)
+        .then(function(resp){
+          adminID = resp[0].user.userID;
+          console.log(adminID);
+          return request(app)
+              .post('/api/signin')
+              .send(signInAdmin)
+              .then(function(resp){
+                cookie = resp.headers['set-cookie'][0];
+              })
+              .then(function(){
+                return userRecs.setAccessTrue(adminID, 'Admin');
+              })
+              .then(function(resp){
+                console.log('Admin Access True ', resp);
+                return shelterRecs.insertShelter(shelter);
+              })
+              .catch(function(err){
+                console.error('admin access ', err);
+              })
+        });
+    });
+
+    
+    it('should allow an allowed user to access all of a shelters information', function(){
+      return request(app)
+              .post('/api/getShelter')
+              .set('Cookie', cookie)
+              .send(indivShelter)
+              .expect(200)
+              .expect(function(resp){
+                var shelter = resp.body
+                console.log(shelter)
+                expect(shelter).to.be.an.instanceOf(Array);
+                expect(shelter[0].shelterName).to.equal('Arches');
+              });
+
+
+    });
+
+
+
+
+  });
+
   after(function(){
     return db.deleteEverything();
   });      

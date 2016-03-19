@@ -417,7 +417,7 @@ exports.addShelter = function(req){
   var reqBody = req.body;
   var userID;
   var shelterName = {shelters: reqBody.shelters.shelterName};
-
+  
 
 return this.findByUserEmail(req.body)
           .then(function(resp){

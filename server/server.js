@@ -113,11 +113,13 @@ app.post('/api/getShelter', function(req, res){
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
-        return shelters.selectShelter(req)
+        return shelters.selectShelter(req.body)
               .then(function(shelter){
+                console.log('shelter ', shelter);
                 res.status(200).send(shelter);
               })
               .catch(function(err){
+                console.log(err);
                 res.status(500).send({error: 'There was an error fetching data ' + err});
               });
       }
