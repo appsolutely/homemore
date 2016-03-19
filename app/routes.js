@@ -22,6 +22,6 @@ export default (
     <Route path="/admin-profile" component={AdminProfile} />
     <Route path="/manager-profile" component={ManagerProfile} />
     <Route path="/user-profile" component={UserProfile} />
-    <Route path="/occupy" component={Occupy} />
+    <Route path="/occupy/:id" component={Occupy} />
   </Route>
 );

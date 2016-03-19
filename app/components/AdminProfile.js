@@ -63,7 +63,6 @@ class AdminProfile extends React.Component {
     this.formData.shelters.shelterName = this.refs.shelterName.value
     this.formData.shelters.shelterEmail = this.refs.shelterEmail.value
     this.formData.shelters.shelterEmergencyPhone = this.refs.shelterEmergencyPhone.value
-    this.formData.shelters.shelterAddress = this.refs.shelterAddress.value
     this.formData.shelters.shelterDayTimePhone = this.refs.shelterDayTimePhone.value
     //location data
     this.formData.locations.name = this.refs.name.value
