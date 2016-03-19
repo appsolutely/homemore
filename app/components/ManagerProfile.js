@@ -32,7 +32,10 @@ class ManagerProfile extends React.Component {
   			<Link to={'/occupy/' + shelter.shelterName}>
 		  		<div key={shelter.shelterID} className="well shelterCard">
 		              <div className="text-left shelterInfo">
-		                  <div className="org text-capitalize"><p><b>{shelter.shelterName}</b></p></div>
+		                  <div className="org text-capitalize"><p><b>{shelter.shelterName} {shelter.locationName}</b></p>
+
+                      <p>{shelter.shelterDaytimePhone}</p>
+                      </div>
 		              </div>
 		  		</div>
 		  	</Link>
