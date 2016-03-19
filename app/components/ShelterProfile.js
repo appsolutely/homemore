@@ -61,9 +61,10 @@ class ShelterProfile extends React.Component {
           </span>
           </div>
           <div className="contactInfo text-right">
-            <div><h5>Daytime Phone: {theShelter.shelterDaytimePhone}</h5></div>
-            <div><h5>Emergency Phone: {theShelter.shelterEmergencyPhone}</h5></div>
-            <div><a href="mailto:{theShelter.shelterEmail}">{theShelter.shelterEmail}</a></div>
+            <h4>Contact this shelter</h4>
+            <div><h5>Daytime <span className="glyphicon glyphicon-phone-alt"></span> {theShelter.shelterDaytimePhone}</h5></div>
+            <div><h5>Emergency <span className="glyphicon glyphicon-phone-alt"></span> {theShelter.shelterEmergencyPhone}</h5></div>
+            <div><span className="glyphicon glyphicon-envelope"></span> <a href="mailto:{theShelter.shelterEmail}">{theShelter.shelterEmail}</a></div>
           </div>
           <ShelterMap
             shelters={location}
@@ -77,10 +78,12 @@ class ShelterProfile extends React.Component {
               <div className="label label-success">
               {theShelter.total_units - theShelter.occupied_units} available</div>
             </h3>
-            <br />
-          <label>Reach them by phone @ </label> {theShelter.locationPhone}
-          <br />
-            <label>Hours</label>
+   
+            <h4>Contact {theShelter.locationName}</h4>
+
+          <h5><span className="glyphicon glyphicon-phone-alt"></span> {theShelter.locationPhone} </h5>
+  
+            <h4>Hours</h4>
             <div>
               <div>Monday: {theShelter.hoursMonday}</div>
               <div>Tuesday: {theShelter.hoursTuesday}</div>
