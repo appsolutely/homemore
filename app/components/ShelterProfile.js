@@ -41,10 +41,11 @@ class ShelterProfile extends React.Component {
          lat: 30.2679,
        };
     const theShelter = this.state.shelters.filter((shelter) => {
-      return shelter.shelterName === this.props.params.id;
+      return shelter.shelterID == this.props.params.id;
     })[0] || defaultShelter;
     const location = { lat: theShelter.lat, lng: theShelter.long };
-    console.log('the shelter ', theShelter);
+    console.log('the shelter ',typeof this.props.params.id);
+    console.log('shelters are', this.state.shelters)
     return (
        <div className ="well col-sm-6 col-sm-offset-3 text-left">
          <div className="well shelterProfile">
