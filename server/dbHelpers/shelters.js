@@ -83,7 +83,7 @@ module.exports.selectShelter = function(req){
     return getShelterID(shelter)
       .then(function(shelter){
         var shelterID = shelter[0].shelterID;
-        return knex.select('shelterID', 'fk_organizationID', 'shelterName', 'fk_locationID', 'shelterEmail', 'shelterEmergencyPhone', 'shelterDaytimePhone', 'locationName', 'locationStreet', 'locationCity', 'locationState', 'locationZip', 'locationPhone', 'lat', 'long', 'occupiedByName', 'fk_shelterUnitID', 'occupancyID', 'entranceDate', 'exitDate')
+        return knex.select('shelterID', 'fk_organizationID', 'shelterName', 'fk_locationID', 'shelterEmail', 'shelterEmergencyPhone', 'shelterDaytimePhone', 'locationName', 'locationStreet', 'locationCity', 'locationState', 'locationZip', 'locationPhone', 'lat', 'long')
                   .count('shelterUnitID as total_units')
                   .count('occupancyID as occupied_units')
                   .from('shelters')
@@ -91,7 +91,7 @@ module.exports.selectShelter = function(req){
                   .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
                   .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')                  
                   .where('shelterID', shelterID)
-                  .groupBy('shelterID', 'locationID', 'shelterOccupancy.occupiedByName', 'shelterOccupancy.fk_shelterUnitID', 'shelterOccupancy.occupancyID')
+                  .groupBy('shelterID', 'locationID')
           .catch(function(err){
             console.log("Something went wrong selecting this shelter ", err);
             throw new Error("Something went wrong selecting this shelter", err);           
@@ -432,3 +432,15 @@ module.exports.shelterOccupancySummary = function(){
       });
 
 };
+
+module.exports.selectAllOccupants = function(shelterID) {
+  return knex.select('occupiedByName', 'fk_shelterUnitID', 'occupancyID', 'entranceDate', 'exitDate')
+              .from('shelterOccupancy')
+              .fullOuterJoin('shelterUnits', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
+              .fullOuterJoin('shelters', 'shelters.shelterName', shelterName)
+              .groupBy('occupancyID');
+};
+
+
+
+
