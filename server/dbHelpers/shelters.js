@@ -91,7 +91,7 @@ module.exports.selectShelter = function(req){
                   .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
                   .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')                  
                   .where('shelterID', shelterID)
-                  .groupBy('shelterID', 'locationID')
+                  .groupBy('shelterID', 'locationID', 'shelterOccupancy.occupiedByName', 'shelterOccupancy.fk_shelterUnitID', 'shelterOccupancy.occupancyID')
           .catch(function(err){
             console.log("Something went wrong selecting this shelter ", err);
             throw new Error("Something went wrong selecting this shelter", err);           
