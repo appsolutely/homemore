@@ -1,39 +1,38 @@
 import React from 'react'
 
-var Occypy = React.createClass({
-  getInitialState: function(){
-    return {
-      items: [],
-      task: ''
-    }
-  },
+class Occupy extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {items: [], task: ''}
+    this.onChange = this.onChange.bind(this);
+    this.addTask = this.addTask.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
+  }
 
-  deleteTask: function(e) {
+  deleteTask(e) {
     var taskIndex = parseInt(e.target.value, 10);
     console.log('remove task: %d', taskIndex, this.state.items[taskIndex]);
     this.setState(state => {
       state.items.splice(taskIndex, 1);
       return {items: state.items};
     });
-  },
+  }
 
-  onChange: function(e) {
+  onChange(e) {
     this.setState({ task: e.target.value });
-  },
+  }
 
+  addTask(e){
+    e.preventDefault();
 
-
-  addTask:function (e){
+      console.log('this.state.items: ', this)
     this.setState({
       items: this.state.items.concat([this.state.task]),
-
       task: ''
     })
+  }
 
-    e.preventDefault();
-  },
-
-  render: function(){
+  render(){
     return(
       <div className ="col-sm-6 col-sm-offset-3 text-center">
         <h1 >Add occupants</h1>
@@ -46,35 +45,34 @@ var Occypy = React.createClass({
           </div>
         );
       }
-    });
-
-
-var List = React.createClass({
-    deleteElement:function(){
-        console.log("remove");
-    },
-
-    render: function(){
-
-        var displayTask  = function(task, taskIndex){
-
-
-            return <li>
-                {task}
-                <button onClick= {this.deleteElement}> Delete </button>
-            </li>;
-        };
-
-        return <ul>
-            {this.props.items.map((task, taskIndex) =>
-                <li key={taskIndex}>
-                    {task}
-                    <button onClick={this.props.deleteTask} value={taskIndex}> Delete </button>
-                </li>
-            )}
-        </ul>;
     }
- });
 
 
-export default Occypy;
+class List extends React.Component {
+  deleteElement(){
+      console.log("remove");
+  }
+
+  render(){
+
+      var displayTask  = function(task, taskIndex){
+
+
+          return <li>
+              {task}
+              <button onClick= {this.deleteElement}> Delete </button>
+          </li>;
+      };
+
+      return <ul>
+          {this.props.items.map((task, taskIndex) =>
+              <li key={taskIndex}>
+                  {task}
+                  <button onClick={this.props.deleteTask} value={taskIndex}> Delete </button>
+              </li>
+          )}
+      </ul>;
+  }
+}
+
+export default Occupy;
