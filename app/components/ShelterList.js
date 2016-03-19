@@ -38,8 +38,15 @@ class Shelter extends React.Component {
   }
 // shelterProfile is going to be a separate ajax call, utilizing params.id
   render() {
+    var shelterData = this.state.shelters;
+    var totalUnitsAvailable=0;
+    for (var i=0;i<shelterData.length;i++){
+      totalUnitsAvailable+=(shelterData[i].total_units - shelterData[i].occupied_units);
+    }
+
     return (
-      <div className ="well col-sm-6 col-sm-offset-3 text-center">
+      <div className ="well col-sm-6 col-sm-offset-3 text-right">
+      <h3><span className="label label-success">{totalUnitsAvailable} Units Available</span></h3>
         <Search
           filter={this.state.filterText}
           women={this.state.women}

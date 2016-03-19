@@ -25,8 +25,7 @@ class ShelterListings extends React.Component {
                     <span className="locationName text-capitalize"> {shelter.locationName}
                     </span>
                   </h5>
-                    <h4><span className="label label-success">{shelter.total_units - shelter.occupied_units} Available Units</span></h4>
-                  
+                    <h4><span className="label label-success">{shelter.total_units - shelter.occupied_units} Available</span></h4>
               </div>
                 
 
