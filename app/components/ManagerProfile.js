@@ -29,11 +29,13 @@ class ManagerProfile extends React.Component {
   	console.log(this.state.managerObjectShelters)
   	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
   		return(
-	  		<div key={shelter.organizationName} className="well shelterCard">
-	              <div className="text-left shelterInfo">
-	                  <div className="org text-capitalize"><p><b>{shelter.organizationName}</b></p></div>
-	              </div>
-	  		</div>
+  			<Link to={'/occupy/' + shelter.shelterName}>
+		  		<div key={shelter.shelterID} className="well shelterCard">
+		              <div className="text-left shelterInfo">
+		                  <div className="org text-capitalize"><p><b>{shelter.shelterName}</b></p></div>
+		              </div>
+		  		</div>
+		  	</Link>
 	  	)
   	})
     return (

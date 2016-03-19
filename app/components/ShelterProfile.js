@@ -45,7 +45,6 @@ class ShelterProfile extends React.Component {
     })[0] || defaultShelter;
     const location = { lat: theShelter.lat, lng: theShelter.long };
     console.log('the shelter ', theShelter);
-    })[0];
     return (
        <div className ="well col-sm-6 col-sm-offset-3 text-left">
          <div className="well shelterProfile">
