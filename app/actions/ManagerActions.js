@@ -1,6 +1,6 @@
 import alt from '../alt';
 
-class ManagerActions{
+class ManagerActions {
 	constructor() {
 	  this.generateActions(
 	  	'getManagerProfileSuccess'
