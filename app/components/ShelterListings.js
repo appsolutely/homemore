@@ -13,7 +13,7 @@ class ShelterListings extends React.Component {
       if (shelter.shelterName.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0) {
         return (
           <div key={shelter.shelterID} className="well shelterCard">
-						<Link to={'/shelterprofile/' + shelter.shelterName}>                            
+						<Link to={'/shelterprofile/' + shelter.shelterID}>                            
               <div className="text-left shelterInfo">
                   <div className="org text-capitalize"><p><b>{shelter.organizationName}</b></p></div>
                   <h4><span className="shelterName"><b>{shelter.shelterName}</b></span></h4>
