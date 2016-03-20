@@ -6,26 +6,18 @@ class SignIn extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleSignIn = this.handleSignIn.bind(this);
-		this.handleLogOut = this.handleLogOut.bind(this);
 	}
 
 	//will pass email and password back up to parent for processing
 	//no need to bring state into this, aside from 
 	handleSignIn(e) {
 		e.preventDefault();
-		var email = this.refs.email.value;
-		var password = this.refs.password.value;
+		const email = this.refs.email.value;
+		const password = this.refs.password.value;
 		this.props.signIn(
 			email,
 			password
 		)
-	}
-	//this is wrong - child should not have access to state- fix later
-	//should log out even be in the signin component?
-	//logout and nav bar are going to become a separate component
-	handleLogOut(e) {
-		e.preventDefault();
-		this.state.signedin = false;
 	}
 
 	render() {

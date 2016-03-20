@@ -13,19 +13,17 @@ class HeaderActions {
 		$.ajax({
 	      type: 'POST',
 	      url: '/api/signin',
-	      data: signinObject,
-	        success: function(data){
-	        $( ".loginFields" ).hide();
-	        $( ".welcome" ).show();
-	        },
-	        fail: function(err){
-	          console.log('err', err);
-	        }
-    	})
-	}
+	      data: signinObject
+	  	})
+	  	  .done((data) => {
+	  	  	console.log('signed in!');
+	  	  	this.actions.postSignInSuccess(data);
+	  	  })
+	  	  .fail((jqXhr) => {
+	  	  	console.log('failed');
+	  	  	this.actions.postSignInFail(jqXhr.responseJSON.message)
+	  	  })
+    }	
 }
 
-
-//update for done/fail
-//
 export default alt.createActions(HeaderActions);

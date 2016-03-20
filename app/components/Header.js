@@ -9,11 +9,12 @@ import SignedInNav from './SignedInNav';
 class Header extends React.Component {
   constructor(props){
     super(props)
-      this.state = {email: "", password: ""}
-      this.update = this.update.bind(this);
+      this.state = HeaderStore.getState();
+      this.onChange = this.onChange.bind(this);
       this.signIn = this.signIn.bind(this);
     }
     componentDidMount() {
+      HeaderStore.listen(this.onChange);
        if(!document.cookie){
          $( ".loginFields" ).show();
          //auto redirect if no session cookie
@@ -21,25 +22,17 @@ class Header extends React.Component {
            window.location.href = "./";
          }
        }
-       else{
-         $( ".loginFields" ).hide();
-         $( ".welcome" ).show();
-       }
-     }
-
-    update(e){
-      this.setState({
-        email: ReactDOM.findDOMNode(this.refs.email).value,
-        password: ReactDOM.findDOMNode(this.refs.password).value,
-      })
-
     }
+  
     submitLogin(e){
       e.preventDefault();
       let signInInfo = {user: {password: this.state.password, email: this.state.email}}
       this.signIn(signInInfo)
     }
 
+    onChange(state) {
+      this.setState(state);
+    }
 
 
     signIn(email,password){
@@ -55,7 +48,6 @@ class Header extends React.Component {
             </Link>
           </span>
           {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn}/>}
-          <SignedInNav />
         </div>
 
       );

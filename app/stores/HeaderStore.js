@@ -10,13 +10,12 @@ class HeaderStore{
 	}
 
 	onPostSignInSuccess(response){
-		console.log(response);
 		this.block = '';
 		this.signedIn = true;
+		console.log(this.signedIn);
 	}
 
 	onPostSignInFail(error){
-		console.log(error);
 		this.block = error;
 	}
 }
