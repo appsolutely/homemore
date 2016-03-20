@@ -22,6 +22,7 @@ class SignIn extends React.Component {
 	}
 	//this is wrong - child should not have access to state- fix later
 	//should log out even be in the signin component?
+	//logout and nav bar are going to become a separate component
 	handleLogOut(e) {
 		e.preventDefault();
 		this.state.signedin = false;
@@ -39,10 +40,6 @@ class SignIn extends React.Component {
 	              <Link className="btn btn-primary" to="/signup">Sign up</Link>
 	            </div>
 	          </span>
-	          <div className="welcome text-right">
-	            <Link to="/user-profile"> My Account </Link>
-	            <button className="btn btn-primary" type='button' >Log Out</button>
-	          </div>
 	        </div>
 	      </div>
 	    );	

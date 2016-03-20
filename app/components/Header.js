@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import HeaderActions from '../actions/HeaderActions';
 import HeaderStore from '../stores/HeaderStore';
 import SignIn from './SignIn';
+import SignedInNav from './SignedInNav';
 
 class Header extends React.Component {
   constructor(props){
@@ -39,17 +40,12 @@ class Header extends React.Component {
       this.signIn(signInInfo)
     }
 
-    logOut(){
-      document.cookie = "sessionId" + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-      $( ".loginFields" ).show();
-      $( ".welcome" ).hide();
-      window.location.href = "../";
-  }
+
 
     signIn(email,password){
       HeaderActions.postSignIn(email,password)
     }
-
+// child components will render depending on success/fail of sign-in action
     render() {
       return (
         <div className ="col-sm-6 col-sm-offset-3">
@@ -58,7 +54,8 @@ class Header extends React.Component {
               <img className="logo" src="/img/SHELTERED-logo.png" />
             </Link>
           </span>
-          <SignIn signIn={this.signIn}/>
+          {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn}/>}
+          <SignedInNav />
         </div>
 
       );
