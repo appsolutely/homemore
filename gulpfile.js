@@ -23,11 +23,7 @@ var dependencies = [
   'underscore'
 ];
 
-/*
- |--------------------------------------------------------------------------
- | Combine all JS libraries into a single file for fewer HTTP requests.
- |--------------------------------------------------------------------------
- */
+//bundle JS libraries
 gulp.task('vendor', function() {
   return gulp.src([
     'bower_components/jquery/dist/jquery.js',
@@ -39,11 +35,7 @@ gulp.task('vendor', function() {
     .pipe(gulp.dest('public/js'));
 });
 
-/*
- |--------------------------------------------------------------------------
- | Compile third-party dependencies separately for faster performance.
- |--------------------------------------------------------------------------
- */
+//bundle third party libraries
 gulp.task('browserify-vendor', function() {
   return browserify()
     .require(dependencies)
@@ -54,11 +46,7 @@ gulp.task('browserify-vendor', function() {
     .pipe(gulp.dest('public/js'));
 });
 
-/*
- |--------------------------------------------------------------------------
- | Compile only project files, excluding all third-party dependencies.
- |--------------------------------------------------------------------------
- */
+//project files
 gulp.task('browserify', ['browserify-vendor'], function() {
   return browserify({ entries: 'app/main.js', debug: true })
     .external(dependencies)
@@ -72,11 +60,7 @@ gulp.task('browserify', ['browserify-vendor'], function() {
     .pipe(gulp.dest('public/js'));
 });
 
-/*
- |--------------------------------------------------------------------------
- | Same as browserify task, but will also watch for changes and re-compile.
- |--------------------------------------------------------------------------
- */
+// watch for changes - rebundle - if you are getting an error between client and server - you dont have gulp turned on
 gulp.task('browserify-watch', ['browserify-vendor'], function() {
   var bundler = watchify(browserify({ entries: 'app/main.js', debug: true }, watchify.args));
   bundler.external(dependencies);
@@ -101,11 +85,7 @@ gulp.task('browserify-watch', ['browserify-vendor'], function() {
   }
 });
 
-/*
- |--------------------------------------------------------------------------
- | Compile LESS stylesheets.
- |--------------------------------------------------------------------------
- */
+// stylesheet
 gulp.task('styles', function() {
   return gulp.src('app/stylesheets/sheltered.css')
     .pipe(plumber())
