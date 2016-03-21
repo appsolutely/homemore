@@ -13,17 +13,18 @@ class Header extends React.Component {
       this.onChange = this.onChange.bind(this);
       this.signIn = this.signIn.bind(this);
     }
+
     componentDidMount() {
-      HeaderStore.listen(this.onChange);
-       if(!document.cookie){
-         $( ".loginFields" ).show();
+       if(document.cookie){
+         this.setState({signedIn: true})
          //auto redirect if no session cookie
          if(window.location.pathname != '/'){
            window.location.href = "./";
          }
        }
+       HeaderStore.listen(this.onChange);
     }
-  
+
     submitLogin(e){
       e.preventDefault();
       let signInInfo = {user: {password: this.state.password, email: this.state.email}}
