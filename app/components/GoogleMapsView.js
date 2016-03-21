@@ -1,22 +1,34 @@
 import React from 'react';
-import { GoogleMapLoader, GoogleMap } from 'react-google-maps';
+import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps';
 
 class ShelterMap extends React.Component {
 
   render() {
-    // const theShelter = this.props.shelters;
-    const location = this.props.shelters;
-    console.log('props ', this.props.shelters);
+    const location = this.props.locations;
+    const markers = [{
+      position: {
+        lat: location.lat,
+        lng: location.lng,
+      },
+      defaultAnimation: 2,
+    }];
     return (
       <div className="map" style={{ height: '300px', border: '1px black solid' }}>
          <GoogleMapLoader
-           ref={(map) => { console.log(map); }}
            containerElement={ <div style={{ height: '100%' }} /> }
            googleMapElement={
             <GoogleMap
               defaultZoom={18}
               defaultCenter={ location }
-            />
+            >
+            { markers.map((marker) => {
+              return (
+                <Marker
+                  {...marker}
+                />
+              );
+            })};
+            </GoogleMap>
           }
          />
          </div>
@@ -25,7 +37,7 @@ class ShelterMap extends React.Component {
 }
 
 ShelterMap.propTypes = {
-  shelters: React.PropTypes.object,
+  locations: React.PropTypes.object,
 };
 
 export default ShelterMap;
