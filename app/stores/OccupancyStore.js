@@ -1,15 +1,21 @@
 import alt from '../alt';
-import OccpancyActions from '../actions/OccpancyActions';
+import OccupancyActions from '../actions/OccupancyActions';
 
 class OccupancyStore{
 	constructor() {
-		this.bindActions(OccpancyActions);
-		this.occupancyObject = []
+		this.bindActions(OccupancyActions);
+		this.occupancyObject = [];
+		this.help = ''
 	}
 
 	onGetOccupancySuccess(response){
+		console.log('I am the occupancy success object',response)
 		this.occupancyObject = response
 		console.log("** Worked **");
+	}
+
+	onGetOccupancyFail(err){
+		this.help = err;
 	}
 }
 

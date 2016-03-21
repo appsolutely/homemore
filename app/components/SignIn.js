@@ -22,7 +22,6 @@ class SignIn extends React.Component {
 
 	render() {
 	    return (
-	      <div className ="col-sm-6 col-sm-offset-3">
 	        <div className="row">
 	          <span className="loginFields text-right">
 	            <div className="text-right"> <Link to="/signup">Sign up for an account</Link></div>
@@ -35,7 +34,6 @@ class SignIn extends React.Component {
 	            </div>
 	          </span>
 	        </div>
-	      </div>
 	    );	
 	}
 }

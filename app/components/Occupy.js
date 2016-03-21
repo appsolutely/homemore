@@ -1,5 +1,5 @@
 import React from 'react'
-import OccpancyAction from '../actions/OccpancyActions';
+import OccupancyAction from '../actions/OccupancyActions';
 import OccupancyStore from '../stores/OccupancyStore';
 
 class Occupy extends React.Component {
@@ -7,16 +7,16 @@ class Occupy extends React.Component {
     super(props);
     this.state = OccupancyStore.getState();
     this.onChange = this.onChange.bind(this);
-    this.addOccupent = this.addOccupent.bind(this);
-    this.deleteOccupent = this.deleteOccupent.bind(this);
+    this.addOccupant = this.addOccupant.bind(this);
+    this.deleteOccupant = this.deleteOccupant.bind(this);
   }
 
   componentDidMount(){
     OccupancyStore.listen(this.onChange);
-    OccpancyAction.onGetOccupancySuccess();
+    OccupancyAction.getOccupancy();
   }
 
-  deleteOccupent(e) {
+  deleteOccupant(e) {
     var taskIndex = parseInt(e.target.value, 10);
     console.log('removed occupant: %d', taskIndex, this.state.items[taskIndex]);
     this.setState(state => {
@@ -25,12 +25,11 @@ class Occupy extends React.Component {
     });
   }
 
-  onChange(e) {
-    console.log('this is state!',this.state)
-
+  onChange(state) {
+    this.setState(state);
   }
 
-  addOccupent(e){
+  addOccupant(e){
     e.preventDefault();
     // this.setState({
     //   items: this.state.items.concat([this.state.task]),
@@ -43,7 +42,7 @@ class Occupy extends React.Component {
       <div className ="col-sm-6 col-sm-offset-3 text-center">
         <h1 >Add occupants</h1>
 
-          <form onSubmit={this.addOccupent}>
+          <form onSubmit={this.addOccupant}>
             <input onChange={this.onChange} type="text" value={this.state.task}/>
             <button> Add </button>
             </form>
