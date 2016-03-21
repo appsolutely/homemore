@@ -426,13 +426,13 @@ app.post('/api/deleteEligibility', function(req, res){
 app.post('/api/fetchShelterOccupants', function(req, res){
   return shelters.selectAllOccupants(req.body.shelters.shelterName)
                   .then(function(occupants){
-                    res.status(200).send(occupants)
+                    res.status(200).send(occupants);
                   })
                   .catch(function(err){
                     console.error('ERROR', err);
-                    res.status(500).send({error: "Error finding occupants " + err})
-                  })
-})
+                    res.status(500).send({error: "Error finding occupants " + err});
+                  });
+});
 
 app.get('/api/fetchUser', function(req, res){
   //if not logged in will return nothing

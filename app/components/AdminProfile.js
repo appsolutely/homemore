@@ -44,7 +44,7 @@ class AdminProfile extends React.Component {
       url: '/api/createManager',
       data: data,
       success: function(data){
-        console.log("shelter/manager added", this.state)
+        console.log("shelter/manager added", data);
       },
       fail: function(err){
         console.log('err', err);
