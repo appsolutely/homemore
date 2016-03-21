@@ -31,25 +31,30 @@ class ManagerProfile extends React.Component {
   		return(
   			<Link to={'/occupy/' + shelter.shelterName}>
 		  		<div key={shelter.shelterID} className="well shelterCard">
-            <div className="shelterInfo">
-		              <div className="text-left">
-		                  <div className="org text-capitalize"><p><b>{shelter.organizationName}</b></p>
-                      <div className="shelterName">{shelter.shelterName}</div>
+            <div className="shelterInfo text-left">
+  
+                <div className="org text-capitalize">
+                  <span className="orgName">operated by {shelter.organizationName ? shelter.organizationName : "Unknown Organization "}</span>
+                  <div>
+                    <span className="shelterName">{shelter.shelterName}</span>
+                  </div>
+                  <div>
+                    <span>Daytime Phone: {shelter.shelterDaytimePhone}</span>
+                  </div>
+                  <div>
+                    <span>Emergency Phone: {shelter.shelterEmergencyPhone}</span>
+                  </div>
+                  <div>
+                    <span>Email: {shelter.shelterEmail}</span>
+                  </div>
+                  <div>
+                    <span className="locationName">{shelter.locationName}</span>
+                  </div>
 
-                      <p>{shelter.shelterDaytimePhone}</p>
-                      <p>{shelter.shelterEmergencyPhone}</p>
-                      <p>{shelter.shelterEmail}</p>
-                      <div className="locationName">{shelter.locationName}</div>
-<h5 className="text-lowercase"> operated by 
-                    <span className="orgName text-capitalize">
-                      <em> {shelter.organizationName}</em>
-                    </span> @ the 
-                    <span className="locationName text-capitalize"> {shelter.locationName}
-                    </span>
-                  </h5>
+                    <span className="locationName text-capitalize"> {shelter.locationName}</span>
+                  
 
-                      </div>
-		              </div>
+                  </div>
               </div>
 		  		</div>
 		  	</Link>

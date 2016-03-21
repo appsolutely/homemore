@@ -213,8 +213,8 @@ exports.updateUser = function(req){
   var changingEmail = reqBody.emailChanged || false; //flag to tell if they are changing their email
   var changingPassword = reqBody.passwordChanged || false;
   var hashed;
-  console.log('making it to db helper', reqBody)
-  console.log(changingPassword)
+  console.log('making it to db helper', reqBody);
+  console.log(changingPassword);
 
 if(changingPassword){
   return bcrypt.genSaltAsync(10)
@@ -349,6 +349,8 @@ exports.findUserOrganization = function(userId){
             .where('fk_userID', userId)
             .fullOuterJoin('organizations', 'orgAdmins.fk_organizationID', 'organizations.organizationID')
             .fullOuterJoin('shelters', 'organizations.organizationID', 'shelters.fk_organizationID')
+            .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')     
+            .leftOuterJoin('hours', 'locations.fk_hourID', 'hours.hoursID')
             .then(function(res){
               console.log('response from select organization ', res);
               return res;
@@ -362,7 +364,7 @@ exports.findUserShelter = function(userId){
   return knex.select('*')
              .from('shelterManagers')
              .where('fk_userID', userId)
-             .rightOuterJoin('shelters', 'shelterManagers.fk_shelterID', 'shelters.shelterID')
+             .fullOuterJoin('shelters', 'shelterManagers.fk_shelterID', 'shelters.shelterID')
              .rightOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')           
              .then(function(shelter){
                 return shelter;
