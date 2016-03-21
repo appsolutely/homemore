@@ -34,7 +34,6 @@ class SignedInNav extends React.Component {
         </nav>
 	      	  <div className="welcome text-right">
 	            
-	            <button className="btn btn-primary" type='button' onClick={this.logOut}>Log Out</button>
 	          </div>
 	        </div>
 		)
