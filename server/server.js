@@ -195,14 +195,13 @@ app.post('/api/createManager', function(req, res){
     if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
       return users.addNewManager(req.body)
               .then(function(newManager){
-                console.log();
-                console.log('NEW MANAGER', newManager);
-                console.log();
                 newUser = newManager;
+                console.log('NEW MANAGER', newUser);
                 //path for now -- add sending email here or on front end?
                 return sendManagerEmail(newManager[0], res);
               })
               .then(function(info){
+                console.log('newUser after email', newUser);
                 res.status(201).send({success: 'New Manager created', user: newUser, message: 'Email has been sent to confirm', info: info});
               })
               .catch(function(err){
@@ -426,13 +425,13 @@ app.post('/api/deleteEligibility', function(req, res){
 app.post('/api/fetchShelterOccupants', function(req, res){
   return shelters.selectAllOccupants(req.body.shelters.shelterName)
                   .then(function(occupants){
-                    res.status(200).send(occupants)
+                    res.status(200).send(occupants);
                   })
                   .catch(function(err){
                     console.error('ERROR', err);
-                    res.status(500).send({error: "Error finding occupants " + err})
-                  })
-})
+                    res.status(500).send({error: "Error finding occupants " + err});
+                  });
+});
 
 app.get('/api/fetchUser', function(req, res){
   //if not logged in will return nothing
