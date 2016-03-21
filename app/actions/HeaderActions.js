@@ -20,8 +20,8 @@ class HeaderActions {
 	  	  	this.actions.postSignInSuccess(data);
 	  	  })
 	  	  .fail((jqXhr) => {
-	  	  	console.log('failed');
-	  	  	this.actions.postSignInFail(jqXhr.responseJSON.message)
+	  	  	console.log('failed', jqXhr);
+	  	  	this.actions.postSignInFail(jqXhr.responseJSON.error)
 	  	  })
     }	
 }

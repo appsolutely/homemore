@@ -47,7 +47,7 @@ class Header extends React.Component {
               <img className="logo" src="/img/SHELTERED-logo.png" />
             </Link>
           </span>
-          {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn}/>}
+          {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn} help={this.state.help}/>}
         </div>
 
       );

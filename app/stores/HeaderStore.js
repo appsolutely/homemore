@@ -5,18 +5,19 @@ class HeaderStore{
 	constructor() {
 		this.bindActions(HeaderActions);
 		//validation span
-		this.block = '';
+		this.help = '';
 		this.signedIn = false;
 	}
 
 	onPostSignInSuccess(response){
-		this.block = '';
+		this.help = '';
 		this.signedIn = true;
 		console.log(this.signedIn);
 	}
 
 	onPostSignInFail(error){
-		this.block = error;
+		console.log('i am the error', error)
+		this.help = error;
 	}
 }
 

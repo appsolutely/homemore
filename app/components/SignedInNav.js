@@ -18,10 +18,16 @@ class SignedInNav extends React.Component {
 
 	render(){
 		return(
+			<div>
+             <ul className='header-signedInNav'>
+               <li><Link to='/'>Home</Link></li>
+               <li><Link to='/stats'>Stats</Link></li>
+             </ul>
 	      	  <div className="welcome text-right">
 	            <Link to="/user-profile"> My Account </Link>
 	            <button className="btn btn-primary" type='button' onClick={this.logOut}>Log Out</button>
 	          </div>
+	        </div>
 		)
 	}
 }
