@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 class Signup extends React.Component {
   render() {
     return (
-        <div className ="well col-sm-6 col-sm-offset-3 text-center">
+        <div className ="well col-sm-6 col-sm-offset-3 text-left">
           <div className="admin">
             <Link to="/admin-signup" className="admin">
             <button type="submit" >

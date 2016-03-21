@@ -43,8 +43,8 @@ class AdminSignup extends React.Component {
   }
   render(){
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">
-        <form>
+      <div className ="well col-sm-6 col-sm-offset-3">
+        <form className="text-left">
         <div>
           <label>Email</label>
           <AccountInfo ref = 'email' update={this.update} />
@@ -69,8 +69,8 @@ class AdminSignup extends React.Component {
           <label>Org Name</label>
           <AccountInfo ref = 'orgName' update={this.update} />
         </div>
-        <br/>
-        <button type='submit' onClick={this.submitForm.bind(this)}>Sign Up</button>
+       
+        <button className="btn btn-primary" type='submit' onClick={this.submitForm.bind(this)}>Sign Up</button>
 
         </form>
       </div>

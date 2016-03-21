@@ -42,25 +42,30 @@ class UserSignup extends React.Component {
   }
   render(){
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">
+      <div className ="well col-sm-6 col-sm-offset-3 text-center">
         <form className="text-left">
-
-        <p>First Name</p>
-        <AccountInfo ref = 'firstName' update={this.update} />
-
-        <p>Last Name</p>
-        <AccountInfo ref = 'lastName' update={this.update} />
-        <p>Email</p>
-        <AccountInfo ref = 'email' update={this.update} />
-
-        <p>Password</p>
-        <PasswordInfo ref = 'password' update={this.update} />
-
-        <p>Phone Number</p>
-        <AccountInfo ref = 'phone' update={this.update} />
-
+        <div>
+          <label>First Name</label>
+          <AccountInfo ref = 'firstName' update={this.update} />
+        </div>
+        <div>
+          <label>Last Name</label>
+          <AccountInfo ref = 'lastName' update={this.update} />
+        </div>
+        <div>  
+          <label>Email</label>
+          <AccountInfo ref = 'email' update={this.update} />
+        </div>
+        <div>
+          <label>Password</label>
+          <PasswordInfo ref = 'password' update={this.update} />
+        </div>
+        <div>
+          <label>Phone Number</label>
+          <AccountInfo ref = 'phone' update={this.update} />
+        </div>
         <br/>
-        <button type='submit' onClick={this.submitForm.bind(this)}>click me</button>
+        <button className="btn btn-primary" type='submit' onClick={this.submitForm.bind(this)}>click me</button>
 
         </form>
       </div>
