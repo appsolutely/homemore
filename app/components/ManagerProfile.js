@@ -26,27 +26,43 @@ class ManagerProfile extends React.Component {
   }
 
   render() {
-  	console.log(this.state.managerObjectShelters)
+
   	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
   		return(
   			<Link to={'/occupy/' + shelter.shelterName}>
 		  		<div key={shelter.shelterID} className="well shelterCard">
-		              <div className="text-left">
-		                  <div className="org text-capitalize"><p><b>{shelter.shelterName}</b></p>
+            <div className="shelterInfo text-left">
+  
+                <div className="org text-capitalize">
+                  <span className="orgName">operated by {shelter.organizationName ? shelter.organizationName : "Unknown Organization "}</span>
+                  <div>
+                    <span className="shelterName">{shelter.shelterName}</span>
+                  </div>
+                  <div>
+                    <span>Daytime Phone: {shelter.shelterDaytimePhone}</span>
+                  </div>
+                  <div>
+                    <span>Emergency Phone: {shelter.shelterEmergencyPhone}</span>
+                  </div>
+                  <div>
+                    <span>Email: {shelter.shelterEmail}</span>
+                  </div>
+                  <div>
+                    <span className="locationName">{shelter.locationName}</span>
+                  </div>
 
-                      <p>{shelter.shelterDaytimePhone}</p>
-                      <p>{shelter.shelterEmergencyPhone}</p>
-                      <p>{shelter.shelterEmail}</p>
-                      <h3>{shelter.organizationName}</h3>
-                      </div>
-		              </div>
+                    <span className="locationName text-capitalize"> {shelter.locationName}</span>
+                  
+
+                  </div>
+              </div>
 		  		</div>
 		  	</Link>
 	  	)
   	})
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">
-      	<h2>Manager Profile</h2>
+      <div className ="well col-sm-6 col-sm-offset-3 text-left">
+      	<h2>Manage Shelters</h2>
       		<p>Hello {this.state.managerObjectProfile.userFirstName} !</p>
       		<p>You currently manage the following shelter(s):</p>
       	<div>
