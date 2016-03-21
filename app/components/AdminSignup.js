@@ -81,7 +81,7 @@ class PasswordInfo extends React.Component {
   render(){
     return(
       <div>
-        <input ref="inp" type = "password"
+        <input ref="inp" type = "password" required="required"
           onChange={this.props.update} />
       </div>)
   }
@@ -91,7 +91,7 @@ class AccountInfo extends React.Component  {
   render(){
     return(
       <div>
-        <input ref="inp" type = "text"
+        <input ref="inp" type = "text" required="required"
           onChange={this.props.update} />
       </div>)
   }
