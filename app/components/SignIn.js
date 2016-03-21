@@ -9,15 +9,19 @@ class SignIn extends React.Component {
 	}
 
 	//will pass email and password back up to parent for processing
-	//no need to bring state into this, aside from 
+	//no need to bring state into this, aside from
 	handleSignIn(e) {
 		e.preventDefault();
-		const email = this.refs.email.value;
-		const password = this.refs.password.value;
-		this.props.signIn(
-			email,
-			password
-		)
+		if(this.refs.email.value === '' || this.refs.password.value === ''){
+			$("#err").removeClass('hidden');
+		} else{
+				const email = this.refs.email.value;
+				const password = this.refs.password.value;
+				this.props.signIn(
+					email,
+					password
+				)
+		}
 	}
 
 	render() {
@@ -25,6 +29,7 @@ class SignIn extends React.Component {
 	        <div className="row">
 	          <span className="loginFields text-right">
 	            <div className="text-right"> <Link to="/signup">Sign up for an account</Link></div>
+							<div id='err' className="hidden">Please Enter Email and Password</div>
 	            <div>email: <input type='email' ref='email' onChange={this.update} placeholder="email address"/></div>
 	            <div>password: <input type='password' ref='password' onChange={this.update} placeholder="password"/></div>
 	            <span className='help'>{this.props.help}</span>
@@ -34,7 +39,7 @@ class SignIn extends React.Component {
 	            </div>
 	          </span>
 	        </div>
-	    );	
+	    );
 	}
 }
 
