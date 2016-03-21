@@ -43,12 +43,12 @@ class Header extends React.Component {
     render() {
       return (
         <div className ="col-sm-6 col-sm-offset-3">
-          <span className="col-sm-3">
+          <div className="header">
             <Link to="/">
               <img className="logo" src="/img/SHELTERED-logo.png" />
             </Link>
-          </span>
-          {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn} help={this.state.help}/>}
+            {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn} help={this.state.help}/>}
+          </div>
         </div>
 
       );
