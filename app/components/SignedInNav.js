@@ -20,8 +20,8 @@ class SignedInNav extends React.Component {
 		return(
 			<div>
              <ul className='header-signedInNav'>
-               <li><Link to='/'>Home</Link></li>
-               <li><Link to='/stats'>Stats</Link></li>
+               <li><Link to='/admin-profile'>Admin Profile</Link></li>
+               <li><Link to='/manager-profile'>Manager Profile</Link></li>
              </ul>
 	      	  <div className="welcome text-right">
 	            <Link to="/user-profile"> My Account </Link>
