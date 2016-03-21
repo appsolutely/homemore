@@ -4,7 +4,7 @@ import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps';
 class ShelterMap extends React.Component {
 
   render() {
-    const location = this.props.locations;
+    const location = this.props.shelters;
     const markers = [{
       position: {
         lat: location.lat,
@@ -23,10 +23,10 @@ class ShelterMap extends React.Component {
             >
             { markers.map((marker) => {
               return (
-                <Marker
-                  {...marker}
-                />
-              );
+                 <Marker
+                   {...marker}
+                 />
+               );
             })};
             </GoogleMap>
           }
@@ -37,7 +37,7 @@ class ShelterMap extends React.Component {
 }
 
 ShelterMap.propTypes = {
-  locations: React.PropTypes.object,
+  shelters: React.PropTypes.object,
 };
 
 export default ShelterMap;
