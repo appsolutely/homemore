@@ -19,14 +19,16 @@ class SignedInNav extends React.Component {
 	render(){
 		return(
 			<div>
-        <nav className="navbar navbar-default">
+        <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
 
                <ul className='header-signedInNav nav navbar-nav'>
                  <li><Link to='/admin-profile'>Admin Profile</Link></li>
                  <li><Link to='/manager-profile'>Manager Profile</Link></li>
-                 <li><Link to="/user-profile"> My Account </Link></li>
-                 <li></li>
+                </ul>
+                <ul className="nav navbar-nav navbar-right">
+                 <li><Link to="/user-profile"> <span className="glyphicon glyphicon-user"></span> My Account </Link></li>
+                 <li><Link to="" onClick={this.logOut}>  <span className="glyphicon glyphicon-log-out"></span> Log Out</Link></li>
                </ul>
           </div>
         </nav>
