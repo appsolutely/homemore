@@ -18,9 +18,9 @@ class Header extends React.Component {
        if(document.cookie){
          this.setState({signedIn: true})
          //auto redirect if no session cookie
-       }
-       if(window.location.pathname != '/'){
-         window.location.href = "./";
+         if(window.location.pathname != '/'){
+           window.location.href = "./";
+         }
        }
        HeaderStore.listen(this.onChange);
     }
