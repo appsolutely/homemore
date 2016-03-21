@@ -363,6 +363,7 @@ exports.findUserShelter = function(userId){
              .from('shelterManagers')
              .where('fk_userID', userId)
              .rightOuterJoin('shelters', 'shelterManagers.fk_shelterID', 'shelters.shelterID')
+             .rightOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')           
              .then(function(shelter){
                 return shelter;
              });

@@ -26,27 +26,38 @@ class ManagerProfile extends React.Component {
   }
 
   render() {
-  	console.log(this.state.managerObjectShelters)
+
   	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
   		return(
   			<Link to={'/occupy/' + shelter.shelterName}>
 		  		<div key={shelter.shelterID} className="well shelterCard">
+            <div className="shelterInfo">
 		              <div className="text-left">
-		                  <div className="org text-capitalize"><p><b>{shelter.shelterName}</b></p>
+		                  <div className="org text-capitalize"><p><b>{shelter.organizationName}</b></p>
+                      <div className="shelterName">{shelter.shelterName}</div>
 
                       <p>{shelter.shelterDaytimePhone}</p>
                       <p>{shelter.shelterEmergencyPhone}</p>
                       <p>{shelter.shelterEmail}</p>
-                      <h3>{shelter.organizationName}</h3>
+                      <div className="locationName">{shelter.locationName}</div>
+<h5 className="text-lowercase"> operated by 
+                    <span className="orgName text-capitalize">
+                      <em> {shelter.organizationName}</em>
+                    </span> @ the 
+                    <span className="locationName text-capitalize"> {shelter.locationName}
+                    </span>
+                  </h5>
+
                       </div>
 		              </div>
+              </div>
 		  		</div>
 		  	</Link>
 	  	)
   	})
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">
-      	<h2>Manager Profile</h2>
+      <div className ="well col-sm-6 col-sm-offset-3 text-left">
+      	<h2>Manage Shelters</h2>
       		<p>Hello {this.state.managerObjectProfile.userFirstName} !</p>
       		<p>You currently manage the following shelter(s):</p>
       	<div>
