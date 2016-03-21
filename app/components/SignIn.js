@@ -28,6 +28,7 @@ class SignIn extends React.Component {
 	            <div className="text-right"> <Link to="/signup">Sign up for an account</Link></div>
 	            <div>email: <input type='email' ref='email' onChange={this.update} placeholder="email address"/></div>
 	            <div>password: <input type='password' ref='password' onChange={this.update} placeholder="password"/></div>
+	            <span className='help'>{this.props.help}</span>
 	            <div>
 	              <button className="btn btn-primary" type='button' onClick={this.handleSignIn}>Sign In</button>
 	              <br/>
