@@ -11,6 +11,11 @@ class Occupy extends React.Component {
     this.deleteOccupent = this.deleteOccupent.bind(this);
   }
 
+  componentDidMount(){
+    OccupancyStore.listen(this.onChange);
+    OccpancyAction.onGetOccupancySuccess();
+  }
+
   deleteOccupent(e) {
     var taskIndex = parseInt(e.target.value, 10);
     console.log('removed occupant: %d', taskIndex, this.state.items[taskIndex]);
@@ -21,12 +26,12 @@ class Occupy extends React.Component {
   }
 
   onChange(e) {
-    this.setState({ task: e.target.value });
+    console.log('this is state!',this.state)
+
   }
 
   addOccupent(e){
     e.preventDefault();
-    console.log(this.state)
     // this.setState({
     //   items: this.state.items.concat([this.state.task]),
     //   task: ''
