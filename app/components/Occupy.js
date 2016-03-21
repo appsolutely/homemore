@@ -18,32 +18,43 @@ class Occupy extends React.Component {
     });
   }
 
+  stateStuff(){
+    $.ajax({
+      type: 'POST',
+      url: '/api/fetchShelterOccupants',
+      data:{shelters: {shelterName: 'ARCH Emergency Night Shelter'}},
+      success: function(data){
+        console.log("getting Occupents for Men Emergency Night Shelter", data)
+      },
+      fail: function(err){
+        console.log('err', err);
+      }
+    });
+  }
+
   onChange(e) {
     this.setState({ task: e.target.value });
   }
 
   addTask(e){
     e.preventDefault();
-
-      console.log('this.state.items: ', this)
     this.setState({
       items: this.state.items.concat([this.state.task]),
       task: ''
     })
+    this.stateStuff()
   }
 
   render(){
     return(
-      <div className ="well col-sm-6 col-sm-offset-3 text-left">
-        <h2>Edit Shelter Occupancy</h2>
+      <div className ="col-sm-6 col-sm-offset-3 text-center">
+        <h1 >Add occupants</h1>
 
-          <form className="text-left" onSubmit={this.addTask}>
-            <input onChange={this.onChange} type="text" value={this.state.task} placeholder="type name here"/>
-            <button>Add Occupant</button>
+          <form onSubmit={this.addTask}>
+            <input onChange={this.onChange} type="text" value={this.state.task}/>
+            <button> Add </button>
             </form>
-            <span className="text-left">
             <List items={this.state.items} deleteTask={this.deleteTask} />
-            </span>
           </div>
         );
       }

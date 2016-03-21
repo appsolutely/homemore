@@ -1,6 +1,6 @@
 var db = require('../../db/db.js');
-var config = require('../../knexfile.js');  
-var env =  process.env.NODE_ENV || 'development';  
+var config = require('../../knexfile.js');
+var env =  process.env.NODE_ENV || 'development';
 var knex = require('knex')(config[env]);
 var location = require('./locations.js');
 
@@ -27,7 +27,7 @@ module.exports.insertShelter = function(req){
     var daytimePhone = req.shelters.shelterDayTimePhone;
     var locationID;
     var hoursID;
-    
+
     return location.insertLocation(req)
       .then(function(resp){
         locationID = resp[0].locationID;
@@ -43,9 +43,9 @@ module.exports.insertShelter = function(req){
             // console.log("result from look up org: ", org);
             return knex('shelters')
                     .insert({
-                        shelterName: name, 
-                        shelterEmail: email, 
-                        shelterEmergencyPhone: emergencyPhone, 
+                        shelterName: name,
+                        shelterEmail: email,
+                        shelterEmergencyPhone: emergencyPhone,
                         shelterDaytimePhone: daytimePhone,
                         fk_organizationID: org,
                         fk_locationID: locationID,
@@ -59,7 +59,7 @@ module.exports.insertShelter = function(req){
               .then(function(shelter){
                 // console.log('Successfully inserted shelter', shelter);
                 return shelter;
-              });     
+              });
           });
       });
 };
@@ -89,12 +89,12 @@ module.exports.selectShelter = function(req){
                   .from('shelters')
                   .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')
                   .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
-                  .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')                  
+                  .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
                   .where('shelterID', shelterID)
                   .groupBy('shelterID', 'locationID')
           .catch(function(err){
             console.log("Something went wrong selecting this shelter ", err);
-            throw new Error("Something went wrong selecting this shelter", err);           
+            throw new Error("Something went wrong selecting this shelter", err);
           })
           .then(function(shelter){
             return shelter;
@@ -115,7 +115,7 @@ module.exports.selectAllShelters = function(){
                 .leftOuterJoin('shelterEligibility', 'shelters.shelterID', 'shelterEligibility.fk_shelterID')
                 .leftOuterJoin('shelterUnits', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
                 .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
-                .groupBy('organizationID', 'shelterID', 'locationID',  'hoursID')              
+                .groupBy('organizationID', 'shelterID', 'locationID',  'hoursID')
       .catch(function(err){
         console.error("Something went wrong selecting all shelters", err);
         throw new Error("Something went wrong selecting all shelters", err);
@@ -135,9 +135,9 @@ module.exports.updateShelter = function(req){
             .where('shelterID', thisShelterID)
             .update({
                 shelterName: name,
-                shelterEmail: email, 
-                shelterEmergencyPhone: emergencyPhone, 
-                shelterDaytimePhone: daytimePhone            
+                shelterEmail: email,
+                shelterEmergencyPhone: emergencyPhone,
+                shelterDaytimePhone: daytimePhone
             })
         .catch(function(err){
           throw new Error("Error updating this shetler", err);
@@ -268,7 +268,7 @@ module.exports.insertShelterOccupancy = function(req){
   var entranceDate = req.occupancy.entranceDate;
   var exitDate = req.occupancy.exitDate || null;
   // var occupantDOB = req.occupancy.dob;
-  var unitID = req.unit[0].shelterUnitID; 
+  var unitID = req.unit[0].shelterUnitID;
 
         return knex('shelterOccupancy')
                 .insert({
@@ -285,7 +285,7 @@ module.exports.insertShelterOccupancy = function(req){
           .then(function(shelterOccupantID){
             return shelterOccupantID;
           });
-  // //inserting new 
+  // //inserting new
 };
 
 var getOccupancyUnitID = function(occupancyID){
@@ -309,7 +309,7 @@ module.exports.updateShelterOccupancy = function(req){
   var occupancyID = req.occupancy.occupancyID;
   var occupantName = req.occupancy.name;
   var entranceDate = req.occupancy.entranceDate;
-  var exitDate = req.occupancy.exitDate;  
+  var exitDate = req.occupancy.exitDate;
 
   if (occupantName){
   return knex('shelterOccupancy')
@@ -343,7 +343,7 @@ module.exports.updateShelterOccupancy = function(req){
         return updatedOccupancy;
       });
     }
-        
+
 };
 
 module.exports.selectShelterOccupancy = function(req){
@@ -441,7 +441,3 @@ module.exports.selectAllOccupants = function(shelterName) {
               .where('shelters.shelterName', shelterName)
               .groupBy('occupancyID');
 };
-
-
-
-
