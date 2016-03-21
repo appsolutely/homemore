@@ -8,7 +8,7 @@ class Occupy extends React.Component {
     this.state = OccupancyStore.getState();
     this.onChange = this.onChange.bind(this);
     this.addOccupant = this.addOccupant.bind(this);
-    this.deleteOccupant = this.deleteOccupant.bind(this);
+    this.remove = this.remove.bind(this);
   }
 
   componentDidMount(){
@@ -16,9 +16,10 @@ class Occupy extends React.Component {
     OccupancyAction.getOccupancy();
   }
 
-  deleteOccupant(e) {
-    var taskIndex = parseInt(e.target.value, 10);
-    console.log('removed occupant: %d', taskIndex, this.state.items[taskIndex]);
+  remove(id) {
+    //e.preventDefault();
+    //var taskIndex = parseInt(e.target.value, 10);
+    console.log('removed occupant: %d', id);
     this.setState(state => {
       state.items.splice(taskIndex, 1);
       return {items: state.items};
@@ -39,32 +40,31 @@ class Occupy extends React.Component {
   }
   render(){
     const occupants = this.state.occupancyObject.map((person) => {
+      const bound = this.remove.bind(this, person.occupancyID)
       return (
         <div key={person.occupancyID} className='occupant'>
           <h3>{person.occupiedByName}</h3>
           <h4>Entrance Date: {person.entranceDate}</h4>
           <h4>Exit Date: {person.exitDate}</h4>
+          <button className="btn btn-primary editButton" onClick={bound}>Remove</button>
         </div>
       );
     })
-    return(
+    return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
         <h1 >Add occupants</h1>
           <form onSubmit={this.addOccupant}>
             <input onChange={this.onChange} type="text" value={this.state.task}/>
-            <button> Add </button>
           </form>
           <h2>Current Occupants</h2>
           {occupants}
       </div>
-        );
-      }
-    }
+    );
+  }
+}
 
-    //<List items={this.state.items} deleteOccupent={this.deleteOccupent} />
 
-// class List extends React.Component {
-//   deleteElement(){
+
 //       console.log("remove");
 //   }
 //
