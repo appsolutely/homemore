@@ -28,7 +28,7 @@ class SignIn extends React.Component {
 	    return (
 	        <div className="row">
 	          <span className="loginFields text-right">
-	            <div className="text-right"> <Link to="/signup">Sign up for an account</Link></div>
+	            <div className="text-right"> <Link to="/admin-signup">Sign up for an account</Link></div>
 							<div id='err' className="hidden">Please Enter Email and Password</div>
 	            <div>email: <input type='email' ref='email' onChange={this.update} placeholder="email address"/></div>
 	            <div>password: <input type='password' ref='password' onChange={this.update} placeholder="password"/></div>
