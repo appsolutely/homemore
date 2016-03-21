@@ -49,6 +49,7 @@ class Header extends React.Component {
             </Link>
             {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn} help={this.state.help}/>}
           </div>
+
         </div>
 
       );
