@@ -40,9 +40,9 @@ label{
 }
 
 .row{
-    width: 45%;
-    float: right;
-}
+    /*width: 45%;*/
+/*    float: right;
+*/}
 
 .orgName, .locationName{
     font-weight: bold;
