@@ -15,7 +15,6 @@ exports.addNewPublic = function(reqBody){
   var userRoleId;
   var userID;
   var user = reqBody.pubUser;
-  console.log('user', user);
   //hash password
   return selectRole('Registered')
         .then(function(result){
