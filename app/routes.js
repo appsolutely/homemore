@@ -15,13 +15,13 @@ export default (
   <Route component={App}>
     <Route path="/" component={ShelterList} />
     <Route path="/shelter" component={ShelterList} />
-    <Route path="/shelterprofile/:id" component={ShelterProfile} />
+    <Route path="/shelter/:id" component={ShelterProfile} />
     <Route path="/signup" component={Signup} />
     <Route path="/user-signup" component={UserSignup} />
     <Route path="/admin-signup" component={AdminSignup} />
     <Route path="/admin-profile" component={AdminProfile} />
     <Route path="/manager-profile" component={ManagerProfile} />
     <Route path="/user-profile" component={UserProfile} />
-    <Route path="/occupy/:id" component={Occupy} />
+    <Route path="/manager-profile/:id" component={Occupy} />
   </Route>
 );

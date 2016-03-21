@@ -12,7 +12,7 @@ class ManagerProfile extends React.Component {
 
   componentDidMount(){
   	ManagerStore.listen(this.onChange);
-  	//catch-all for loading 
+  	//catch-all for loading
   	//all required fields into state
   	ManagerActions.getManagerProfile();
   }
@@ -29,10 +29,10 @@ class ManagerProfile extends React.Component {
 
   	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
   		return(
-  			<Link to={'/occupy/' + shelter.shelterName}>
+  			<Link to={'/manager-profile/' + shelter.shelterName}>
 		  		<div key={shelter.shelterID} className="well shelterCard">
             <div className="shelterInfo text-left">
-  
+
                 <div className="org text-capitalize">
                   <span className="orgName">operated by {shelter.organizationName ? shelter.organizationName : "Unknown Organization "}</span>
                   <div>
@@ -52,7 +52,7 @@ class ManagerProfile extends React.Component {
                   </div>
 
                     <span className="locationName text-capitalize"> {shelter.locationName}</span>
-                  
+
 
                   </div>
               </div>
