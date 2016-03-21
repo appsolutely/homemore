@@ -38,15 +38,25 @@ class Occupy extends React.Component {
     // this.stateStuff()
   }
   render(){
+    const occupants = this.state.occupancyObject.map((person) => {
+      return (
+        <div key={person.occupancyID} className='occupant'>
+          <h3>{person.occupiedByName}</h3>
+          <h4>Entrance Date: {person.entranceDate}</h4>
+          <h4>Exit Date: {person.exitDate}</h4>
+        </div>
+      );
+    })
     return(
       <div className ="col-sm-6 col-sm-offset-3 text-center">
         <h1 >Add occupants</h1>
-
           <form onSubmit={this.addOccupant}>
             <input onChange={this.onChange} type="text" value={this.state.task}/>
             <button> Add </button>
-            </form>
-          </div>
+          </form>
+          <h2>Current Occupants</h2>
+          {occupants}
+      </div>
         );
       }
     }

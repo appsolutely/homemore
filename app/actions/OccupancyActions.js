@@ -3,7 +3,12 @@ import alt from '../alt';
 class OccupyActions {
 	constructor() {
 		this.generateActions(
-			'getOccupancySuccess'
+			'getOccupancySuccess',
+			'getOccupancyFail',
+			'addOccupantSuccess',
+			'addOccupantFail',
+			'removeOccupantSuccess',
+			'removeOccupantFail'
 		);
 	}
 
@@ -31,7 +36,7 @@ class OccupyActions {
 	      data: occupancyObject
 	  	})
 	  	  .done((data) => {
-	  	  	console.log('Got Occupancy!',data);
+	  	  	console.log('added occupant!',data);
 	  	  	this.actions.addOccupantSuccess(data);
 	  	  })
 		  .fail((jqXhr) => {
@@ -47,7 +52,7 @@ class OccupyActions {
 	      data: occupancyObject
 	  	})
 	  	  .done((data) => {
-	  	  	console.log('Got Occupancy!',data);
+	  	  	console.log('removed occupant!',data);
 	  	  	this.actions.removeOccupantSuccess(data);
 	  	  })
 		  .fail((jqXhr) => {

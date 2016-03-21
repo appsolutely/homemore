@@ -17,6 +17,25 @@ class OccupancyStore{
 	onGetOccupancyFail(err){
 		this.help = err;
 	}
+
+	onAddOccupantSuccess(response){
+		this.occupancyObject = response;
+	}
+
+
+	onAddOccupantFail(err){
+		this.help = err;
+	}
+
+
+	onRemoveOccupantSuccess(response){
+		this.occupancyObject = response;;
+	}
+
+	onRemoveOccupantFail(err){
+		this.help = err;
+	}
+
 }
 
 
