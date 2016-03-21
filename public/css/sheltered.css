@@ -40,9 +40,15 @@ label{
 }
 
 .row{
+<<<<<<< HEAD
     /*width: 45%;*/
 /*    float: right;
 */}
+=======
+    width: 45%;
+    float: right;
+}
+>>>>>>> createManager now actually returns the created user
 
 .orgName, .locationName{
     font-weight: bold;
