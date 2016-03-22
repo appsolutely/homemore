@@ -35,10 +35,8 @@ class SignIn extends React.Component {
 	            <li>email: <input type='email' ref='email' onChange={this.update} placeholder="email address"/></li>
 	            <li>password: <input type='password' ref='password' onChange={this.update} placeholder="password"/></li>
 	            <span className='help'>{this.props.help}</span>
-	            <li>
-	              <button className="btn btn-primary" type='button' onClick={this.handleSignIn}>Sign In</button>
-	              <br/>
-	            </li>
+	            <li><Link to ="#" onClick={this.handleSignIn}><span className="glyphicon glyphicon-log-in"></span> Sign In</Link></li>
+
 	          </ul>
 	          </div>
 	        </nav>
