@@ -375,6 +375,10 @@ describe('Sheltered API', function(){
       return userRecs.addNewAdmin(newAdmin)
         .then(function(resp){
           adminID = resp[0].user.userID;
+<<<<<<< HEAD
+=======
+          console.log(adminID);
+>>>>>>> tests
           return request(app)
               .post('/api/signin')
               .send(signInAdmin)
@@ -552,6 +556,9 @@ describe('Sheltered API', function(){
                         });
               });
     }); 
+
+  });
+
 
   });
 
