@@ -38,13 +38,13 @@ class SignIn extends React.Component {
 				        <span className="icon-bar"></span>
 				      </button>
 
-				      <a className="navbar-brand" href="#">
-				      	<img alt="Sheltered" className="logo" src="/img/SHELTERED-logo.png" />
-				      </a>
-
 	    			</div>
 
 	    			<div className="collapse navbar-collapse">
+
+				      <a className="navbar-brand" href="#">
+				      	<img alt="Sheltered" className="brand-logo" src="./favicon.png" />
+				      </a>
 		    			<ul className="nav navbar-nav header-signInNav">
 		    				<li><Link to="/admin-signup">Sign up for an account</Link></li>
 		    			</ul>
