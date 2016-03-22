@@ -553,6 +553,50 @@ describe('Sheltered API', function(){
               });
     }); 
 
+    it('should allow admins and managers to update occupants name', function(){
+      var occupancyID
+      return request(app)
+              .post('/api/addOccupant')
+              .set('Cookie', cookie)
+              .send(occupant)
+              .then(function(resp){
+                occupancyID = resp.body[0].occupancyID;
+                var updated = {occupancy: {name: 'Jimmy McGoo', occupancyID: occupancyID}, organizations: {orgName: 'FrontSteps'}}
+                return request(app)
+                          .post('/api/updateOccupant')
+                          .set('Cookie', cookie)
+                          .send(updated)
+                          .expect(201)
+                          .expect(function(resp){
+                            var occupant = resp.body;
+                            expect(occupant).to.be.an.instanceOf(Array)
+                            expect(occupant[0].occupiedByName).to.equal('Jimmy McGoo')
+                          })
+              });
+
+    });
+
+    it('should allow admins and mangers to update occupants entry date', function(){
+      var occupancyID
+      return request(app)
+              .post('/api/addOccupant')
+              .set('Cookie', cookie)
+              .send(occupant)
+              .then(function(resp){
+                occupancyID = resp.body[0].occupancyID;
+                var updated = {occupancy: {entranceDate:'04/09/2015', occupancyID: occupancyID}, organizations: {orgName: 'FrontSteps'}}
+                return request(app)
+                          .post('/api/updateOccupant')
+                          .set('Cookie', cookie)
+                          .send(updated)
+                          .expect(201)
+                          .expect(function(resp){
+                            var occupant = resp.body;
+                            expect(occupant).to.be.an.instanceOf(Array)
+                            expect(occupant[0].entranceDate).to.equal('2015-04-09T00:00:00.000Z')
+                          })
+              });
+    })
   });
 
   after(function(){
