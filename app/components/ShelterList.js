@@ -46,7 +46,7 @@ class Shelter extends React.Component {
 
     return (
       <div className ="well col-sm-6 col-sm-offset-3 text-right">
-      <h3><span className="label label-success">{totalUnitsAvailable} Units Available</span></h3>
+      <h2><span className="label label-success"><i className="material-icons md-48">hotel</i> {totalUnitsAvailable} Units Available</span></h2>
         <Search
           filter={this.state.filterText}
           women={this.state.women}
