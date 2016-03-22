@@ -77,7 +77,7 @@ constructor() {
 	  });    	
   }
 
-  addUnit(unit) {
+  addUnits(unit) {
   	$.ajax({
       type: 'POST',
       url: '/api/addShelterUnit',
