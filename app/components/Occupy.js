@@ -13,6 +13,7 @@ class Occupy extends React.Component {
     this.addOccupant = this.addOccupant.bind(this);
     this.remove = this.remove.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentWillMount(){
@@ -51,6 +52,29 @@ class Occupy extends React.Component {
     })
   }
 
+  handleUpdate(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
+  tuesday,wednesday,thursday,friday,saturday,sunday){
+    this.setState({shelterInfo:{shelterInfo:{
+      organizationName:orgName,
+      shelterName:shelterName,
+      shelterDaytimePhone:dayPhone,
+      shelterEmergencyPhone:emergencyPhone,
+      shelterEmail:email,
+      locationName:locationName,
+      locationStreet:streetAddress,
+      locationCity:city,
+      locationState:state,
+      locationZip:zip,
+      hoursMonday:monday,
+      hoursTuesday:tuesday,
+      hoursWednesday:wednesday,
+      hoursThursday:thursday,
+      hoursFriday:friday,
+      hoursSaturday:saturday,
+      hoursSunday:sunday
+    }}
+    });
+  }
 
 // function FindOneShelterByID(arrayOfShelters, find){
 //   var theShelter;
@@ -97,7 +121,7 @@ class Occupy extends React.Component {
     })
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
-      {this.state.clicked ? <ManagerProfileEdit shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
+      {this.state.clicked ? <ManagerProfileEdit save={this.handleUpdate} shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
         <h1>Add occupants</h1>
           <form>
             <input type="text" ref="add"/>
