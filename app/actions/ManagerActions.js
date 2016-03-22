@@ -54,8 +54,24 @@ class ManagerActions {
 		  .fail((jqXhr) => {
 			console.log("fail", jqXhr)
 			this.actions.addOccupantFail(jqXhr.responseText.error);
-		  });    	
+		  });
     }
+
+		updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
+		tuesday,wednesday,thursday,friday,saturday,sunday){
+		let updatedShelter =	{shelters:
+		      {shelterName: shelterName, shelterEmail: email, shelterEmergencyPhone: emergencyPhone, shelterAddress: streetAddress, shelterDayTimePhone: dayPhone},
+		      organizations: {orgName: orgName},
+		      locations:{name: locationName, street: streetAddress, city: city, state: state, zip: zip, phone: dayPhone},
+		      hours: {monday: monday, tuesday: tuesday, wednesday: wednesday, thursday: thursday, friday: friday, saturday: saturday, sunday: sunday}
+		    }
+
+				$.ajax({
+		      type: 'POST',
+		      url: '/api/updateShelter',
+		      data: updatedShelter
+		    })
+		}
 
     removeOccupant(occupantID){
 		$.ajax({
@@ -70,7 +86,7 @@ class ManagerActions {
 		  .fail((jqXhr) => {
 			console.log("fail", jqXhr)
 			this.actions.removeOccupantFail(jqXhr.responseJSON.error);
-		  });    	
+		  });
     }
 
 }

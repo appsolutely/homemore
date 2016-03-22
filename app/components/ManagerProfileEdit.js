@@ -10,7 +10,7 @@ class ManagerProfileEdit extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    let orgName = this.refs.orgName.value || this.props.shelterInfo.orgName
+    let orgName = this.refs.orgName.value || this.props.shelterInfo.organizationName
     let shelterName = this.refs.shelterName.value || this.props.shelterInfo.shelterName
     let dayPhone = this.refs.dayPhone.value || this.props.shelterInfo.dayPhone
     let emergencyPhone = this.refs.emergencyPhone.value || this.props.shelterInfo.emergencyPhone

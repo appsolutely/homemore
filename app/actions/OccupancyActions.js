@@ -12,21 +12,6 @@ class OccupyActions {
 		);
 	}
 
-	updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
-	tuesday,wednesday,thursday,friday,saturday,sunday){
-	let updatedShelter =	{shelters:
-	      {shelterName: shelterName, shelterEmail: email, shelterEmergencyPhone: emergencyPhone, shelterAddress: streetAddress, shelterDayTimePhone: dayPhone},
-	      organizations: orgName,
-	      locations:{name: locationName, street: streetAddress, city: city, state: state, zip: zip, phone: dayPhone},
-	      hours: {monday: monday, tuesday: tuesday, wednesday: wednesday, thursday: thursday, friday: friday, saturday: saturday, sunday: sunday}
-	    }
-
-			$.ajax({
-	      type: 'POST',
-	      url: '/api/updateShelter',
-	      data: updatedShelter
-	    })
-	}
 
 	getOccupancy(shelterName){
 		var occupancyObject = {shelters: {shelterName: 'Men Emergency Night Shelter'}}

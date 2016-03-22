@@ -75,7 +75,7 @@ class Occupy extends React.Component {
       hoursSunday:sunday
     }}
     });
-
+			console.log(orgName, 'orgName')
     ManagerActions.updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
     tuesday,wednesday,thursday,friday,saturday,sunday)
   }
