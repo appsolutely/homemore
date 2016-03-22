@@ -9,6 +9,7 @@ class ManagerStore {
 		this.occupancyObject = [];
 		this.help = '';
 		this.currentShelter;
+		this.clicked = false;
 	}
 
 	onGetManagerProfileSuccess(data){

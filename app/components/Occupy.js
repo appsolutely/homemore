@@ -12,6 +12,7 @@ class Occupy extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.addOccupant = this.addOccupant.bind(this);
     this.remove = this.remove.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this)
   }
 
   componentWillMount(){
@@ -44,6 +45,7 @@ class Occupy extends React.Component {
   }
 
   handleUserInput(click) {
+    console.log('click click', click)
     this.setState({
       clicked: click,
     })
@@ -95,7 +97,7 @@ class Occupy extends React.Component {
     })
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
-        <ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>
+      {this.state.clicked ? <ManagerProfileEdit shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
         <h1>Add occupants</h1>
           <form>
             <input type="text" ref="add"/>
