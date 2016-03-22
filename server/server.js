@@ -306,7 +306,7 @@ app.post('/api/removeOccupant', function(req, res){
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.deleteShelterOccupancy(req.body)
               .then(function(deleted){
-                res.status(201).send(deleted);
+                res.status(200).send(deleted);
               })
               .catch(function(err){
                 res.status(500).send({error: 'There was an error deleting data ' + err});
