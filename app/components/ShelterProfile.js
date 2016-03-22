@@ -80,7 +80,7 @@ class ShelterProfile extends React.Component {
           <span>
           <div>
             <h3>
-              <div>{theShelter.total_units} units at this location: </div>
+              <div><span className="glyphicon glyphicon-bed"></span> {theShelter.total_units} units at this location: </div>
               <br />
               <div className="label label-danger">{theShelter.occupied_units} taken</div>
               <div className="label label-success">
