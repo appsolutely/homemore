@@ -261,11 +261,14 @@ app.post('/api/updateShelter', function(req, res){
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
+        console.log('GOING TO UPDATE SHELTER')
         return shelters.updateShelter(req.body)
                 .then(function(updates){
-                  res.statu(201).send(updates);
+                  console.log('occupant', updates)
+                  res.status(201).send(updates);
                 })
                 .catch(function(err){
+                  console.error('error ', err);
                   res.status(500).send({error: 'There was an error changing data ' + err});
                 });
     } else {
@@ -288,6 +291,7 @@ app.post('/api/addOccupant', function(req, res){
               res.status(201).send(occupant);
             })
             .catch(function(err){
+              console.error('error ', err);
               res.status(500).send({error: 'There was an error inserting data ' + err });
             });
     } else {

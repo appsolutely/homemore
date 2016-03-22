@@ -127,22 +127,27 @@ module.exports.selectAllShelters = function(){
 
 module.exports.updateShelter = function(req){
   //function for updating shelter units
+    console.log('REQBODY', req)
     var name = req.shelters.shelterName;
     var email = req.shelters.shelterEmail;
     var emergencyPhone = req.shelters.shelterEmergencyPhone;
     var daytimePhone = req.shelters.shelterDayTimePhone;
+    var shelterID = req.shelters.shelterID
     return knex('shelters')
-            .where('shelterID', thisShelterID)
+            .where('shelterID', shelterID)
             .update({
                 shelterName: name,
                 shelterEmail: email,
                 shelterEmergencyPhone: emergencyPhone,
                 shelterDaytimePhone: daytimePhone
             })
+            .returning('*')
         .catch(function(err){
+          console.error('err in updateShelter', err);
           throw new Error("Error updating this shetler", err);
         })
         .then(function(updatedShelter){
+          console.log('UPDATED SHELTER ', updatedShelter)
           return updatedShelter;
         });
 };
