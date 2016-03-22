@@ -19,6 +19,7 @@ class Occupy extends React.Component {
   componentWillMount(){
       var unit = this.props.params.id
     //find current shelter
+    console.log(this.state, '<==look here')
     this.state.managerObjectShelters.some((shelter) => {
     this.state.currentShelter = shelter;
     return shelter.shelterID == unit;
@@ -74,6 +75,9 @@ class Occupy extends React.Component {
       hoursSunday:sunday
     }}
     });
+
+    ManagerActions.updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
+    tuesday,wednesday,thursday,friday,saturday,sunday)
   }
 
 // function FindOneShelterByID(arrayOfShelters, find){
