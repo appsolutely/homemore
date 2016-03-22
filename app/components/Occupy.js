@@ -1,6 +1,8 @@
 import React from 'react'
 import ManagerActions from '../actions/ManagerActions';
 import ManagerStore from '../stores/ManagerStore';
+import ManagerProfileView from '../components/ManagerProfileView';
+import ManagerProfileEdit from '../components/ManagerProfileEdit';
 
 
 class Occupy extends React.Component {
@@ -10,20 +12,16 @@ class Occupy extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.addOccupant = this.addOccupant.bind(this);
     this.remove = this.remove.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this)
   }
 
-  componentDidMount(){
-    ManagerStore.listen(this.onChange);
-    var unit = this.props.params.id
+  componentWillMount(){
+      var unit = this.props.params.id
     //find current shelter
     this.state.managerObjectShelters.some((shelter) => {
-      this.state.currentShelter = shelter;
-      return shelter.shelterID == unit;
+    this.state.currentShelter = shelter;
+    return shelter.shelterID == unit;
     })
-    console.log(this.state.currentShelter)
-    ManagerActions.getOccupancy(this.state.currentShelter.shelterName);
-
-    //console.log(Findah);
   }
 
   //get org from URL params
@@ -46,6 +44,12 @@ class Occupy extends React.Component {
     ManagerStore.unlisten(this.onChange)
   }
 
+  handleUserInput(click) {
+    console.log('click click', click)
+    this.setState({
+      clicked: click,
+    })
+  }
 
 
 // function FindOneShelterByID(arrayOfShelters, find){
@@ -93,6 +97,7 @@ class Occupy extends React.Component {
     })
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
+      {this.state.clicked ? <ManagerProfileEdit shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
         <h1>Add occupants</h1>
           <form>
             <input type="text" ref="add"/>
