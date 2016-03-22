@@ -166,7 +166,7 @@ module.exports.deleteShelter = function(req){
 
 module.exports.insertShelterUnit = function(req){
   var unitSize = req.shelterUnit.unitSize;
-  return getShelterID(req.shelterName)
+  return getShelterID(req.shelters.shelterName)
       .then(function(shelter){
         console.log(req.shelterName, ' returned from find shelter ', shelter);
         var shelterID = shelter[0].shelterID;
@@ -188,7 +188,7 @@ module.exports.insertShelterUnit = function(req){
 };
 
 module.exports.deleteShelterUnit = function(req){
-    var shelterUnitID = req[0].shelterUnitID;
+    var shelterUnitID = req.unit.shelterUnitID;
 
     return knex('shelterUnits')
               .returning('*')
@@ -201,7 +201,6 @@ module.exports.deleteShelterUnit = function(req){
     .then(function(shelterUnit){
       return shelterUnit;
     });
-  //function for deleting specific shelter unit
 };
 
 

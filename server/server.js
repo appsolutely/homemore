@@ -380,6 +380,22 @@ app.post('/api/addShelterUnit', function(req, res){
   }
 });
 
+app.post('/api/removeShelterUnit', function(req, res){
+    if (req.session) {
+    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
+      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
+      return shelters.deleteShelterUnit(req.body)
+                  .then(function(deleted){
+                    res.status(200).send(deleted);
+                  });
+      } else {
+       res.status(401).send({error: 'User does not have permission for this action'});
+      }
+    } else {
+      res.status(401).send({error: 'User is not currently signed in'});
+    }
+});
+
 app.post('/api/updateEligibility', function(req, res){
   //check permission
   //updates a shelters eligibility rules

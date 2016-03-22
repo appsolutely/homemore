@@ -11,7 +11,7 @@ var knex = require('knex')(config);
 
 
 describe('Shelter and eligibility DB calls', function(){
-  var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
+  var unit = {shelterUnit: {unitSize: '2BD'}, shelters: {shelterName: 'Arches'}};
   var org = {organizations: {orgName: 'FrontSteps'}};
   var shelter = {shelters:
       {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
@@ -222,7 +222,8 @@ it('should insert Shelters', function(){
               var shelterId = resp[0].shelterID;
               return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
-            return shelterRecs.deleteShelterUnit(resp)
+            var unit = {unit: resp[0], organizations: {orgName: 'FrontSteps'}};
+            return shelterRecs.deleteShelterUnit(unit)
                   .then(function(resp){
                     expect(resp).to.have.length(1);
                     expect(resp).to.be.an.instanceOf(Array);
