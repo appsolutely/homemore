@@ -59,7 +59,7 @@ describe('Sheltered API', function(){
       });
   });
 
-    xdescribe('Examining api/austin/shelters', function(){
+    describe('Examining api/austin/shelters', function(){
       beforeEach(function(){
         return orgRecs.insertOrganization(org)
         .then(function(){
@@ -82,7 +82,7 @@ describe('Sheltered API', function(){
     });
 
 
-    xdescribe('Examining api/signUpAdmin', function(){
+    describe('Examining api/signUpAdmin', function(){
       
       it('should sign up a newAdmin', function(){
         return request(app)
@@ -113,7 +113,7 @@ describe('Sheltered API', function(){
 
     }); 
 
-    xdescribe('Examining api/signup', function(){     
+    describe('Examining api/signup', function(){     
          
       it('should sign up a public user', function(){
         return request(app)
@@ -143,7 +143,7 @@ describe('Sheltered API', function(){
        });
     });  
 
-    xdescribe('Examining api/signin', function(){
+    describe('Examining api/signin', function(){
 
       beforeEach(function(){
         return userRecs.addNewPublic(publicUser)
@@ -203,7 +203,7 @@ describe('Sheltered API', function(){
       });
     });
 
-    xdescribe('Examining api/createManager', function(){
+    describe('Examining api/createManager', function(){
 
       beforeEach(function(){
         return userRecs.addNewAdmin(newAdmin)
@@ -260,7 +260,7 @@ describe('Sheltered API', function(){
       });
     });
 
-  xdescribe('Examine updating and fetching logged in users', function(){
+  describe('Examine updating and fetching logged in users', function(){
     var cookie;
 
     beforeEach(function(){
@@ -318,7 +318,7 @@ describe('Sheltered API', function(){
 
   });
 
-  xdescribe('Examining fetch all of a single shelters information', function(){
+  describe('Examining fetch all of a single shelters information', function(){
     var cookie;
     var indivShelter = {shelters: {shelterName: 'Arches'}, organizations: {orgName: 'FrontSteps'}}
     var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD', entranceDate:'04/08/2015', exitDate:'04/14/2015'}};
@@ -367,7 +367,7 @@ describe('Sheltered API', function(){
     });
   });
 
-  xdescribe('Examining Occupants', function(){
+  describe('Examining Occupants', function(){
     
     beforeEach(function(){
       //create, sign in, and approve user, create shelter and add unit
