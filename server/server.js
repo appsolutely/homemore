@@ -306,7 +306,7 @@ app.post('/api/removeOccupant', function(req, res){
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.deleteShelterOccupancy(req.body)
               .then(function(deleted){
-                res.status(201).send(deleted);
+                res.status(200).send(deleted);
               })
               .catch(function(err){
                 res.status(500).send({error: 'There was an error deleting data ' + err});
@@ -464,7 +464,7 @@ app.get('/api/fetchUser', function(req, res){
             res.status(200).send(response);
           });
   } else {
-    res.status(401).send({error: 'User is not currently signed in'});
+    res.redirect('/');
   }
 });
 

@@ -268,7 +268,8 @@ module.exports.insertShelterOccupancy = function(req){
   var entranceDate = req.occupancy.entranceDate;
   var exitDate = req.occupancy.exitDate || null;
   // var occupantDOB = req.occupancy.dob;
-  var unitID = req.occupancy.unitID;
+  var unitID = req.unit;
+  console.log('UNIT ID ', unitID);
 
         return knex('shelterOccupancy')
                 .insert({
@@ -282,8 +283,9 @@ module.exports.insertShelterOccupancy = function(req){
             console.error("There was an error inserting this occupancy record ", err);
             throw new Error("There was an error inserting this occupancy record ", err);
           })
-          .then(function(shelterOccupantID){
-            return shelterOccupantID;
+          .then(function(shelterOccupant){
+            console.log('shelterOccupant ', shelterOccupant)
+            return shelterOccupant;
           });
   // //inserting new
 };
@@ -365,7 +367,7 @@ module.exports.selectShelterOccupancy = function(req){
 
 module.exports.deleteShelterOccupancy = function(req){
   //function for deleting specific shelter occupancy record
-  var occupantID = req;
+  var occupantID = req.occupant;
     return knex('shelterOccupancy')
               .returning('*')
               .where('occupancyID', occupantID)

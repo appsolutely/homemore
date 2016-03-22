@@ -94,7 +94,7 @@ it('should insert Shelters', function(){
     return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
             console.log('unit response ', resp);
-            occupant.unit = resp;
+            occupant.unit = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
           .then(function(resp){
             expect(resp).to.have.length(1);
@@ -112,7 +112,7 @@ it('should insert Shelters', function(){
             var shelterId = resp[0].shelterID;
     return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
-            occupant.unit = resp;
+            occupant.unit = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
           .then(function(resp){
             updateOccupancy.occupancy.occupancyID = resp[0].occupancyID;
@@ -134,7 +134,7 @@ it('should insert Shelters', function(){
              var shelterId = resp[0].shelterID;
      return shelterRecs.insertShelterUnit(unit)
            .then(function(resp){
-             occupant.unit = resp;
+             occupant.unit = resp[0].shelterUnitID;
              updateOccupancy.occupancy.unit = resp;
      return shelterRecs.insertShelterOccupancy(occupant)
            .then(function(resp){
@@ -156,7 +156,7 @@ it('should insert Shelters', function(){
         .then(function(resp){
     return shelterRecs.insertShelterUnit(unit)
         .then(function(resp){
-          occupant.unit = resp;
+          occupant.unit = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
         .then(function(resp){
           occupancyID = resp[0].occupancyID;
@@ -179,12 +179,11 @@ it('should insert Shelters', function(){
         .then(function(resp){
     return shelterRecs.insertShelterUnit(unit)
         .then(function(resp){
-          occupant.unit = resp;
+          occupant.unit = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
         .then(function(resp){
           occupancyID = resp[0].occupancyID;     
-    //req should just have the name of the person occuping the unit
-    return shelterRecs.deleteShelterOccupancy(occupancyID)
+    return shelterRecs.deleteShelterOccupancy({occupant: occupancyID, organizations: {orgName: 'FrontSteps'}})
         .then(function(resp){
           expect(resp).to.have.length(1);
           expect(resp[0].occupiedByName).to.equal('John Smith');

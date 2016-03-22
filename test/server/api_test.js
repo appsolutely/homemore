@@ -28,7 +28,8 @@ describe('Sheltered API', function(){
       locations:{name: 'Greenfield Apartments', street: '1352 N. Austin Blvd.', city: 'Austin', state: 'TX', zip: '78703', phone: '555-5555'}, 
       hours: {monday: 'Open 9-18', tuesday: 'Open 9-18', wednesday: 'Open 9-18', thursday: 'Open 9-18', friday: 'Open 9-18', saturday: 'Open 9-18', sunday: 'Open 9-18'}
     };
-  var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
+  var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
+  var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD', entranceDate:'04/08/2015', exitDate:'04/14/2015'}, organizations: {orgName: 'FrontSteps'}};
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}, shelterName: 'Arches'};
   var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
@@ -364,10 +365,125 @@ describe('Sheltered API', function(){
 
 
     });
+  });
 
+  describe('Examining Occupants', function(){
+    
+    beforeEach(function(){
+      //create, sign in, and approve user, create shelter and add unit
+       var adminID;
+      return userRecs.addNewAdmin(newAdmin)
+        .then(function(resp){
+          adminID = resp[0].user.userID;
+          console.log(adminID);
+          return request(app)
+              .post('/api/signin')
+              .send(signInAdmin)
+              .then(function(resp){
+                cookie = resp.headers['set-cookie'][0];
+              })
+              .then(function(){
+                return userRecs.setAccessTrue(adminID, 'Admin');
+              })
+              .then(function(resp){
+                console.log('Admin Access True ', resp);
+                return shelterRecs.insertShelter(shelter);
+              })
+              .catch(function(err){
+                console.error('admin access ', err);
+              })
+              .then(function(){
+                //add unit
+                return shelterRecs.insertShelterUnit(unit)
+              })
+              .then(function(resp){
+                console.log('RESPONSE ', resp);
+                occupant.unit = resp[0].shelterUnitID;
+              })
+        });
+    });
 
+    it('should allow admins and mangers to add occupants', function(){
+      console.log('OCCUPANT ', occupant)
+      return request(app)
+              .post('/api/addOccupant')
+              .set('Cookie', cookie)
+              .send(occupant)
+              .expect(201)
+              .expect(function(resp){
+                var occupant = resp.body;
+                expect(occupant).to.be.an.instanceOf(Array);
+                expect(occupant[0].occupiedByName).to.equal('John Smith');
+                expect(occupant[0].occupancyID).to.not.equal(undefined);
+              });
+    });
 
+    it('should allow admins and managers to remove occupants', function(){
+      var occupancyID;
+      return request(app)
+              .post('/api/addOccupant')
+              .set('Cookie', cookie)
+              .send(occupant)
+              .then(function(resp){
+                occupancyID = resp.body[0].occupancyID;
+                var body = {occupant: occupancyID, organizations: {orgName: 'FrontSteps'}};
+                return request(app)
+                        .post('/api/removeOccupant')
+                        .set('Cookie', cookie)
+                        .send(body)
+                        .expect(200)
+                        .expect(function(resp){
+                          var deleted = resp.body;
+                          expect(deleted).to.be.an.instanceOf(Array)
+                          expect(deleted[0].occupiedByName).to.equal('John Smith')
+                        })
+              })
+    });
 
+    it('should allow admins and managers to update occupants name', function(){
+      var occupancyID
+      return request(app)
+              .post('/api/addOccupant')
+              .set('Cookie', cookie)
+              .send(occupant)
+              .then(function(resp){
+                occupancyID = resp.body[0].occupancyID;
+                var updated = {occupancy: {name: 'Jimmy McGoo', occupancyID: occupancyID}, organizations: {orgName: 'FrontSteps'}}
+                return request(app)
+                          .post('/api/updateOccupant')
+                          .set('Cookie', cookie)
+                          .send(updated)
+                          .expect(201)
+                          .expect(function(resp){
+                            var occupant = resp.body;
+                            expect(occupant).to.be.an.instanceOf(Array)
+                            expect(occupant[0].occupiedByName).to.equal('Jimmy McGoo')
+                          })
+              });
+
+    });
+
+    it('should allow admins and mangers to update occupants entry date', function(){
+      var occupancyID
+      return request(app)
+              .post('/api/addOccupant')
+              .set('Cookie', cookie)
+              .send(occupant)
+              .then(function(resp){
+                occupancyID = resp.body[0].occupancyID;
+                var updated = {occupancy: {entranceDate:'04/09/2015', occupancyID: occupancyID}, organizations: {orgName: 'FrontSteps'}}
+                return request(app)
+                          .post('/api/updateOccupant')
+                          .set('Cookie', cookie)
+                          .send(updated)
+                          .expect(201)
+                          .expect(function(resp){
+                            var occupant = resp.body;
+                            expect(occupant).to.be.an.instanceOf(Array)
+                            expect(occupant[0].entranceDate).to.equal('2015-04-09T00:00:00.000Z')
+                          })
+              });
+    })
   });
 
   after(function(){
