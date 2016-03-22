@@ -46,8 +46,8 @@ class SignIn extends React.Component {
             <form className="navbar-form navbar-right form-inline">
               <div className="form-group">
                	<div id='err' className="hidden">Please Enter Email and Password</div>
-						    username: <input className="form-control" type='email' ref='email' onChange={this.update} placeholder="username"/>
-						    password: <input  className="form-control" type='password' ref='password' onChange={this.update} placeholder="password"/>
+						    <input className="form-control" type='email' ref='email' onChange={this.update} placeholder="username"/>
+						    <input  className="form-control" type='password' ref='password' onChange={this.update} placeholder="password"/>
 						    <span className='help'>{this.props.help}</span>
     						<button className="btn btn-default" type="submit" onClick={this.handleSignIn}><span className="glyphicon glyphicon-log-in"></span> Sign In</button>
               </div>
