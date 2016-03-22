@@ -42,7 +42,7 @@ class SignIn extends React.Component {
 
 	    			<div className="collapse navbar-collapse">
 
-				      <a className="navbar-brand" href="#">
+				      <a className="navbar-brand" href="./">
 				      	<img alt="Sheltered" className="brand-logo" src="./favicon.png" />
 				      </a>
 		    			<ul className="nav navbar-nav header-signInNav">
