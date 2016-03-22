@@ -45,70 +45,54 @@ constructor() {
 		  });
     }
 
-  addOccupant(occupantObject){
-	$.ajax({
-      type: 'POST',
-      url: '/api/addOccupant',
-      data: occupantObject
-  	})
-  	  .done((data) => {
-  	  	console.log('added occupant!',data);
-  	  	this.actions.addOccupantSuccess(data);
-  	  })
-	  .fail((jqXhr) => {
-		console.log('fail', jqXhr)
-		this.actions.addOccupantFail(jqXhr.responseText.error);
-	  });    	
-  }
 
-  removeOccupant(occupantID){
-	$.ajax({
-      type: 'POST',
-      url: '/api/removeOccupant',
-      data: occupantID
-  	})
-	  .done((data) => {
-	  	console.log('removed occupant!',data);
-	  	this.actions.removeOccupantSuccess(data);
-	  })
-	  .fail((jqXhr) => {
-		console.log('fail', jqXhr);
-		this.actions.removeOccupantFail(jqXhr.responseJSON.error);
-	  });    	
-  }
+    addOccupant(occupantObject){
+		$.ajax({
+	      type: 'POST',
+	      url: '/api/addOccupant',
+	      data: occupantObject
+	  	})
+	  	  .done((data) => {
+	  	  	console.log('added occupant!',data);
+	  	  	this.actions.addOccupantSuccess(data);
+	  	  })
+		  .fail((jqXhr) => {
+			console.log("fail", jqXhr)
+			this.actions.addOccupantFail(jqXhr.responseText.error);
+		  });
+    }
 
-  addUnit(unit) {
-  	$.ajax({
-      type: 'POST',
-      url: '/api/addShelterUnit',
-      data: unit,
-  	})
-	  .done((data) => {
-	  	console.log('added unit!', data);
-	  	this.actions.addUnitSuccess(data);
-	  })
-	  .fail((jqXhr) => {
-			console.log('fail', jqXhr);
-			this.actions.addUnitFail(jqXhr.responseJSON.error);
-	  }); 
-  }
+		updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
+		tuesday,wednesday,thursday,friday,saturday,sunday){
+		let updatedShelter =	{shelters:
+		      {shelterName: shelterName, shelterEmail: email, shelterEmergencyPhone: emergencyPhone, shelterAddress: streetAddress, shelterDayTimePhone: dayPhone},
+		      organizations: {orgName: orgName},
+		      locations:{name: locationName, street: streetAddress, city: city, state: state, zip: zip, phone: dayPhone},
+		      hours: {monday: monday, tuesday: tuesday, wednesday: wednesday, thursday: thursday, friday: friday, saturday: saturday, sunday: sunday}
+		    }
 
-  removeUnit(unit) {
-  	$.ajax({
-      type: 'POST',
-      url: '/api/removeShelterUnit',
-      data: unit,
-  	})
-	  .done((data) => {
-	  	console.log('added unit!', data);
-	  	this.actions.removeUnitSuccess(data);
-	  })
-		.fail((jqXhr) => {
-			console.log('fail', jqXhr);
-			this.actions.removeUnitFail(jqXhr.responseJSON.error);
-		});
-  }
+				$.ajax({
+		      type: 'POST',
+		      url: '/api/updateShelter',
+		      data: updatedShelter
+		    })
+		}
 
+    removeOccupant(occupantID){
+		$.ajax({
+	      type: 'POST',
+	      url: '/api/removeOccupant',
+	      data: occupantID
+	  	})
+	  	  .done((data) => {
+	  	  	console.log('removed occupant!',data);
+	  	  	this.actions.removeOccupantSuccess(data);
+	  	  })
+		  .fail((jqXhr) => {
+			console.log("fail", jqXhr)
+			this.actions.removeOccupantFail(jqXhr.responseJSON.error);
+		  });
+    }
 }
 
 

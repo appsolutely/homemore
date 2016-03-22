@@ -26,7 +26,6 @@ class ManagerProfile extends React.Component {
   }
 
   render() {
-
   	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
   		return(
   			<Link to={'/manage-shelters/' + shelter.shelterID}>
