@@ -18,6 +18,6 @@ export default (
     <Route path="/add-shelter" component={AdminProfile} />
     <Route path="/manage-shelters" component={ManagerProfile} />
     <Route path="/user-profile" component={UserProfile} />
-    <Route path="/manager-profile/:id" component={Occupy} />
+    <Route path="/manage-shelters/:id" component={Occupy} />
   </Route>
 );
