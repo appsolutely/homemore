@@ -47,7 +47,7 @@ class AdminSignup extends React.Component {
         <form className="text-left">
         <div>
           <label>Email</label>
-          <AccountInfo ref = 'email' update={this.update} />
+          <EmailInfo ref = 'email' update={this.update} />
         </div>
         <div>
           <label>Password</label>
@@ -63,7 +63,7 @@ class AdminSignup extends React.Component {
         </div>
         <div>
           <label>Phone Number</label>
-          <AccountInfo ref = 'phone' update={this.update} />
+          <PhoneInfo ref = 'phone' update={this.update} />
         </div>
         <div>
           <label>Org Name</label>
@@ -81,7 +81,7 @@ class PasswordInfo extends React.Component {
   render(){
     return(
       <div>
-        <input ref="inp" type = "password" required="required"
+        <input minlength="7" ref="inp" type = "password" required="required"
           onChange={this.props.update} />
       </div>)
   }
@@ -92,6 +92,28 @@ class AccountInfo extends React.Component  {
     return(
       <div>
         <input ref="inp" type = "text" required="required"
+          pattern="([A-ZΆ-ΫÀ-ÖØ-Þ][A-ZΆ-ΫÀ-ÖØ-Þa-zά-ώß-öø-ÿ]{1,19} ?){1,10}"
+          onChange={this.props.update} />
+      </div>)
+  }
+}
+
+class EmailInfo extends React.Component {
+  render() {
+    return (
+      <div>
+          <input ref="inp" type="email" required="required"
+            pattern="(?!(^[.-].*|[^@]*[.-]@|.*\.{2,}.*)|^.{254}.)([a-zA-Z0-9!#$%&'*+\/=?^_`{|}~.-]+@)(?!-.*|.*-\.)([a-zA-Z0-9-]{1,63}\.)+[a-zA-Z]{2,15}"
+            onChange={this.props.update} />
+      </div>)
+  }
+}
+
+class PhoneInfo extends React.Component {
+  render() {
+    return(
+      <div>
+        <input ref="inp" type = "phone" required="required"
           onChange={this.props.update} />
       </div>)
   }

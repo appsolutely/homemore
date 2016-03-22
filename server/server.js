@@ -464,7 +464,7 @@ app.get('/api/fetchUser', function(req, res){
             res.status(200).send(response);
           });
   } else {
-    res.status(401).send({error: 'User is not currently signed in'});
+    res.redirect('/');
   }
 });
 
