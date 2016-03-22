@@ -6,7 +6,9 @@ class ManagerStore {
 		this.bindActions(ManagerActions);
 		this.managerObjectProfile = {};
 		this.managerObjectShelters = [];
-
+		this.occupancyObject = [];
+		this.help = '';
+		this.currentShelter;
 	}
 
 	onGetManagerProfileSuccess(data){
@@ -18,6 +20,35 @@ class ManagerStore {
 	onGetManagerProfileFail(err){
 		console.log('failed to get profile', err)
 	}
+
+	onGetOccupancySuccess(response){
+		this.occupancyObject = response
+		console.log("** Worked **", response);
+	}
+
+	onGetOccupancyFail(err){
+		this.help = err;
+	}
+
+	onAddOccupantSuccess(response){
+		console.log('add occupant success', response)
+		this.occupancyObject = response;
+	}
+
+	onAddOccupantFail(err){
+		console.log('add occupant fail', err)
+		this.help = err;
+	}
+
+	onRemoveOccupantSuccess(response){
+		this.occupancyObject = response;
+	}
+
+	onRemoveOccupantFail(err){
+		this.help = err;
+	}
+
+
 }
 
 

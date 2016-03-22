@@ -9,7 +9,6 @@ class OccupancyStore{
 	}
 
 	onGetOccupancySuccess(response){
-		console.log('I am the occupancy success object',response)
 		this.occupancyObject = response
 		console.log("** Worked **");
 	}
@@ -17,6 +16,27 @@ class OccupancyStore{
 	onGetOccupancyFail(err){
 		this.help = err;
 	}
+
+	onAddOccupantSuccess(response){
+		console.log('add occupant success', response)
+		this.occupancyObject = response;
+	}
+
+
+	onAddOccupantFail(err){
+		console.log('add occupant fail', err)
+		this.help = err;
+	}
+
+
+	onRemoveOccupantSuccess(response){
+		this.occupancyObject = response;
+	}
+
+	onRemoveOccupantFail(err){
+		this.help = err;
+	}
+
 }
 
 

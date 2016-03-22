@@ -7,11 +7,7 @@ class UserProfileEdit extends React.Component {
 		super(props);
     this.handleClick = this.handleClick.bind(this);
 	}
-//(firstName, lastName, email, password, phone, passwordFlag)
-  // passes updated components back to parent for processing in UserProfileActions
-  // will want logic to wait somehow for 201 - should it be here?
-  // 
-  // pass props back to parent - update state from there, as long as it succeeds should be good?
+
   handleClick(e) {
     e.preventDefault();
     var first = this.refs.firstName.value || this.props.userInfo.userFirstName;
@@ -56,7 +52,7 @@ class UserProfileEdit extends React.Component {
           <label>Phone</label>
           <input type='tel' ref='phone' placeholder={this.props.userInfo.userPhone} />
         </div>
-        <button className="btn btn-primary editButton" onClick={this.handleClick}>Save Changes</button>
+        <button className="btn btn-primary editButton" onClick={this.handleClick} >Save Changes</button>
       </form>
     );
   }

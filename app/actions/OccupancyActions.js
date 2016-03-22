@@ -3,7 +3,12 @@ import alt from '../alt';
 class OccupyActions {
 	constructor() {
 		this.generateActions(
-			'getOccupancySuccess'
+			'getOccupancySuccess',
+			'getOccupancyFail',
+			'addOccupantSuccess',
+			'addOccupantFail',
+			'removeOccupantSuccess',
+			'removeOccupantFail'
 		);
 	}
 
@@ -20,7 +25,7 @@ class OccupyActions {
 	  	  })
 		  .fail((jqXhr) => {
 			console.log("fail")
-			this.actions.getOccupancyFail(jqXhr.responseJSON.error);
+			this.actions.getOccupancyFail(jqXhr.responseText.error);
 		  });
     }
 
@@ -28,30 +33,30 @@ class OccupyActions {
 		$.ajax({
 	      type: 'POST',
 	      url: '/api/addOccupant',
-	      data: occupancyObject
+	      data: occupantObject
 	  	})
 	  	  .done((data) => {
-	  	  	console.log('Got Occupancy!',data);
+	  	  	console.log('added occupant!',data);
 	  	  	this.actions.addOccupantSuccess(data);
 	  	  })
 		  .fail((jqXhr) => {
-			console.log("fail")
-			this.actions.addOccupantFail(jqXhr.responseJSON.error);
+			console.log("fail", jqXhr)
+			this.actions.addOccupantFail(jqXhr.responseText.error);
 		  });    	
     }
 
-    removeOccupant(occupantObject){
+    removeOccupant(occupantID){
 		$.ajax({
 	      type: 'POST',
 	      url: '/api/removeOccupant',
-	      data: occupancyObject
+	      data: occupantID
 	  	})
 	  	  .done((data) => {
-	  	  	console.log('Got Occupancy!',data);
+	  	  	console.log('removed occupant!',data);
 	  	  	this.actions.removeOccupantSuccess(data);
 	  	  })
 		  .fail((jqXhr) => {
-			console.log("fail")
+			console.log("fail", jqXhr)
 			this.actions.removeOccupantFail(jqXhr.responseJSON.error);
 		  });    	
     }

@@ -1,36 +1,78 @@
 import React from 'react'
-import OccupancyAction from '../actions/OccupancyActions';
-import OccupancyStore from '../stores/OccupancyStore';
+import ManagerActions from '../actions/ManagerActions';
+import ManagerStore from '../stores/ManagerStore';
+
 
 class Occupy extends React.Component {
   constructor(props) {
     super(props);
-    this.state = OccupancyStore.getState();
+    this.state = ManagerStore.getState();
     this.onChange = this.onChange.bind(this);
     this.addOccupant = this.addOccupant.bind(this);
-    this.deleteOccupant = this.deleteOccupant.bind(this);
+    this.remove = this.remove.bind(this);
   }
 
   componentDidMount(){
-    OccupancyStore.listen(this.onChange);
-    OccupancyAction.getOccupancy();
+    ManagerStore.listen(this.onChange);
+    var unit = this.props.params.id
+    //find current shelter
+    this.state.managerObjectShelters.some((shelter) => {
+      this.state.currentShelter = shelter;
+      return shelter.shelterID == unit;
+    })
+    console.log(this.state.currentShelter)
+    ManagerActions.getOccupancy(this.state.currentShelter.shelterName);
+
+    //console.log(Findah);
   }
 
-  deleteOccupant(e) {
-    var taskIndex = parseInt(e.target.value, 10);
-    console.log('removed occupant: %d', taskIndex, this.state.items[taskIndex]);
-    this.setState(state => {
-      state.items.splice(taskIndex, 1);
-      return {items: state.items};
-    });
+  //get org from URL params
+  remove(id) {
+    //e.preventDefault();
+    //var taskIndex = parseInt(e.target.value, 10);
+    console.log('removed occupant: %d', id);
+    ManagerActions.removeOccupant(id);
+    // this.setState(state => {
+    //   state.items.splice(taskIndex, 1);
+    //   return {items: state.items};
+    // });
   }
 
   onChange(state) {
     this.setState(state);
   }
 
+  componentWillUnmount(){
+    ManagerStore.unlisten(this.onChange)
+  }
+
+
+
+// function FindOneShelterByID(arrayOfShelters, find){
+//   var theShelter;
+
+//   arrayOfShelters.some((shelter) => {
+//     if(shelter.shelterID === find){
+//       theShelter = shelter
+//     }
+//   })
+//   return theShelter;
+// }
+//{occupancy{name:'Joe', entranceDate: ???, exitDate: ???, unitID: ??}}
   addOccupant(e){
+    console.log('are we even making it here??????');
     e.preventDefault();
+    const name = this.refs.add.value;
+    const theShelter = this.state.currentShelter;
+    const unit = this.props.params.id;
+    console.log(this.state.currentShelter);
+    const occupant = {
+      'shelters': {'shelterName': theShelter.shelterName},
+      'organizations':{'orgName': theShelter.organizationName},
+      'occupancy':{name:name, entranceDate: '9/11/2001', exitDate: '9/15/2001', 'unitID': unit}
+    }
+    ManagerActions.addOccupant(occupant)
+    //e.preventDefault();
     // this.setState({
     //   items: this.state.items.concat([this.state.task]),
     //   task: ''
@@ -38,23 +80,33 @@ class Occupy extends React.Component {
     // this.stateStuff()
   }
   render(){
-    return(
+    const occupants = this.state.occupancyObject.map((person) => {
+      const bound = this.remove.bind(this, person.occupancyID)
+      return (
+        <div key={person.occupancyID} className='occupant'>
+          <h3>{person.occupiedByName}</h3>
+          <h4>Entrance Date: {person.entranceDate}</h4>
+          <h4>Exit Date: {person.exitDate}</h4>
+          <button className="btn btn-primary editButton" onClick={bound}>Remove</button>
+        </div>
+      );
+    })
+    return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
-        <h1 >Add occupants</h1>
+        <h1>Add occupants</h1>
+          <form>
+            <input type="text" ref="add"/>
+            <button className="btn btn-primary editButton" onClick={this.addOccupant}>Add Occupant</button>
+          </form>
+          <h2>Current Occupants</h2>
+          {occupants}
+      </div>
+    );
+  }
+}
 
-          <form onSubmit={this.addOccupant}>
-            <input onChange={this.onChange} type="text" value={this.state.task}/>
-            <button> Add </button>
-            </form>
-          </div>
-        );
-      }
-    }
 
-    //<List items={this.state.items} deleteOccupent={this.deleteOccupent} />
 
-// class List extends React.Component {
-//   deleteElement(){
 //       console.log("remove");
 //   }
 //

@@ -247,7 +247,6 @@ if(changingPassword){
                 .where('userID', userId);
           })
           .then(function(result){
-            console.log('response from update user ', result);
             return result;
           })
           .catch(function(err){
