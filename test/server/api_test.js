@@ -28,7 +28,7 @@ describe('Sheltered API', function(){
       locations:{name: 'Greenfield Apartments', street: '1352 N. Austin Blvd.', city: 'Austin', state: 'TX', zip: '78703', phone: '555-5555'}, 
       hours: {monday: 'Open 9-18', tuesday: 'Open 9-18', wednesday: 'Open 9-18', thursday: 'Open 9-18', friday: 'Open 9-18', saturday: 'Open 9-18', sunday: 'Open 9-18'}
     };
-  var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
+  var unit = {shelterUnit: {unitSize: '2BD'}, shelters: {shelterName: 'Arches'}, organizations: {orgName: 'FrontSteps'}};
   var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD', entranceDate:'04/08/2015', exitDate:'04/14/2015'}, organizations: {orgName: 'FrontSteps'}};
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}, shelterName: 'Arches'};
   var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
@@ -59,7 +59,7 @@ describe('Sheltered API', function(){
       });
   });
 
-    describe('Examining api/austin/shelters', function(){
+    xdescribe('Examining api/austin/shelters', function(){
       beforeEach(function(){
         return orgRecs.insertOrganization(org)
         .then(function(){
@@ -82,7 +82,7 @@ describe('Sheltered API', function(){
     });
 
 
-    describe('Examining api/signUpAdmin', function(){
+    xdescribe('Examining api/signUpAdmin', function(){
       
       it('should sign up a newAdmin', function(){
         return request(app)
@@ -113,7 +113,7 @@ describe('Sheltered API', function(){
 
     }); 
 
-    describe('Examining api/signup', function(){     
+    xdescribe('Examining api/signup', function(){     
          
       it('should sign up a public user', function(){
         return request(app)
@@ -143,7 +143,7 @@ describe('Sheltered API', function(){
        });
     });  
 
-    describe('Examining api/signin', function(){
+    xdescribe('Examining api/signin', function(){
 
       beforeEach(function(){
         return userRecs.addNewPublic(publicUser)
@@ -203,7 +203,7 @@ describe('Sheltered API', function(){
       });
     });
 
-    describe('Examining api/createManager', function(){
+    xdescribe('Examining api/createManager', function(){
 
       beforeEach(function(){
         return userRecs.addNewAdmin(newAdmin)
@@ -260,7 +260,7 @@ describe('Sheltered API', function(){
       });
     });
 
-  describe('Examine updating and fetching logged in users', function(){
+  xdescribe('Examine updating and fetching logged in users', function(){
     var cookie;
 
     beforeEach(function(){
@@ -318,7 +318,7 @@ describe('Sheltered API', function(){
 
   });
 
-  describe('Examining fetch all of a single shelters information', function(){
+  xdescribe('Examining fetch all of a single shelters information', function(){
     var cookie;
     var indivShelter = {shelters: {shelterName: 'Arches'}, organizations: {orgName: 'FrontSteps'}}
     var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD', entranceDate:'04/08/2015', exitDate:'04/14/2015'}};
@@ -367,7 +367,7 @@ describe('Sheltered API', function(){
     });
   });
 
-  describe('Examining Occupants', function(){
+  xdescribe('Examining Occupants', function(){
     
     beforeEach(function(){
       //create, sign in, and approve user, create shelter and add unit
@@ -375,7 +375,6 @@ describe('Sheltered API', function(){
       return userRecs.addNewAdmin(newAdmin)
         .then(function(resp){
           adminID = resp[0].user.userID;
-          console.log(adminID);
           return request(app)
               .post('/api/signin')
               .send(signInAdmin)
@@ -404,7 +403,6 @@ describe('Sheltered API', function(){
     });
 
     it('should allow admins and mangers to add occupants', function(){
-      console.log('OCCUPANT ', occupant)
       return request(app)
               .post('/api/addOccupant')
               .set('Cookie', cookie)
@@ -484,6 +482,77 @@ describe('Sheltered API', function(){
                           })
               });
     })
+  });
+
+  describe('Examine Shelter Units', function(){
+     var adminID;
+
+     beforeEach(function(){
+      return userRecs.addNewAdmin(newAdmin)
+        .then(function(resp){
+          adminID = resp[0].user.userID;
+          console.log(adminID);
+          return request(app)
+              .post('/api/signin')
+              .send(signInAdmin)
+              .then(function(resp){
+                cookie = resp.headers['set-cookie'][0];
+              })
+              .then(function(){
+                return userRecs.setAccessTrue(adminID, 'Admin');
+              })
+              .then(function(resp){
+                console.log('Admin Access True ', resp);
+                return shelterRecs.insertShelter(shelter);
+              })
+              .catch(function(err){
+                console.error('admin access ', err);
+              })
+              .then(function(resp){
+                console.log('shelter added ', resp);
+              })
+              .catch(function(err){
+                console.error('shelter ', err);
+              });
+        });
+    }); 
+
+    it('should allow admins and managers to add units', function(){
+      return request(app)
+              .post('/api/addShelterUnit')
+              .set('Cookie', cookie)
+              .send(unit)
+              .expect(201)
+              .expect(function(resp){
+                var unit = resp.body;
+                console.log('RESP ', unit);
+                expect(unit).to.be.an.instanceOf(Array);
+                expect(unit[0].unitSize).to.equal('2BD');
+                expect(unit[0].shelterUnitID).to.not.equal(undefined);
+              });
+    });
+
+    it('should allow admins and mangers to delete units', function(){
+        return request(app)
+              .post('/api/addShelterUnit')
+              .set('Cookie', cookie)
+              .send(unit)
+              .then(function(resp){
+                var unit = {unit: resp.body[0], organizations: {orgName: 'FrontSteps'}};
+                return request(app)
+                        .post('/api/removeShelterUnit')
+                        .set('Cookie', cookie)
+                        .send(unit)
+                        .expect(200)
+                        .expect(function(resp){
+                          var unit = resp.body;
+                          expect(unit).to.be.an.instanceOf(Array);
+                          expect(unit[0].unitSize).to.equal('2BD');
+                          expect(unit[0].shelterUnitID).to.not.equal(undefined);
+                        });
+              });
+    }); 
+
   });
 
   after(function(){
