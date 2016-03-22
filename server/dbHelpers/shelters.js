@@ -149,6 +149,9 @@ module.exports.updateShelter = function(req){
         .then(function(updatedShelter){
           console.log('UPDATED SHELTER ', updatedShelter)
           return updatedShelter;
+        })
+        .then(function(){
+          return location.updateLocation(req)
         });
 };
 
