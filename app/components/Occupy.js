@@ -16,12 +16,25 @@ class Occupy extends React.Component {
   }
 
   componentWillMount(){
-      var unit = this.props.params.id
+      var unit = this.props.params.id;
     //find current shelter
-    this.state.managerObjectShelters.some((shelter) => {
-    this.state.currentShelter = shelter;
-    return shelter.shelterID == unit;
+      this.state.managerObjectShelters.some((shelter) => {
+        this.state.currentShelter = shelter;
+        return shelter.shelterID == unit;
     })
+  }
+
+  componentDidMount(){
+    ManagerStore.listen(this.onChange);
+    ManagerActions.getOccupancy(this.state.currentShelter.shelterName);
+  }
+
+  addUnits(){
+
+  }
+
+  removeUnits(){
+
   }
 
   //get org from URL params
