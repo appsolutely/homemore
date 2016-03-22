@@ -28,7 +28,8 @@ describe('Sheltered API', function(){
       locations:{name: 'Greenfield Apartments', street: '1352 N. Austin Blvd.', city: 'Austin', state: 'TX', zip: '78703', phone: '555-5555'}, 
       hours: {monday: 'Open 9-18', tuesday: 'Open 9-18', wednesday: 'Open 9-18', thursday: 'Open 9-18', friday: 'Open 9-18', saturday: 'Open 9-18', sunday: 'Open 9-18'}
     };
-  var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD'}};
+  var unit = {shelterUnit: {unitSize: '2BD'}, shelterName: 'Arches'};
+  var occupant = {occupancy: {name: 'John Smith', unitSize: '2BD', entranceDate:'04/08/2015', exitDate:'04/14/2015'}, organizations: {orgName: 'FrontSteps'}};
   var eligibility = {eligibility: {eligibilityOption: 'Vets'}, shelterName: 'Arches'};
   var publicUser = {pubUser: {firstName: 'Joe', lastName: 'Schmoe', password: 'longencryptedstring', email: 'joe@example.com'}};
   var newAdmin = {adminUser: {firstName: 'Jane', lastName: 'Smith', password: 'k9isthebest', email: 'jane@example.com'}, organizations: {orgName: 'FrontSteps'}};
@@ -365,7 +366,44 @@ describe('Sheltered API', function(){
 
     });
 
+  describe('Examining Occupants', function(){
+    
+    beforeEach(function(){
+      //create, sign in, and approve user, create shelter and add unit
+       var adminID;
+      return userRecs.addNewAdmin(newAdmin)
+        .then(function(resp){
+          adminID = resp[0].user.userID;
+          console.log(adminID);
+          return request(app)
+              .post('/api/signin')
+              .send(signInAdmin)
+              .then(function(resp){
+                cookie = resp.headers['set-cookie'][0];
+              })
+              .then(function(){
+                return userRecs.setAccessTrue(adminID, 'Admin');
+              })
+              .then(function(resp){
+                console.log('Admin Access True ', resp);
+                return shelterRecs.insertShelter(shelter);
+              })
+              .catch(function(err){
+                console.error('admin access ', err);
+              })
+              .then(function(){
+                //add unit
+                return shelterRecs.insertShelterUnit(unit)
+              })
+              .then(function(resp){
+                occupant.unit = resp[0].unitID;
+              })
+        });
+    })
 
+
+
+  });
 
 
   });
