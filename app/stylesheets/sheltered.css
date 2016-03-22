@@ -32,7 +32,10 @@ label{
     background-color: #337AB7;
     text-decoration: none;
     color:#585858;
+}
 
+.shelterInfo :hover{
+    text-decoration: none;
 }
 
 .header{
