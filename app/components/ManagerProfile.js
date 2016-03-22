@@ -29,11 +29,10 @@ class ManagerProfile extends React.Component {
 
   	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
   		return(
-  			<Link to={'/manager-profile/' + shelter.shelterName}>
+  			<Link to={'/manager-profile/' + shelter.shelterID}>
 		  		<div key={shelter.shelterID} className="well shelterCard">
             <div className="shelterInfo text-left">
             <h3>Shelter Information</h3>
-
                 <div className="org text-capitalize">
                   <span className="orgName">Organization: {shelter.organizationName ? shelter.organizationName : "Unknown Organization "}</span>
                   <div><span className="shelterName">Shelter Name: {shelter.shelterName ? shelter.shelterName : "unknown"}</span> </div>
@@ -58,8 +57,7 @@ class ManagerProfile extends React.Component {
                       <div>Sunday: {shelter.hoursSunday ? shelter.hoursSunday : "unlisted"}</div>
                   </div>
                   <div>
-                    <span className="locationName">{shelter.locationName}</span>
-                  </div>
+                    <span className="locationName text-capitalize"> {shelter.locationName}</span>
                   </div>
               </div>
 		  		</div>
@@ -69,7 +67,7 @@ class ManagerProfile extends React.Component {
     return (
       <div className ="well col-sm-6 col-sm-offset-3 text-left">
       	<h2>Manage Shelters</h2>
-      		<p>Hello {this.state.managerObjectProfile.userFirstName} !</p>
+      		<p>Hi </p>
       		<p>You currently manage the following shelter(s):</p>
       	<div>
       		{managedShelters}

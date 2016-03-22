@@ -268,7 +268,7 @@ module.exports.insertShelterOccupancy = function(req){
   var entranceDate = req.occupancy.entranceDate;
   var exitDate = req.occupancy.exitDate || null;
   // var occupantDOB = req.occupancy.dob;
-  var unitID = req.unit[0].shelterUnitID;
+  var unitID = req.occupancy.unitID;
 
         return knex('shelterOccupancy')
                 .insert({
@@ -279,8 +279,8 @@ module.exports.insertShelterOccupancy = function(req){
                 })
                 .returning('*')
           .catch(function(err){
-            console.error("There was an error inserting this occpancy record ", err);
-            throw new Error("There was an error inserting this occpancy record ", err);
+            console.error("There was an error inserting this occupancy record ", err);
+            throw new Error("There was an error inserting this occupancy record ", err);
           })
           .then(function(shelterOccupantID){
             return shelterOccupantID;

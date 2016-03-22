@@ -280,6 +280,7 @@ app.post('/api/addOccupant', function(req, res){
   //should check whether user has permission
   //adds occupants to particular units
   if (req.session) {
+    console.log('I am the body', req.body)
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.insertShelterOccupancy(req.body)
@@ -425,6 +426,7 @@ app.post('/api/deleteEligibility', function(req, res){
 app.post('/api/fetchShelterOccupants', function(req, res){
   return shelters.selectAllOccupants(req.body.shelters.shelterName)
                   .then(function(occupants){
+                    console.log('we are the occupants');
                     res.status(200).send(occupants);
                   })
                   .catch(function(err){
