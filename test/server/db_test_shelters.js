@@ -46,6 +46,22 @@ it('should insert Shelters', function(){
               });
   });
 
+  it('should update shelters', function(){
+    return shelterRecs.insertShelter(shelter)
+          .then(function(resp){
+            var shelterID = resp[0].shelterID;
+            var updateShelter = {shelters: {shelterID: shelterID, shelterName: 'Emergency Shelter', shelterEmail: 'different@example.com'}, organizations: org.organizations};
+            return shelterRecs.updateShelter(updateShelter);
+          })
+          .then(function(resp){
+            console.log('resp', resp);
+            expect(resp).to.be.an.instanceOf(Array);
+            expect(resp).to.have.length(1);
+            expect(resp[0].shelterName).to.equal('Emergency Shelter');
+            expect(resp[0].shelterEmail).to.equal('different@example.com');
+          });
+  })
+
   it('should fetch Shelters', function(){
     var shelterName = {shelters: shelter.shelters.shelterName};
     return shelterRecs.insertShelter(shelter)

@@ -367,6 +367,56 @@ describe('Sheltered API', function(){
     });
   });
 
+  describe('Examinging Shelters', function(){
+    var cookie;
+    var adminID;
+    var shelterID;
+    beforeEach(function(){
+      var adminID;
+      return userRecs.addNewAdmin(newAdmin)
+        .then(function(resp){
+          adminID = resp[0].user.userID;
+          console.log(adminID);
+          return request(app)
+              .post('/api/signin')
+              .send(signInAdmin)
+              .then(function(resp){
+                cookie = resp.headers['set-cookie'][0];
+              })
+              .then(function(){
+                return userRecs.setAccessTrue(adminID, 'Admin');
+              })
+              .then(function(resp){
+                console.log('Admin Access True ', resp);
+                return shelterRecs.insertShelter(shelter)
+              })
+              .then(function(resp){
+                shelterID = resp[0].shelterID;
+              })
+              .catch(function(err){
+                console.error('admin access ', err);
+              });
+        });
+    });
+
+
+    it('should allow admins and managers to update shelters', function(){
+      var updateShelter = {shelters: {shelterID: shelterID, shelterName: 'Emergency Shelter', shelterEmail: 'different@example.com'}, 
+      organizations: {orgName: 'FrontSteps'}};
+      return request(app)
+              .post('/api/updateShelter')
+              .set('Cookie', cookie)
+              .send(updateShelter)
+              .expect(201)
+              .expect(function(resp){
+                var shelter = resp.body;
+                expect(shelter).to.be.an.instanceOf(Array);
+                expect(shelter[0].shelterName).to.equal('Emergency Shelter');
+              });
+    });
+
+  });
+
   describe('Examining Occupants', function(){
     
     beforeEach(function(){
@@ -552,51 +602,6 @@ describe('Sheltered API', function(){
                         });
               });
     }); 
-
-    it('should allow admins and managers to update occupants name', function(){
-      var occupancyID
-      return request(app)
-              .post('/api/addOccupant')
-              .set('Cookie', cookie)
-              .send(occupant)
-              .then(function(resp){
-                occupancyID = resp.body[0].occupancyID;
-                var updated = {occupancy: {name: 'Jimmy McGoo', occupancyID: occupancyID}, organizations: {orgName: 'FrontSteps'}}
-                return request(app)
-                          .post('/api/updateOccupant')
-                          .set('Cookie', cookie)
-                          .send(updated)
-                          .expect(201)
-                          .expect(function(resp){
-                            var occupant = resp.body;
-                            expect(occupant).to.be.an.instanceOf(Array)
-                            expect(occupant[0].occupiedByName).to.equal('Jimmy McGoo')
-                          })
-              });
-
-    });
-
-    it('should allow admins and mangers to update occupants entry date', function(){
-      var occupancyID
-      return request(app)
-              .post('/api/addOccupant')
-              .set('Cookie', cookie)
-              .send(occupant)
-              .then(function(resp){
-                occupancyID = resp.body[0].occupancyID;
-                var updated = {occupancy: {entranceDate:'04/09/2015', occupancyID: occupancyID}, organizations: {orgName: 'FrontSteps'}}
-                return request(app)
-                          .post('/api/updateOccupant')
-                          .set('Cookie', cookie)
-                          .send(updated)
-                          .expect(201)
-                          .expect(function(resp){
-                            var occupant = resp.body;
-                            expect(occupant).to.be.an.instanceOf(Array)
-                            expect(occupant[0].entranceDate).to.equal('2015-04-09T00:00:00.000Z')
-                          })
-              });
-    })
   });
 
   after(function(){
