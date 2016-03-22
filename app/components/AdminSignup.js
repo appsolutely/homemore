@@ -81,7 +81,7 @@ class PasswordInfo extends React.Component {
   render(){
     return(
       <div>
-        <input minlength="7" ref="inp" type = "password" required="required"
+        <input minLength="7" ref="inp" type = "password" required="required"
           onChange={this.props.update} />
       </div>)
   }
