@@ -59,8 +59,9 @@ class ManagerProfile extends React.Component {
                   <div>
                     <span className="locationName text-capitalize"> {shelter.locationName}</span>
                   </div>
-              </div>
-		  		</div>
+                </div>
+		  		  </div>
+          </div>
 		  	</Link>
 	  	)
   	})
