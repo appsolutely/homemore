@@ -26,19 +26,23 @@ class SignIn extends React.Component {
 
 	render() {
 	    return (
-	        <div className="row">
-	          <span className="loginFields text-right">
-	            <div className="text-right"> <Link to="/admin-signup">Sign up for an account</Link></div>
-							<div id='err' className="hidden">Please Enter Email and Password</div>
-	            <div>email: <input type='email' ref='email' onChange={this.update} placeholder="email address"/></div>
-	            <div>password: <input type='password' ref='password' onChange={this.update} placeholder="password"/></div>
+	    	<div>
+	       <nav className="navbar navbar-default navbar-fixed-top">
+          <div className="container-fluid">
+	          <ul className='header-signInNav nav navbar-nav'>
+	            <li className="text-right"> <Link to="/signup">Sign up for an account</Link></li>
+							<li id='err' className="hidden">Please Enter Email and Password</li>
+	            <li>email: <input type='email' ref='email' onChange={this.update} placeholder="email address"/></li>
+	            <li>password: <input type='password' ref='password' onChange={this.update} placeholder="password"/></li>
 	            <span className='help'>{this.props.help}</span>
-	            <div>
+	            <li>
 	              <button className="btn btn-primary" type='button' onClick={this.handleSignIn}>Sign In</button>
 	              <br/>
-	            </div>
-	          </span>
-	        </div>
+	            </li>
+	          </ul>
+	          </div>
+	        </nav>
+	      </div>
 	    );
 	}
 }
