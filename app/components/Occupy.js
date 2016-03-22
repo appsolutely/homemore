@@ -19,8 +19,8 @@ class Occupy extends React.Component {
       var unit = this.props.params.id;
     //find current shelter
       this.state.managerObjectShelters.some((shelter) => {
-        this.state.currentShelter = shelter;
-        return shelter.shelterID == unit;
+      this.state.currentShelter = shelter;
+      return shelter.shelterID == unit;
     })
   }
 
@@ -29,7 +29,8 @@ class Occupy extends React.Component {
     ManagerActions.getOccupancy(this.state.currentShelter.shelterName);
   }
 
-  addUnits(){
+  addUnits(e){
+    e.preventDefault();
     const theShelter = this.state.currentShelter;
     const unit = {shelterUnit: {unitSize: '2BD'}, 
     shelters: {shelterName: theShelter.shelterName}, 
@@ -38,7 +39,8 @@ class Occupy extends React.Component {
     ManagerActions.addUnits(unit);
   }
 
-  removeUnits(){
+  removeUnits(e){
+    e.preventDefault();
     ManagerActions.removeUnits();
   }
 
