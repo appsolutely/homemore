@@ -23,8 +23,8 @@ class SignedInNav extends React.Component {
           <div className="container-fluid">
 
                <ul className='header-signedInNav nav navbar-nav'>
-                 <li><Link to='/admin-profile'>Add Shelters</Link></li>
-                 <li><Link to='/manager-profile'>Manage Shelters</Link></li>
+                 <li><Link to='/add-shelter'>Add Shelter</Link></li>
+                 <li><Link to='/manage-shelters'>Manage Shelters</Link></li>
                 </ul>
                 <ul className="nav navbar-nav navbar-right">
                  <li><Link to="/user-profile"> <span className="glyphicon glyphicon-user"></span> My Account </Link></li>

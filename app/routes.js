@@ -15,8 +15,8 @@ export default (
     <Route path="/shelter" component={ShelterList} />
     <Route path="/shelter/:id" component={ShelterProfile} />
     <Route path="/admin-signup" component={AdminSignup} />
-    <Route path="/admin-profile" component={AdminProfile} />
-    <Route path="/manager-profile" component={ManagerProfile} />
+    <Route path="/add-shelter" component={AdminProfile} />
+    <Route path="/manage-shelters" component={ManagerProfile} />
     <Route path="/user-profile" component={UserProfile} />
     <Route path="/manager-profile/:id" component={Occupy} />
   </Route>
