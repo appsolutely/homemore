@@ -26,23 +26,25 @@ class SignIn extends React.Component {
 
 	render() {
 	    return (
-	    	<div>
-	       <nav className="navbar navbar-default navbar-fixed-top">
-          <div className="container-fluid">
+	    	<nav className="navbar navbar-default navbar-fixed-top">
+	    	<div className="container-fluid">
+          <div className="collapse navbar-collapse">
 	          <ul className='header-signInNav nav navbar-nav'>
-	            <li className="text-right"> <Link to="/signup">Sign up for an account</Link></li>
-							<li id='err' className="hidden">Please Enter Email and Password</li>
-	            <li>email: <input type='email' ref='email' onChange={this.update} placeholder="email address"/></li>
-	            <li>password: <input type='password' ref='password' onChange={this.update} placeholder="password"/></li>
+	            <li className="text-right"> <Link to="/admin-signup">Sign up for an account</Link></li>
+						</ul>	
+						<form className="navbr-form navbar-right">
+						<div className="form-group">
+							<div id='err' className="hidden">Please Enter Email and Password</div>
+	            <input className="form-control" type='email' ref='email' onChange={this.update} placeholder="username"/>
+	            <input  className="form-control" type='password' ref='password' onChange={this.update} placeholder="password"/>
 	            <span className='help'>{this.props.help}</span>
-	            <li>
-	              <button className="btn btn-primary" type='button' onClick={this.handleSignIn}>Sign In</button>
-	              <br/>
-	            </li>
-	          </ul>
+							<button className="btn btn-default" type="submit" onClick={this.handleSignIn}><span className="glyphicon glyphicon-log-in"></span> Sign In</button>
+						</div>
+	          </form>
 	          </div>
-	        </nav>
-	      </div>
+	          </div>
+	       </nav>
+	     
 	    );
 	}
 }
