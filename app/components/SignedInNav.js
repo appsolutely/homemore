@@ -23,7 +23,9 @@ class SignedInNav extends React.Component {
           <div className="container-fluid">
 
                <ul className='header-signedInNav nav navbar-nav'>
-                 <li><Link to='/'><span className="glyphicon glyphicon-home"></span> Home</Link></li>
+                <a className="navbar-brand" href="#">
+                <img alt="Sheltered" className="logo" src="/img/SHELTERED-logo.png" />
+                </a>
                  <li><Link to='/add-shelter'><span className="glyphicon glyphicon-plus-sign"></span> Add Shelter</Link></li>
                  <li><Link to='/manage-shelters'><span className="glyphicon glyphicon-th-list"></span> Manage Shelters</Link></li>
                 </ul>
