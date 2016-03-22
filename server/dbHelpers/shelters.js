@@ -127,23 +127,31 @@ module.exports.selectAllShelters = function(){
 
 module.exports.updateShelter = function(req){
   //function for updating shelter units
+    console.log('REQBODY', req)
     var name = req.shelters.shelterName;
     var email = req.shelters.shelterEmail;
     var emergencyPhone = req.shelters.shelterEmergencyPhone;
     var daytimePhone = req.shelters.shelterDayTimePhone;
+    var shelterID = req.shelters.shelterID
     return knex('shelters')
-            .where('shelterID', thisShelterID)
+            .where('shelterID', shelterID)
             .update({
                 shelterName: name,
                 shelterEmail: email,
                 shelterEmergencyPhone: emergencyPhone,
                 shelterDaytimePhone: daytimePhone
             })
+            .returning('*')
         .catch(function(err){
+          console.error('err in updateShelter', err);
           throw new Error("Error updating this shetler", err);
         })
         .then(function(updatedShelter){
+          console.log('UPDATED SHELTER ', updatedShelter)
           return updatedShelter;
+        })
+        .then(function(){
+          return location.updateLocation(req)
         });
 };
 
@@ -435,10 +443,13 @@ module.exports.shelterOccupancySummary = function(){
 };
 
 module.exports.selectAllOccupants = function(shelterName) {
-  return knex.select('occupiedByName', 'fk_shelterUnitID', 'occupancyID', 'entranceDate', 'exitDate')
-              .from('shelterOccupancy')
-              .fullOuterJoin('shelterUnits', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
+  return knex.select('occupiedByName', 'shelterUnitID', 'occupancyID', 'entranceDate', 'exitDate')
+              .from('shelterUnits')
+              .fullOuterJoin('shelterOccupancy', 'shelterOccupancy.fk_shelterUnitID', 'shelterUnits.shelterUnitID')
               .fullOuterJoin('shelters', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
               .where('shelters.shelterName', shelterName)
-              .groupBy('occupancyID');
+              .groupBy('shelterUnitID', 'occupancyID');
 };
+
+
+

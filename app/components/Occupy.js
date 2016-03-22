@@ -17,13 +17,34 @@ class Occupy extends React.Component {
   }
 
   componentWillMount(){
-      var unit = this.props.params.id
+      var unit = this.props.params.id;
     //find current shelter
-    console.log(this.state, '<==look here')
+
     this.state.managerObjectShelters.some((shelter) => {
     this.state.currentShelter = shelter;
     return shelter.shelterID == unit;
+
     })
+  }
+
+  componentDidMount(){
+    ManagerStore.listen(this.onChange);
+    ManagerActions.getOccupancy(this.state.currentShelter.shelterName);
+  }
+
+  addUnits(e){
+    e.preventDefault();
+    const theShelter = this.state.currentShelter;
+    const unit = {shelterUnit: {unitSize: '2BD'},
+    shelters: {shelterName: theShelter.shelterName},
+    organizations: {orgName: theShelter.organizationName}};
+
+    ManagerActions.addUnits(unit);
+  }
+
+  removeUnits(e){
+    e.preventDefault();
+    ManagerActions.removeUnits();
   }
 
   //get org from URL params
@@ -55,6 +76,7 @@ class Occupy extends React.Component {
 
   handleUpdate(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
   tuesday,wednesday,thursday,friday,saturday,sunday){
+    console.log("bang bang")
     this.setState({shelterInfo:{shelterInfo:{
       organizationName:orgName,
       shelterName:shelterName,

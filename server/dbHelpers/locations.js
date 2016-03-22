@@ -106,8 +106,8 @@ module.exports.selectLocation = function(req){
 
 module.exports.updateLocation = function(req){
   // console.log("UPDATE LOCATION REQ", req);
-  var forLocationID = req.locations.thisLocationID;
-  var forHoursID = req.locations.thishourID_fk;
+  var forLocationID = req.locations.locationID;
+  var forHoursID = req.locations.hourID_fk;
 
   var name = req.locations.name;
   var street = req.locations.street;
@@ -142,8 +142,6 @@ module.exports.updateLocation = function(req){
   .then(function(hours){
     console.log("Successfully updated hours");
     var hoursID = hours[0];
-    // console.log("HOURS FK ID", hoursID);
-
       return knex('locations')
               .where('locationID', forLocationID)
               .update({
@@ -165,7 +163,6 @@ module.exports.updateLocation = function(req){
         return location;
       });
   });
-//update physical location or details
 };
 
 module.exports.deleteLocation = function(req){

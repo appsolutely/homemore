@@ -1,17 +1,21 @@
 import alt from '../alt';
 
 class ManagerActions {
-	constructor() {
-	  this.generateActions(
-	  	'getManagerProfileSuccess',
-	  	'getManagerProfileFail',
-		'getOccupancySuccess',
-		'getOccupancyFail',
-		'addOccupantSuccess',
-		'addOccupantFail',
-		'removeOccupantSuccess',
-		'removeOccupantFail'
-	  );
+constructor() {
+  this.generateActions(
+  'getManagerProfileSuccess',
+  'getManagerProfileFail',
+	'getOccupancySuccess',
+	'getOccupancyFail',
+	'addOccupantSuccess',
+	'addOccupantFail',
+	'removeOccupantSuccess',
+	'removeOccupantFail',
+	'addUnitSuccess',
+	'removeUnitSuccess',
+	'addUnitFail',
+	'removeUnitFail'
+  );
 	}
 
 	getManagerProfile() {
@@ -24,7 +28,7 @@ class ManagerActions {
 	       });
 	}
 
-	getOccupancy(shelterName){
+	getOccupancy(shelterName) {
 		var occupancyObject = {shelters: {shelterName: shelterName}}
 		$.ajax({
 	      type: 'POST',
@@ -36,10 +40,11 @@ class ManagerActions {
 	  	  	this.actions.getOccupancySuccess(data);
 	  	  })
 		  .fail((jqXhr) => {
-			console.log("fail")
+			console.log('fail')
 			this.actions.getOccupancyFail(jqXhr.responseText.error);
 		  });
     }
+
 
     addOccupant(occupantObject){
 		$.ajax({
@@ -88,7 +93,6 @@ class ManagerActions {
 			this.actions.removeOccupantFail(jqXhr.responseJSON.error);
 		  });
     }
-
 }
 
 
