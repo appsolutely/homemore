@@ -30,11 +30,16 @@ class Occupy extends React.Component {
   }
 
   addUnits(){
+    const theShelter = this.state.currentShelter;
+    const unit = {shelterUnit: {unitSize: '2BD'}, 
+    shelters: {shelterName: theShelter.shelterName}, 
+    organizations: {orgName: theShelter.organizationName}};
 
+    ManagerActions.addUnits(unit);
   }
 
   removeUnits(){
-
+    ManagerActions.removeUnits();
   }
 
   //get org from URL params

@@ -9,6 +9,7 @@ class ManagerStore {
 		this.occupancyObject = [];
 		this.help = '';
 		this.currentShelter;
+		this.unitObject = [];
 		this.clicked = false;
 	}
 
@@ -46,6 +47,26 @@ class ManagerStore {
 	}
 
 	onRemoveOccupantFail(err){
+		this.help = err;
+	}
+
+	onAddUnitSuccess(response){
+		console.log('add unit success', response);
+		this.unitObject = response;
+	}
+
+	onRemoveUnitSuccess(response){
+		console.log('remove unit success ', response);
+		this.unitObject = response;
+	}
+
+	onAddUnitFail(err){
+		console.error('add unit fail ', err);
+		this.help = err;
+	}
+
+	onRemoveUnitFail(err){
+		console.error('remove unit fail ', err);
 		this.help = err;
 	}
 
