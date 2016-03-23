@@ -12,6 +12,7 @@ var appRoutes = require('../app/routes');
 var swig = require('swig');
 var cookieParser = require('cookie-parser');
 var nodemailer = require('nodemailer');
+var expressValidator = require('express-validator');
 
 //dbHelpers
 var shelters = require('./dbHelpers/shelters.js');
@@ -30,9 +31,9 @@ app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
 app.use(favicon(path.join(__dirname, '../public', 'favicon.png')));
 app.use(express.static(path.join(__dirname, '../public')));
-
 
 //parse the cookie to check for a session
 app.use(cookieParser());
@@ -88,6 +89,83 @@ app.use(function (req, res, next) {
     next();
   }
 });
+
+
+
+//now check validation before hitting any of the routes
+req.checkBody({
+    'users.email': {
+      optional: { checkFalsy: true },
+      notEmpty: true,
+      isEmail: {
+      errorMessage: 'Invalid Email'
+      }
+    },
+    'users.password': {
+      optional: { checkFalsy: true },
+      notEmpty: true,
+      errorMessage: 'Invalid Password'
+    },
+    'users.firstName': {
+      optional: { checkFalsy: true },
+      notEmpty: true,
+      errorMessage: 'Invalid First Name'
+    },
+    'users.lastName': {
+      optional: { checkFalsy: true },
+      notEmpty: true,
+      errorMessage: 'Invalid Last Name'
+    },
+    'users.phone': {
+      optional: { checkFalsy: true },
+      isMobilePhone: {
+        locale: 'en-US'
+        errorMessage: 'Phone number must be a number'
+      }
+      errorMessage: 'Invalid Phone'
+    },
+    'shelters.': {
+      optional: { checkFalsy: true },
+    },
+    'locations.zip': {
+      optional: { checkFalsy: true },
+      isInt: {
+        errorMessage: 'ZipCode must be an integer'
+      },
+      errorMessage: 'Invalid Zip'
+    },
+    'hours.monday': {
+      optional: { checkFalsy: true },
+
+    },
+    'hours.tuesday': {
+      optional: { checkFalsy: true },
+    },
+    'hours.wednesday': {
+      optional: { checkFalsy: true },
+    },
+    'hours.thursday': {
+      optional: { checkFalsy: true },
+    },
+    'hours.friday': {
+      optional: { checkFalsy: true },
+    },
+    'hours.saturday': {
+      optional: { checkFalsy: true },
+    },
+    'hours.sunday': {
+      optional: { checkFalsy: true },
+    },
+    'organizations.orgName': {
+      optional: { checkFalsy: true },
+      isString: {
+        errorMessage: 'Organization Name must be string'
+      },
+      errorMessage: 'Invalid OrgName'
+    },
+  })
+
+//once its been validated sanitize it
 
 
 /*
