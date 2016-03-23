@@ -30,23 +30,22 @@ class ManagerProfile extends React.Component {
   render() {
   	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
   		return(
+
   			<Link to={'/manage-shelters/' + shelter.shelterID}>
-		  		<div key={shelter.shelterID} className="well shelterCard">
+		  		<div key={shelter.shelterID} className="well">
             <div className="shelterInfo text-left text-capitalize">
               <h3>Shelter Information</h3>
-              <div className="org">
-                <span>Organization: {shelter.organizationName ? shelter.organizationName : "Unknown Organization "}</span>
-              </div>
+                <div className="org"><span>Organization: {shelter.organizationName ? shelter.organizationName : "Unknown Organization"}</span></div>
                 <div><span className="shelterName">Shelter Name: {shelter.shelterName ? shelter.shelterName : "unknown"}</span> </div>
                 <div><span>Daytime Phone: {shelter.shelterDaytimePhone ? shelter.shelterDaytimePhone : "unknown"}</span> </div>
                 <div><span>Emergency Phone: {shelter.shelterEmergencyPhone ? shelter.shelterEmergencyPhone : "unknown"}</span></div>
-                <h4>Location Information</h4>
+              <h4>Location Information</h4>
                 <div><span>Location Name: {shelter.locationName ? shelter.locationName : "Unknown"}</span></div>
                 <div><span>Street Address: {shelter.locationStreet ? shelter.locationStreet : "Unknown"}</span></div>
                 <div><span>City: {shelter.locationCity ? shelter.locationCity : "Unknown"}</span></div>
                 <div><span>State: {shelter.locationState ? shelter.locationState : "Unknown"}</span></div>
                 <div><span>Zip: {shelter.locationZip ? shelter.locationZip : "Unknown"}</span></div>
-                <h4>Hours of Operation</h4>
+              <h4>Hours of Operation</h4>
                 <div><span>Monday: {shelter.hoursMonday ? shelter.hoursMonday : "Unknown"}</span></div>
                 <div><span>Tuesday: {shelter.hoursTuesday ? shelter.hoursTuesday : "Unknown"}</span></div>
                 <div><span>Wednesday: {shelter.hoursWednesday ? shelter.hoursWednesday : "Unknown"}</span></div>
@@ -54,7 +53,6 @@ class ManagerProfile extends React.Component {
                 <div><span>Friday: {shelter.hoursFriday ? shelter.hoursFriday : "Unknown"}</span></div>
                 <div><span>Saturday: {shelter.hoursSaturday ? shelter.hoursSaturday : "Unknown"}</span></div>
                 <div><span>Sunday: {shelter.hoursSunday ? shelter.hoursSunday : "Unknown"}</span></div>
-
 		  		  </div>
           </div>
 		  	</Link>
@@ -66,7 +64,7 @@ class ManagerProfile extends React.Component {
       		<p>Hi</p>
 
       		<p>You currently manage the following shelter(s):</p>
-      	<div>
+      	<div className="shelterInfo">
       		{managedShelters}
       	</div>
       </div>
