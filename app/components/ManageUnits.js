@@ -12,6 +12,7 @@ class ManageUnits extends React.Component {
   
   addUnits(e){
     e.preventDefault();
+    console.log('adding a unit without click')
     const theShelter = this.props.shelter;
     console.log(theShelter);
     //clean up everything that isn't a number

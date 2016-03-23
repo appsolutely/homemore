@@ -36,18 +36,18 @@ class UserProfile extends React.Component {
   // state agnostic child components is the goal 
   handleUpdate(firstName, lastName, email, password, phone, passwordFlag, emailFlag) {
     // update state regardless of post success
-    this.setState({
-      userObjectProfile: {
-      userFirstName: firstName,
-      userLastName: lastName,
-      userEmail: email,
-      userPhone: phone,
-      userPassword: password,
-      userPasswordFlag: passwordFlag,
+      this.setState({
+        userObjectProfile: {
+        userFirstName: firstName,
+        userLastName: lastName,
+        userEmail: email,
+        userPhone: phone,
+        userPassword: password,
+        userPasswordFlag: passwordFlag,
       }
     });
     //send profile data
-    UserProfileActions.updateUser(firstName, lastName, email, password, phone, passwordFlag, emailFlag)
+    UserProfileActions.updateUser(firstName, lastName, email, password, phone, passwordFlag, emailFlag);
     // console.log('made it back to handleUpdate', this.state.userObject)
   }
 
