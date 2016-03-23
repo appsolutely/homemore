@@ -6,8 +6,6 @@ class ManagerProfileView extends React.Component {
   constructor(props) {
 		super(props);
     this.handleClick = this.handleClick.bind(this);
-
-
 	}
 
   handleClick() {
@@ -17,29 +15,27 @@ class ManagerProfileView extends React.Component {
   }
 
   render(){
-    const shelterInfo = this.props.shelterInfo
-      console.log(this.props)
     return (
       <div>
-        <div>orgName: {shelterInfo.organizationName}</div>
-        <div>Shelter Name: {shelterInfo.shelterName}</div>
-        <div>Daytime Phone: {shelterInfo.shelterDaytimePhone}</div>
-        <div>Emergency Phone: {shelterInfo.shelterEmergencyPhone}</div>
-        <div>Email: {shelterInfo.shelterEmail}</div>
+        <div>orgName: {this.props.shelterInfo.organizationName}</div>
+        <div>Shelter Name: {this.props.shelterInfo.shelterName}</div>
+        <div>Daytime Phone: {this.props.shelterInfo.shelterDaytimePhone}</div>
+        <div>Emergency Phone: {this.props.shelterInfo.shelterEmergencyPhone}</div>
+        <div>Email: {this.props.shelterInfo.shelterEmail}</div>
         <div>location Information</div>
-        <div>Location name: {shelterInfo.locationName}</div>
-        <div>Street Address: {shelterInfo.locationStreet}</div>
-        <div>City: {shelterInfo.locationCity}</div>
-        <div>State: {shelterInfo.locationState}</div>
-        <div>Zip: {shelterInfo.locationZip}</div>
+        <div>Location name: {this.props.shelterInfo.locationName}</div>
+        <div>Street Address: {this.props.shelterInfo.locationStreet}</div>
+        <div>City: {this.props.shelterInfo.locationCity}</div>
+        <div>State: {this.props.shelterInfo.locationState}</div>
+        <div>Zip: {this.props.shelterInfo.locationZip}</div>
         <div>hours</div>
-        <div>Monday: {shelterInfo.hoursMonday}</div>
-        <div>Tuesday: {shelterInfo.hoursTuesday}</div>
-        <div>Wednesday: {shelterInfo.hoursWednesday}</div>
-        <div>Thursday: {shelterInfo.hoursThursday}</div>
-        <div>Friday: {shelterInfo.hoursFriday}</div>
-        <div>Saturday: {shelterInfo.hoursSaturday}</div>
-        <div>Sunday: {shelterInfo.hoursSunday}</div>
+        <div>Monday: {this.props.shelterInfo.hoursMonday}</div>
+        <div>Tuesday: {this.props.shelterInfo.hoursTuesday}</div>
+        <div>Wednesday: {this.props.shelterInfo.hoursWednesday}</div>
+        <div>Thursday: {this.props.shelterInfo.hoursThursday}</div>
+        <div>Friday: {this.props.shelterInfo.hoursFriday}</div>
+        <div>Saturday: {this.props.shelterInfo.hoursSaturday}</div>
+        <div>Sunday: {this.props.shelterInfo.hoursSunday}</div>
         <button onClick={this.handleClick}>Edit Me</button>
       </div>
     )

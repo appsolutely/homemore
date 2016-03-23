@@ -77,7 +77,7 @@ class Occupy extends React.Component {
   handleUpdate(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
   tuesday,wednesday,thursday,friday,saturday,sunday){
 
-    this.setState({shelterInfo:{shelterInfo:{
+    this.setState({currentShelter:{
       organizationName:orgName,
       shelterName:shelterName,
       shelterDaytimePhone:dayPhone,
@@ -95,9 +95,8 @@ class Occupy extends React.Component {
       hoursFriday:friday,
       hoursSaturday:saturday,
       hoursSunday:sunday
-    }}
+    }
     });
-			console.log(this.state, 'state after update')
     ManagerActions.updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
     tuesday,wednesday,thursday,friday,saturday,sunday)
   }
@@ -134,6 +133,7 @@ class Occupy extends React.Component {
     // this.stateStuff()
   }
   render(){
+    console.log(this.state.currentShelter, "=====================look here!")
     const occupants = this.state.occupancyObject.map((person) => {
       const bound = this.remove.bind(this, person.occupancyID)
       return (

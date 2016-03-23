@@ -450,6 +450,3 @@ module.exports.selectAllOccupants = function(shelterName) {
               .where('shelters.shelterName', shelterName)
               .groupBy('shelterUnitID', 'occupancyID');
 };
-
-
-

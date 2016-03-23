@@ -261,7 +261,7 @@ app.post('/api/updateShelter', function(req, res){
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
-        console.log('GOING TO UPDATE SHELTER')
+        console.log('===============================GOING TO UPDATE SHELTER', req.body)
         return shelters.updateShelter(req.body)
                 .then(function(updates){
                   console.log('occupant', updates)
@@ -465,7 +465,7 @@ app.get('/api/fetchUser', function(req, res){
     return users.findByUserID(req.session.fk_userID)
           .then(function(user){
             user[0].userPassword = null;
-            response.user = user[0]; 
+            response.user = user[0];
             // console.log('response before findUserOrganization ', response);
             if(req.session.permissionLevel === 'Admin') {
               return users.findUserOrganization(req.session.fk_userID);
@@ -574,7 +574,7 @@ var sendEmail = function(mailOptions, res){
 
 //functions to call to actually send the emails
 var sendGeneralSignUpEmail = function(user, res) {
-  var text = 'Thanks for signing up for Sheltered! \n\n A new account has been created with this email on Sheltered. ' + 
+  var text = 'Thanks for signing up for Sheltered! \n\n A new account has been created with this email on Sheltered. ' +
   '\n\n Welcome to Appsolutely Sheltered!';
   var mailOptions = {
     from: ourEmail,
@@ -600,7 +600,7 @@ var sendManagerEmail = function (manager, res) {
 
 //if Org does not already exist email us
 var sendOrgConfirmEmail = function(org, res){
-  var text = 'Thanks for creating a new account on Sheltered! A new account has been created on Sheltered for a new organization by userID ,'+ 
+  var text = 'Thanks for creating a new account on Sheltered! A new account has been created on Sheltered for a new organization by userID ,'+
   org.userID + '. \n\n Please go to sheltered.herokuapp.com to confirm the new user. \n\n Thanks again and welcome to Appsolutely Sheltered!';
   var mailOptions = {
     from: ourEmail,
