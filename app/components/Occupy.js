@@ -134,6 +134,7 @@ class Occupy extends React.Component {
     // })
     // this.stateStuff()
   }
+  //
 
   render(){
     return (
@@ -146,7 +147,6 @@ class Occupy extends React.Component {
     );
   }
 }
-
 
 
 export default Occupy;
