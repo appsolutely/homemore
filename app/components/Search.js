@@ -24,29 +24,6 @@ class SearchBar extends React.Component {
           onChange={this.handleChange}
         />
         </div>
-        <br/>
-        <div>
-        <div>
-        <h4>Filter by: </h4>
-        </div>
-        <span className="filterOpt">
-          <input type="checkbox"
-            ref="gender"
-            defaultChecked={this.props.women}
-            onChange={this.handleChange}
-          />
-          Women
-        </span>
-        <span className="filterOpt">
-          <input type="checkbox"
-            ref="family"
-            defaultChecked={this.props.family}
-            onChange={this.handleChange}
-          />
-          Families
-        </span>
-        
-        </div>
     </div> 
     );
   }
