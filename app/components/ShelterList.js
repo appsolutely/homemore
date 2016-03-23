@@ -29,11 +29,9 @@ class Shelter extends React.Component {
     this.setState(state);
   }
 
-  handleUserInput(filter, women, family, zip) {
+  handleUserInput(filter, zip) {
     this.setState({
       filterText: filter,
-      women: women,
-      family: family,
     });
   }
 // shelterProfile is going to be a separate ajax call, utilizing params.id
@@ -49,15 +47,11 @@ class Shelter extends React.Component {
       <h2><span className="label label-success"><i className="material-icons md-48">hotel</i> {totalUnitsAvailable} Units Available</span></h2>
         <Search
           filter={this.state.filterText}
-          women={this.state.women}
-          family={this.state.family}
           onInput={this.handleUserInput}
         />
         <ShelterListing
           filter={this.state.filterText}
           shelters={this.state.shelters}
-          women={this.state.women}
-          family={this.state.family}
         />
       </div>
     );

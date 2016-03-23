@@ -80,6 +80,8 @@ class Occupy extends React.Component {
   handleUpdate(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
   tuesday,wednesday,thursday,friday,saturday,sunday){
     var currentShelterID = this.state.currentShelter.shelterID;
+    var currentLocationID = this.state.currentShelter.locationID
+    var currentHourID = this.state.currentShelter.hoursID
     this.setState({currentShelter:{
       organizationName:orgName,
       shelterName:shelterName,
@@ -98,11 +100,14 @@ class Occupy extends React.Component {
       hoursFriday:friday,
       hoursSaturday:saturday,
       hoursSunday:sunday,
-      shelterID: this.state.currentShelter.shelterID
+      shelterID: this.state.currentShelter.shelterID,
+      locationID: currentLocationID,
+      hoursID: currentHourID
+
     }
     });
     ManagerActions.updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
-    tuesday,wednesday,thursday,friday,saturday,sunday,currentShelterID)
+    tuesday,wednesday,thursday,friday,saturday,sunday,currentShelterID, currentLocationID, currentHourID)
   }
 
 // function FindOneShelterByID(arrayOfShelters, find){
@@ -137,7 +142,7 @@ class Occupy extends React.Component {
   }
 
   render(){
-    console.log(this.state.currentShelter.shelterID, '==============')
+    console.log(this.state.currentShelter, '==============')
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
       {this.state.clicked ? <ManagerProfileEdit save={this.handleUpdate} shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}

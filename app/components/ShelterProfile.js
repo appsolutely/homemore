@@ -58,7 +58,7 @@ class ShelterProfile extends React.Component {
             <div>
               <div>
                 {theShelter.locationCity},
-                {theShelter.locationState} 
+                {theShelter.locationState}
               </div>
               <div>
                 {theShelter.locationZip}
@@ -83,14 +83,14 @@ class ShelterProfile extends React.Component {
               <div>{theShelter.total_units} units at this location: </div>
               <br />
               <div className="label label-danger">{theShelter.occupied_units} taken</div>
-              <div className="label label-success"> 
+              <div className="label label-success">
               {theShelter.total_units - theShelter.occupied_units} available</div>
             </h3>
-   
+
             <h4>Contact {theShelter.locationName}</h4>
 
           <h5><span className="glyphicon glyphicon-phone-alt"></span>: {theShelter.locationPhone}</h5>
-  
+
             <div>
             <h5>Hours</h5>
               <div>Monday: {theShelter.hoursMonday}</div>
