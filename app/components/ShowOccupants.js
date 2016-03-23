@@ -9,6 +9,30 @@ class ShowOccupants extends React.Component{
     //this.handleClick = this.handleClick.bind(this);
   }
 
+
+  render(){
+  	const occupants = this.props.units.map((unit) => {
+      const bound = this.remove.bind(this, unit.occupancyID);
+      const thisName = unit.occupiedByName || 'Open';
+      return (
+        <div key={unit.shelterUnitID} className='occupant'>
+          <h3>{thisName}</h3>
+          <h4>Entrance Date: {unit.entranceDate}</h4>
+          <h4>Exit Date: {unit.exitDate}</h4>
+          <input type="text" ref="add"/>
+          <button className="btn btn-primary editButton">Add Occupant</button>
+          <button className="btn btn-primary editButton" onClick={bound}>Remove</button>
+        </div>
+      );
+    })
+  	return(
+  		<div>
+  			<h1>Stuff Here</h1>
+  			{occupants}
+  		</div>
+  	)
+  }
+
 }
 
 

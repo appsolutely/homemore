@@ -24,15 +24,13 @@ class Occupy extends React.Component {
     this.state.managerObjectShelters.some((shelter) => {
       this.state.currentShelter = shelter;
       return shelter.shelterID == unit;
-    })
+    })   
     ManagerActions.getOccupancy(this.state.currentShelter.shelterName);
-    
   }
 
   componentDidMount(){
     ManagerStore.listen(this.onChange);
     console.log('in componentDidMount', this.state.currentShelter.shelterName)
-    // ManagerActions.getOccupancy(this.state.currentShelter.shelterName);
   }
 
   addUnits(e){
@@ -114,9 +112,11 @@ class Occupy extends React.Component {
 //   })
 //   return theShelter;
 // }
+// 
+//  {this.state.occupancyObject ? <ShowOccupants add={this.addOccupant} units={this.state.occupancyObject} /> : <div>Loading ...</div> }
 //{occupancy{name:'Joe', entranceDate: ???, exitDate: ???, unitID: ??}}
   addOccupant(id){
-    const name = 'Frank Madison'; //this.refs.add.value;
+    const name = this.refs.add.value;
     const theShelter = this.state.currentShelter;
     const unit = id;
     const occupant = {
