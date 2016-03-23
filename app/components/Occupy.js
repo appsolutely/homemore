@@ -16,6 +16,7 @@ class Occupy extends React.Component {
     this.remove = this.remove.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleOccupantDelegation = this.handleOccupantDelegation.bind(this);
   }
 
   // stuff
@@ -34,6 +35,7 @@ class Occupy extends React.Component {
     ManagerStore.listen(this.onChange);
     console.log('in componentDidMount', this.state.currentShelter.shelterName)
   }
+
 
   addUnits(e){
     e.preventDefault();
@@ -77,6 +79,12 @@ class Occupy extends React.Component {
     })
   }
 
+  handleOccupantDelegation(bool){
+    this.setState({
+      mounted: bool,
+    })
+  }
+
   handleUpdate(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
   tuesday,wednesday,thursday,friday,saturday,sunday){
 
@@ -117,14 +125,14 @@ class Occupy extends React.Component {
 // 
 //  {this.state.occupancyObject ? <ShowOccupants add={this.addOccupant} units={this.state.occupancyObject} /> : <div>Loading ...</div> }
 //{occupancy{name:'Joe', entranceDate: ???, exitDate: ???, unitID: ??}}
-  addOccupant(id){
-    const name = this.refs.add.value;
+  addOccupant(id,name){
+    const personName = name;
     const theShelter = this.state.currentShelter;
     const unit = id;
     const occupant = {
       'shelters': {'shelterName': theShelter.shelterName},
       'organizations':{'orgName': theShelter.organizationName},
-      'occupancy':{name:name, entranceDate: '9/11/2001', exitDate: '9/15/2001', 'unitID': unit}
+      'occupancy':{name:personName, entranceDate: '9/11/2001', exitDate: '9/15/2001', 'unitID': id}
     }
     ManagerActions.addOccupant(occupant)
     //e.preventDefault();

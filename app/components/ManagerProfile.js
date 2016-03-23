@@ -21,6 +21,7 @@ class ManagerProfile extends React.Component {
   	ManagerStore.unlisten(this.onChange)
   }
 
+
   onChange(state) {
   	this.setState(state);
   }
@@ -28,9 +29,8 @@ class ManagerProfile extends React.Component {
 
   render() {
   	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
-      const stopProp = (e) => {e.stopPropagation()}
   		return(
-  			<Link to={'/manage-shelters/' + shelter.shelterID} onClick={stopProp}>
+  			<Link to={'/manage-shelters/' + shelter.shelterID}>
 		  		<div key={shelter.shelterID} className="well shelterCard">
             <div className="shelterInfo text-left">
             <h3>Shelter Information</h3>
@@ -50,7 +50,7 @@ class ManagerProfile extends React.Component {
     return (
       <div className ="well col-sm-6 col-sm-offset-3 text-left">
       	<h2>Manage Shelters</h2>
-      		<p>Hi </p>
+      		<p>Hi</p>
       		<p>You currently manage the following shelter(s):</p>
       	<div>
       		{managedShelters}
