@@ -152,10 +152,10 @@ class Occupy extends React.Component {
   render(){
     console.log(this.state.currentShelter, '==============')
     return (
-      <div className ="col-sm-6 col-sm-offset-3 text-center">
+      <div className ="well col-sm-6 col-sm-offset-3 text-left">
       {this.state.clicked ? <ManagerProfileEdit save={this.handleUpdate} shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
         <ManageUnits shelter={this.state.currentShelter} add={this.addUnits}/>
-          <h2>Current Occupants</h2>
+          <h3>Current Occupancy</h3>
           <ShowOccupants add={this.addOccupant} units={this.state.occupancyObject} />
       </div>
     );

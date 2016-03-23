@@ -34,11 +34,19 @@ class ManageUnits extends React.Component {
 
   render(){
     return (
-        <form>
-          <label>Number of Bedrooms in New Unit</label>
-          <input type='text' ref='beds' placeholder='i.e. 2 bedrooms' />
-          <button className="btn btn-primary editButton" onClick={this.addUnits}>Add Unit</button>
+      <div>
+        <form className="form-inline">
+        <span><h3>Add Units</h3></span>
+          <span className="selectUnits"><span>Beds per unit: </span>
+              <select className="form-control selectWidth" ref='beds'>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+              </select>
+          </span>
+          <button className="btn btn-primary btn-sm editButton" onClick={this.addUnits}>Add Unit</button>
         </form>
+      </div>
     );
   }
 }
