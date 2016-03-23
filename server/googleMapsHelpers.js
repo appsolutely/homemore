@@ -33,7 +33,6 @@ exports.findGeolocation = function(address){
             throw err;
           })
           .then(function(result){
-            // console.log('result from google ', result);
             return result;
           });
 };

@@ -23,7 +23,6 @@ describe('Organization DB Calls', function(){
                 expect(resp).to.have.length(1);
                 expect(resp[0].organizationID).to.not.equal('undefined');
                 expect(resp[0].organizationName).to.equal('FrontSteps');
-                console.log('response from insertOrgs', resp);
               });
   });
 

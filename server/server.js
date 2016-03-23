@@ -12,6 +12,7 @@ var appRoutes = require('../app/routes');
 var swig = require('swig');
 var cookieParser = require('cookie-parser');
 var nodemailer = require('nodemailer');
+var expressValidator = require('express-validator');
 
 //dbHelpers
 var shelters = require('./dbHelpers/shelters.js');
@@ -30,9 +31,9 @@ app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
 app.use(favicon(path.join(__dirname, '../public', 'favicon.png')));
 app.use(express.static(path.join(__dirname, '../public')));
-
 
 //parse the cookie to check for a session
 app.use(cookieParser());
@@ -115,21 +116,23 @@ app.post('/api/getShelter', function(req, res){
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
         return shelters.selectShelter(req.body)
               .then(function(shelter){
-                console.log('shelter ', shelter);
                 res.status(200).send(shelter);
               })
               .catch(function(err){
-                console.log(err);
+                console.error(err);
                 res.status(500).send({error: 'There was an error fetching data ' + err});
               });
       }
       res.status(401).send({error: 'User does not have permission to access this information'});
+    } else {
+      res.status(401).send({error: 'User is not signed in'});
     }
-    res.status(401).send({error: 'User is not signed in'});
 });
 
 app.post('/api/signin', function(req, res){
   //path is the same for all types of users
+  req.sanitize('users.email').escape();
+  req.sanitize('users.password').escape();
   return users.signIn(req.body)
               .then(function(session){
                 // console.log('session ', session.sessionId);
@@ -144,6 +147,7 @@ app.post('/api/signin', function(req, res){
                 console.log('error in signin ', err);
                 res.status(400).send({error: 'Incorrect username or password', message: err.message});
               });
+
 });
 
 
@@ -151,6 +155,14 @@ app.post('/api/signupAdmin', function(req, res){
   var newUser;
   //path for both creating a new orgAdmin and for creating a new organization
   //organizations can't be made without an initial admin
+
+  req.sanitize('adminUsers.email').escape();
+  req.sanitize('adminUsers.password').escape();
+  req.sanitize('adminUsers.firstName').escape();
+  req.sanitize('adminUsers.lastName').escape();
+  req.sanitize('organizations.orgName').escape();
+  req.sanitize('adminUsers.phone').escape();
+
   return users.addNewAdmin(req.body)
               .then(function(resp){
                 newUser = resp;
@@ -189,7 +201,29 @@ app.post('/api/createManager', function(req, res){
   //path for both creating a new manager for an existing shelter
   //and for creating a new shelter + manager(shelters cannot be made on their own)
   //we generate a password for this user so we send them a confirmaton email
-  // console.log('inside createmanager ', req.body);
+
+  req.sanitize('managerUsers.email').escape();
+  req.sanitize('managerUsers.firstName').escape();
+  req.sanitize('managerUsers.lastName').escape();
+  req.sanitize('managerUsers.phone').escape();
+  req.sanitize('shelters.shelterName').escape();
+  req.sanitize('shelters.shelterEmail').escape();
+  req.sanitize('shelters.shelterEmergencyPhone').escape();
+  req.sanitize('shelters.shelterDayTimePhone').escape();
+  req.sanitize('locations.name').escape();
+  req.sanitize('locations.city').escape();
+  req.sanitize('locations.street').escape();
+  req.sanitize('locations.state').escape();
+  req.sanitize('locations.zip').escape();
+  req.sanitize('locations.phone').escape();
+  req.sanitize('hours.monday').escape();
+  req.sanitize('hours.tuesday').escape();
+  req.sanitize('hours.wednesday').escape();
+  req.sanitize('hours.thursday').escape();
+  req.sanitize('hours.friday').escape();
+  req.sanitize('hours.saturday').escape();
+  req.sanitize('hours.sunday').escape();
+
   var newUser;
   if (req.session){
     if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
@@ -218,6 +252,23 @@ app.post('/api/createManager', function(req, res){
 
 app.post('/api/addShelterManager', function(req, res){
   //path to add an existing manager as manager of another shelter
+  req.sanitize('shelters.shelterName').escape();
+  req.sanitize('shelters.shelterEmail').escape();
+  req.sanitize('shelters.shelterEmergencyPhone').escape();
+  req.sanitize('shelters.shelterDayTimePhone').escape();
+  req.sanitize('locations.name').escape();
+  req.sanitize('locations.city').escape();
+  req.sanitize('locations.street').escape();
+  req.sanitize('locations.state').escape();
+  req.sanitize('locations.zip').escape();
+  req.sanitize('locations.phone').escape();
+  req.sanitize('hours.monday').escape();
+  req.sanitize('hours.tuesday').escape();
+  req.sanitize('hours.wednesday').escape();
+  req.sanitize('hours.thursday').escape();
+  req.sanitize('hours.friday').escape();
+  req.sanitize('hours.saturday').escape();
+  req.sanitize('hours.sunday').escape();
   if (req.session) {
     if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
         users.addShelter(req)
@@ -258,10 +309,28 @@ app.post('/api/updateOrganization', function(req, res){
 app.post('/api/updateShelter', function(req, res){
   //should check whether user has permission
   //can update all rows of information about a shelter eg. name, contact info, etc
+
+  req.sanitize('shelters.shelterName').escape();
+  req.sanitize('shelters.shelterEmail').escape();
+  req.sanitize('shelters.shelterEmergencyPhone').escape();
+  req.sanitize('shelters.shelterDayTimePhone').escape();
+  req.sanitize('locations.name').escape();
+  req.sanitize('locations.city').escape();
+  req.sanitize('locations.street').escape();
+  req.sanitize('locations.state').escape();
+  req.sanitize('locations.zip').escape();
+  req.sanitize('locations.phone').escape();
+  req.sanitize('hours.monday').escape();
+  req.sanitize('hours.tuesday').escape();
+  req.sanitize('hours.wednesday').escape();
+  req.sanitize('hours.thursday').escape();
+  req.sanitize('hours.friday').escape();
+  req.sanitize('hours.saturday').escape();
+  req.sanitize('hours.sunday').escape();
+
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
-        console.log('===============================GOING TO UPDATE SHELTER', req.body)
         return shelters.updateShelter(req.body)
                 .then(function(updates){
                   console.log('occupant', updates)
@@ -282,8 +351,9 @@ app.post('/api/updateShelter', function(req, res){
 app.post('/api/addOccupant', function(req, res){
   //should check whether user has permission
   //adds occupants to particular units
+  req.sanitize('occupancy.name').escape();
+
   if (req.session) {
-    console.log('I am the body', req.body)
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.insertShelterOccupancy(req.body)
@@ -326,6 +396,8 @@ app.post('/api/removeOccupant', function(req, res){
 app.post('/api/updateOccupant', function(req, res){
   //check permission
   //essentially just for updating the name of a occupant(misspelling or something)
+  req.sanitize('occupancy.name').escape();
+
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
@@ -364,8 +436,8 @@ app.post('/api/updateOccupantUnit', function(req, res){
 });
 
 app.post('/api/addShelterUnit', function(req, res){
-  //as with the others check whether user has permission
-  //updates the number of beds that the shelter actually has total
+  req.sanitize('shelterUnit.unitSize').escape();
+
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
@@ -400,53 +472,53 @@ app.post('/api/removeShelterUnit', function(req, res){
     }
 });
 
-app.post('/api/updateEligibility', function(req, res){
-  //check permission
-  //updates a shelters eligibility rules
-  if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
-    return shelters.insertShelterEligibility(req.body)
-            .then(function(eligibility){
-              res.status(201).send(eligibility);
-            })
-            .catch(function(err){
-              res.status(500).send({error: 'There was an error inserting data ' + err});
-            });
-    } else {
-     res.status(401).send({error: 'User does not have permission for this action'});
-    }
-  } else {
-    res.status(401).send({error: 'User is not currently signed in'});
-  }
-});
+// app.post('/api/updateEligibility', function(req, res){
+//   //check permission
+//   //updates a shelters eligibility rules
+//   if (req.session) {
+//     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
+//       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
+//     return shelters.insertShelterEligibility(req.body)
+//             .then(function(eligibility){
+//               res.status(201).send(eligibility);
+//             })
+//             .catch(function(err){
+//               res.status(500).send({error: 'There was an error inserting data ' + err});
+//             });
+//     } else {
+//      res.status(401).send({error: 'User does not have permission for this action'});
+//     }
+//   } else {
+//     res.status(401).send({error: 'User is not currently signed in'});
+//   }
+// });
 
-app.post('/api/deleteEligibility', function(req, res){
-  //check permission
-  //as it says on the tin
-  //should return the rule that way deleted
-  if (req.session) {
-    if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
-      (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
-    return shelters.deleteShelterEligibility(req.body)
-              .then(function(deleted){
-                res.status(201).send(deleted);
-              })
-              .catch(function(err){
-                res.status(500).send({error: 'There was an error deleting data ' + err});
-              });
-    } else {
-     res.status(401).send({error: 'User does not have permission for this action'});
-    }
-  } else {
-    res.status(401).send({error: 'User is not currently signed in'});
-  }
-});
+// app.post('/api/deleteEligibility', function(req, res){
+//   //check permission
+//   //as it says on the tin
+//   //should return the rule that way deleted
+//   if (req.session) {
+//     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
+//       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
+//     return shelters.deleteShelterEligibility(req.body)
+//               .then(function(deleted){
+//                 res.status(201).send(deleted);
+//               })
+//               .catch(function(err){
+//                 res.status(500).send({error: 'There was an error deleting data ' + err});
+//               });
+//     } else {
+//      res.status(401).send({error: 'User does not have permission for this action'});
+//     }
+//   } else {
+//     res.status(401).send({error: 'User is not currently signed in'});
+//   }
+// });
 
 app.post('/api/fetchShelterOccupants', function(req, res){
+  req.sanitize('shelters.shelterName').escape();
   return shelters.selectAllOccupants(req.body.shelters.shelterName)
                   .then(function(occupants){
-                    console.log('we are the occupants');
                     res.status(200).send(occupants);
                   })
                   .catch(function(err){
@@ -461,12 +533,10 @@ app.get('/api/fetchUser', function(req, res){
   //this is all the info for the profile page -- not any shelter or related info
   var response = {user: [], shelters: []};
   if (req.session) {
-    // console.log('inside fetchUser ', req.session.fk_userID);
     return users.findByUserID(req.session.fk_userID)
           .then(function(user){
             user[0].userPassword = null;
             response.user = user[0];
-            // console.log('response before findUserOrganization ', response);
             if(req.session.permissionLevel === 'Admin') {
               return users.findUserOrganization(req.session.fk_userID);
             } else if (req.session.permissionLevel === 'Manager') {
@@ -477,7 +547,6 @@ app.get('/api/fetchUser', function(req, res){
           })
           .then(function(resp){
             response.shelters = resp;
-            console.log('sending fetchUser ', response);
             return;
           })
           .then(function(){
@@ -489,10 +558,12 @@ app.get('/api/fetchUser', function(req, res){
 });
 
 app.post('/api/updateUser', function(req, res){
-  //check permission
-  //updates password, email etc.
-  //(all of those functions work so feel free to test only one)
-  //it will return the updated field
+  req.sanitize('users.email').escape();
+  req.sanitize('users.password').escape();
+  req.sanitize('users.firstName').escape();
+  req.sanitize('users.lastName').escape();
+  req.sanitize('users.phone').escape();
+
   if (req.session) {
     users.updateUser(req)
           .then(function(changes){
@@ -516,7 +587,6 @@ app.post('/api/logout', function(req, res){
 
 app.post('/api/approve', function(req, res){
   var userID;
-  console.log('in approve');
   if (req.body.permission === 'JCB'){
     return users.findByUserEmail(req.body)
           .then(function(user){
@@ -562,10 +632,9 @@ var sendEmail = function(mailOptions, res){
         resolve();
       }
       if (err){
-        console.log(err);
+        console.error(err);
         res.json({yo: 'error'});
       } else {
-        console.log('Message sent: ' + info.response);
         resolve(info);
       }
     });

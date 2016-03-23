@@ -6,7 +6,6 @@ var google = require('../googleMapsHelpers.js');
 
 
 module.exports.insertLocation = function(req){
-  // console.log("INSERT LOCATION REQ", req);
   //add new physical location
   var name = req.locations.name;
   var street = req.locations.street;
@@ -34,13 +33,11 @@ module.exports.insertLocation = function(req){
           })
           .returning('*')
   .catch(function(err){
-    // console.log("Something went wrong inserting these hours.", err);
+    console.error("Something went wrong inserting these hours.", err);
     throw new Error("Something went wrong inserting these hours.", err);
   })
   .then(function(hours){
-    console.log("Successfully inserted hours", hours);
     var hoursID = hours[0].hoursID;
-    console.log("HOURS FK ID", hoursID);
 
       return knex('locations')
               .insert({
@@ -54,11 +51,10 @@ module.exports.insertLocation = function(req){
               })
               .returning('*')
       .catch(function(err){
-        // console.log("Something went wrong inserting this location", err);
+        console.error("Something went wrong inserting this location", err);
         throw new Error("Something went wrong inserting this location", err);
       })
       .then(function(location){
-        // console.log("Successfully inserted location");
         return google.findGeolocation(req);
       })
       .then(function(resp){
@@ -75,17 +71,15 @@ var getLocationID = function(name, street){
               'locationStreet': street
             })
   .catch(function(err){
-    // console.log("This location does not exist. ", err);
+    console.error("This location does not exist. ", err);
     throw new Error("This location does not exist. ", err);
   })
   .then(function(location){
-    // console.log("Found location with ID: ", location[0].locationID);
     return location[0].locationID;
   });
 };
 
 module.exports.selectLocation = function(req){
-    // console.log("SELECT LOCATION REQ", req);
     var locationName = req.locations.name;
     var locationStreet = req.locations.street;
     return getLocationID(locationName, locationStreet)
@@ -93,11 +87,10 @@ module.exports.selectLocation = function(req){
         return knex.select('*').from('locations')
                   .where('locationID', locationID)
         .catch(function(err){
-          // console.log("Something went wrong selecting this location", err);
+          console.error("Something went wrong selecting this location", err);
           throw new Error("Something went wrong selecting this location", err);
         })
         .then(function(location){
-          // console.log("Successfully selected location");
           return location;
         });
     });
@@ -105,7 +98,6 @@ module.exports.selectLocation = function(req){
 
 
 module.exports.updateLocation = function(req){
-  // console.log("UPDATE LOCATION REQ", req);
   var forLocationID = req.locations.locationID;
   var forHoursID = req.hours.hoursID;
 
@@ -136,11 +128,10 @@ module.exports.updateLocation = function(req){
           })
           .returning('hoursID')
   .catch(function(err){
-    // console.log("Something went wrong updating these hours.", err);
+    console.error("Something went wrong updating these hours.", err);
     throw new Error("Something went wrong updating these hours.", err);
   })
   .then(function(hours){
-    console.log("Successfully updated hours");
     var hoursID = hours[0];
       return knex('locations')
               .where('locationID', forLocationID)
@@ -155,32 +146,27 @@ module.exports.updateLocation = function(req){
               })
               .returning('*')
       .catch(function(err){
-        // console.log("Something went wrong updating this location", err);
+        console.error("Something went wrong updating this location", err);
         throw new Error("Something went wrong updating this location", err);
       })
       .then(function(location){
-        // console.log("Successfully updated location");
         return location;
       });
   });
 };
 
 module.exports.deleteLocation = function(req){
-    // console.log("DELETE LOCATION REQ", req);
   var forLocationID = req.locations.thisLocationID;
-  // var forHoursID = req.locations.thishourID_fk;
+
       return knex('locations')
               .returning('*')
               .where('locationID', forLocationID)
               .del()
       .catch(function(err){
-        // console.log("Something went wrong deleting this location");
+        console.error("Something went wrong deleting this location");
         throw new Error("Something went wrong deleting this location");
       })
       .then(function(location){
-        // console.log("Deleted location with ID ", location[0].locationID);
         return location;
       });
-
-//delete physical location
 };

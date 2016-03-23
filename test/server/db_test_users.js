@@ -95,7 +95,6 @@ describe('users DB calls', function(){
                     return userRecs.addNewManager(newManagerUser);
                   })
                   .then(function(resp){
-                    console.log('RESPONSE ', resp);
                     expect(resp).to.be.an.instanceOf(Array);
                     expect(resp).to.have.length(1);
                     expect(resp[0].user.userFirstName).to.equal('Bob');
@@ -109,13 +108,11 @@ describe('users DB calls', function(){
     var newPass = {body: {user: {password: 'newlongstring', passwordChanged: true}}, session: {}};
     return userRecs.addNewAdmin(adminUser)
                     .then(function(resp){
-                      console.log('resp ', resp[0]);
                       newPass.session.fk_userID = resp[0].user.userID;
                       oldPass = resp[0].user.userPassword;
                       return userRecs.updateUser(newPass);
                     })
                     .then(function(resp){
-                      console.log('resp ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                     });
@@ -130,7 +127,6 @@ describe('users DB calls', function(){
                       return userRecs.updateUser(newEmail);
                     })
                     .then(function(resp){
-                      console.log('resp ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].userEmail).to.equal('jane2@email.com');
@@ -146,7 +142,6 @@ describe('users DB calls', function(){
                       return userRecs.updateUser(newfirst);
                     })
                     .then(function(resp){
-                      console.log('resp ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].userFirstName).to.equal('Jill');
@@ -162,7 +157,6 @@ describe('users DB calls', function(){
                       return userRecs.updateUser(newlast);
                     })
                     .then(function(resp){
-                      console.log('resp ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].userLastName).to.equal('Hill');
@@ -220,11 +214,9 @@ describe('users DB calls', function(){
                       return userRecs.addNewManager(managerUser);
                     })
                     .then(function(){
-                      console.log('made manager');
                       return userRecs.findUserOrganization(adminUserId);
                     })
                     .then(function(resp){
-                      console.log('resp adminOrg ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].organizationName).to.equal('FrontSteps');
@@ -245,7 +237,6 @@ describe('users DB calls', function(){
                       return userRecs.findUserShelter(managerID);
                     })
                     .then(function(resp){
-                      console.log('resp manager ', resp);
                       expect(resp).to.be.an.instanceOf(Array);
                       expect(resp).to.have.length(1);
                       expect(resp[0].shelterName).to.equal('Arches');

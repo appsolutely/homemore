@@ -6,6 +6,7 @@ class SearchBar extends React.Component {
    this.handleChange = this.handleChange.bind(this);
  }
 
+
  handleChange() {
    this.props.onInput(
      this.refs.filterTextInput.value

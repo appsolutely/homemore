@@ -45,8 +45,8 @@ describe('locations dbHelpers', function(){
     var locationID;
     return locationsRecs.insertLocation(newLocation)
               .then(function(resp){
-                newLocation.locations.thisLocationID = resp[0].locationID;
-                newLocation.locations.thishourID_fk = resp[0].fk_hourID;
+                newLocation.locations.locationID = resp[0].locationID;
+                newLocation.locations.hourID = resp[0].fk_hourID;
                 newLocation.locations.name = 'Different location';
                 locationID = resp[0].locationID;
                 return locationsRecs.updateLocation(newLocation);
@@ -79,7 +79,6 @@ describe('locations dbHelpers', function(){
   it('should delete locations', function(){
         return locationsRecs.insertLocation(newLocation)
               .then(function(resp){
-                // console.log("DELETE RESP", resp);
                 newLocation.locations.thisLocationID = resp[0].locationID;
                 newLocation.locations.thishourID_fk = resp[0].fk_hourID;               
                 return locationsRecs.deleteLocation(newLocation);

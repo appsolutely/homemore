@@ -14,7 +14,7 @@ describe('Shelter and eligibility DB calls', function(){
   var unit = {shelterUnit: {unitSize: '2BD'}, shelters: {shelterName: 'Arches'}};
   var org = {organizations: {orgName: 'FrontSteps'}};
   var shelter = {shelters:
-      {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterAddress: 'an address', shelterDayTimePhone: '555-5555'},
+      {shelterName: 'Arches', shelterEmail: 'example@example.com', shelterEmergencyPhone: '555-5555', shelterDayTimePhone: '555-5555'},
       organizations: org.organizations,
       locations:{name: 'Greenfield Apartments', street: '1352 N. Austin Blvd.', city: 'Austin', state: 'TX', zip: '78703', phone: '555-5555'}, 
       hours: {monday: 'Open 9-18', tuesday: 'Open 9-18', wednesday: 'Open 9-18', thursday: 'Open 9-18', friday: 'Open 9-18', saturday: 'Open 9-18', sunday: 'Open 9-18'}};
@@ -25,11 +25,9 @@ describe('Shelter and eligibility DB calls', function(){
   beforeEach(function(){
     return db.deleteEverything()
     .then(function(){  
-      console.log('inserting org');
     return orgRecs.insertOrganization(org);
     })
     .then(function(resp){
-      console.log('inserted organization ', resp[0]);
       var orgId = resp[0].orgId;
       return knex.insert({eligibilityOption: 'Vets', eligibilityOptionDescription: 'beds for vets'}).into('eligibilityOptions');
     });
@@ -50,11 +48,16 @@ it('should insert Shelters', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterID = resp[0].shelterID;
-            var updateShelter = {shelters: {shelterID: shelterID, shelterName: 'Emergency Shelter', shelterEmail: 'different@example.com'}, organizations: org.organizations};
+            var locationID = resp[0].fk_locationID;
+            var hourID = resp[0].fk_hourID;
+            var updateShelter = {shelters: {shelterID: shelterID, shelterName: 'Emergency Shelter', shelterEmail: 'different@example.com'}, 
+            organizations: org.organizations,
+            locations:{locationID: locationID, name: 'Greenfield Apartments', street: '1352 N. Austin Blvd.', city: 'Austin', state: 'TX', zip: '78703', phone: '555-5555'}, 
+            hours: {hoursID: hourID, monday: 'Open 9-18', tuesday: 'Open 9-18', wednesday: 'Open 9-18', thursday: 'Open 9-18', friday: 'Open 9-18', saturday: 'Open 9-18', sunday: 'Open 9-18'}};
             return shelterRecs.updateShelter(updateShelter);
           })
           .then(function(resp){
-            console.log('resp', resp);
+            console.log('Response from update Shelter ', resp)
             expect(resp).to.be.an.instanceOf(Array);
             expect(resp).to.have.length(1);
             expect(resp[0].shelterName).to.equal('Emergency Shelter');
@@ -80,7 +83,6 @@ it('should insert Shelters', function(){
   it('should insert Shelter units', function(){
       return shelterRecs.insertShelter(shelter)
             .then(function(resp){
-              // console.log("Passed in response for test containing: ", resp);
               return shelterRecs.insertShelterUnit(unit)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
@@ -109,7 +111,6 @@ it('should insert Shelters', function(){
             var shelterId = resp[0].shelterID;
     return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
-            console.log('unit response ', resp);
             occupant.unit = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
           .then(function(resp){
@@ -251,7 +252,6 @@ it('should insert Shelters', function(){
   it('should delete Shelters', function(){
     return shelterRecs.insertShelter(shelter)
     .then(function(resp){
-      // console.log("RESPONSE ", resp)
       
       return shelterRecs.deleteShelter(resp)
                   .then(function(resp){
@@ -284,7 +284,6 @@ it('should insert Shelters', function(){
             return shelterRecs.selectAllShelters();
           })
           .then(function(resp){
-            console.log('result of select all shelters ', resp)
             expect(resp).to.be.an.instanceOf(Array);
             expect(resp).to.have.length(3);
             expect(resp[0].hoursID).to.not.equal(null);
