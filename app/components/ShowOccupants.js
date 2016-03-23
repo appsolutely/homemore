@@ -11,8 +11,8 @@ class ShowOccupants extends React.Component{
 
 // stuff
   handleClick(id,name){
-    console.log(this.refs.id.value)
-    this.props.add(id)
+    const residentName = this.refs["name" + id].value;
+    this.props.add(id,residentName)
     // console.log('I should not exist');
   }
 
@@ -25,7 +25,7 @@ class ShowOccupants extends React.Component{
           <h3>Name: {thisName}</h3>
           <h4>Entrance Date: {unit.entranceDate}</h4>
           <h4>Exit Date: {unit.exitDate}</h4>
-          <input type="text" ref={unit.shelterUnitID}/>
+          <input type="text" ref={"name" + unit.shelterUnitID}/>
           <button className="btn btn-primary editButton" onClick={fund}>Add Occupant</button>
           <button className="btn btn-primary editButton">Remove</button>
         </div>
