@@ -6,11 +6,9 @@ body{
 
 label{
     width: 120px;
-    /*background-color:#E3E3E3;*/
     padding-right: 10px;
     text-align: left;
 }
-
 
 .filterOpt{
     padding-right: 20px;
@@ -30,22 +28,18 @@ label{
 
 .shelterInfo p{
     background-color: #337AB7;
-    text-decoration: none;
     color:#585858;
 }
 
 .shelterInfo :hover{
     text-decoration: none;
+    background-color: #E3E3E3;
 }
 
 .header{
     width:100%;
 }
 
-.row{
-    /*width: 45%;*/
-/*    float: right;
-*/}
 
 .orgName, .locationName{
     font-weight: bold;
@@ -55,9 +49,8 @@ label{
     color:#222222;
 }
 
-.shelterCard:hover{
-    background-color: #A2A4A4;
-
+.shelterCard :hover{
+    background-color: #e4e4e4;
 }
 
 .shelterProfile{
@@ -66,16 +59,14 @@ label{
 }
 
 .logo{
-/*    display: inline-block;
-    clear:both;*/
     max-width: 110px;
-
 }
 
 .org p{
     color:#fff;
     padding-left: 5px;
 }
+
 .logo{
     display: inline-block;
     clear:both;
@@ -83,6 +74,7 @@ label{
     padding-bottom: 20px;
     padding-top: 45px;
 }
+
 img.brand-logo{
     height: 35px;
     width: 35px;
