@@ -138,6 +138,7 @@ class Occupy extends React.Component {
       'organizations':{'orgName': theShelter.organizationName},
       'occupancy':{name:personName, entranceDate: '9/11/2001', exitDate: '9/15/2001', 'unitID': id}
     }
+    console.log('I am the occupantObject, kookookachoo', occupant)
     ManagerActions.addOccupant(occupant)
     //e.preventDefault();
     // this.setState({
