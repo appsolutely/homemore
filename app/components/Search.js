@@ -24,6 +24,7 @@ class SearchBar extends React.Component {
           onChange={this.handleChange}
         />
         </div>
+      </div>
     );
   }
 }
