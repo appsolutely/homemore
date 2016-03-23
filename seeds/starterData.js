@@ -78,31 +78,31 @@ var shelter11 = { shelters: {shelterName: "Emergency Shelter for Women and Child
   hours: {monday: "Open 24", tuesday: "Open 24", wednesday: "Open 24", thursday: "Open 24", friday: "Open 24", saturday: "Open 24", sunday: "Open 24"}
 };
 
-var unit1 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men Emergency Night Shelter"};
-var unit2 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men Emergency Night Shelter"};
-var unit3 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men Emergency Night Shelter"};
-var unit4 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men Emergency Night Shelter"};
-var unit5 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men Emergency Night Shelter"};
-var unit6 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men's Day Sleep"};
-var unit7 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men's Day Sleep"};
-var unit8 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men's Day Sleep"};
-var unit9 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men's Cold Weather Shelter"};
-var unit10 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Men's Cold Weather Shelter"};
-var unit11 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Women's Emergency Night Shelter"};
-var unit12 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Women's Emergency Night Shelter"};
-var unit13 = {shelterUnit: {unitSize: "2BD" }, shelterName: "Women's Emergency Night Shelter"};
-var unit14 = {shelterUnit: {unitSize: "2BD" }, shelterName: "Women's Emergency Night Shelter"};
-var unit15 = {shelterUnit: {unitSize: "2BD" }, shelterName: "Women's Emergency Night Shelter"};
-var unit16 = {shelterUnit: {unitSize: "2BD" }, shelterName: "Women's Emergency Night Shelter"};
-var unit17 = {shelterUnit: {unitSize: "2BD" }, shelterName: "ARCH Emergency Night Shelter"};
-var unit18 = {shelterUnit: {unitSize: "2BD" }, shelterName: "ARCH Emergency Night Shelter"};
-var unit19 = {shelterUnit: {unitSize: "2BD" }, shelterName: "ARCH Emergency Night Shelter"};
-var unit20 = {shelterUnit: {unitSize: "2BD" }, shelterName: "ARCH Emergency Night Shelter"};
-var unit21 = {shelterUnit: {unitSize: "2BD" }, shelterName: "Emergency Night Shelter"};
-var unit22 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Emergency Night Shelter"};
-var unit23 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Emergency Shelter for Women and Children"};
-var unit24 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Emergency Shelter for Women and Children"};
-var unit25 = {shelterUnit: {unitSize: "1BD" }, shelterName: "Children's Cold Weather Shelter Program"};
+var unit1 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit2 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit3 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit4 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit5 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit6 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Day Sleep"}};
+var unit7 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Day Sleep"}};
+var unit8 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Day Sleep"}};
+var unit9 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Cold Weather Shelter"}};
+var unit10 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Cold Weather Shelter"}};
+var unit11 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit12 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit13 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit14 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit15 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit16 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit17 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
+var unit18 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
+var unit19 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
+var unit20 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
+var unit21 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Emergency Night Shelter"}};
+var unit22 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Emergency Night Shelter"}};
+var unit23 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Emergency Shelter for Women and Children"}};
+var unit24 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Emergency Shelter for Women and Children"}};
+var unit25 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Children's Cold Weather Shelter Program"}};
 
 exports.seed = function(knex, Promise) {
 var org1, org2, org3;
@@ -244,6 +244,7 @@ var org1, org2, org3;
     })
     .then(function(units){
         console.log("SUCCESS #5");
+        console.log('units', units)
         var unit1ID = units[0][0].shelterUnitID;
         var unit2ID = units[2][0].shelterUnitID;
         var unit3ID = units[8][0].shelterUnitID;
@@ -251,12 +252,12 @@ var org1, org2, org3;
         var unit5ID = units[5][0].shelterUnitID;
         var unit6ID = units[11][0].shelterUnitID;
 
-        var occupant1 = {occupancy: {name: "OJ Simpson", entranceDate:'04/08/2015', exitDate:'04/14/2015'}, unit: [{shelterUnitID: unit1ID}]};
-        var occupant2 = {occupancy: {name: "George Bush Sr.", entranceDate:'04/08/2015', exitDate:'04/14/2015'}, unit: [{shelterUnitID: unit2ID}]};
-        var occupant3 = {occupancy: {name: "Zac Morris", entranceDate:'05/08/2015', exitDate:'05/14/2015'}, unit: [{shelterUnitID: unit3ID}]};
-        var occupant4 = {occupancy: {name: "Prince", entranceDate:'02/08/2015', exitDate:'04/14/2015'}, unit: [{shelterUnitID: unit4ID}]};
-        var occupant5 = {occupancy: {name: "Celine Dion", entranceDate:'03/08/2015', exitDate:'05/14/2015'}, unit: [{shelterUnitID: unit5ID}]};
-        var occupant6 = {occupancy: {name: "Bart Simpson", entranceDate:'04/08/2015', exitDate:'04/14/2015'}, unit: [{shelterUnitID: unit6ID}]};
+        var occupant1 = {occupancy: {name: "OJ Simpson", entranceDate:'04/08/2015', exitDate:'04/14/2015'}, unit: unit1ID};
+        var occupant2 = {occupancy: {name: "George Bush Sr.", entranceDate:'04/08/2015', exitDate:'04/14/2015'}, unit: unit2ID};
+        var occupant3 = {occupancy: {name: "Zac Morris", entranceDate:'05/08/2015', exitDate:'05/14/2015'}, unit: unit3ID};
+        var occupant4 = {occupancy: {name: "Prince", entranceDate:'02/08/2015', exitDate:'04/14/2015'}, unit: unit4ID};
+        var occupant5 = {occupancy: {name: "Celine Dion", entranceDate:'03/08/2015', exitDate:'05/14/2015'}, unit: unit5ID};
+        var occupant6 = {occupancy: {name: "Bart Simpson", entranceDate:'04/08/2015', exitDate:'04/14/2015'}, unit: unit6ID};
 
         //--shelterOccupancy
         return Promise.all([
