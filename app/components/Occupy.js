@@ -135,6 +135,7 @@ class Occupy extends React.Component {
     // })
     // this.stateStuff()
   }
+  //
 
   render(){
     console.log(this.state.currentShelter.shelterID, '==============')
