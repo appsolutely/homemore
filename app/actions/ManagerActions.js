@@ -30,6 +30,7 @@ constructor() {
 
 	getOccupancy(shelterName) {
 		var occupancyObject = {shelters: {shelterName: shelterName}}
+		console.log(shelterName);
 		$.ajax({
 	      type: 'POST',
 	      url: '/api/fetchShelterOccupants',
@@ -120,10 +121,10 @@ constructor() {
 	  	console.log('added unit!', data);
 	  	this.actions.removeUnitSuccess(data);
 	  })
-		.fail((jqXhr) => {
-			console.log('fail', jqXhr);
-			this.actions.removeUnitFail(jqXhr.responseJSON.error);
-		});
+	  .fail((jqXhr) => {
+		console.log('fail', jqXhr);
+		this.actions.removeUnitFail(jqXhr.responseJSON.error);
+	  });
   }
 
 }

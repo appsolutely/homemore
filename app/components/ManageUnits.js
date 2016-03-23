@@ -12,6 +12,7 @@ class ManageUnits extends React.Component {
   addUnits(e){
     e.preventDefault();
     const theShelter = this.props.shelter;
+    console.log(theShelter);
     //clean up everything that isn't a number
     const theBeds = this.refs.beds.value.split('').filter((num) => parseInt(num));
     theBeds.push('BD');
@@ -24,6 +25,7 @@ class ManageUnits extends React.Component {
 
   removeUnits(e){
     e.preventDefault();
+    //need to pass it shelterUnitID
     ManagerActions.removeUnits();
   }
 
@@ -33,7 +35,7 @@ class ManageUnits extends React.Component {
         <form>
           <label>Number of Bedrooms in New Unit</label>
           <input type='text' ref='beds' placeholder='i.e. 2 bedrooms' />
-          <button className="btn btn-primary editButton" onClick={this.addUnits}>Save Changes</button>
+          <button className="btn btn-primary editButton" onClick={this.addUnits}>Add Unit</button>
         </form>
     );
   }

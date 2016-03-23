@@ -25,7 +25,7 @@ class ManagerStore {
 
 	onGetOccupancySuccess(response){
 		this.occupancyObject = response
-		console.log("** Worked **", response);
+		//console.log("** Worked **", response);
 	}
 
 	onGetOccupancyFail(err){
