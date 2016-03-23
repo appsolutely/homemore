@@ -79,7 +79,6 @@ describe('locations dbHelpers', function(){
   it('should delete locations', function(){
         return locationsRecs.insertLocation(newLocation)
               .then(function(resp){
-                // console.log("DELETE RESP", resp);
                 newLocation.locations.thisLocationID = resp[0].locationID;
                 newLocation.locations.thishourID_fk = resp[0].fk_hourID;               
                 return locationsRecs.deleteLocation(newLocation);

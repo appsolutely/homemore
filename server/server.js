@@ -93,155 +93,240 @@ app.use(function (req, res, next) {
 
 
 //now check validation before hitting any of the routes
-req.checkBody({
-    'users.email': {
-      optional: { checkFalsy: true },
-      notEmpty: true,
-      isEmail: {
-      errorMessage: 'Invalid Email'
-      }
-    },
-    'users.password': {
-      optional: { checkFalsy: true },
-      notEmpty: true,
-      errorMessage: 'Invalid Password'
-    },
-    'users.firstName': {
-      optional: { checkFalsy: true },
-      notEmpty: true,
-      errorMessage: 'Invalid First Name'
-    },
-    'users.lastName': {
-      optional: { checkFalsy: true },
-      notEmpty: true,
-      errorMessage: 'Invalid Last Name'
-    },
-    'users.phone': {
-      optional: { checkFalsy: true },
-      isMobilePhone: {
-        errorMessage: 'Phone number must be a number'
-      }
-    },
-    'shelters.shelterName': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Shelter Names must be Alphanumeric'
-      }
-    },
-    'shelters.shelterEmail' : {
-      optional: { checkFalsy: true },
-      isEmail: {
-        errorMessage: 'Shelter Email must be a valid email'
-      }
-    },
-    'shelters.shelterEmergencyPhone' : {
-      optional: { checkFalsy: true },
-      isMobilePhone: {
-        errorMessage: 'Phone number must be a number'
-      }
-    },
-    'shelters.shelterDayTimePhone' : {
-      optional: { checkFalsy: true },
-      isMobilePhone: {
-        errorMessage: 'Phone number must be a number'
-      }
-    },
-    'locations.zip': {
-      optional: { checkFalsy: true },
-      isInt: {
-        errorMessage: 'ZipCode must be an integer'
-      },
-      errorMessage: 'Invalid Zip'
-    },
-    'locations.name': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Place Names must be Alphanumeric'
-      }
-    },
-    'locations.street': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Street Address must be Alphanumeric'
-      }
-    },
-    'locations.state': {
-      optional: { checkFalsy: true },
-      isAlpha: {
-        errorMessage: 'State codes can only contain numbers'
-      }
-      isLength: {
-        options: [{min:2, max: 2}],
-        errorMessage: 'State Codes must have a length of 2'
-      }
-    },
-    'locations.phone': {
-      optional: { checkFalsy: true },
-      isMobilePhone: {
-        errorMessage: 'Phone number must be a valid US number'
-      }
-    },
-    'hours.monday': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Hours must be Alphanumeric'
-      }
-    },
-    'hours.tuesday': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Hours must be Alphanumeric'
-      }
-    },
-    'hours.wednesday': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Hours must be Alphanumeric'
-      }
-    },
-    'hours.thursday': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Hours must be Alphanumeric'
-      }
-    },
-    'hours.friday': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Hours must be Alphanumeric'
-      }
-    },
-    'hours.saturday': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Hours must be Alphanumeric'
-      }
-    },
-    'hours.sunday': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Hours must be Alphanumeric'
-      }
-    },
-    'organizations.orgName': {
-      optional: { checkFalsy: true },
-      isAlphanumeric: {
-        errorMessage: 'Organization Name can only contain letters and numbers'
-      },
-      errorMessage: 'Invalid OrgName'
-    },
-    'shelterUnit.': {
+// app.use(function(req, res, next){
+//   req.checkBody({
+//       'users.email': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         isEmail: {
+//         errorMessage: 'Invalid Email'
+//         }
+//       },
+//       'users.password': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         errorMessage: 'Invalid Password'
+//       },
+//       'users.firstName': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         errorMessage: 'Invalid First Name'
+//       },
+//       'users.lastName': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         errorMessage: 'Invalid Last Name'
+//       },
+//       'users.phone': {
+//         optional: { checkFalsy: true },
+//         isMobilePhone: {
+//           errorMessage: 'Phone number must be a number'
+//         }
+//       },
+//       'adminUsers.email': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         isEmail: {
+//         errorMessage: 'Invalid Email'
+//         }
+//       },
+//       'adminUsers.password': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         errorMessage: 'Invalid Password'
+//       },
+//       'adminUsers.firstName': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         errorMessage: 'Invalid First Name'
+//       },
+//       'adminUsers.lastName': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         errorMessage: 'Invalid Last Name'
+//       },
+//       'adminUsers.phone': {
+//         optional: { checkFalsy: true },
+//         isMobilePhone: {
+//           errorMessage: 'Phone number must be a number'
+//         }
+//       },
+//       'managerUsers.email': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         isEmail: {
+//         errorMessage: 'Invalid Email'
+//         }
+//       },
+//       'managerUsers.firstName': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         errorMessage: 'Invalid First Name'
+//       },
+//       'managerUsers.lastName': {
+//         optional: { checkFalsy: true },
+//         notEmpty: true,
+//         errorMessage: 'Invalid Last Name'
+//       },
+//       'managerUsers.phone': {
+//         optional: { checkFalsy: true },
+//         isMobilePhone: {
+//           errorMessage: 'Phone number must be a number'
+//         }
+//       },
+//       'shelters.shelterName': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Shelter Names must be Alphanumeric'
+//         }
+//       },
+//       'shelters.shelterEmail' : {
+//         optional: { checkFalsy: true },
+//         isEmail: {
+//           errorMessage: 'Shelter Email must be a valid email'
+//         }
+//       },
+//       'shelters.shelterEmergencyPhone' : {
+//         optional: { checkFalsy: true },
+//         isMobilePhone: {
+//           errorMessage: 'Phone number must be a number'
+//         }
+//       },
+//       'shelters.shelterDayTimePhone' : {
+//         optional: { checkFalsy: true },
+//         isMobilePhone: {
+//           errorMessage: 'Phone number must be a number'
+//         }
+//       },
+//       'locations.zip': {
+//         optional: { checkFalsy: true },
+//         isInt: {
+//           errorMessage: 'ZipCode must be an integer'
+//         },
+//         errorMessage: 'Invalid Zip'
+//       },
+//       'locations.name': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Place Names must be Alphanumeric'
+//         }
+//       },
+//       'locations.street': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Street Address must be Alphanumeric'
+//         }
+//       },
+//       'locations.state': {
+//         optional: { checkFalsy: true },
+//         isAlpha: {
+//           errorMessage: 'State codes can only contain numbers'
+//         },
+//         isLength: {
+//           options: [{min:2, max: 2}],
+//           errorMessage: 'State Codes must have a length of 2'
+//         }
+//       },
+//       'locations.phone': {
+//         optional: { checkFalsy: true },
+//         isMobilePhone: {
+//           errorMessage: 'Phone number must be a valid US number'
+//         }
+//       },
+//       'hours.monday': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Hours must be Alphanumeric'
+//         }
+//       },
+//       'hours.tuesday': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Hours must be Alphanumeric'
+//         }
+//       },
+//       'hours.wednesday': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Hours must be Alphanumeric'
+//         }
+//       },
+//       'hours.thursday': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Hours must be Alphanumeric'
+//         }
+//       },
+//       'hours.friday': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Hours must be Alphanumeric'
+//         }
+//       },
+//       'hours.saturday': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Hours must be Alphanumeric'
+//         }
+//       },
+//       'hours.sunday': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Hours must be Alphanumeric'
+//         }
+//       },
+//       'organizations.orgName': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Organization Name can only contain letters and numbers'
+//         },
+//         errorMessage: 'Invalid OrgName'
+//       },
+//       'shelterUnit.unitSize': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'Unit size must be Alphanumeric'
+//         }
+//       },
+//       'unit' : {
+//         optional: { checkFalsy: true },
+//         isInt: {
+//           errorMessage: 'unitID must be a number'
+//         }
+//       },
+//       'occupancy.name': {
+//         optional: { checkFalsy: true },
+//         isAlpha: {
+//           errorMessage: 'occupant name must be A-Z only'
+//         }
+//       },
+//       'occupancy.unitSize': {
+//         optional: { checkFalsy: true },
+//         isAlphanumeric: {
+//           errorMessage: 'unitSize must be Alphanumeric'
+//         }
+//       },
+//       'occupancy.entranceDate': {
+//         optional: { checkFalsy: true },
+//         isDate: {
+//           errorMessage: 'entrance date must be a date'
+//         }
+//       },
+//       'occupancy.exitDate': {
+//         optional: { checkFalsy: true },
+//         isDate: {
+//           errorMessage: 'exit date must be a date'
+//         }
+//       }
+//     });
 
-    },
-    'occupancy.'
-  });
+//   req.asyncValidationErrors().catch(function(errors) {
+//     res.status(401).send(errors);
+//   });
 
-req.validationErrors().catch(function(errors) {
-  res.status(401).send(errors);
-});
-
-//once its been validated sanitize it
-
+//   next();
+// })
+//it will be sanitized before being sent off to helpers
 
 /*
 // - All Information routes will return an array
@@ -268,11 +353,10 @@ app.post('/api/getShelter', function(req, res){
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
         return shelters.selectShelter(req.body)
               .then(function(shelter){
-                console.log('shelter ', shelter);
                 res.status(200).send(shelter);
               })
               .catch(function(err){
-                console.log(err);
+                console.error(err);
                 res.status(500).send({error: 'There was an error fetching data ' + err});
               });
       }
@@ -283,6 +367,8 @@ app.post('/api/getShelter', function(req, res){
 
 app.post('/api/signin', function(req, res){
   //path is the same for all types of users
+  req.sanitize('users.email').escape();
+  req.sanitize('users.password').escape();
   return users.signIn(req.body)
               .then(function(session){
                 // console.log('session ', session.sessionId);
@@ -304,6 +390,13 @@ app.post('/api/signupAdmin', function(req, res){
   var newUser;
   //path for both creating a new orgAdmin and for creating a new organization
   //organizations can't be made without an initial admin
+  req.sanitize('adminUsers.email').escape();
+  req.sanitize('adminUsers.password').escape();
+  req.sanitize('adminUsers.firstName').escape();
+  req.sanitize('adminUsers.lastName').escape();
+  req.sanitize('organizations.orgName').escape();
+  req.sanitize('adminUsers.phone').escape();
+
   return users.addNewAdmin(req.body)
               .then(function(resp){
                 newUser = resp;
@@ -343,6 +436,28 @@ app.post('/api/createManager', function(req, res){
   //and for creating a new shelter + manager(shelters cannot be made on their own)
   //we generate a password for this user so we send them a confirmaton email
   // console.log('inside createmanager ', req.body);
+  req.sanitize('managerUsers.email').escape();
+  req.sanitize('managerUsers.firstName').escape();
+  req.sanitize('managerUsers.lastName').escape();
+  req.sanitize('managerUsers.phone').escape();
+  req.sanitize('shelters.shelterName').escape();
+  req.sanitize('shelters.shelterEmail').escape();
+  req.sanitize('shelters.shelterEmergencyPhone').escape();
+  req.sanitize('shelters.shelterDayTimePhone').escape();
+  req.sanitize('locations.name').escape();
+  req.sanitize('locations.city').escape();
+  req.sanitize('locations.street').escape();
+  req.sanitize('locations.state').escape();
+  req.sanitize('locations.zip').escape();
+  req.sanitize('locations.phone').escape();
+  req.sanitize('hours.monday').escape();
+  req.sanitize('hours.tuesday').escape();
+  req.sanitize('hours.wednesday').escape();
+  req.sanitize('hours.thursday').escape();
+  req.sanitize('hours.friday').escape();
+  req.sanitize('hours.saturday').escape();
+  req.sanitize('hours.sunday').escape();
+
   var newUser;
   if (req.session){
     if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
@@ -371,6 +486,23 @@ app.post('/api/createManager', function(req, res){
 
 app.post('/api/addShelterManager', function(req, res){
   //path to add an existing manager as manager of another shelter
+  req.sanitize('shelters.shelterName').escape();
+  req.sanitize('shelters.shelterEmail').escape();
+  req.sanitize('shelters.shelterEmergencyPhone').escape();
+  req.sanitize('shelters.shelterDayTimePhone').escape();
+  req.sanitize('locations.name').escape();
+  req.sanitize('locations.city').escape();
+  req.sanitize('locations.street').escape();
+  req.sanitize('locations.state').escape();
+  req.sanitize('locations.zip').escape();
+  req.sanitize('locations.phone').escape();
+  req.sanitize('hours.monday').escape();
+  req.sanitize('hours.tuesday').escape();
+  req.sanitize('hours.wednesday').escape();
+  req.sanitize('hours.thursday').escape();
+  req.sanitize('hours.friday').escape();
+  req.sanitize('hours.saturday').escape();
+  req.sanitize('hours.sunday').escape();
   if (req.session) {
     if (req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName){
         users.addShelter(req)
@@ -411,6 +543,23 @@ app.post('/api/updateOrganization', function(req, res){
 app.post('/api/updateShelter', function(req, res){
   //should check whether user has permission
   //can update all rows of information about a shelter eg. name, contact info, etc
+  req.sanitize('shelters.shelterName').escape();
+  req.sanitize('shelters.shelterEmail').escape();
+  req.sanitize('shelters.shelterEmergencyPhone').escape();
+  req.sanitize('shelters.shelterDayTimePhone').escape();
+  req.sanitize('locations.name').escape();
+  req.sanitize('locations.city').escape();
+  req.sanitize('locations.street').escape();
+  req.sanitize('locations.state').escape();
+  req.sanitize('locations.zip').escape();
+  req.sanitize('locations.phone').escape();
+  req.sanitize('hours.monday').escape();
+  req.sanitize('hours.tuesday').escape();
+  req.sanitize('hours.wednesday').escape();
+  req.sanitize('hours.thursday').escape();
+  req.sanitize('hours.friday').escape();
+  req.sanitize('hours.saturday').escape();
+  req.sanitize('hours.sunday').escape();
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
@@ -435,8 +584,9 @@ app.post('/api/updateShelter', function(req, res){
 app.post('/api/addOccupant', function(req, res){
   //should check whether user has permission
   //adds occupants to particular units
+  req.sanitize('occupancy.name').escape();
+  console.log(req.body.occupancy.name)
   if (req.session) {
-    console.log('I am the body', req.body)
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
       return shelters.insertShelterOccupancy(req.body)
@@ -479,6 +629,7 @@ app.post('/api/removeOccupant', function(req, res){
 app.post('/api/updateOccupant', function(req, res){
   //check permission
   //essentially just for updating the name of a occupant(misspelling or something)
+  req.sanitize('occupancy.name').escape();
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
@@ -597,9 +748,9 @@ app.post('/api/deleteEligibility', function(req, res){
 });
 
 app.post('/api/fetchShelterOccupants', function(req, res){
+  req.sanitize('shelters.shelterName').escape();
   return shelters.selectAllOccupants(req.body.shelters.shelterName)
                   .then(function(occupants){
-                    console.log('we are the occupants');
                     res.status(200).send(occupants);
                   })
                   .catch(function(err){
@@ -614,12 +765,10 @@ app.get('/api/fetchUser', function(req, res){
   //this is all the info for the profile page -- not any shelter or related info
   var response = {user: [], shelters: []};
   if (req.session) {
-    // console.log('inside fetchUser ', req.session.fk_userID);
     return users.findByUserID(req.session.fk_userID)
           .then(function(user){
             user[0].userPassword = null;
             response.user = user[0];
-            // console.log('response before findUserOrganization ', response);
             if(req.session.permissionLevel === 'Admin') {
               return users.findUserOrganization(req.session.fk_userID);
             } else if (req.session.permissionLevel === 'Manager') {
@@ -630,7 +779,6 @@ app.get('/api/fetchUser', function(req, res){
           })
           .then(function(resp){
             response.shelters = resp;
-            console.log('sending fetchUser ', response);
             return;
           })
           .then(function(){
@@ -646,6 +794,12 @@ app.post('/api/updateUser', function(req, res){
   //updates password, email etc.
   //(all of those functions work so feel free to test only one)
   //it will return the updated field
+  req.sanitize('users.email').escape();
+  req.sanitize('users.password').escape();
+  req.sanitize('users.firstName').escape();
+  req.sanitize('users.lastName').escape();
+  req.sanitize('users.phone').escape();
+
   if (req.session) {
     users.updateUser(req)
           .then(function(changes){
@@ -669,7 +823,6 @@ app.post('/api/logout', function(req, res){
 
 app.post('/api/approve', function(req, res){
   var userID;
-  console.log('in approve');
   if (req.body.permission === 'JCB'){
     return users.findByUserEmail(req.body)
           .then(function(user){
@@ -715,10 +868,9 @@ var sendEmail = function(mailOptions, res){
         resolve();
       }
       if (err){
-        console.log(err);
+        console.error(err);
         res.json({yo: 'error'});
       } else {
-        console.log('Message sent: ' + info.response);
         resolve(info);
       }
     });

@@ -218,7 +218,6 @@ describe('Sheltered API', function(){
           .post('/api/signin')
           .send(signInAdmin)
           .then(function(resp){
-            console.log('set session ', cookie);
             cookie = resp.headers['set-cookie'][0];
             resp.body.permission = 'JCB';
             return request(app)
@@ -268,7 +267,6 @@ describe('Sheltered API', function(){
       return userRecs.addNewAdmin(newAdmin)
         .then(function(resp){
           adminID = resp[0].user.userID;
-          console.log(adminID);
           return request(app)
               .post('/api/signin')
               .send(signInAdmin)
@@ -294,7 +292,6 @@ describe('Sheltered API', function(){
               .send()
               .expect(200)
               .expect(function(resp){
-                console.log('user ', resp.body);
                 expect(resp.body).to.be.an.instanceOf(Object);
                 expect(resp.body.user.userFirstName).to.equal('Jane')
                 expect(resp.body.shelters).to.be.an.instanceOf(Array);
@@ -329,7 +326,6 @@ describe('Sheltered API', function(){
       return userRecs.addNewAdmin(newAdmin)
         .then(function(resp){
           adminID = resp[0].user.userID;
-          console.log(adminID);
           return request(app)
               .post('/api/signin')
               .send(signInAdmin)
@@ -358,7 +354,6 @@ describe('Sheltered API', function(){
               .expect(200)
               .expect(function(resp){
                 var shelter = resp.body
-                console.log(shelter)
                 expect(shelter).to.be.an.instanceOf(Array);
                 expect(shelter[0].shelterName).to.equal('Arches');
               });
@@ -376,7 +371,6 @@ describe('Sheltered API', function(){
       return userRecs.addNewAdmin(newAdmin)
         .then(function(resp){
           adminID = resp[0].user.userID;
-          console.log(adminID);
           return request(app)
               .post('/api/signin')
               .send(signInAdmin)
@@ -446,7 +440,6 @@ describe('Sheltered API', function(){
                 return shelterRecs.insertShelterUnit(unit)
               })
               .then(function(resp){
-                console.log('RESPONSE ', resp);
                 occupant.unit = resp[0].shelterUnitID;
               })
         });
@@ -541,7 +534,6 @@ describe('Sheltered API', function(){
       return userRecs.addNewAdmin(newAdmin)
         .then(function(resp){
           adminID = resp[0].user.userID;
-          console.log(adminID);
           return request(app)
               .post('/api/signin')
               .send(signInAdmin)
@@ -558,12 +550,6 @@ describe('Sheltered API', function(){
               .catch(function(err){
                 console.error('admin access ', err);
               })
-              .then(function(resp){
-                console.log('shelter added ', resp);
-              })
-              .catch(function(err){
-                console.error('shelter ', err);
-              });
         });
     }); 
 
@@ -575,7 +561,6 @@ describe('Sheltered API', function(){
               .expect(201)
               .expect(function(resp){
                 var unit = resp.body;
-                console.log('RESP ', unit);
                 expect(unit).to.be.an.instanceOf(Array);
                 expect(unit[0].unitSize).to.equal('2BD');
                 expect(unit[0].shelterUnitID).to.not.equal(undefined);

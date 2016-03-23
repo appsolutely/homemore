@@ -11,7 +11,7 @@ var getOrgID = function(orgName){
               .from('organizations')
               .where('organizationName', orgName)
   .catch(function(err){
-    console.log("Could not find organization with this name.", err);
+    console.error("Could not find organization with this name.", err);
     throw new Error("Could not find organization with this name", err);
   })
   .then(function(orgID){
@@ -35,12 +35,11 @@ module.exports.insertShelter = function(req){
         return;
       })
       .catch(function(err){
-        console.log("There was a problem adding this location");
+        console.error("There was a problem adding this location");
       })
       .then(function(){
         return getOrgID(req.organizations.orgName)
           .then(function(org){
-            // console.log("result from look up org: ", org);
             return knex('shelters')
                     .insert({
                         shelterName: name,
@@ -57,7 +56,6 @@ module.exports.insertShelter = function(req){
                 throw new Error("Something went wrong inserting this shelter ", err);
               })
               .then(function(shelter){
-                // console.log('Successfully inserted shelter', shelter);
                 return shelter;
               });
           });
@@ -68,7 +66,7 @@ var getShelterID = function(shelterName){
       return knex.select('shelterID').from('shelters')
           .where('shelterName', shelterName)
           .catch(function(err){
-            console.log("Something went wrong. This shelter may not exist.");
+            console.error("Something went wrong. This shelter may not exist.");
             throw new Error("Something went wrong. This shelter may not exist.");
           })
           .then(function(shelterID){
@@ -79,7 +77,6 @@ var getShelterID = function(shelterName){
 
 module.exports.selectShelter = function(req){
     var shelter = req.shelters.shelterName || req.shelters;
-    console.log('inside selectShelter ', shelter);
     return getShelterID(shelter)
       .then(function(shelter){
         var shelterID = shelter[0].shelterID;
@@ -93,7 +90,7 @@ module.exports.selectShelter = function(req){
                   .where('shelterID', shelterID)
                   .groupBy('shelterID', 'locationID')
           .catch(function(err){
-            console.log("Something went wrong selecting this shelter ", err);
+            console.error("Something went wrong selecting this shelter ", err);
             throw new Error("Something went wrong selecting this shelter", err);
           })
           .then(function(shelter){
@@ -127,13 +124,11 @@ module.exports.selectAllShelters = function(){
 
 module.exports.updateShelter = function(req){
   //function for updating shelter units
-    console.log('REQBODY', req)
     var name = req.shelters.shelterName;
     var email = req.shelters.shelterEmail;
     var emergencyPhone = req.shelters.shelterEmergencyPhone;
     var daytimePhone = req.shelters.shelterDayTimePhone;
     var shelterID = req.shelters.shelterID
-    console.log(req.shelters, "++++++++++++LOOK AT ME+++++++++++")
     return knex('shelters')
             .where('shelterID', shelterID)
             .update({
@@ -148,7 +143,6 @@ module.exports.updateShelter = function(req){
           throw new Error("Error updating this shetler", err);
         })
         .then(function(updatedShelter){
-          console.log('UPDATED SHELTER ', updatedShelter)
           return updatedShelter;
         })
         .then(function(){
@@ -177,7 +171,6 @@ module.exports.insertShelterUnit = function(req){
   var unitSize = req.shelterUnit.unitSize;
   return getShelterID(req.shelters.shelterName)
       .then(function(shelter){
-        console.log(req.shelterName, ' returned from find shelter ', shelter);
         var shelterID = shelter[0].shelterID;
         return knex('shelterUnits')
                 .insert({
@@ -276,8 +269,7 @@ module.exports.insertShelterOccupancy = function(req){
   var entranceDate = req.occupancy.entranceDate;
   var exitDate = req.occupancy.exitDate || null;
   // var occupantDOB = req.occupancy.dob;
-  var unitID = req.occupancy.unitID;
-  console.log('UNIT ID ', unitID);
+  var unitID = req.unit;
 
         return knex('shelterOccupancy')
                 .insert({
@@ -292,7 +284,6 @@ module.exports.insertShelterOccupancy = function(req){
             throw new Error("There was an error inserting this occupancy record ", err);
           })
           .then(function(shelterOccupant){
-            console.log('shelterOccupant ', shelterOccupant)
             return shelterOccupant;
           });
   // //inserting new
@@ -329,11 +320,10 @@ module.exports.updateShelterOccupancy = function(req){
           })
           .returning('*')
           .catch(function(err){
-            console.log("Error updating this shetler occupancy", err);
+            console.error("Error updating this shetler occupancy", err);
             throw new Error("Error updating this shetler occupancy", err);
           })
     .then(function(updatedOccupancy){
-      // console.log("Updated shelter occupancy.");
       return updatedOccupancy;
     });
   } else {
@@ -345,11 +335,10 @@ module.exports.updateShelterOccupancy = function(req){
       })
       .returning('*')
       .catch(function(err){
-        // console.log("Error updating this shetler occupancy", err);
+        console.error("Error updating this shetler occupancy", err);
         throw new error("Error updating this shetler occupancy", err);
       })
       .then(function(updatedOccupancy){
-        // console.log("Updated shelter occupancy.");
         return updatedOccupancy;
       });
     }
@@ -362,11 +351,10 @@ module.exports.selectShelterOccupancy = function(req){
               .where('occupancyID', occupantID)
               .returning('*')
           .catch(function(err){
-            // console.log("Error selecting this occupancy record", err);
+            console.error("Error selecting this occupancy record", err);
             throw new Error("Error selecting this occupancy record", err);
           })
           .then(function(occupancy){
-            // console.log("Successfully selected occupancy", occupancy);
             return occupancy;
           });
 
@@ -381,11 +369,10 @@ module.exports.deleteShelterOccupancy = function(req){
               .where('occupancyID', occupantID)
               .del()
           .catch(function(err){
-            // console.log("Something went wrong deleting this occupancy record", err);
+            console.error("Something went wrong deleting this occupancy record", err);
             throw new Error("Something went wrong deleting this occupancy record", err);
           })
           .then(function(occupancy){
-            // console.log("Successfully deleted this occupancy record");
             return occupancy;
           });
 };
@@ -400,7 +387,6 @@ module.exports.findShelterByID = function(shelterID) {
           throw err;
         })
         .then(function(result){
-          console.log('result of find shelterByID ', result);
           return result[0];
         });
 };
@@ -414,11 +400,10 @@ module.exports.shelterOccupancyDetails = function(req){
               .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
               .where('organizationID', orgID)
         .catch(function(err){
-          console.log('There was an error selecting this shelter occupancy details', err);
+          console.error('There was an error selecting this shelter occupancy details', err);
           throw new Error('There was an error selecting this shelter occupancy details', err);
         })
         .then(function(result){
-          console.log('Successfully returned shelter occupancy details');
           return result;
         });
 };
@@ -432,15 +417,12 @@ module.exports.shelterOccupancySummary = function(){
               .leftOuterJoin('shelterOccupancy', 'shelterUnits.shelterUnitID', 'shelterOccupancy.fk_shelterUnitID')
               .groupBy('shelterID')
       .catch(function(err){
-        console.log('There was a problem returning this shelter occupancy summary', err);
+        console.error('There was a problem returning this shelter occupancy summary', err);
         throw new Error('There was a problem returning this shelter occupancy summary', err);
       })
       .then(function(result){
-        console.log("Successfully returned shelter occupancy summary");
         return result;
-
       });
-
 };
 
 module.exports.selectAllOccupants = function(shelterName) {

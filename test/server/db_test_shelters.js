@@ -25,11 +25,9 @@ describe('Shelter and eligibility DB calls', function(){
   beforeEach(function(){
     return db.deleteEverything()
     .then(function(){  
-      console.log('inserting org');
     return orgRecs.insertOrganization(org);
     })
     .then(function(resp){
-      console.log('inserted organization ', resp[0]);
       var orgId = resp[0].orgId;
       return knex.insert({eligibilityOption: 'Vets', eligibilityOptionDescription: 'beds for vets'}).into('eligibilityOptions');
     });
@@ -54,7 +52,6 @@ it('should insert Shelters', function(){
             return shelterRecs.updateShelter(updateShelter);
           })
           .then(function(resp){
-            console.log('resp', resp);
             expect(resp).to.be.an.instanceOf(Array);
             expect(resp).to.have.length(1);
             expect(resp[0].shelterName).to.equal('Emergency Shelter');
@@ -80,7 +77,6 @@ it('should insert Shelters', function(){
   it('should insert Shelter units', function(){
       return shelterRecs.insertShelter(shelter)
             .then(function(resp){
-              // console.log("Passed in response for test containing: ", resp);
               return shelterRecs.insertShelterUnit(unit)
               .then(function(resp){
                 expect(resp).to.be.an.instanceOf(Array);
@@ -109,7 +105,6 @@ it('should insert Shelters', function(){
             var shelterId = resp[0].shelterID;
     return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
-            console.log('unit response ', resp);
             occupant.unit = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
           .then(function(resp){
@@ -251,7 +246,6 @@ it('should insert Shelters', function(){
   it('should delete Shelters', function(){
     return shelterRecs.insertShelter(shelter)
     .then(function(resp){
-      // console.log("RESPONSE ", resp)
       
       return shelterRecs.deleteShelter(resp)
                   .then(function(resp){
@@ -284,7 +278,6 @@ it('should insert Shelters', function(){
             return shelterRecs.selectAllShelters();
           })
           .then(function(resp){
-            console.log('result of select all shelters ', resp)
             expect(resp).to.be.an.instanceOf(Array);
             expect(resp).to.have.length(3);
             expect(resp[0].hoursID).to.not.equal(null);
