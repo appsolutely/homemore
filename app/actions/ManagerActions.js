@@ -95,9 +95,9 @@ constructor() {
   }
 
   updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
-  tuesday,wednesday,thursday,friday,saturday,sunday){
+  tuesday,wednesday,thursday,friday,saturday,sunday, currentShelterID){
   let updatedShelter =	{shelters:
-        {shelterName: shelterName, shelterEmail: email, shelterEmergencyPhone: emergencyPhone, shelterAddress: streetAddress, shelterDayTimePhone: dayPhone},
+        {shelterName: shelterName, shelterEmail: email, shelterEmergencyPhone: emergencyPhone, shelterAddress: streetAddress, shelterDayTimePhone: dayPhone, shelterID: currentShelterID},
         organizations: {orgName: orgName},
         locations:{name: locationName, street: streetAddress, city: city, state: state, zip: zip, phone: dayPhone},
         hours: {monday: monday, tuesday: tuesday, wednesday: wednesday, thursday: thursday, friday: friday, saturday: saturday, sunday: sunday}

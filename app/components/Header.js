@@ -44,10 +44,10 @@ class Header extends React.Component {
     render() {
       return (
         <div className ="col-sm-6 col-sm-offset-3">
+          <Link to="/">
+            <img className="logo" src="/img/SHELTERED-logo.png" />
+          </Link>
           <div className="header">
-            <Link to="/">
-              <img className="logo" src="/img/SHELTERED-logo.png" />
-            </Link>
             {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn} help={this.state.help}/>}
           </div>
         </div>

@@ -261,7 +261,7 @@ app.post('/api/updateShelter', function(req, res){
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
-        console.log('GOING TO UPDATE SHELTER')
+        console.log('===============================GOING TO UPDATE SHELTER', req.body)
         return shelters.updateShelter(req.body)
                 .then(function(updates){
                   console.log('occupant', updates)

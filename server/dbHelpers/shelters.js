@@ -133,6 +133,7 @@ module.exports.updateShelter = function(req){
     var emergencyPhone = req.shelters.shelterEmergencyPhone;
     var daytimePhone = req.shelters.shelterDayTimePhone;
     var shelterID = req.shelters.shelterID
+    console.log(req.shelters, "++++++++++++LOOK AT ME+++++++++++")
     return knex('shelters')
             .where('shelterID', shelterID)
             .update({

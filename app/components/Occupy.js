@@ -26,7 +26,7 @@ class Occupy extends React.Component {
     this.state.managerObjectShelters.some((shelter) => {
       this.state.currentShelter = shelter;
       return shelter.shelterID == unit;
-    })   
+    })
     ManagerActions.getOccupancy(this.state.currentShelter.shelterName);
   }
 
@@ -79,7 +79,7 @@ class Occupy extends React.Component {
 
   handleUpdate(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
   tuesday,wednesday,thursday,friday,saturday,sunday){
-
+    var currentShelterID = this.state.currentShelter.shelterID;
     this.setState({currentShelter:{
       organizationName:orgName,
       shelterName:shelterName,
@@ -97,11 +97,12 @@ class Occupy extends React.Component {
       hoursThursday:thursday,
       hoursFriday:friday,
       hoursSaturday:saturday,
-      hoursSunday:sunday
+      hoursSunday:sunday,
+      shelterID: this.state.currentShelter.shelterID
     }
     });
     ManagerActions.updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
-    tuesday,wednesday,thursday,friday,saturday,sunday)
+    tuesday,wednesday,thursday,friday,saturday,sunday,currentShelterID)
   }
 
 // function FindOneShelterByID(arrayOfShelters, find){
@@ -114,7 +115,7 @@ class Occupy extends React.Component {
 //   })
 //   return theShelter;
 // }
-// 
+//
 //  {this.state.occupancyObject ? <ShowOccupants add={this.addOccupant} units={this.state.occupancyObject} /> : <div>Loading ...</div> }
 //{occupancy{name:'Joe', entranceDate: ???, exitDate: ???, unitID: ??}}
   addOccupant(id){
@@ -136,16 +137,16 @@ class Occupy extends React.Component {
   }
 
   render(){
+    console.log(this.state.currentShelter.shelterID, '==============')
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
-      {this.state.clicked ? <ManagerProfileEdit shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
+      {this.state.clicked ? <ManagerProfileEdit save={this.handleUpdate} shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
         <ManageUnits shelter={this.state.currentShelter} add={this.addUnits}/>
           <h2>Current Occupants</h2>
           <ShowOccupants add={this.addOccupant} units={this.state.occupancyObject} />
       </div>
     );
   }
-}
 }
 
 
