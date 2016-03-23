@@ -55,27 +55,30 @@ class ManagerProfileEdit extends React.Component {
 
   render(){
     console.log("edit",this.props.shelterInfo)
-    return (<div>
-            <div>orgName: <input type='text' ref='orgName'/> </div>
-            <div>Shelter Name: <input type='text' ref='shelterName'/></div>
-            <div>Daytime Phone: <input type='text' ref='dayPhone'/> </div>
-            <div>Emergency Phone: <input type='text' ref='emergencyPhone'/> </div>
-            <div>Email: <input type='text' ref='email'/></div>
-            <div>location Information</div>
-            <div>Location name: <input type='text' ref='locationName'/> </div>
-            <div>Street Address: <input type='text' ref='streetAddress'/> </div>
-            <div>City: <input type='text' ref='city'/> </div>
-            <div>State: <input type='text' ref='state'/> </div>
-            <div>Zip: <input type='text' ref='zip'/></div>
-            <div>hours</div>
-            <div>Monday: <input type='text' ref='monday'/></div>
-            <div>Tuesday: <input type='text' ref='tuesday'/> </div>
-            <div>Wednesday: <input type='text' ref='wednesday'/> </div>
-            <div>Thursday: <input type='text' ref='thursday'/> </div>
-            <div>Friday: <input type='text' ref='friday'/></div>
-            <div>Saturday: <input type='text' ref='saturday'/></div>
-            <div>Sunday: <input type='text' ref='sunday'/></div>
-            <button onClick={this.handleClick}>submit</button>
+    return (<div className="well text-left edit-shelter">
+              <h2>Edit Shelter</h2>
+              <div><label>Organization Name:</label> <input type='text' ref='orgName'/> </div>
+              <div><label>Shelter Name:</label> <input type='text' ref='shelterName'/></div>
+              <div><label>Daytime Phone:</label> <input type='text' ref='dayPhone'/> </div>
+              <div><label>Emergency Phone:</label> <input type='text' ref='emergencyPhone'/> </div>
+              <div><label>Email:</label> <input type='text' ref='email'/></div>
+            <div><h3>Location Information</h3></div>
+              <div><label>Location name:</label> <input type='text' ref='locationName'/> </div>
+              <div><label>Street Address:</label> <input type='text' ref='streetAddress'/> </div>
+              <div><label>City:</label> <input type='text' ref='city'/> </div>
+              <div><label>State:</label> <input type='text' ref='state'/> </div>
+              <div><label>Zip:</label> <input type='text' ref='zip'/></div>
+            <div><h3>Hours of Operation</h3></div>
+              <div><label>Monday:</label> <input type='text' ref='monday'/></div>
+              <div><label>Tuesday:</label> <input type='text' ref='tuesday'/> </div>
+              <div><label>Wednesday:</label> <input type='text' ref='wednesday'/> </div>
+              <div><label>Thursday:</label> <input type='text' ref='thursday'/> </div>
+              <div><label>Friday:</label> <input type='text' ref='friday'/></div>
+              <div><label>Saturday:</label> <input type='text' ref='saturday'/></div>
+              <div><label>Sunday:</label> <input type='text' ref='sunday'/></div>
+            <div className="text-right">
+              <button className="btn btn-primary" onClick={this.handleClick}>Submit</button>
+            </div>
           </div>)
   }
 }

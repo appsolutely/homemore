@@ -10,6 +10,10 @@ label{
     text-align: left;
 }
 
+.edit-shelter label{
+    width: 150px;
+}
+
 .filterOpt{
     padding-right: 20px;
 }
