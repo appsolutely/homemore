@@ -119,13 +119,32 @@ req.checkBody({
     'users.phone': {
       optional: { checkFalsy: true },
       isMobilePhone: {
-        locale: 'en-US'
         errorMessage: 'Phone number must be a number'
       }
-      errorMessage: 'Invalid Phone'
     },
-    'shelters.': {
+    'shelters.shelterName': {
       optional: { checkFalsy: true },
+      isAlphanumeric: {
+        errorMessage: 'Shelter Names must be Alphanumeric'
+      }
+    },
+    'shelters.shelterEmail' : {
+      optional: { checkFalsy: true },
+      isEmail: {
+        errorMessage: 'Shelter Email must be a valid email'
+      }
+    },
+    'shelters.shelterEmergencyPhone' : {
+      optional: { checkFalsy: true },
+      isMobilePhone: {
+        errorMessage: 'Phone number must be a number'
+      }
+    },
+    'shelters.shelterDayTimePhone' : {
+      optional: { checkFalsy: true },
+      isMobilePhone: {
+        errorMessage: 'Phone number must be a number'
+      }
     },
     'locations.zip': {
       optional: { checkFalsy: true },
@@ -134,36 +153,92 @@ req.checkBody({
       },
       errorMessage: 'Invalid Zip'
     },
+    'locations.name': {
+      optional: { checkFalsy: true },
+      isAlphanumeric: {
+        errorMessage: 'Place Names must be Alphanumeric'
+      }
+    },
+    'locations.street': {
+      optional: { checkFalsy: true },
+      isAlphanumeric: {
+        errorMessage: 'Street Address must be Alphanumeric'
+      }
+    },
+    'locations.state': {
+      optional: { checkFalsy: true },
+      isAlpha: {
+        errorMessage: 'State codes can only contain numbers'
+      }
+      isLength: {
+        options: [{min:2, max: 2}],
+        errorMessage: 'State Codes must have a length of 2'
+      }
+    },
+    'locations.phone': {
+      optional: { checkFalsy: true },
+      isMobilePhone: {
+        errorMessage: 'Phone number must be a valid US number'
+      }
+    },
     'hours.monday': {
       optional: { checkFalsy: true },
-
+      isAlphanumeric: {
+        errorMessage: 'Hours must be Alphanumeric'
+      }
     },
     'hours.tuesday': {
       optional: { checkFalsy: true },
+      isAlphanumeric: {
+        errorMessage: 'Hours must be Alphanumeric'
+      }
     },
     'hours.wednesday': {
       optional: { checkFalsy: true },
+      isAlphanumeric: {
+        errorMessage: 'Hours must be Alphanumeric'
+      }
     },
     'hours.thursday': {
       optional: { checkFalsy: true },
+      isAlphanumeric: {
+        errorMessage: 'Hours must be Alphanumeric'
+      }
     },
     'hours.friday': {
       optional: { checkFalsy: true },
+      isAlphanumeric: {
+        errorMessage: 'Hours must be Alphanumeric'
+      }
     },
     'hours.saturday': {
       optional: { checkFalsy: true },
+      isAlphanumeric: {
+        errorMessage: 'Hours must be Alphanumeric'
+      }
     },
     'hours.sunday': {
       optional: { checkFalsy: true },
+      isAlphanumeric: {
+        errorMessage: 'Hours must be Alphanumeric'
+      }
     },
     'organizations.orgName': {
       optional: { checkFalsy: true },
-      isString: {
-        errorMessage: 'Organization Name must be string'
+      isAlphanumeric: {
+        errorMessage: 'Organization Name can only contain letters and numbers'
       },
       errorMessage: 'Invalid OrgName'
     },
-  })
+    'shelterUnit.': {
+
+    },
+    'occupancy.'
+  });
+
+req.validationErrors().catch(function(errors) {
+  res.status(401).send(errors);
+});
 
 //once its been validated sanitize it
 
