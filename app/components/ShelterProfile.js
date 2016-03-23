@@ -82,7 +82,6 @@ class ShelterProfile extends React.Component {
             <h3>
               <div>{theShelter.total_units} units at this location: </div>
               <br />
-              <span><i className="material-icons">hotel</i></span>
               <div className="label label-danger">{theShelter.occupied_units} taken</div>
               <div className="label label-success"> 
               {theShelter.total_units - theShelter.occupied_units} available</div>
