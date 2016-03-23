@@ -25,11 +25,12 @@ class ManagerProfile extends React.Component {
   	this.setState(state);
   }
 
-  render() {
 
+  render() {
   	const managedShelters = this.state.managerObjectShelters.map((shelter) => {
+      const stopProp = (e) => {e.stopPropagation()}
   		return(
-  			<Link to={'/manage-shelters/' + shelter.shelterID}>
+  			<Link to={'/manage-shelters/' + shelter.shelterID} onClick={stopProp}>
 		  		<div key={shelter.shelterID} className="well shelterCard">
             <div className="shelterInfo text-left">
             <h3>Shelter Information</h3>
