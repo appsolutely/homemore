@@ -11,6 +11,7 @@ class ManagerStore {
 		this.currentShelter;
 		this.unitObject = [];
 		this.clicked = false;
+		this.mounted = false;
 	}
 
 	onGetManagerProfileSuccess(data){
