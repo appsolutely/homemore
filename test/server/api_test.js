@@ -164,6 +164,7 @@ describe('Sheltered API', function(){
           .send(signInPublic)
           .expect(201)
           .expect(function(resp){
+            console.log('resp from sign in public ', resp.body)
             expect(resp.body.success).to.equal('User signed in');
             expect(resp.headers['set-cookie']).to.not.equal(undefined);
           });
@@ -173,8 +174,9 @@ describe('Sheltered API', function(){
         return request(app)
           .post('/api/signin')
           .send(signInAdmin)
-          .expect(201)
+          // .expect(201)
           .expect(function(resp){
+            console.log('resp from sign in admin ', resp.body)
             expect(resp.body.success).to.equal('User signed in');
             expect(resp.headers['set-cookie']).to.not.equal(undefined);
           });
@@ -366,6 +368,8 @@ describe('Sheltered API', function(){
     var cookie;
     var adminID;
     var shelterID;
+    var locationID;
+    var hourID;
     beforeEach(function(){
       var adminID;
       return userRecs.addNewAdmin(newAdmin)
@@ -386,6 +390,8 @@ describe('Sheltered API', function(){
               })
               .then(function(resp){
                 shelterID = resp[0].shelterID;
+                locationID = resp[0].fk_locationID;
+                hourID = resp[0].fk_hourID;
               })
               .catch(function(err){
                 console.error('admin access ', err);
@@ -396,7 +402,9 @@ describe('Sheltered API', function(){
 
     it('should allow admins and managers to update shelters', function(){
       var updateShelter = {shelters: {shelterID: shelterID, shelterName: 'Emergency Shelter', shelterEmail: 'different@example.com'}, 
-      organizations: {orgName: 'FrontSteps'}};
+      organizations: {orgName: 'FrontSteps'},
+      locations:{locationID: locationID, name: 'Greenfield Apartments', street: '1352 N. Austin Blvd.', city: 'Austin', state: 'TX', zip: '78703', phone: '555-5555'}, 
+      hours: {hoursID: hourID, monday: 'Open 9-18', tuesday: 'Open 9-18', wednesday: 'Open 9-18', thursday: 'Open 9-18', friday: 'Open 9-18', saturday: 'Open 9-18', sunday: 'Open 9-18'}};
       return request(app)
               .post('/api/updateShelter')
               .set('Cookie', cookie)

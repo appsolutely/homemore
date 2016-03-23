@@ -48,10 +48,16 @@ it('should insert Shelters', function(){
     return shelterRecs.insertShelter(shelter)
           .then(function(resp){
             var shelterID = resp[0].shelterID;
-            var updateShelter = {shelters: {shelterID: shelterID, shelterName: 'Emergency Shelter', shelterEmail: 'different@example.com'}, organizations: org.organizations};
+            var locationID = resp[0].fk_locationID;
+            var hourID = resp[0].fk_hourID;
+            var updateShelter = {shelters: {shelterID: shelterID, shelterName: 'Emergency Shelter', shelterEmail: 'different@example.com'}, 
+            organizations: org.organizations,
+            locations:{locationID: locationID, name: 'Greenfield Apartments', street: '1352 N. Austin Blvd.', city: 'Austin', state: 'TX', zip: '78703', phone: '555-5555'}, 
+            hours: {hoursID: hourID, monday: 'Open 9-18', tuesday: 'Open 9-18', wednesday: 'Open 9-18', thursday: 'Open 9-18', friday: 'Open 9-18', saturday: 'Open 9-18', sunday: 'Open 9-18'}};
             return shelterRecs.updateShelter(updateShelter);
           })
           .then(function(resp){
+            console.log('Response from update Shelter ', resp)
             expect(resp).to.be.an.instanceOf(Array);
             expect(resp).to.have.length(1);
             expect(resp[0].shelterName).to.equal('Emergency Shelter');

@@ -30,8 +30,9 @@ module.exports.insertShelter = function(req){
 
     return location.insertLocation(req)
       .then(function(resp){
+        console.log('response from insert location ', resp)
         locationID = resp[0].locationID;
-        hoursID = resp[0].fk_hoursID;
+        hoursID = resp[0].fk_hourID;
         return;
       })
       .catch(function(err){
@@ -129,6 +130,7 @@ module.exports.updateShelter = function(req){
     var emergencyPhone = req.shelters.shelterEmergencyPhone;
     var daytimePhone = req.shelters.shelterDayTimePhone;
     var shelterID = req.shelters.shelterID
+    var updated;
     return knex('shelters')
             .where('shelterID', shelterID)
             .update({
@@ -143,10 +145,13 @@ module.exports.updateShelter = function(req){
           throw new Error("Error updating this shetler", err);
         })
         .then(function(updatedShelter){
-          return updatedShelter;
+          updated = updatedShelter;
         })
         .then(function(){
           return location.updateLocation(req)
+        })
+        .then(function(){
+          return updated;
         });
 };
 

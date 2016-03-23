@@ -99,11 +99,7 @@ module.exports.selectLocation = function(req){
 
 module.exports.updateLocation = function(req){
   var forLocationID = req.locations.locationID;
-<<<<<<< HEAD
   var forHoursID = req.hours.hoursID;
-=======
-  var forHoursID = req.hours.hourID;
->>>>>>> big console.log cleanup
 
   var name = req.locations.name;
   var street = req.locations.street;
