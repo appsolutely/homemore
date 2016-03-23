@@ -40,7 +40,7 @@ class ShowOccupants extends React.Component{
   }
 
 }
-
+//  
 
 
 export default ShowOccupants;
