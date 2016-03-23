@@ -58,7 +58,7 @@ constructor() {
 	  .fail((jqXhr) => {
 		console.log('fail', jqXhr)
 		this.actions.addOccupantFail(jqXhr.responseText.error);
-	  });    	
+	  });
   }
 
   removeOccupant(occupantID){
@@ -74,7 +74,7 @@ constructor() {
 	  .fail((jqXhr) => {
 		console.log('fail', jqXhr);
 		this.actions.removeOccupantFail(jqXhr.responseJSON.error);
-	  });    	
+	  });
   }
 
   addUnits(unit) {
@@ -90,7 +90,24 @@ constructor() {
 	  .fail((jqXhr) => {
 			console.log('fail', jqXhr);
 			this.actions.addUnitFail(jqXhr.responseJSON.error);
-	  }); 
+	  });
+  }
+
+  updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
+  tuesday,wednesday,thursday,friday,saturday,sunday){
+  let updatedShelter =	{shelters:
+        {shelterName: shelterName, shelterEmail: email, shelterEmergencyPhone: emergencyPhone, shelterAddress: streetAddress, shelterDayTimePhone: dayPhone},
+        organizations: {orgName: orgName},
+        locations:{name: locationName, street: streetAddress, city: city, state: state, zip: zip, phone: dayPhone},
+        hours: {monday: monday, tuesday: tuesday, wednesday: wednesday, thursday: thursday, friday: friday, saturday: saturday, sunday: sunday}
+      }
+
+      console.log("bang Bang Pew Pew", updatedShelter)
+      $.ajax({
+        type: 'POST',
+        url: '/api/updateShelter',
+        data: updatedShelter
+      })
   }
 
   removeUnit(unit) {
