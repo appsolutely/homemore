@@ -3,6 +3,7 @@ import ManagerActions from '../actions/ManagerActions';
 import ManagerStore from '../stores/ManagerStore';
 import ManagerProfileView from '../components/ManagerProfileView';
 import ManagerProfileEdit from '../components/ManagerProfileEdit';
+import ManageUnits from '../components/ManageUnits'
 
 
 class Occupy extends React.Component {
@@ -12,7 +13,8 @@ class Occupy extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.addOccupant = this.addOccupant.bind(this);
     this.remove = this.remove.bind(this);
-    this.handleUserInput = this.handleUserInput.bind(this)
+    this.handleUserInput = this.handleUserInput.bind(this);
+    this.addUnits = this.addUnits.bind(this);
   }
 
   componentWillMount(){
@@ -29,13 +31,8 @@ class Occupy extends React.Component {
     ManagerActions.getOccupancy(this.state.currentShelter.shelterName);
   }
 
-  addUnits(e){
-    e.preventDefault();
-    const theShelter = this.state.currentShelter;
-    const unit = {shelterUnit: {unitSize: '2BD'}, 
-    shelters: {shelterName: theShelter.shelterName}, 
-    organizations: {orgName: theShelter.organizationName}};
-
+  addUnits(unit){
+    console.log('getting clicked', unit)
     ManagerActions.addUnits(unit);
   }
 
@@ -46,9 +43,6 @@ class Occupy extends React.Component {
 
   //get org from URL params
   remove(id) {
-    //e.preventDefault();
-    //var taskIndex = parseInt(e.target.value, 10);
-    console.log('removed occupant: %d', id);
     ManagerActions.removeOccupant(id);
     // this.setState(state => {
     //   state.items.splice(taskIndex, 1);
@@ -89,20 +83,15 @@ class Occupy extends React.Component {
     const name = this.refs.add.value;
     const theShelter = this.state.currentShelter;
     const unit = this.props.params.id;
-    console.log(this.state.currentShelter);
     const occupant = {
       'shelters': {'shelterName': theShelter.shelterName},
       'organizations':{'orgName': theShelter.organizationName},
       'occupancy':{name:name, entranceDate: '9/11/2001', exitDate: '9/15/2001', 'unitID': unit}
     }
     ManagerActions.addOccupant(occupant)
-    //e.preventDefault();
-    // this.setState({
-    //   items: this.state.items.concat([this.state.task]),
-    //   task: ''
-    // })
-    // this.stateStuff()
   }
+
+
   render(){
     const occupants = this.state.occupancyObject.map((person) => {
       const bound = this.remove.bind(this, person.occupancyID)
@@ -118,6 +107,7 @@ class Occupy extends React.Component {
     return (
       <div className ="col-sm-6 col-sm-offset-3 text-center">
       {this.state.clicked ? <ManagerProfileEdit shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
+        <ManageUnits shelter={this.state.currentShelter} add={this.addUnits}/>
         <h1>Add occupants</h1>
           <form>
             <input type="text" ref="add"/>
@@ -130,31 +120,5 @@ class Occupy extends React.Component {
   }
 }
 
-
-
-//       console.log("remove");
-//   }
-//
-//   render(){
-//
-//       var displayTask  = function(task, taskIndex){
-//
-//
-//           return <li>
-//               {task}
-//               <button onClick= {this.deleteElement}> Delete </button>
-//           </li>;
-//       };
-//
-//       return <ul>
-//           {this.props.items.map((task, taskIndex) =>
-//               <li key={taskIndex}>
-//                   {task}
-//                   <button onClick={this.props.deleteOccupent} value={taskIndex}> Delete </button>
-//               </li>
-//           )}
-//       </ul>;
-//   }
-// }
 
 export default Occupy;
