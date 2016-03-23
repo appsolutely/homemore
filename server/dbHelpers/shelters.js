@@ -276,7 +276,7 @@ module.exports.insertShelterOccupancy = function(req){
   var entranceDate = req.occupancy.entranceDate;
   var exitDate = req.occupancy.exitDate || null;
   // var occupantDOB = req.occupancy.dob;
-  var unitID = req.unit;
+  var unitID = req.occupancy.unitID;
   console.log('UNIT ID ', unitID);
 
         return knex('shelterOccupancy')

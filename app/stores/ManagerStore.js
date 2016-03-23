@@ -36,6 +36,7 @@ class ManagerStore {
 	onAddOccupantSuccess(response){
 		console.log('add occupant success', response)
 		this.occupancyObject = response;
+		console.log('while pushed', this.occupancyObject);
 	}
 
 	onAddOccupantFail(err){
@@ -44,7 +45,7 @@ class ManagerStore {
 	}
 
 	onRemoveOccupantSuccess(response){
-		this.occupancyObject = response;
+		this.occupancyObject.push(response);
 	}
 
 	onRemoveOccupantFail(err){

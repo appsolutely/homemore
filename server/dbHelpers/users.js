@@ -350,7 +350,6 @@ exports.findUserOrganization = function(userId){
             .leftOuterJoin('locations', 'shelters.fk_locationID', 'locations.locationID')     
             .leftOuterJoin('hours', 'locations.fk_hourID', 'hours.hoursID')
             .then(function(res){
-              console.log('response from select organization ', res);
               return res;
             })
             .catch(function(err){
