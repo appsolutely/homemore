@@ -95,12 +95,12 @@ constructor() {
   }
 
   updateShelter(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
-  tuesday,wednesday,thursday,friday,saturday,sunday, currentShelterID){
+  tuesday,wednesday,thursday,friday,saturday,sunday, currentShelterID, currentLocationID, currentHourID){
   let updatedShelter =	{shelters:
         {shelterName: shelterName, shelterEmail: email, shelterEmergencyPhone: emergencyPhone, shelterAddress: streetAddress, shelterDayTimePhone: dayPhone, shelterID: currentShelterID},
         organizations: {orgName: orgName},
-        locations:{name: locationName, street: streetAddress, city: city, state: state, zip: zip, phone: dayPhone},
-        hours: {monday: monday, tuesday: tuesday, wednesday: wednesday, thursday: thursday, friday: friday, saturday: saturday, sunday: sunday}
+        locations:{name: locationName, street: streetAddress, city: city, state: state, zip: zip, phone: dayPhone, locationID: currentLocationID},
+        hours: {monday: monday, tuesday: tuesday, wednesday: wednesday, thursday: thursday, friday: friday, saturday: saturday, sunday: sunday, hoursID: currentHourID}
       }
 
       console.log("bang Bang Pew Pew", updatedShelter)

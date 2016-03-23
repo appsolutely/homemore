@@ -1,6 +1,6 @@
 var db = require('../../db/db.js');
-var config = require('../../knexfile.js');  
-var env =  process.env.NODE_ENV || 'development';  
+var config = require('../../knexfile.js');
+var env =  process.env.NODE_ENV || 'development';
 var knex = require('knex')(config[env]);
 var google = require('../googleMapsHelpers.js');
 
@@ -107,7 +107,7 @@ module.exports.selectLocation = function(req){
 module.exports.updateLocation = function(req){
   // console.log("UPDATE LOCATION REQ", req);
   var forLocationID = req.locations.locationID;
-  var forHoursID = req.locations.hourID_fk;
+  var forHoursID = req.hours.hoursID;
 
   var name = req.locations.name;
   var street = req.locations.street;
@@ -168,7 +168,7 @@ module.exports.updateLocation = function(req){
 module.exports.deleteLocation = function(req){
     // console.log("DELETE LOCATION REQ", req);
   var forLocationID = req.locations.thisLocationID;
-  // var forHoursID = req.locations.thishourID_fk;    
+  // var forHoursID = req.locations.thishourID_fk;
       return knex('locations')
               .returning('*')
               .where('locationID', forLocationID)
