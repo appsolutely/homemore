@@ -8,7 +8,7 @@ class ShowOccupants extends React.Component{
     super(props);
     //this.handleClick = this.handleClick.bind(this);
   }
-
+// stuff
 
   render(){
   	const occupants = this.props.units.map((unit) => {

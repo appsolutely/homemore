@@ -8,6 +8,7 @@ class ManageUnits extends React.Component {
     this.addUnits = this.addUnits.bind(this);
   }
 
+// stuff
   
   addUnits(e){
     e.preventDefault();

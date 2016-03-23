@@ -18,6 +18,8 @@ class Occupy extends React.Component {
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
+  // stuff
+
   componentWillMount(){
     var unit = this.props.params.id;
     //find current shelter
