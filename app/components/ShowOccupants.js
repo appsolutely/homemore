@@ -6,10 +6,13 @@ import alt from '../alt';
 class ShowOccupants extends React.Component{
   constructor(props) {
     super(props);
-    //this.handleClick = this.handleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 // stuff
-
+  handleClick(e,name){
+    e.preventDefault();
+    console.log('unit ID is: ', name);
+  }
   render(){
   	const occupants = this.props.units.map((unit) => {
       const thisName = unit.occupiedByName || 'Open';
@@ -19,9 +22,10 @@ class ShowOccupants extends React.Component{
           <h4>Entrance Date: {unit.entranceDate}</h4>
           <h4>Exit Date: {unit.exitDate}</h4>
           <input type="text" ref="add"/>
-          <button className="btn btn-primary editButton">Add Occupant</button>
+          <button className="btn btn-primary editButton" onClick={this.handleClick}>Add Occupant</button>
           <button className="btn btn-primary editButton">Remove</button>
         </div>
+
       );
     })
   	return(
