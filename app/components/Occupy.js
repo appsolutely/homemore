@@ -140,6 +140,7 @@ class Occupy extends React.Component {
     // })
     // this.stateStuff()
   }
+  //
 
   render(){
     console.log(this.state.currentShelter, '==============')
@@ -153,7 +154,6 @@ class Occupy extends React.Component {
     );
   }
 }
-
 
 
 export default Occupy;
