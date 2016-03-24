@@ -252,12 +252,12 @@ var org1, org2, org3;
         var unit5ID = units[5][0].shelterUnitID;
         var unit6ID = units[11][0].shelterUnitID;
 
-        var occupant1 = {occupancy: {name: "OJ Simpson", entranceDate:'04/08/2015', exitDate:'04/14/2015'}, unit: unit1ID};
-        var occupant2 = {occupancy: {name: "George Bush Sr.", entranceDate:'04/08/2015', exitDate:'04/14/2015'}, unit: unit2ID};
-        var occupant3 = {occupancy: {name: "Zac Morris", entranceDate:'05/08/2015', exitDate:'05/14/2015'}, unit: unit3ID};
-        var occupant4 = {occupancy: {name: "Prince", entranceDate:'02/08/2015', exitDate:'04/14/2015'}, unit: unit4ID};
-        var occupant5 = {occupancy: {name: "Celine Dion", entranceDate:'03/08/2015', exitDate:'05/14/2015'}, unit: unit5ID};
-        var occupant6 = {occupancy: {name: "Bart Simpson", entranceDate:'04/08/2015', exitDate:'04/14/2015'}, unit: unit6ID};
+        var occupant1 = {occupancy: {name: "OJ Simpson", entranceDate:'04/08/2015', exitDate:'04/14/2015', unitID: unit1ID}};
+        var occupant2 = {occupancy: {name: "George Bush Sr.", entranceDate:'04/08/2015', exitDate:'04/14/2015', unitID: unit2ID}};
+        var occupant3 = {occupancy: {name: "Zac Morris", entranceDate:'05/08/2015', exitDate:'05/14/2015', unitID: unit3ID}};
+        var occupant4 = {occupancy: {name: "Prince", entranceDate:'02/08/2015', exitDate:'04/14/2015', unitID: unit4ID}};
+        var occupant5 = {occupancy: {name: "Celine Dion", entranceDate:'03/08/2015', exitDate:'05/14/2015', unitID: unit5ID}};
+        var occupant6 = {occupancy: {name: "Bart Simpson", entranceDate:'04/08/2015', exitDate:'04/14/2015', unitID: unit6ID}};
 
         //--shelterOccupancy
         return Promise.all([
