@@ -519,6 +519,7 @@ app.post('/api/fetchShelterOccupants', function(req, res){
   req.sanitize('shelters.shelterName').escape();
   return shelters.selectAllOccupants(req.body.shelters.shelterName)
                   .then(function(occupants){
+                    console.log('OCCUPANTS ', occupants)
                     res.status(200).send(occupants);
                   })
                   .catch(function(err){

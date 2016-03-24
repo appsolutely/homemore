@@ -111,7 +111,7 @@ it('should insert Shelters', function(){
             var shelterId = resp[0].shelterID;
     return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
-            occupant.unit = resp[0].shelterUnitID;
+            occupant.occupancy.unitID = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
           .then(function(resp){
             expect(resp).to.have.length(1);
@@ -129,7 +129,7 @@ it('should insert Shelters', function(){
             var shelterId = resp[0].shelterID;
     return shelterRecs.insertShelterUnit(unit)
           .then(function(resp){
-            occupant.unit = resp[0].shelterUnitID;
+            occupant.occupancy.unitID = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
           .then(function(resp){
             updateOccupancy.occupancy.occupancyID = resp[0].occupancyID;
@@ -151,8 +151,8 @@ it('should insert Shelters', function(){
              var shelterId = resp[0].shelterID;
      return shelterRecs.insertShelterUnit(unit)
            .then(function(resp){
-             occupant.unit = resp[0].shelterUnitID;
-             updateOccupancy.occupancy.unit = resp;
+             occupant.occupancy.unitID = resp[0].shelterUnitID;
+             updateOccupancy.occupancy.unitID = resp[0].shelterUnitID;
      return shelterRecs.insertShelterOccupancy(occupant)
            .then(function(resp){
              updateOccupancy.occupancy.occupancyID = resp[0].occupancyID;
@@ -173,7 +173,7 @@ it('should insert Shelters', function(){
         .then(function(resp){
     return shelterRecs.insertShelterUnit(unit)
         .then(function(resp){
-          occupant.unit = resp[0].shelterUnitID;
+          occupant.occupancy.unitID = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
         .then(function(resp){
           occupancyID = resp[0].occupancyID;
@@ -196,7 +196,7 @@ it('should insert Shelters', function(){
         .then(function(resp){
     return shelterRecs.insertShelterUnit(unit)
         .then(function(resp){
-          occupant.unit = resp[0].shelterUnitID;
+          occupant.occupancy.unitID = resp[0].shelterUnitID;
     return shelterRecs.insertShelterOccupancy(occupant)
         .then(function(resp){
           occupancyID = resp[0].occupancyID;     

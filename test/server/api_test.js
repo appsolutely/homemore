@@ -448,7 +448,7 @@ describe('Sheltered API', function(){
                 return shelterRecs.insertShelterUnit(unit)
               })
               .then(function(resp){
-                occupant.unit = resp[0].shelterUnitID;
+                occupant.occupancy.unitID = resp[0].shelterUnitID;
               })
         });
     });
@@ -594,6 +594,27 @@ describe('Sheltered API', function(){
                           expect(unit[0].shelterUnitID).to.not.equal(undefined);
                         });
               });
+    });
+
+    it('should return empty units after adding new unit', function(){
+      return request(app)
+            .post('/api/addShelterUnit')
+            .set('Cookie', cookie)
+            .send(unit)
+            .then(function(resp){
+              console.log('unit', resp.body)
+              return request(app)
+                      .post('/api/fetchShelterOccupants')
+                      .set('Cookie', cookie)
+                      .send(shelter)
+                      .expect(200)
+                      .expect(function(resp){
+                        var units = resp.body;
+                        console.log('returned ', units);
+                        expect(units).to.be.an.instanceOf(Array);
+                        expect(units[0].shelterUnitID).to.not.equal(undefined);
+                      })
+            })
     }); 
   });
 

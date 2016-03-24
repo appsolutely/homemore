@@ -7,6 +7,10 @@ class UserStore {
     this.userObject = {};
     this.userObjectProfile = {};
     this.clicked = false;
+    this.passwordValidationState = '';
+    this.emailValidationState = '';
+    this.nameValidationState = '';
+    this.phoneValidationState = '';
   }
 
   onGetUserSuccess(data) {
@@ -26,6 +30,21 @@ class UserStore {
 
   onUpdateUserFail(err){
     console.log('update failed because:', err)
+  }
+
+  onInvalidName() {
+    this.nameValidationState = 'has-error';
+    this.helpBlock = 'Please enter a valid name.';
+  }
+
+  onInvalidEmail() {
+    this.emailValidationState = 'has-error';
+    this.helpBlock = 'Please enter a valid email.';
+  }
+
+  onInvalidPhone() {
+    this.phoneValidationState = 'has-error';
+    this.helpBlock = 'Please enter a valid phone number.';
   }
 
 }
