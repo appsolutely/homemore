@@ -594,6 +594,25 @@ describe('Sheltered API', function(){
                           expect(unit[0].shelterUnitID).to.not.equal(undefined);
                         });
               });
+    });
+
+    it('should return empty units after adding new unit', function(){
+      return request(app)
+            .post('/api/addShelterUnit')
+            .set('Cookie', cookie)
+            .send(unit)
+            .then(function(){
+              return request(app)
+                      .post('api/fetchShelterOccupants')
+                      .set('Cookie', cookie)
+                      .send(shelter)
+                      .expect(200)
+                      .expect(function(resp){
+                        var units = resp.body;
+                        console.log('returned ', units);
+                        expect(units).to.be.an.instanceOf(Array)
+                      })
+            })
     }); 
   });
 

@@ -7,6 +7,10 @@ class UserStore {
     this.userObject = {};
     this.userObjectProfile = {};
     this.clicked = false;
+    this.passwordValidationState = '';
+    this.emailValidationState = '';
+    this.nameValidationState = '';
+    this.phoneValidationState = '';
   }
 
   onGetUserSuccess(data) {

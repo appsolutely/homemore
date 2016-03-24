@@ -45,30 +45,18 @@ class AdminSignup extends React.Component {
     return (
       <div className ="well col-sm-6 col-sm-offset-3">
         <form className="text-left">
-        <div>
           <label>Email</label>
           <EmailInfo ref = 'email' update={this.update} />
-        </div>
-        <div>
           <label>Password</label>
           <PasswordInfo ref = 'password' update={this.update} />
-        </div>
-        <div>
           <label>First Name</label>
           <AccountInfo ref = 'firstName' update={this.update} />
-        </div>
-        <div>
           <label>Last Name</label>
           <AccountInfo ref = 'lastName' update={this.update} />
-        </div>
-        <div>
           <label>Phone Number</label>
           <PhoneInfo ref = 'phone' update={this.update} />
-        </div>
-        <div>
           <label>Org Name</label>
           <AccountInfo ref = 'orgName' update={this.update} />
-        </div>
        
         <button className="btn btn-primary" type='submit' onClick={this.submitForm.bind(this)}>Sign Up</button>
 
@@ -77,11 +65,12 @@ class AdminSignup extends React.Component {
   )
   }
 }
+
 class PasswordInfo extends React.Component {
   render(){
     return(
-      <div>
-        <input minLength="7" ref="inp" type = "password" required="required"
+      <div className={'form-group ' + this.state.passwordValidationState}>
+        <input className='form-control' minLength="7" ref="inp" type = "password" required="required"
           onChange={this.props.update} />
       </div>)
   }
@@ -90,9 +79,8 @@ class PasswordInfo extends React.Component {
 class AccountInfo extends React.Component  {
   render(){
     return(
-      <div>
-        <input ref="inp" type = "text" required="required"
-          pattern="([A-ZΆ-ΫÀ-ÖØ-Þ][A-ZΆ-ΫÀ-ÖØ-Þa-zά-ώß-öø-ÿ]{1,19} ?){1,10}"
+      <div className={'form-group ' + this.state.nameValidationState}>
+        <input className='form-control' ref="inp" type = "text" required="required"
           onChange={this.props.update} />
       </div>)
   }
@@ -101,9 +89,8 @@ class AccountInfo extends React.Component  {
 class EmailInfo extends React.Component {
   render() {
     return (
-      <div>
-          <input ref="inp" type="email" required="required"
-            pattern="(?!(^[.-].*|[^@]*[.-]@|.*\.{2,}.*)|^.{254}.)([a-zA-Z0-9!#$%&'*+\/=?^_`{|}~.-]+@)(?!-.*|.*-\.)([a-zA-Z0-9-]{1,63}\.)+[a-zA-Z]{2,15}"
+      <div className={'form-group ' + this.state.emailValidationState}>
+          <input className='form-control' ref="inp" type="email" required="required"
             onChange={this.props.update} />
       </div>)
   }
@@ -112,8 +99,8 @@ class EmailInfo extends React.Component {
 class PhoneInfo extends React.Component {
   render() {
     return(
-      <div>
-        <input ref="inp" type = "phone" required="required"
+      <div className={'form-group ' + this.state.phoneValidationState}>
+        <input minLength="10" className='form-control' ref="inp" type = "phone" required="required"
           onChange={this.props.update} />
       </div>)
   }
