@@ -69,7 +69,7 @@ constructor() {
       data: occupantID
   	})
 	  .done((data) => {
-	  	console.log('removed occupant!',data);
+	  	console.log('get outta my house!',data);
 	  	this.actions.removeOccupantSuccess(data);
 	  })
 	  .fail((jqXhr) => {
