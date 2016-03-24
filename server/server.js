@@ -516,7 +516,7 @@ app.post('/api/removeShelterUnit', function(req, res){
 // });
 
 app.post('/api/fetchShelterOccupants', function(req, res){
-  req.sanitize('shelters.shelterName').escape();
+  //req.sanitize('shelters.shelterName').escape();
   return shelters.selectAllOccupants(req.body.shelters.shelterName)
                   .then(function(occupants){
                     console.log('OCCUPANTS ', occupants)
