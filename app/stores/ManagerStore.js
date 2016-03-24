@@ -37,7 +37,7 @@ class ManagerStore {
 		const id = response[0].fk_shelterUnitID;
 		this.occupancyObject = this.occupancyObject.concat(response);
 		this.occupancyObject = this.occupancyObject.filter((unit)=>{
-			return unit.shelterUnitID !== id && unit.occupiedByName != null;
+			return unit.shelterUnitID !== id;
 		})
 		//this.occupancyObject.push(response);
 	}
