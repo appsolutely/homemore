@@ -13,13 +13,13 @@ class Occupy extends React.Component {
     this.state = ManagerStore.getState();
     this.onChange = this.onChange.bind(this);
     this.addOccupant = this.addOccupant.bind(this);
+    this.removeOccupant = this.removeOccupant.bind(this);
     this.remove = this.remove.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   // stuff
-
   componentWillMount(){
     var unit = this.props.params.id;
     //find current shelter
@@ -124,22 +124,30 @@ class Occupy extends React.Component {
                            occupiedByName: personName,
                            occupancyID: null,
                            shelterUnitID: id,};
-    // this.setState({
-    //   occupancyObject: this.state.occupancyObject.push(stateOccupant),
-    //   //console.log('state has been reset with occupancyObject as:', occupancyObject)
-    // })
     ManagerActions.addOccupant(occupant)
+  }
+
+  removeOccupant(id,name){
+    const theShelter = this.state.currentShelter;
+    const unit = id;
+    var occupant = {
+      'shelters': {'shelterName': theShelter.shelterName},
+      'organizations':{'orgName':theShelter.organizationName},
+      'occupant':unit
+    }
+    // var occupantID = {occupant:id}
+    ManagerActions.removeOccupant(occupant);
+    console.log('receiving the name: ',name)
   }
   // /
 
   render(){
-    console.log(this.state.currentShelter, '==============')
     return (
       <div className ="well col-sm-6 col-sm-offset-3 text-left">
       {this.state.clicked ? <ManagerProfileEdit save={this.handleUpdate} shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
         <ManageUnits shelter={this.state.currentShelter} add={this.addUnits}/>
           <h3>Current Occupancy</h3>
-          <ShowOccupants add={this.addOccupant} units={this.state.occupancyObject} />
+          <ShowOccupants add={this.addOccupant} remove={this.removeOccupant} units={this.state.occupancyObject} />
       </div>
     );
   }
