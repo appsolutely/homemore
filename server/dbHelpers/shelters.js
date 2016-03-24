@@ -433,7 +433,7 @@ module.exports.shelterOccupancySummary = function(){
 };
 
 module.exports.selectAllOccupants = function(shelterName) {
-  return knex.select('occupiedByName', 'shelterUnitID', 'occupancyID', 'entranceDate', 'exitDate')
+  return knex.select('occupiedByName', 'shelterUnitID', 'occupancyID', 'entranceDate', 'exitDate', 'unitName', 'unitSize')
               .from('shelterUnits')
               .fullOuterJoin('shelterOccupancy', 'shelterOccupancy.fk_shelterUnitID', 'shelterUnits.shelterUnitID')
               .fullOuterJoin('shelters', 'shelters.shelterID', 'shelterUnits.fk_shelterID')
