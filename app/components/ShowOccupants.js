@@ -19,11 +19,11 @@ class ShowOccupants extends React.Component{
 
   render(){
   	const occupants = this.props.units.map((unit) => {
-      const thisName = unit.occupiedByName || 'Open';
+      const thisName = unit.occupiedByName || 'Unit Open';
       const fund = (e) =>{e.preventDefault(); this.handleClick(unit.shelterUnitID); };
       return (
         <div key={unit.shelterUnitID} className='occupant' id={unit.shelterUnitID}>
-          <h3>Name: {thisName}</h3>
+          <h3>Occupant: {thisName}</h3>
           <h4>Entrance Date: {unit.entranceDate}</h4>
           <h4>Exit Date: {unit.exitDate}</h4>
           {function(){

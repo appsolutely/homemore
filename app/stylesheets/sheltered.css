@@ -35,6 +35,7 @@ label{
     color:#585858;
 }
 
+
 .shelterInfo :hover{
     text-decoration: none;
     background-color: #E3E3E3;
@@ -53,10 +54,6 @@ label{
     color:#222222;
 }
 
-.shelterCard :hover{
-    background-color: #e4e4e4;
-}
-
 .shelterProfile{
 	background-color: #e4e4e4;
 	height: 100%;
@@ -66,10 +63,6 @@ label{
     max-width: 110px;
 }
 
-.org p{
-    color:#fff;
-    padding-left: 5px;
-}
 
 .logo{
     display: inline-block;
@@ -87,4 +80,13 @@ img.brand-logo{
 
 .selectWidth{
     width: 40px;
+}
+
+.shelterListings .shelterCard .org p{
+    color:#fff;
+    padding-left: 5px;
+}
+
+.shelterListings {
+    background-color: #e4e4e4;
 }
