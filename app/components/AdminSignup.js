@@ -10,7 +10,6 @@ const {Input} = FRC;
 const SignUpForm = React.createClass({
 
     mixins: [FRC.ParentContextMixin],
-
     render() {
         return (
             <Formsy.Form
@@ -30,23 +29,13 @@ class AdminSignup extends React.Component {
   constructor(){
     super();
     this.state = {email: "", password: "", firstName: "", lastName: '', phone: '', orgName: ''}
-    this.update = this.update.bind(this);
+    this.submitForm = this.submitForm.bind(this);
     console.log('The state ', this.state)
   }
-  update(e){
-    this.setState({
-      email: ReactDOM.findDOMNode(this.refs.email.refs.inp).value,
-      password: ReactDOM.findDOMNode(this.refs.password.refs.inp).value,
-      firstName: ReactDOM.findDOMNode(this.refs.firstName.refs.inp).value,
-      lastName: ReactDOM.findDOMNode(this.refs.lastName.refs.inp).value,
-      phone: ReactDOM.findDOMNode(this.refs.phone.refs.inp).value,
-      orgName: ReactDOM.findDOMNode(this.refs.orgName.refs.inp).value
-    })
-  }
-  submitForm(e){
-    e.preventDefault();
-  let adminInfo = {adminUser: {firstName: this.state.firstName, lastName: this.state.lastName,
-      password: this.state.password, email: this.state.email, phone: this.state.phone}, organizations:{ orgName: this.state.orgName}};
+
+  submitForm(data){
+  let adminInfo = {adminUser: {firstName: this.refs.firstName.getValue(), lastName: this.refs.lastName.getValue(),
+      password: this.refs.password.getValue(), email: this.refs.email.getValue(), phone: this.refs.phone.getValue()}, organizations:{ orgName: this.refs.orgName.getValue()}};
     console.log("User info submit", adminInfo)
     this.post(adminInfo);
   }
@@ -69,10 +58,12 @@ class AdminSignup extends React.Component {
   render(){
     return (
       <div className ="well col-sm-6 col-sm-offset-3">
-        <SignUpForm className="text-left">
+        <SignUpForm 
+        onValidSubmit={this.submitForm}
+        className="text-left">
           <Input
             ref="email"
-            update={this.update}
+            onUpdate={this.update}
             name="email"
             value=""
             label="Email"
@@ -86,7 +77,7 @@ class AdminSignup extends React.Component {
             required
           />
           <Input
-            update={this.update}
+            onUpdate={this.update}
             ref="password"
             name="password1"
             value=""
@@ -108,7 +99,7 @@ class AdminSignup extends React.Component {
             placeholder="Retype password"
           />
           <Input
-            update={this.update}
+            onUpdate={this.update}
             ref="firstName"
             name="firstName"
             value=""
@@ -118,7 +109,7 @@ class AdminSignup extends React.Component {
             required
           />
           <Input
-            update={this.update}
+            onUpdate={this.update}
             ref="lastName"
             name="lastName"
             value=""
@@ -128,16 +119,19 @@ class AdminSignup extends React.Component {
             required
           />
           <Input
-            update={this.update}
+            onUpdate={this.update}
             ref="phone"
             name="phone"
             value=""
             label="Phone Number"
+            validations={{isLength: 10,
+                          isNumeric: true}}
+            validationError="Must be a valid phone number"
             type="text"
             placeholder="Phone Number"
           />
           <Input
-            update={this.update}
+            onUpdate={this.update}
             ref="orgName"
             name="orgName"
             value=""
@@ -146,7 +140,7 @@ class AdminSignup extends React.Component {
             placeholder="Organization Name"
             required
           />
-        <button className="btn btn-primary" type='submit' onClick={this.submitForm.bind(this)}>Sign Up</button>
+        <button className="btn btn-primary" onValidSubmit={this.submitForm} type='submit'>Sign Up</button>
 
         </SignUpForm>
       </div>
