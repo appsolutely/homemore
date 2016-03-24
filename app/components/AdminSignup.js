@@ -5,8 +5,10 @@ import { Link } from 'react-router';
 class AdminSignup extends React.Component {
   constructor(){
     super();
-    this.state = {email: "", password: "", firstName: "", lastName: '', phone: '', orgName: ''}
+    this.state = {email: "", password: "", firstName: "", lastName: '', phone: '', orgName: '', 
+    passwordValidationState: '', emailValidationState: '', nameValidationState: '', phoneValidationState: ''}
     this.update = this.update.bind(this);
+    console.log('The state ', this.state)
   }
   update(e){
     this.setState({
@@ -46,17 +48,17 @@ class AdminSignup extends React.Component {
       <div className ="well col-sm-6 col-sm-offset-3">
         <form className="text-left">
           <label>Email</label>
-          <EmailInfo ref = 'email' update={this.update} />
+          <EmailInfo ref = 'email' update={this.update} validation={this.state}/>
           <label>Password</label>
-          <PasswordInfo ref = 'password' update={this.update} />
+          <PasswordInfo ref = 'password' update={this.update} validation={this.state}/>
           <label>First Name</label>
-          <AccountInfo ref = 'firstName' update={this.update} />
+          <AccountInfo ref = 'firstName' update={this.update} validation={this.state}/>
           <label>Last Name</label>
-          <AccountInfo ref = 'lastName' update={this.update} />
+          <AccountInfo ref = 'lastName' update={this.update} validation={this.state}/>
           <label>Phone Number</label>
-          <PhoneInfo ref = 'phone' update={this.update} />
+          <PhoneInfo ref = 'phone' update={this.update} validation={this.state}/>
           <label>Org Name</label>
-          <AccountInfo ref = 'orgName' update={this.update} />
+          <AccountInfo ref = 'orgName' update={this.update} validation={this.state}/>
        
         <button className="btn btn-primary" type='submit' onClick={this.submitForm.bind(this)}>Sign Up</button>
 
@@ -69,7 +71,7 @@ class AdminSignup extends React.Component {
 class PasswordInfo extends React.Component {
   render(){
     return(
-      <div className={'form-group ' + this.state.passwordValidationState}>
+      <div className={'form-group ' + this.props.validation.passwordValidationState}>
         <input className='form-control' minLength="7" ref="inp" type = "password" required="required"
           onChange={this.props.update} />
       </div>)
@@ -79,7 +81,7 @@ class PasswordInfo extends React.Component {
 class AccountInfo extends React.Component  {
   render(){
     return(
-      <div className={'form-group ' + this.state.nameValidationState}>
+      <div className={'form-group ' + this.props.validation.nameValidationState}>
         <input className='form-control' ref="inp" type = "text" required="required"
           onChange={this.props.update} />
       </div>)
@@ -89,7 +91,7 @@ class AccountInfo extends React.Component  {
 class EmailInfo extends React.Component {
   render() {
     return (
-      <div className={'form-group ' + this.state.emailValidationState}>
+      <div className={'form-group ' + this.props.validation.emailValidationState}>
           <input className='form-control' ref="inp" type="email" required="required"
             onChange={this.props.update} />
       </div>)
@@ -99,7 +101,7 @@ class EmailInfo extends React.Component {
 class PhoneInfo extends React.Component {
   render() {
     return(
-      <div className={'form-group ' + this.state.phoneValidationState}>
+      <div className={'form-group ' + this.props.validation.phoneValidationState}>
         <input minLength="10" className='form-control' ref="inp" type = "phone" required="required"
           onChange={this.props.update} />
       </div>)

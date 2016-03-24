@@ -32,6 +32,21 @@ class UserStore {
     console.log('update failed because:', err)
   }
 
+  onInvalidName() {
+    this.nameValidationState = 'has-error';
+    this.helpBlock = 'Please enter a valid name.';
+  }
+
+  onInvalidEmail() {
+    this.emailValidationState = 'has-error';
+    this.helpBlock = 'Please enter a valid email.';
+  }
+
+  onInvalidPhone() {
+    this.phoneValidationState = 'has-error';
+    this.helpBlock = 'Please enter a valid phone number.';
+  }
+
 }
 
 export default alt.createStore(UserStore);

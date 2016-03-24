@@ -611,7 +611,8 @@ describe('Sheltered API', function(){
                       .expect(function(resp){
                         var units = resp.body;
                         console.log('returned ', units);
-                        expect(units).to.be.an.instanceOf(Array)
+                        expect(units).to.be.an.instanceOf(Array);
+                        expect(units[0].unitID).to.not.equal(undefined);
                       })
             })
     }); 
