@@ -56,6 +56,8 @@
     "express": "^4.13.3",
     "express-sanitizer": "^1.0.1",
     "express-validator": "^2.20.3",
+    "formsy-react": "^0.17.0",
+    "formsy-react-components": "^0.6.6",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
