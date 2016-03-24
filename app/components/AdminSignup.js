@@ -20,7 +20,6 @@ const SignUpForm = React.createClass({
             </Formsy.Form>
         );
     }
-
 });
 
 
