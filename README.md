@@ -59,15 +59,25 @@ Next, add a .eslintrc.json file to your sheltered root directory.  Copy and past
 For the Backend install and use SublimeLinter-jshint instead.
 
 ### Initializing Database
+Once PostgreSQL is installed run:
 ```
 postgres -D /usr/local/var/postgres
+```
+then in another terminal window run:
+```
+npm install -g knex
 createdb sheltered_dev
 npm start
 knex seed:run
 ```
+Then run:
+```
+gulp
+```
+gulp will watch the front end files for changes and then covert and bundle them.
 
 ### Tests
-Once Postgres is running
+Once Postgres is running:
 ```
 npm install -g knex
 createdb sheltered_test
