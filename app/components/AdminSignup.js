@@ -74,6 +74,7 @@ class AdminSignup extends React.Component {
             help="Email will serve as login"
             required
           />
+          
           <Input
             onUpdate={this.update}
             ref="password"

@@ -26,6 +26,7 @@ class SignedInNav extends React.Component {
               <a className="navbar-brand" href="/">
                 <img alt="Sheltered" className="brand-logo" src="./favicon.png" />
               </a>
+                <li><Link to='/'><span className="glyphicon glyphicon-list-alt"></span> Shelter Listings</Link></li>
                  <li><Link to='/add-shelter'><span className="glyphicon glyphicon-plus-sign"></span> Add Shelter</Link></li>
                  <li><Link to='/manage-shelters'><span className="glyphicon glyphicon-th-list"></span> Manage Shelters</Link></li>
                 </ul>

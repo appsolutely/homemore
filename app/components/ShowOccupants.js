@@ -29,25 +29,45 @@ class ShowOccupants extends React.Component{
       const adder = (e) => {e.preventDefault(); this.handleAdd(unit.shelterUnitID); };
       const remover = (e) => {e.preventDefault(); this.handleRemove(unit.occupancyID, unit.occupiedByName); };
       return (
-        <div key={unit.shelterUnitID} className='occupant' id={unit.shelterUnitID}>
-          <h3>Occupant: {thisName}</h3>
-          <h4>Entrance Date: {unit.entranceDate}</h4>
-          <h4>Exit Date: {unit.exitDate}</h4>
-          {function(){
-            if(thisName === 'Open'){
-              return <div><input type="text" ref={"name" + unit.shelterUnitID}/><button className="btn btn-primary btn-xs editButton" onClick={adder}>Add Occupant</button></div> 
+        
+
+          
+          <tr key={unit.shelterUnitID} className='occupant' id={unit.shelterUnitID}>
+
+                <td>{thisName}</td>
+                <td>{unit.unitName ? unit.unitName : "Unknown"}</td>
+                <td>{unit.unitSize ? unit.unitSize : "Unknown"}</td>
+                <td>{function(){if(thisName === 'Unit Open'){
+              return <div><input type="text" ref={"name" + unit.shelterUnitID}/><button className="btn btn-primary btn-xs editButton" onClick={fund}>Add Occupant</button></div> 
+
             }else{
               return <button className="btn btn-primary btn-xs editButton" onClick={remover}>Remove Occupant</button>
             }
-          }.call(this)}
-        </div>
+          }.call(this)}</td>
+            </tr>
+
+
+   
+
       );
     })
   	return(
-  		<div>
-  			<h1>Stuff Here</h1>
-  			{occupants}
-  		</div>
+  	
+		  <table className="table table-hover">
+        <thead>
+          <tr>
+            <th>Occupant</th>
+            <th>Unit Name</th>
+            <th>Unit Size</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {occupants}
+        </tbody>
+      </table>
+  			
+  		
   	)
   }
 

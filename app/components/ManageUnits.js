@@ -35,7 +35,7 @@ class ManageUnits extends React.Component {
   render(){
     return (
       <div>
-        <form className="form-inline">
+        <form className="well form-inline">
         <span><h3>Add Units</h3></span>
           <span className="selectUnits"><span>Beds per unit: </span>
               <select className="form-control selectWidth" ref='beds'>
@@ -44,6 +44,7 @@ class ManageUnits extends React.Component {
                 <option>3</option>
               </select>
           </span>
+          <input type="text" ref=''></input>
           <button className="btn btn-primary btn-sm editButton" onClick={this.addUnits}>Add Unit</button>
         </form>
       </div>
