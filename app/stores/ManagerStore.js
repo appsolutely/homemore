@@ -34,9 +34,12 @@ class ManagerStore {
 	}
 
 	onAddOccupantSuccess(response){
-		console.log('add occupant success', response)
-		this.occupancyObject = response;
-		console.log('while pushed', this.occupancyObject);
+		const id = response[0].fk_shelterUnitID;
+		this.occupancyObject = this.occupancyObject.concat(response);
+		this.occupancyObject = this.occupancyObject.filter((unit)=>{
+			return unit.shelterUnitID !== id;
+		})
+		//this.occupancyObject.push(response);
 	}
 
 	onAddOccupantFail(err){

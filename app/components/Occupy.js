@@ -16,7 +16,6 @@ class Occupy extends React.Component {
     this.remove = this.remove.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleOccupantDelegation = this.handleOccupantDelegation.bind(this);
   }
 
   // stuff
@@ -77,12 +76,6 @@ class Occupy extends React.Component {
     })
   }
 
-  handleOccupantDelegation(bool){
-    this.setState({
-      mounted: bool,
-    })
-  }
-
   handleUpdate(orgName, shelterName, dayPhone, emergencyPhone, email, locationName, streetAddress, city, state, zip, monday,
   tuesday,wednesday,thursday,friday,saturday,sunday){
     var currentShelterID = this.state.currentShelter.shelterID;
@@ -116,19 +109,6 @@ class Occupy extends React.Component {
     tuesday,wednesday,thursday,friday,saturday,sunday,currentShelterID, currentLocationID, currentHourID)
   }
 
-// function FindOneShelterByID(arrayOfShelters, find){
-//   var theShelter;
-
-//   arrayOfShelters.some((shelter) => {
-//     if(shelter.shelterID === find){
-//       theShelter = shelter
-//     }
-//   })
-//   return theShelter;
-// }
-//
-//  {this.state.occupancyObject ? <ShowOccupants add={this.addOccupant} units={this.state.occupancyObject} /> : <div>Loading ...</div> }
-//{occupancy{name:'Joe', entranceDate: ???, exitDate: ???, unitID: ??}}
   addOccupant(id,name){
     const personName = name;
     const theShelter = this.state.currentShelter;
@@ -139,15 +119,18 @@ class Occupy extends React.Component {
       'occupancy':{name:personName, entranceDate: '9/11/2001', exitDate: '9/15/2001', 'unitID': id}
     }
     console.log('I am the occupantObject, kookookachoo', occupant)
-    ManagerActions.addOccupant(occupant)
-    //e.preventDefault();
+    const stateOccupant = {entranceDate: '9/11/2001', 
+                           exitDate: '9/15/2001',
+                           occupiedByName: personName,
+                           occupancyID: null,
+                           shelterUnitID: id,};
     // this.setState({
-    //   items: this.state.items.concat([this.state.task]),
-    //   task: ''
+    //   occupancyObject: this.state.occupancyObject.push(stateOccupant),
+    //   //console.log('state has been reset with occupancyObject as:', occupancyObject)
     // })
-    // this.stateStuff()
+    ManagerActions.addOccupant(occupant)
   }
-  // //
+  // /
 
   render(){
     console.log(this.state.currentShelter, '==============')

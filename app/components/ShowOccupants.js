@@ -15,17 +15,24 @@ class ShowOccupants extends React.Component{
     this.props.add(id,residentName)
     // console.log('I should not exist');
   }
+    // $('#'+unit.shelterUnitID).hide()
 
   render(){
   	const occupants = this.props.units.map((unit) => {
       const thisName = unit.occupiedByName || 'Open';
-      const fund = (e) =>{e.preventDefault(); this.handleClick(unit.shelterUnitID)};
+      const fund = (e) =>{e.preventDefault(); this.handleClick(unit.shelterUnitID); };
       return (
-        <div key={unit.shelterUnitID} className='occupant'>
+        <div key={unit.shelterUnitID} className='occupant' id={unit.shelterUnitID}>
           <h3>Name: {thisName}</h3>
-          <input type="text" ref={"name" + unit.shelterUnitID}/>
-          <button className="btn btn-primary btn-xs editButton" onClick={fund}>Add Occupant</button>
-          <button className="btn btn-primary btn-xs editButton">Remove</button>
+          <h4>Entrance Date: {unit.entranceDate}</h4>
+          <h4>Exit Date: {unit.exitDate}</h4>
+          {function(){
+            if(thisName === 'Open'){
+              return <div><input type="text" ref={"name" + unit.shelterUnitID}/><button className="btn btn-primary btn-xs editButton" onClick={fund}>Add Occupant</button></div> 
+            }else{
+              return <button className="btn btn-primary btn-xs editButton">Remove Occupant</button>
+            }
+          }.call(this)}
         </div>
       );
     })
