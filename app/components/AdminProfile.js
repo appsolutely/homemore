@@ -3,10 +3,31 @@ import ReactDOM from 'react-dom'
 import { Link } from 'react-router';
 import alt from '../alt';
 import UserProfileActions from '../actions/UserProfileActions';
+import Formsy from 'formsy-react';
+import FRC from 'formsy-react-components';
+
+
+const {Input} = FRC;
+
+const NewShelterForm = React.createClass({
+
+    mixins: [FRC.ParentContextMixin],
+    render() {
+        return (
+            <Formsy.Form
+                {...this.props}
+                ref="formsy"
+            >
+                {this.props.children}
+            </Formsy.Form>
+        );
+    }
+});
 
 class AdminProfile extends React.Component {
   constructor(props) {
     super(props);
+    this.createShelter = this.createShelter.bind(this)
     this.state = alt.stores.UserStore.state;
     this.formData = {headers: {}, managerUser: {firstName: '', lastName: '', email: ''},
       organizations: {orgName: ''},
@@ -54,31 +75,31 @@ class AdminProfile extends React.Component {
 
   createShelter(){
     //managerUser Data
-    this.formData.managerUser.firstName = this.refs.firstName.value
-    this.formData.managerUser.lastName = this.refs.lastName.value
-    this.formData.managerUser.email = this.refs.email.value
+    this.formData.managerUser.firstName = this.refs.firstName.getValue()
+    this.formData.managerUser.lastName = this.refs.lastName.getValue()
+    this.formData.managerUser.email = this.refs.email.getValue()
     //organizations Data
     this.formData.organizations.orgName = this.state.userObject.shelters[0].organizationName
     //shelter Data
-    this.formData.shelters.shelterName = this.refs.shelterName.value
-    this.formData.shelters.shelterEmail = this.refs.shelterEmail.value
-    this.formData.shelters.shelterEmergencyPhone = this.refs.shelterEmergencyPhone.value
-    this.formData.shelters.shelterDayTimePhone = this.refs.shelterDayTimePhone.value
+    this.formData.shelters.shelterName = this.refs.shelterName.getValue()
+    this.formData.shelters.shelterEmail = this.refs.shelterEmail.getValue()
+    this.formData.shelters.shelterEmergencyPhone = this.refs.shelterEmergencyPhone.getValue()
+    this.formData.shelters.shelterDayTimePhone = this.refs.shelterDayTimePhone.getValue()
     //location data
-    this.formData.locations.name = this.refs.name.value
-    this.formData.locations.street = this.refs.street.value
-    this.formData.locations.city = this.refs.city.value
-    this.formData.locations.state = this.refs.state.value
-    this.formData.locations.zip = this.refs.zip.value
-    this.formData.locations.phone = this.refs.phone.value
+    this.formData.locations.name = this.refs.name.getValue()
+    this.formData.locations.street = this.refs.street.getValue()
+    this.formData.locations.city = this.refs.city.getValue()
+    this.formData.locations.state = this.refs.state.getValue()
+    this.formData.locations.zip = this.refs.zip.getValue()
+    this.formData.locations.phone = this.refs.phone.getValue()
     //hours Data
-    this.formData.hours.monday = this.refs.monday.value
-    this.formData.hours.tuesday = this.refs.tuesday.value
-    this.formData.hours.wednesday = this.refs.wednesday.value
-    this.formData.hours.thursday = this.refs.thursday.value
-    this.formData.hours.friday = this.refs.friday.value
-    this.formData.hours.saturday = this.refs.saturday.value
-    this.formData.hours.sunday = this.refs.sunday.value
+    this.formData.hours.monday = this.refs.monday.getValue()
+    this.formData.hours.tuesday = this.refs.tuesday.getValue()
+    this.formData.hours.wednesday = this.refs.wednesday.getValue()
+    this.formData.hours.thursday = this.refs.thursday.getValue()
+    this.formData.hours.friday = this.refs.friday.getValue()
+    this.formData.hours.saturday = this.refs.saturday.getValue()
+    this.formData.hours.sunday = this.refs.sunday.getValue()
     this.postShelter(this.formData)
   }
 
@@ -89,52 +110,258 @@ class AdminProfile extends React.Component {
       <button className="btn btn-default" type='submit' onClick={this.approveAccount.bind(this)}>Approve</button>
 
 
-      <div>
+      <NewShelterForm
+        onValidSubmit={this.createShelter}
+        className="text-left"
+      >
         <span className="row">
           <span className="col-sm-6">
             <h3>Manager Information</h3>
-              <div><label>First Name: </label><input ref="firstName" type= "text" placeholder ="first name" /></div>
-              <div><label>Last Name: </label><input ref="lastName" type= "text" placeholder ="last name"/></div>
-              <div><label>Email: </label><input ref="email" type= "text" placeholder ="email"/></div>
+          <Input
+            onUpdate={this.update}
+            ref="firstName"
+            name="firstName"
+            value=""
+            label="First Name"
+            type="text"
+            placeholder="First Name"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="lastName"
+            name="lastName"
+            value=""
+            label="Last Name"
+            type="text"
+            placeholder="Last Name"
+            required
+          />            
+          <Input
+            ref="email"
+            onUpdate={this.update}
+            name="email"
+            value=""
+            label="Email"
+            type="email"
+            placeholder="Email"
+            validations="isEmail"
+            validationErrors={{
+                isEmail: 'This doesn’t look like a valid email address.'
+            }}
+            required
+          />
           </span>
         </span>
         <span className="row">
           <span className="col-sm-6">
             <h3>Shelter Information</h3>
-            <div><label>Shelter Name:</label><input ref="shelterName" type= "text" placeholder ="shelter name"/></div>
-            <div><label>Email:</label><input ref="shelterEmail" type= "text" placeholder ="email"/></div>
-            <div><label>Daytime Phone:</label><input ref="shelterDayTimePhone" type= "text" placeholder ="daytime phone"/></div>
-            <div><label>911 Phone:</label><input ref="shelterEmergencyPhone" type= "text" placeholder ="emergency phone"/></div>
+            <Input
+            onUpdate={this.update}
+            ref="shelterName"
+            name="shelterName"
+            value=""
+            label="Shelter Name"
+            type="text"
+            placeholder="Shelter Name"
+            required
+          />
+            <Input
+            ref="shelterEmail"
+            onUpdate={this.update}
+            name="email"
+            value=""
+            label="Shelter Email"
+            type="email"
+            placeholder="Shelter Email"
+            validations="isEmail"
+            validationErrors={{
+                isEmail: 'This doesn’t look like a valid email address.'
+            }}
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="shelterDayTimePhone"
+            name="phone"
+            value=""
+            label="DayTime Phone Number"
+            validations={{isLength: 10,
+                          isNumeric: true}}
+            validationError="Must be a valid phone number"
+            type="text"
+            placeholder="Shelter Daytime Phone Number"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="shelterEmergencyPhone"
+            name="phone"
+            value=""
+            label="Emergency Phone Number"
+            validations={{isLength: 10,
+                          isNumeric: true}}
+            validationError="Must be a valid phone number"
+            type="text"
+            placeholder="Shelter Emergency Phone Number"
+            required
+          /> 
           </span>
         </span>
 
         <span className="row">
           <span className="col-sm-6">
             <h4>Location Information</h4>
-            <div><label>Location Name</label> <input ref="name" type= "text" placeholder ="name" /></div>
-            <div><label>Street:</label> <input ref="street" type= "text" placeholder ="street address"/></div>
-            <div><label>City:</label> <input ref="city" type= "text" placeholder ="city"/></div>
-            <div><label>State:</label> <input ref="state" type= "text" placeholder ="state" /></div>
-            <div><label>Zip:</label> <input ref="zip" type= "text" placeholder ="zip"/></div>
-            <div><label>Phone:</label> <input ref="phone" type= "text" placeholder ="phone"/></div>
+            <Input
+            onUpdate={this.update}
+            ref="name"
+            name="locationName"
+            value=""
+            label="Location Name"
+            type="text"
+            placeholder="Location Name"
+            required
+          />
+           <Input
+            onUpdate={this.update}
+            ref="street"
+            name="street"
+            value=""
+            label="Street"
+            type="text"
+            placeholder="Street Address"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="city"
+            name="city"
+            value=""
+            label="City"
+            type="text"
+            placeholder="City"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="state"
+            name="state"
+            value=""
+            label="State"
+            type="text"
+            validations={{isLength: 2,
+                          isAlpha: true}}
+            validationError="Must be a valid State Postal Code"
+            placeholder="State"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="zip"
+            name="zip"
+            value=""
+            label="Zip Code"
+            type="text"
+            validations={{isLength: 5,
+                          isNumeric: true}}
+            validationError="Must be a valid Zip Code"
+            placeholder="Zip"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="phone"
+            name="phone"
+            value=""
+            label="Phone Number"
+            validations={{isLength: 10,
+                          isNumeric: true}}
+            validationError="Must be a valid phone number"
+            type="text"
+            placeholder="Phone Number"
+            required
+          />  
           </span>
         
  
           <span className="col-sm-6">
             <h4>Hours of Operation</h4>
-            <div><label>Monday:</label> <input ref="monday" type= "text" placeholder ="open 24 hours" /></div>
-            <div><label>Tuesday:</label> <input ref="tuesday" type= "text" placeholder ="open 24 hours"/></div>
-            <div><label>Wednesday:</label> <input ref="wednesday" type= "text" placeholder ="open 24 hours"/></div>
-            <div><label>Thursday:</label> <input ref="thursday" type= "text" placeholder ="open 24 hours" /></div>
-            <div><label>Friday:</label> <input ref="friday" type= "text" placeholder ="open 24 hours"/></div>
-            <div><label>Saturday:</label> <input ref="saturday" type= "text" placeholder ="open 24 hours"/></div>
-            <div><label>Sunday:</label> <input ref="sunday" type= "text" placeholder ="open 24 hours"/></div>
+            <Input
+            onUpdate={this.update}
+            ref="monday"
+            name="monday"
+            value=""
+            label="Monday"
+            type="text"
+            placeholder="Monday"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="tuesday"
+            name="tuesday"
+            value=""
+            label="Tuesday"
+            type="text"
+            placeholder="Tuesday"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="wednesday"
+            name="wednesday"
+            value=""
+            label="Wednesday"
+            type="text"
+            placeholder="Wednesday"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="thursday"
+            name="thursday"
+            value=""
+            label="Thursday"
+            type="text"
+            placeholder="Thursday"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="friday"
+            name="friday"
+            value=""
+            label="Friday"
+            type="text"
+            placeholder="Friday"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="saturday"
+            name="saturday"
+            value=""
+            label="Saturday"
+            type="text"
+            placeholder="Saturday"
+            required
+          />
+          <Input
+            onUpdate={this.update}
+            ref="sunday"
+            name="sunday"
+            value=""
+            label="Sunday"
+            type="text"
+            placeholder="Sunday"
+            required
+          />
           </span>
         </span>
 
-        <button className="btn btn-primary" onClick={this.createShelter.bind(this)}>Create Shelter</button>
+        <button className="btn btn-primary" onValidSubmit={this.createShelter}>Create Shelter</button>
 
-      </div>
+      </NewShelterForm>
 
 
       </div>
