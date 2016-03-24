@@ -29,15 +29,15 @@ class ManagerProfileEdit extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    let orgName = this.refs.orgName.getValue() || this.props.shelterInfo.organizationName
+  handleClick() {
+   
+    let orgName = this.props.shelterInfo.organizationName
     let shelterName = this.refs.shelterName.getValue() || this.props.shelterInfo.shelterName
-    let dayPhone = this.refs.dayPhone.getValue() || this.props.shelterInfo.locationPhone
-    let emergencyPhone = this.refs.emergencyPhone.getValue() || this.props.shelterInfo.shelterEmergencyPhone
-    let email = this.refs.email.getValue() || this.props.shelterInfo.shelterEmail
-    let locationName = this.refs.locationName.getValue() || this.props.shelterInfo.locationName
-    let streetAddress = this.refs.streetAddress.getValue() || this.props.shelterInfo.locationStreet
+    let dayPhone = this.refs.shelterDayTimePhone.getValue() || this.props.shelterInfo.locationPhone
+    let emergencyPhone = this.refs.shelterEmergencyPhone.getValue() || this.props.shelterInfo.shelterEmergencyPhone
+    let email = this.refs.shelterEmail.getValue() || this.props.shelterInfo.shelterEmail
+    let locationName = this.refs.name.getValue() || this.props.shelterInfo.locationName
+    let streetAddress = this.refs.street.getValue() || this.props.shelterInfo.locationStreet
     let city = this.refs.city.getValue() || this.props.shelterInfo.locationCity
     let state = this.refs.state.getValue() || this.props.shelterInfo.locationState
     let zip = this.refs.zip.getValue() || this.props.shelterInfo.locationZip
@@ -93,7 +93,6 @@ class ManagerProfileEdit extends React.Component {
             label="Shelter Name"
             type="text"
             placeholder="Shelter Name"
-            required
           />
             <Input
             ref="shelterEmail"
@@ -107,7 +106,6 @@ class ManagerProfileEdit extends React.Component {
             validationErrors={{
                 isEmail: 'This doesn’t look like a valid email address.'
             }}
-            required
           />
           <Input
             onUpdate={this.update}
@@ -120,7 +118,6 @@ class ManagerProfileEdit extends React.Component {
             validationError="Must be a valid phone number"
             type="text"
             placeholder="Shelter Daytime Phone Number"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -133,7 +130,6 @@ class ManagerProfileEdit extends React.Component {
             validationError="Must be a valid phone number"
             type="text"
             placeholder="Shelter Emergency Phone Number"
-            required
           /> 
           </span>
         </span>
@@ -149,7 +145,6 @@ class ManagerProfileEdit extends React.Component {
             label="Location Name"
             type="text"
             placeholder="Location Name"
-            required
           />
            <Input
             onUpdate={this.update}
@@ -159,7 +154,6 @@ class ManagerProfileEdit extends React.Component {
             label="Street"
             type="text"
             placeholder="Street Address"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -169,7 +163,6 @@ class ManagerProfileEdit extends React.Component {
             label="City"
             type="text"
             placeholder="City"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -182,7 +175,6 @@ class ManagerProfileEdit extends React.Component {
                           isAlpha: true}}
             validationError="Must be a valid State Postal Code"
             placeholder="State"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -195,7 +187,6 @@ class ManagerProfileEdit extends React.Component {
                           isNumeric: true}}
             validationError="Must be a valid Zip Code"
             placeholder="Zip"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -208,7 +199,6 @@ class ManagerProfileEdit extends React.Component {
             validationError="Must be a valid phone number"
             type="text"
             placeholder="Phone Number"
-            required
           />  
           </span>
           <span className="col-sm-6">
@@ -221,7 +211,6 @@ class ManagerProfileEdit extends React.Component {
             label="Monday"
             type="text"
             placeholder="Monday"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -231,7 +220,6 @@ class ManagerProfileEdit extends React.Component {
             label="Tuesday"
             type="text"
             placeholder="Tuesday"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -241,7 +229,6 @@ class ManagerProfileEdit extends React.Component {
             label="Wednesday"
             type="text"
             placeholder="Wednesday"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -251,7 +238,6 @@ class ManagerProfileEdit extends React.Component {
             label="Thursday"
             type="text"
             placeholder="Thursday"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -261,7 +247,6 @@ class ManagerProfileEdit extends React.Component {
             label="Friday"
             type="text"
             placeholder="Friday"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -271,7 +256,6 @@ class ManagerProfileEdit extends React.Component {
             label="Saturday"
             type="text"
             placeholder="Saturday"
-            required
           />
           <Input
             onUpdate={this.update}
@@ -281,7 +265,6 @@ class ManagerProfileEdit extends React.Component {
             label="Sunday"
             type="text"
             placeholder="Sunday"
-            required
           />
           </span>
         </span>
