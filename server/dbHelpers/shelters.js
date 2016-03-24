@@ -129,7 +129,7 @@ module.exports.updateShelter = function(req){
     var email = req.shelters.shelterEmail;
     var emergencyPhone = req.shelters.shelterEmergencyPhone;
     var daytimePhone = req.shelters.shelterDayTimePhone;
-    var shelterID = req.shelters.shelterID
+    var shelterID = req.shelters.shelterID;
     var updated;
     return knex('shelters')
             .where('shelterID', shelterID)
@@ -148,7 +148,7 @@ module.exports.updateShelter = function(req){
           updated = updatedShelter;
         })
         .then(function(){
-          return location.updateLocation(req)
+          return location.updateLocation(req);
         })
         .then(function(){
           return updated;
@@ -174,13 +174,15 @@ module.exports.deleteShelter = function(req){
 
 module.exports.insertShelterUnit = function(req){
   var unitSize = req.shelterUnit.unitSize;
+  var unitName = req.shelterUnit.unitName;
   return getShelterID(req.shelters.shelterName)
       .then(function(shelter){
         var shelterID = shelter[0].shelterID;
         return knex('shelterUnits')
                 .insert({
                   fk_shelterID: shelterID,
-                  unitSize: unitSize
+                  unitSize: unitSize,
+                  unitName: unitName
                 })
                 .returning('*')
         .catch(function(err){
