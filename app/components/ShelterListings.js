@@ -15,7 +15,7 @@ class ShelterListings extends React.Component {
         <div key={shelter.shelterID} className="well shelterListings">
           <div className="shelterCard">
 						<Link to={'/shelter/' + shelter.shelterID}>                            
-              <div className="text-left shelterInfo">
+              <div className="text-left">
                 <div className="org text-capitalize"><p>
                   <b>{shelter.organizationName}</b></p>
                 </div>
@@ -27,7 +27,7 @@ class ShelterListings extends React.Component {
                   <span className="locationName text-capitalize"> {shelter.locationName}
                   </span>
                 </h5>
-                <div className="badge"><h5>{shelter.locationCity}, <span className="text-uppercase">{shelter.locationState}</span></h5></div>
+                <span className="badge">{shelter.locationCity}, <span className="text-uppercase">{shelter.locationState}</span></span>
                 <h2><span className="label label-success"><i className="material-icons md-48">hotel</i> {shelter.total_units - shelter.occupied_units} Available</span></h2>
               </div>
 						</Link>

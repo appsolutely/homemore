@@ -29,10 +29,24 @@ class ShowOccupants extends React.Component{
       const adder = (e) => {e.preventDefault(); this.handleAdd(unit.shelterUnitID); };
       const remover = (e) => {e.preventDefault(); this.handleRemove(unit.occupancyID, unit.occupiedByName); };
       return (
+        
         <div key={unit.shelterUnitID} className='occupant' id={unit.shelterUnitID}>
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th>Occupant</th>
+                <th>Unit Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{thisName}</td>
+                <td>{unit.unitName ? unit.unitName : "Unknown"}</td>
+              </tr>
+            </tbody>
+          </table>
           <h3>Occupant: {thisName}</h3>
-          <h4>Entrance Date: {unit.entranceDate}</h4>
-          <h4>Exit Date: {unit.exitDate}</h4>
+          <h4>Unit Name: {unit.unitName ? unit.unitName : "Unknown"}</h4>
           {function(){
             if(thisName === 'Open'){
               return <div><input type="text" ref={"name" + unit.shelterUnitID}/><button className="btn btn-primary btn-xs editButton" onClick={adder}>Add Occupant</button></div> 
@@ -41,6 +55,7 @@ class ShowOccupants extends React.Component{
             }
           }.call(this)}
         </div>
+
       );
     })
   	return(

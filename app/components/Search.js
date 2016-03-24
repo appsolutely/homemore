@@ -16,7 +16,7 @@ class SearchBar extends React.Component {
    return (
    <div className="well text-left">
        <h4>Search Shelters:</h4>
-       <div><input type="text"
+       <div><input className="form-control" type="text"
          placeholder="start typing here..."
          value={this.props.filter}
          ref="filterTextInput"
