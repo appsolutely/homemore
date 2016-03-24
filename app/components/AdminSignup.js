@@ -13,7 +13,6 @@ const SignUpForm = React.createClass({
     render() {
         return (
             <Formsy.Form
-                className={this.getLayoutClassName()}
                 {...this.props}
                 ref="formsy"
             >
