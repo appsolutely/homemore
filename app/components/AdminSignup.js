@@ -1,12 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 import { Link } from 'react-router';
+import Formsy from 'formsy-react';
+import FRC from 'formsy-react-components';
+
+
+const {Input} = FRC;
+
+const SignUpForm = React.createClass({
+
+    mixins: [FRC.ParentContextMixin],
+
+    render() {
+        return (
+            <Formsy.Form
+                className={this.getLayoutClassName()}
+                {...this.props}
+                ref="formsy"
+            >
+                {this.props.children}
+            </Formsy.Form>
+        );
+    }
+
+});
+
 
 class AdminSignup extends React.Component {
   constructor(){
     super();
-    this.state = {email: "", password: "", firstName: "", lastName: '', phone: '', orgName: '', 
-    passwordValidationState: '', emailValidationState: '', nameValidationState: '', phoneValidationState: ''}
+    this.state = {email: "", password: "", firstName: "", lastName: '', phone: '', orgName: ''}
     this.update = this.update.bind(this);
     console.log('The state ', this.state)
   }
@@ -46,67 +69,89 @@ class AdminSignup extends React.Component {
   render(){
     return (
       <div className ="well col-sm-6 col-sm-offset-3">
-        <form className="text-left">
-          <label>Email</label>
-          <EmailInfo ref = 'email' update={this.update} validation={this.state}/>
-          <label>Password</label>
-          <PasswordInfo ref = 'password' update={this.update} validation={this.state}/>
-          <label>First Name</label>
-          <AccountInfo ref = 'firstName' update={this.update} validation={this.state}/>
-          <label>Last Name</label>
-          <AccountInfo ref = 'lastName' update={this.update} validation={this.state}/>
-          <label>Phone Number</label>
-          <PhoneInfo ref = 'phone' update={this.update} validation={this.state}/>
-          <label>Org Name</label>
-          <AccountInfo ref = 'orgName' update={this.update} validation={this.state}/>
-       
+        <SignUpForm className="text-left">
+          <Input
+            ref="email"
+            update={this.update}
+            name="email"
+            value=""
+            label="Email"
+            type="email"
+            placeholder="Email"
+            validations="isEmail"
+            validationErrors={{
+                isEmail: 'This doesn’t look like a valid email address.'
+            }}
+            help="Email will serve as login"
+            required
+          />
+          <Input
+            update={this.update}
+            ref="password"
+            name="password1"
+            value=""
+            label="Password"
+            type="password"
+            validations="minLength:8"
+            validationError="Your password must be at least 8 characters long."
+            placeholder="Choose a password"
+          />
+          <Input
+            name="password2"
+            value=""
+            label="Confirm password"
+            type="password"
+            validations="equalsField:password1"
+            validationErrors={{
+                equalsField: 'Passwords must match.'
+            }}
+            placeholder="Retype password"
+          />
+          <Input
+            update={this.update}
+            ref="firstName"
+            name="firstName"
+            value=""
+            label="First Name"
+            type="text"
+            placeholder="First Name"
+            required
+          />
+          <Input
+            update={this.update}
+            ref="lastName"
+            name="lastName"
+            value=""
+            label="Last Name"
+            type="text"
+            placeholder="Last Name"
+            required
+          />
+          <Input
+            update={this.update}
+            ref="phone"
+            name="phone"
+            value=""
+            label="Phone Number"
+            type="text"
+            placeholder="Phone Number"
+          />
+          <Input
+            update={this.update}
+            ref="orgName"
+            name="orgName"
+            value=""
+            label="Organization Name"
+            type="text"
+            placeholder="Organization Name"
+            required
+          />
         <button className="btn btn-primary" type='submit' onClick={this.submitForm.bind(this)}>Sign Up</button>
 
-        </form>
+        </SignUpForm>
       </div>
   )
   }
 }
-
-class PasswordInfo extends React.Component {
-  render(){
-    return(
-      <div className={'form-group ' + this.props.validation.passwordValidationState}>
-        <input className='form-control' minLength="7" ref="inp" type = "password" required="required"
-          onChange={this.props.update} />
-      </div>)
-  }
-}
-
-class AccountInfo extends React.Component  {
-  render(){
-    return(
-      <div className={'form-group ' + this.props.validation.nameValidationState}>
-        <input className='form-control' ref="inp" type = "text" required="required"
-          onChange={this.props.update} />
-      </div>)
-  }
-}
-
-class EmailInfo extends React.Component {
-  render() {
-    return (
-      <div className={'form-group ' + this.props.validation.emailValidationState}>
-          <input className='form-control' ref="inp" type="email" required="required"
-            onChange={this.props.update} />
-      </div>)
-  }
-}
-
-class PhoneInfo extends React.Component {
-  render() {
-    return(
-      <div className={'form-group ' + this.props.validation.phoneValidationState}>
-        <input minLength="10" className='form-control' ref="inp" type = "phone" required="required"
-          onChange={this.props.update} />
-      </div>)
-  }
-}
-
 
 export default AdminSignup
