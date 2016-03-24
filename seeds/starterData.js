@@ -78,31 +78,31 @@ var shelter11 = { shelters: {shelterName: "Emergency Shelter for Women and Child
   hours: {monday: "Open 24", tuesday: "Open 24", wednesday: "Open 24", thursday: "Open 24", friday: "Open 24", saturday: "Open 24", sunday: "Open 24"}
 };
 
-var unit1 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
-var unit2 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
-var unit3 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
-var unit4 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
-var unit5 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men Emergency Night Shelter"}};
-var unit6 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Day Sleep"}};
-var unit7 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Day Sleep"}};
-var unit8 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Day Sleep"}};
-var unit9 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Cold Weather Shelter"}};
-var unit10 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Men's Cold Weather Shelter"}};
-var unit11 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
-var unit12 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
-var unit13 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
-var unit14 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
-var unit15 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
-var unit16 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
-var unit17 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
-var unit18 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
-var unit19 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
-var unit20 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
-var unit21 = {shelterUnit: {unitSize: "2BD" }, shelters: {shelterName: "Emergency Night Shelter"}};
-var unit22 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Emergency Night Shelter"}};
-var unit23 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Emergency Shelter for Women and Children"}};
-var unit24 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Emergency Shelter for Women and Children"}};
-var unit25 = {shelterUnit: {unitSize: "1BD" }, shelters: {shelterName: "Children's Cold Weather Shelter Program"}};
+var unit1 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit2 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2'}, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit3 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 3' }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit4 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 4' }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit5 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 5' }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit6 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Men's Day Sleep"}};
+var unit7 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2' }, shelters: {shelterName: "Men's Day Sleep"}};
+var unit8 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 3' }, shelters: {shelterName: "Men's Day Sleep"}};
+var unit9 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Men's Cold Weather Shelter"}};
+var unit10 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2' }, shelters: {shelterName: "Men's Cold Weather Shelter"}};
+var unit11 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit12 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2' }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit13 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 3' }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit14 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 4' }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit15 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 5' }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit16 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 6' }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
+var unit17 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 1' }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
+var unit18 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 2' }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
+var unit19 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 3' }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
+var unit20 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 4' }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
+var unit21 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 1' }, shelters: {shelterName: "Emergency Night Shelter"}};
+var unit22 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2' }, shelters: {shelterName: "Emergency Night Shelter"}};
+var unit23 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Emergency Shelter for Women and Children"}};
+var unit24 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2' }, shelters: {shelterName: "Emergency Shelter for Women and Children"}};
+var unit25 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Children's Cold Weather Shelter Program"}};
 
 exports.seed = function(knex, Promise) {
 var org1, org2, org3;
