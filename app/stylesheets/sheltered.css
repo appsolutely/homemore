@@ -35,10 +35,8 @@ label{
     color:#585858;
 }
 
-
 .shelterInfo :hover{
     text-decoration: none;
-    background-color: #E3E3E3;
 }
 
 .header{
@@ -85,9 +83,26 @@ img.brand-logo{
 .shelterListings .shelterCard .org p{
     color:#fff;
     padding-left: 5px;
-     background-color: #337AB7;
+    background-color: #337AB7;
 }
 
 .shelterListings {
     background-color: #e4e4e4;
+}
+
+.manage-shelters h3{
+    color:#fff;
+    background-color: #337Ab7;
+    padding-left: 5px;
+}
+
+.manage-shelters h4{
+    color:#337AB7;
+    font-weight: bold;
+
+}
+
+.shelterProfile h3{
+    padding-left: 5px;
+    
 }
