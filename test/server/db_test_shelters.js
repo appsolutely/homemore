@@ -88,6 +88,7 @@ it('should insert Shelters', function(){
                 expect(resp).to.be.an.instanceOf(Array);
                 expect(resp).to.have.length(1);
                 expect(resp[0].unitSize).to.equal('2BD');
+                expect(resp[0].unitName).to.equal('Room 1')
               });
             });
   });

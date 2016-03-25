@@ -43,6 +43,10 @@ class ShowOccupants extends React.Component{
     // $('#'+unit.shelterUnitID).hide()
   }
 
+  handleEdit(){
+    
+  }
+
   render(){
   	const occupants = this.props.units.map((unit) => {
       const thisName = unit.occupiedByName || 'Unit Open';
@@ -63,10 +67,11 @@ class ShowOccupants extends React.Component{
                               ref={"name" + unit.shelterUnitID}
                               name="occupant"
                               value=""
-                              
                               type="text"
+                              validations={{minLength: 1,
+                                            isWords: true}}
+                              validationError="Must be a valid name"
                               placeholder="Occupant Name"
-                              required
                             />
                             <button className="btn btn-primary btn-xs editButton" onValidSubmit={adder}>Add Occupant</button></OccupantForm>)
             }else{

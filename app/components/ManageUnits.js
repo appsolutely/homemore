@@ -74,6 +74,8 @@ class ManageUnits extends React.Component {
                 value=""
                 label="Unit Name"
                 type="text"
+                validations="isAlphanumeric"
+                validationError="Can only use numbers and characters A-Z"
                 placeholder="Unit Name..."
                 required
               />

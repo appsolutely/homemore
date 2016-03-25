@@ -103,6 +103,7 @@ class AdminSignup extends React.Component {
             name="firstName"
             value=""
             label="First Name"
+            validations="isWords"
             type="text"
             placeholder="First Name"
             required
@@ -113,6 +114,7 @@ class AdminSignup extends React.Component {
             name="lastName"
             value=""
             label="Last Name"
+            validations="isWords"
             type="text"
             placeholder="Last Name"
             required
@@ -135,6 +137,7 @@ class AdminSignup extends React.Component {
             name="orgName"
             value=""
             label="Organization Name"
+            validations="isWords"
             type="text"
             placeholder="Organization Name"
             required
