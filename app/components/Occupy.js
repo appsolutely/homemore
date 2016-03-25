@@ -17,6 +17,7 @@ class Occupy extends React.Component {
     this.remove = this.remove.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.addUnits = this.addUnits.bind(this);
   }
 
   // stuff
@@ -119,7 +120,7 @@ class Occupy extends React.Component {
       'occupancy':{name:personName, entranceDate: '9/11/2001', exitDate: '9/15/2001', 'unitID': id}
     }
     console.log('I am the occupantObject, kookookachoo', occupant)
-    const stateOccupant = {entranceDate: '9/11/2001', 
+    const stateOccupant = {entranceDate: '9/11/2001',
                            exitDate: '9/15/2001',
                            occupiedByName: personName,
                            occupancyID: null,
