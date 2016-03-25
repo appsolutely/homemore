@@ -309,7 +309,6 @@ app.post('/api/updateOrganization', function(req, res){
 app.post('/api/updateShelter', function(req, res){
   //should check whether user has permission
   //can update all rows of information about a shelter eg. name, contact info, etc
-
   req.sanitize('shelters.shelterName').escape();
   req.sanitize('shelters.shelterEmail').escape();
   req.sanitize('shelters.shelterEmergencyPhone').escape();
@@ -328,12 +327,12 @@ app.post('/api/updateShelter', function(req, res){
   req.sanitize('hours.saturday').escape();
   req.sanitize('hours.sunday').escape();
 
+
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
         return shelters.updateShelter(req.body)
                 .then(function(updates){
-                  console.log('occupant', updates)
                   res.status(201).send(updates);
                 })
                 .catch(function(err){
@@ -436,8 +435,8 @@ app.post('/api/updateOccupantUnit', function(req, res){
 });
 
 app.post('/api/addShelterUnit', function(req, res){
+  req.sanitize('shelterUnit.unitName').escape();
   req.sanitize('shelterUnit.unitSize').escape();
-
   if (req.session) {
     if ((req.session.permissionLevel === 'Admin' && req.session.permissionOrg === req.body.organizations.orgName) ||
       (req.session.permissionLevel === 'Manager' && req.session.permissionShelter === req.body.shelters.shelterName)){
@@ -519,7 +518,6 @@ app.post('/api/fetchShelterOccupants', function(req, res){
   //req.sanitize('shelters.shelterName').escape();
   return shelters.selectAllOccupants(req.body.shelters.shelterName)
                   .then(function(occupants){
-                    console.log('OCCUPANTS ', occupants)
                     res.status(200).send(occupants);
                   })
                   .catch(function(err){

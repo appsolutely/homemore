@@ -13,6 +13,7 @@ const UpdateShelterForm = React.createClass({
     render() {
         return (
             <Formsy.Form
+              className="form-horizontal"
                 {...this.props}
                 ref="formsy"
             >
@@ -83,7 +84,7 @@ class ManagerProfileEdit extends React.Component {
               className="text-left"
             >
         <span className="row">
-          <span className="col-sm-6">
+          <span className="col-sm-8">
             <h3>Shelter Information</h3>
             <Input
             onUpdate={this.update}
@@ -208,63 +209,63 @@ class ManagerProfileEdit extends React.Component {
             ref="monday"
             name="monday"
             value=""
-            label="Monday"
+            label="Mon"
             type="text"
-            placeholder="Monday"
+            placeholder="ie. open 24 hours"
           />
           <Input
             onUpdate={this.update}
             ref="tuesday"
             name="tuesday"
             value=""
-            label="Tuesday"
+            label="Tue"
             type="text"
-            placeholder="Tuesday"
+            placeholder="ie. open 24 hours"
           />
           <Input
             onUpdate={this.update}
             ref="wednesday"
             name="wednesday"
             value=""
-            label="Wednesday"
+            label="Wed"
             type="text"
-            placeholder="Wednesday"
+            placeholder="ie. open 24 hours"
           />
           <Input
             onUpdate={this.update}
             ref="thursday"
             name="thursday"
             value=""
-            label="Thursday"
+            label="Thu"
             type="text"
-            placeholder="Thursday"
+            placeholder="ie. open 24 hours"
           />
           <Input
             onUpdate={this.update}
             ref="friday"
             name="friday"
             value=""
-            label="Friday"
+            label="Fri"
             type="text"
-            placeholder="Friday"
+            placeholder="ie. open 24 hours"
           />
           <Input
             onUpdate={this.update}
             ref="saturday"
             name="saturday"
             value=""
-            label="Saturday"
+            label="Sat"
             type="text"
-            placeholder="Saturday"
+            placeholder="ie. open 24 hours"
           />
           <Input
             onUpdate={this.update}
             ref="sunday"
             name="sunday"
             value=""
-            label="Sunday"
+            label="Sun"
             type="text"
-            placeholder="Sunday"
+            placeholder="ie. open 24 hours"
           />
           </span>
         </span>
