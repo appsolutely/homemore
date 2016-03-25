@@ -38,7 +38,7 @@ class Occupy extends React.Component {
 
 
   addUnits(e){
-    const unit = {shelterUnit: {unitSize: e.shelterUnit.unitSize},
+    const unit = {shelterUnit: {unitSize: e.shelterUnit.unitSize, unitName: e.shelterUnit.unitName},
     shelters: {shelterName: e.shelters.shelterName},
     organizations: {orgName: e.organizations.orgName}};
 
