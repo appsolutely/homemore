@@ -56,8 +56,7 @@ class ManagerStore {
 	}
 
 	onAddUnitSuccess(response){
-		console.log('add unit success', response);
-		this.unitObject = response;
+			this.occupancyObject = this.occupancyObject.concat(response);
 	}
 
 	onRemoveUnitSuccess(response){
