@@ -42,14 +42,7 @@ class Occupy extends React.Component {
     shelters: {shelterName: e.shelters.shelterName},
     organizations: {orgName: e.organizations.orgName}};
 
-    var newOccupancyObject = this.state.occupancyObject.concat({shelterUnit: {unitSize: e.shelterUnit.unitSize},
-    shelters: {shelterName: e.shelters.shelterName},
-    organizations: {orgName: e.organizations.orgName}})
-      console.log("============state1===========",this.state,"=============state==========")
-      console.log('newOccupancyObject', newOccupancyObject)
     ManagerActions.addUnits(unit);
-    this.setState({occupancyObject: newOccupancyObject})
-    console.log("============state2===========",this.state,"=============state==========")
   }
 
   removeUnits(e){
