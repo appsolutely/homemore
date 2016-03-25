@@ -17,6 +17,7 @@ class Occupy extends React.Component {
     this.remove = this.remove.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.addUnits = this.addUnits.bind(this);
   }
 
   // stuff
@@ -41,7 +42,14 @@ class Occupy extends React.Component {
     shelters: {shelterName: e.shelters.shelterName},
     organizations: {orgName: e.organizations.orgName}};
 
+    var newOccupancyObject = this.state.occupancyObject.concat({shelterUnit: {unitSize: e.shelterUnit.unitSize},
+    shelters: {shelterName: e.shelters.shelterName},
+    organizations: {orgName: e.organizations.orgName}})
+      console.log("============state1===========",this.state,"=============state==========")
+      console.log('newOccupancyObject', newOccupancyObject)
     ManagerActions.addUnits(unit);
+    this.setState({occupancyObject: newOccupancyObject})
+    console.log("============state2===========",this.state,"=============state==========")
   }
 
   removeUnits(e){
@@ -119,7 +127,7 @@ class Occupy extends React.Component {
       'occupancy':{name:personName, entranceDate: '9/11/2001', exitDate: '9/15/2001', 'unitID': id}
     }
     console.log('I am the occupantObject, kookookachoo', occupant)
-    const stateOccupant = {entranceDate: '9/11/2001', 
+    const stateOccupant = {entranceDate: '9/11/2001',
                            exitDate: '9/15/2001',
                            occupiedByName: personName,
                            occupancyID: null,
