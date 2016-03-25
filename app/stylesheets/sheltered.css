@@ -85,12 +85,9 @@ img.brand-logo{
 .shelterListings .shelterCard .org p{
     color:#fff;
     padding-left: 5px;
+     background-color: #337AB7;
 }
 
 .shelterListings {
     background-color: #e4e4e4;
-}
-
-.shelterCard .org{
-    background-color: #337AB7;
 }

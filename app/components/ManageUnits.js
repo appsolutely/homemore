@@ -61,20 +61,13 @@ class ManageUnits extends React.Component {
 
 
     return (
-      <div>
+      <div className="well">
         <NewUnitForm 
         onValidSubmit={this.addUnits}
         className="form-inline"
         >
         <span><h3>Add Units</h3></span>
           <span className="selectUnits">
-            <Select
-              ref="beds"
-              name="beds"
-              label="Beds per unit"
-              options={bedSelect}
-              required
-            />
               <Input
                 ref="unitName"
                 name="unitName"
@@ -84,6 +77,13 @@ class ManageUnits extends React.Component {
                 placeholder="Unit Name..."
                 required
               />
+            <Select
+              ref="beds"
+              name="beds"
+              label="Beds per unit"
+              options={bedSelect}
+              required
+            />
           </span>
           <button className="btn btn-primary btn-sm editButton" onValidSubmit={this.addUnits}>Add Unit</button>
         </NewUnitForm>
