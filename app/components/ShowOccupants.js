@@ -1,6 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router';
 import alt from '../alt';
+import Formsy from 'formsy-react';
+import FRC from 'formsy-react-components';
+
+
+const {Input} = FRC;
+
+const OccupantForm = React.createClass({
+    mixins: [FRC.ParentContextMixin],
+
+    render() {
+        return (
+            <Formsy.Form
+                {...this.props}
+                ref="formsy"
+            >
+                {this.props.children}
+            </Formsy.Form>
+        );
+    }
+});
 
 
 class ShowOccupants extends React.Component{
@@ -12,7 +32,7 @@ class ShowOccupants extends React.Component{
 
 // stuff
   handleAdd(id,name){
-    const residentName = this.refs["name" + id].value;
+    const residentName = this.refs["name" + id].getValue();
     this.props.add(id,residentName);
     // console.log('I should not exist');
   }
@@ -26,8 +46,8 @@ class ShowOccupants extends React.Component{
   render(){
   	const occupants = this.props.units.map((unit) => {
       const thisName = unit.occupiedByName || 'Open';
-      const adder = (e) => {e.preventDefault(); this.handleAdd(unit.shelterUnitID); };
-      const remover = (e) => {e.preventDefault(); this.handleRemove(unit.occupancyID, unit.occupiedByName); };
+      const adder = (e) => {this.handleAdd(unit.shelterUnitID); };
+      const remover = (e) => {this.handleRemove(unit.occupancyID, unit.occupiedByName); };
       return (
         
 
@@ -37,9 +57,18 @@ class ShowOccupants extends React.Component{
                 <td>{thisName}</td>
                 <td>{unit.unitName ? unit.unitName : "Unknown"}</td>
                 <td>{unit.unitSize ? unit.unitSize : "Unknown"}</td>
-                <td>{function(){if(thisName === 'Unit Open'){
-              return <div><input type="text" ref={"name" + unit.shelterUnitID}/><button className="btn btn-primary btn-xs editButton" onClick={fund}>Add Occupant</button></div> 
-
+                <td>{function(){if(thisName === 'Open'){
+              return (<OccupantForm onValidSubmit={adder}>
+                            <Input
+                              ref={"name" + unit.shelterUnitID}
+                              name="occupant"
+                              value=""
+                              label="Occupant Name"
+                              type="text"
+                              placeholder="Occupant Name"
+                              required
+                            />
+                            <button className="btn btn-primary btn-xs editButton" onValidSubmit={adder}>Add Occupant</button></OccupantForm>)
             }else{
               return <button className="btn btn-primary btn-xs editButton" onClick={remover}>Remove Occupant</button>
             }
