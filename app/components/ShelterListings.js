@@ -16,8 +16,8 @@ class ShelterListings extends React.Component {
           <div className="shelterCard">
 						<Link to={'/shelter/' + shelter.shelterID}>                            
               <div className="text-left">
-                <div className="org text-capitalize"><p>
-                  <b>{shelter.organizationName}</b></p>
+                <div className="org text-capitalize">
+                  <p><b>{shelter.organizationName}</b></p>
                 </div>
                 <h4><span className="shelterName"><b>{shelter.shelterName}</b></span></h4>
                 <h5 className="text-lowercase"> operated by

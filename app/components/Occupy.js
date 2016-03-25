@@ -146,8 +146,10 @@ class Occupy extends React.Component {
       <div className ="well col-sm-6 col-sm-offset-3 text-left">
       {this.state.clicked ? <ManagerProfileEdit save={this.handleUpdate} shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/> :<ManagerProfileView shelterInfo={this.state.currentShelter} clicker={this.handleUserInput}/>}
         <ManageUnits shelter={this.state.currentShelter} add={this.addUnits}/>
+          <div className="well">
           <h3>Current Occupancy</h3>
           <ShowOccupants add={this.addOccupant} remove={this.removeOccupant} units={this.state.occupancyObject} />
+        </div>
       </div>
     );
   }

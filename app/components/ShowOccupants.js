@@ -45,7 +45,7 @@ class ShowOccupants extends React.Component{
 
   render(){
   	const occupants = this.props.units.map((unit) => {
-      const thisName = unit.occupiedByName || 'Open';
+      const thisName = unit.occupiedByName || 'Unit Open';
       const adder = (e) => {this.handleAdd(unit.shelterUnitID); };
       const remover = (e) => {this.handleRemove(unit.occupancyID, unit.occupiedByName); };
       return (
@@ -57,13 +57,13 @@ class ShowOccupants extends React.Component{
                 <td>{thisName}</td>
                 <td>{unit.unitName ? unit.unitName : "Unknown"}</td>
                 <td>{unit.unitSize ? unit.unitSize : "Unknown"}</td>
-                <td>{function(){if(thisName === 'Open'){
+                <td>{function(){if(thisName === 'Unit Open'){
               return (<OccupantForm onValidSubmit={adder}>
                             <Input
                               ref={"name" + unit.shelterUnitID}
                               name="occupant"
                               value=""
-                              label="Occupant Name"
+                              
                               type="text"
                               placeholder="Occupant Name"
                               required
@@ -82,7 +82,7 @@ class ShowOccupants extends React.Component{
     })
   	return(
   	
-		  <table className="table table-hover">
+		  <table className="table table-striped">
         <thead>
           <tr>
             <th>Occupant</th>
