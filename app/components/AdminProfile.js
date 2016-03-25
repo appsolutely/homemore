@@ -29,6 +29,7 @@ class AdminProfile extends React.Component {
     super(props);
     this.createShelter = this.createShelter.bind(this)
     this.state = alt.stores.UserStore.state;
+    this.postShelter = this.postShelter.bind(this);
     this.formData = {headers: {}, managerUser: {firstName: '', lastName: '', email: ''},
       organizations: {orgName: ''},
       shelters:{shelterName: '', shelterEmail: '', shelterEmergencyPhone: '', shelterAddress: '', shelterDayTimePhone: ''},
@@ -51,7 +52,7 @@ class AdminProfile extends React.Component {
       url: '/api/approve',
       data:{permission: 'JCB', user: {email: data}},
       success: function(data){
-        console.log("account has been approved")
+        //this.state.help = 'Shelter Submitted!'      
       },
       fail: function(err){
         console.log('err', err);
@@ -69,11 +70,14 @@ class AdminProfile extends React.Component {
       },
       fail: function(err){
         console.log('err', err);
+        this.setState({
+          help: 'Something went wrong'
+        })
       }
     });
   }
 
-  createShelter(){
+  createShelter() {
     //managerUser Data
     this.formData.managerUser.firstName = this.refs.firstName.getValue()
     this.formData.managerUser.lastName = this.refs.lastName.getValue()
@@ -100,7 +104,8 @@ class AdminProfile extends React.Component {
     this.formData.hours.friday = this.refs.friday.getValue()
     this.formData.hours.saturday = this.refs.saturday.getValue()
     this.formData.hours.sunday = this.refs.sunday.getValue()
-    this.postShelter(this.formData)
+
+    UserProfileActions.addShelter(this.formData)
   }
 
   render() {
@@ -359,7 +364,7 @@ class AdminProfile extends React.Component {
         </span>
 
         <button className="btn btn-primary" onValidSubmit={this.createShelter}>Create Shelter</button>
-
+        <span className='help'>{this.state.help}</span>
       </NewShelterForm>
 
 

@@ -6,7 +6,9 @@ class UserProfileActions {
       'getUserSuccess',
       'getUserFail',
       'updateUserSuccess',
-      'updateUserFail'
+      'updateUserFail',
+      'addShelterSuccess',
+      'addShelterFail'
     );
   }
 
@@ -21,20 +23,18 @@ class UserProfileActions {
   }
 
   updateUser(firstName, lastName, email, password, phone, passwordFlag, emailFlag) {
-    var updatedProfileObject = {'user' : 
+    var updatedProfileObject = { 'user' : 
       {
-      'firstName' : firstName,
-      'lastName' : lastName,
-      'email' : email,
-      'phone' : phone,
-      'password': password
+       firstName : firstName,
+       lastName : lastName,
+       email : email,
+       phone : phone,
+       password: password,
       },
-      'passwordChanged' : passwordFlag,
-      'emailChanged' : emailFlag
+       passwordChanged : passwordFlag,
+       emailChanged : emailFlag,
     };
 
-
-    console.log('being sent to the server: ', updatedProfileObject)
     $.ajax({ 
       type: 'POST',
       url: '/api/updateUser',
@@ -46,6 +46,21 @@ class UserProfileActions {
       .fail((jqXhr) => {
         this.actions.updateUserFail(jqXhr.responseJSON.message);
       })
+  }
+
+
+  addShelter(shelterObject) {
+      $.ajax({
+        type: 'POST',
+        url: '/api/createManager',
+        data: shelterObject,
+      })
+      .done((data) => {
+        this.actions.addShelterSuccess(data);
+      })
+      .fail((jqXhr) => {
+        this.actions.addShelterFail(jqXhr);
+      });
   }
 }
 
