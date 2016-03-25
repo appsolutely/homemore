@@ -49,8 +49,14 @@ class ManagerStore {
 
 	onRemoveOccupantSuccess(response){
 		const updateState = response[0];
-		this.occupancyObject = this.occupancyObject.filter((unit) => {
-			return unit.occupiedByName !== updateState.occupiedByName;
+		this.occupancyObject = this.occupancyObject.map((unit) => {
+			if(unit.occupiedByName === updateState.occupiedByName) {
+				unit.entranceDate = null;
+				unit.exitDate = null;
+				unit.occupancyID = null;
+				unit.occupiedByName = null;
+			}
+			return unit;
 		});
 	}
 
