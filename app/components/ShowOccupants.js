@@ -13,6 +13,7 @@ const OccupantForm = React.createClass({
     render() {
         return (
             <Formsy.Form
+                className="form-elementOnly"
                 {...this.props}
                 ref="formsy"
             >
@@ -62,7 +63,7 @@ class ShowOccupants extends React.Component{
                 <td>{unit.unitName ? unit.unitName : "Unknown"}</td>
                 <td>{unit.unitSize ? unit.unitSize : "Unknown"}</td>
                 <td>{function(){if(thisName === 'Unit Open'){
-              return (<OccupantForm onValidSubmit={adder}>
+              return (<OccupantForm className="form-elementOnly" onValidSubmit={adder}>
                             <Input
                               ref={"name" + unit.shelterUnitID}
                               name="occupant"
@@ -72,10 +73,11 @@ class ShowOccupants extends React.Component{
                                             isWords: true}}
                               validationError="Must be a valid name"
                               placeholder="Occupant Name"
+                              buttonAfter={<button className="btn btn-primary editButton" onValidSubmit={adder}>Add Occupant</button>}
                             />
-                            <button className="btn btn-primary btn-xs editButton" onValidSubmit={adder}>Add Occupant</button></OccupantForm>)
+                            </OccupantForm>)
             }else{
-              return <button className="btn btn-primary btn-xs editButton" onClick={remover}>Remove Occupant</button>
+              return <button className="btn btn-primary remove-occupant editButton" onClick={remover}>Remove Occupant</button>
             }
           }.call(this)}</td>
             </tr>
@@ -93,7 +95,7 @@ class ShowOccupants extends React.Component{
             <th>Occupant</th>
             <th>Unit Name</th>
             <th>Unit Size</th>
-            <th>Action</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

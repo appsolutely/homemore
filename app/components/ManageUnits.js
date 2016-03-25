@@ -54,6 +54,7 @@ class ManageUnits extends React.Component {
 
   render(){
     const bedSelect = [
+            {value: '', label: '--Select--'},
             {value: '1', label: '1BD'},
             {value: '2', label: '2BD'},
             {value: '3', label: '3BD'}
@@ -87,7 +88,7 @@ class ManageUnits extends React.Component {
               required
             />
           </span>
-          <button className="btn btn-primary btn-sm editButton" onValidSubmit={this.addUnits}>Add Unit</button>
+          <button className="btn btn-primary editButton" onValidSubmit={this.addUnits}>Add Unit</button>
         </NewUnitForm>
       </div>
     );
