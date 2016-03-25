@@ -115,14 +115,14 @@ class AdminProfile extends React.Component {
         className="text-left"
       >
         <span className="row">
-          <span className="col-sm-6">
+          <span className="col-sm-7">
             <h3>Manager Information</h3>
           <Input
             onUpdate={this.update}
             ref="firstName"
             name="firstName"
             value=""
-            label="First Name"
+            label="First"
             type="text"
             placeholder="First Name"
             required
@@ -132,7 +132,7 @@ class AdminProfile extends React.Component {
             ref="lastName"
             name="lastName"
             value=""
-            label="Last Name"
+            label="Last"
             type="text"
             placeholder="Last Name"
             required
@@ -152,9 +152,8 @@ class AdminProfile extends React.Component {
             required
           />
           </span>
-        </span>
-        <span className="row">
-          <span className="col-sm-6">
+
+          <span className="col-sm-7">
             <h3>Shelter Information</h3>
             <Input
             onUpdate={this.update}
@@ -185,7 +184,7 @@ class AdminProfile extends React.Component {
             ref="shelterDayTimePhone"
             name="phone"
             value=""
-            label="DayTime Phone Number"
+            label="Daytime Phone"
             validations={{isLength: 10,
                           isNumeric: true}}
             validationError="Must be a valid phone number"
@@ -198,7 +197,7 @@ class AdminProfile extends React.Component {
             ref="shelterEmergencyPhone"
             name="phone"
             value=""
-            label="Emergency Phone Number"
+            label="Emergency Phone"
             validations={{isLength: 10,
                           isNumeric: true}}
             validationError="Must be a valid phone number"
@@ -210,14 +209,14 @@ class AdminProfile extends React.Component {
         </span>
 
         <span className="row">
-          <span className="col-sm-6">
+          <span className="col-sm-7">
             <h4>Location Information</h4>
             <Input
             onUpdate={this.update}
             ref="name"
             name="locationName"
             value=""
-            label="Location Name"
+            label="Name"
             type="text"
             placeholder="Location Name"
             required
@@ -229,7 +228,7 @@ class AdminProfile extends React.Component {
             value=""
             label="Street"
             type="text"
-            placeholder="Street Address"
+            placeholder="Street"
             required
           />
           <Input
@@ -260,7 +259,7 @@ class AdminProfile extends React.Component {
             ref="zip"
             name="zip"
             value=""
-            label="Zip Code"
+            label="Zip"
             type="text"
             validations={{isLength: 5,
                           isNumeric: true}}
@@ -273,7 +272,7 @@ class AdminProfile extends React.Component {
             ref="phone"
             name="phone"
             value=""
-            label="Phone Number"
+            label="Phone"
             validations={{isLength: 10,
                           isNumeric: true}}
             validationError="Must be a valid phone number"
@@ -284,16 +283,16 @@ class AdminProfile extends React.Component {
           </span>
         
  
-          <span className="col-sm-6">
+          <span className="col-sm-7">
             <h4>Hours of Operation</h4>
             <Input
             onUpdate={this.update}
             ref="monday"
             name="monday"
             value=""
-            label="Monday"
+            label="Mon"
             type="text"
-            placeholder="Monday"
+            placeholder="ie. open 24 hours"
             required
           />
           <Input
@@ -301,9 +300,9 @@ class AdminProfile extends React.Component {
             ref="tuesday"
             name="tuesday"
             value=""
-            label="Tuesday"
+            label="Tue"
             type="text"
-            placeholder="Tuesday"
+            placeholder="ie. open 24 hours"
             required
           />
           <Input
@@ -311,9 +310,9 @@ class AdminProfile extends React.Component {
             ref="wednesday"
             name="wednesday"
             value=""
-            label="Wednesday"
+            label="Wed"
             type="text"
-            placeholder="Wednesday"
+            placeholder="ie. open 24 hours"
             required
           />
           <Input
@@ -321,9 +320,9 @@ class AdminProfile extends React.Component {
             ref="thursday"
             name="thursday"
             value=""
-            label="Thursday"
+            label="Thu"
             type="text"
-            placeholder="Thursday"
+            placeholder="ie. open 24 hours"
             required
           />
           <Input
@@ -331,9 +330,9 @@ class AdminProfile extends React.Component {
             ref="friday"
             name="friday"
             value=""
-            label="Friday"
+            label="Fri"
             type="text"
-            placeholder="Friday"
+            placeholder="ie. open 24 hours"
             required
           />
           <Input
@@ -341,9 +340,9 @@ class AdminProfile extends React.Component {
             ref="saturday"
             name="saturday"
             value=""
-            label="Saturday"
+            label="Sat"
             type="text"
-            placeholder="Saturday"
+            placeholder="ie. open 24 hours"
             required
           />
           <Input
@@ -351,9 +350,9 @@ class AdminProfile extends React.Component {
             ref="sunday"
             name="sunday"
             value=""
-            label="Sunday"
+            label="Sun"
             type="text"
-            placeholder="Sunday"
+            placeholder="ie. open 24 hours"
             required
           />
           </span>
