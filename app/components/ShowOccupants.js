@@ -5,8 +5,9 @@ import Formsy from 'formsy-react';
 import FRC from 'formsy-react-components';
 
 
-const {Input} = FRC;
+const { Input } = FRC;
 
+// no support for mixins w/es6 react
 const OccupantForm = React.createClass({
     mixins: [FRC.ParentContextMixin],
 
@@ -23,8 +24,9 @@ const OccupantForm = React.createClass({
     }
 });
 
-
-class ShowOccupants extends React.Component{
+// lists all occupants of current shelter, including empty units
+// also contains occupant/unit management tools to allow user to add units && add/remove occupants
+class ShowOccupants extends React.Component {
   constructor(props) {
     super(props);
     this.handleAdd = this.handleAdd.bind(this);
@@ -32,64 +34,55 @@ class ShowOccupants extends React.Component{
   }
 
 // stuff
-  handleAdd(id,name){
-    const residentName = this.refs["name" + id].getValue();
-    this.props.add(id,residentName);
+  handleAdd(id, unitName, unitSize) {
+    console.log('receiving unitName', unitName);
+    const residentName = this.refs['name' + id].getValue();
+    this.props.add(id, residentName, unitName, unitSize);
     // console.log('I should not exist');
   }
 
-  handleRemove(id,name){
-    console.log('I am the ID to be removed', id)
-    this.props.remove(id,name);
+  handleRemove(id, name) {
+    this.props.remove(id, name);
     // $('#'+unit.shelterUnitID).hide()
   }
 
-  handleEdit(){
-    
-  }
 
-  render(){
-  	const occupants = this.props.units.map((unit) => {
+  render() {
+    const occupants = this.props.units.map((unit) => {
+      console.log('each unit is: ', unit);
       const thisName = unit.occupiedByName || 'Unit Open';
-      const adder = (e) => {this.handleAdd(unit.shelterUnitID); };
-      const remover = (e) => {this.handleRemove(unit.occupancyID, unit.occupiedByName); };
+      const adder = () => {this.handleAdd(unit.shelterUnitID, unit.unitName, unit.unitSize); };
+      const remover = () => {this.handleRemove(unit.occupancyID, unit.occupiedByName, unit.unitName, unit.unitSize); };
       return (
-        
-
-          
-          <tr key={unit.shelterUnitID} className='occupant' id={unit.shelterUnitID}>
+          <tr key={unit.shelterUnitID} className="occupant" id={unit.shelterUnitID}>
 
                 <td>{thisName}</td>
-                <td>{unit.unitName ? unit.unitName : "Unknown"}</td>
-                <td>{unit.unitSize ? unit.unitSize : "Unknown"}</td>
-                <td>{function(){if(thisName === 'Unit Open'){
-              return (<OccupantForm className="form-elementOnly" onValidSubmit={adder}>
-                            <Input
-                              ref={"name" + unit.shelterUnitID}
-                              name="occupant"
-                              value=""
-                              type="text"
-                              validations={{minLength: 1,
-                                            isWords: true}}
-                              validationError="Must be a valid name"
-                              placeholder="Occupant Name"
-                              buttonAfter={<button className="btn btn-primary editButton" onValidSubmit={adder}>Add Occupant</button>}
-                            />
-                            </OccupantForm>)
-            }else{
-              return <button className="btn btn-primary remove-occupant editButton" onClick={remover}>Remove Occupant</button>
-            }
-          }.call(this)}</td>
-            </tr>
-
-
-   
-
+                <td>{unit.unitName ? unit.unitName : 'Unknown'}</td>
+                <td>{unit.unitSize ? unit.unitSize : 'Unknown'}</td>
+                <td>{function () {
+                      if (thisName === 'Unit Open') {
+                        return (<OccupantForm className="form-elementOnly" onValidSubmit={adder}>
+                                <Input
+                                  ref={'name' + unit.shelterUnitID}
+                                  name="occupant"
+                                  value=""
+                                  type="text"
+                                  validations={{ minLength: 1,
+                                                isWords: true }}
+                                  validationError="Must be a valid name"
+                                  placeholder="Occupant Name"
+                                  buttonAfter={<button className="btn btn-primary editButton" onValidSubmit={adder}>Add Occupant</button>}
+                                />
+                                </OccupantForm>);
+                      } else {
+                        return <button className="btn btn-primary remove-occupant editButton" onClick={remover}>Remove Occupant</button>;
+                      }
+                    }.call(this)}</td>
+        </tr>
       );
-    })
-  	return(
-  	
-		  <table className="table table-striped">
+    });
+    return (
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>Occupant</th>
@@ -101,14 +94,15 @@ class ShowOccupants extends React.Component{
         <tbody>
           {occupants}
         </tbody>
-      </table>
-  			
-  		
-  	)
+      </table>	
+    );
   }
-
 }
-//  
+
+ShowOccupants.propTypes = {
+  add: React.PropTypes.func,
+  remove: React.PropTypes.func,
+};
 
 
 export default ShowOccupants;

@@ -25,7 +25,7 @@ class ManagerStore {
 	}
 
 	onGetOccupancySuccess(response){
-		this.occupancyObject = response
+		this.occupancyObject = response;
 		//console.log("** Worked **", response);
 	}
 
@@ -34,11 +34,13 @@ class ManagerStore {
 	}
 
 	onAddOccupantSuccess(response){
+		console.log('in the manager store, unitName is', response);
 		const id = response[0].fk_shelterUnitID;
 		this.occupancyObject = this.occupancyObject.concat(response);
+		console.log(this.occupancyObject)
 		this.occupancyObject = this.occupancyObject.filter((unit)=>{
 			return unit.shelterUnitID !== id;
-		})
+		});
 		//this.occupancyObject.push(response);
 	}
 

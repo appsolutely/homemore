@@ -15,7 +15,7 @@ class Occupy extends React.Component {
     this.addOccupant = this.addOccupant.bind(this);
     this.removeOccupant = this.removeOccupant.bind(this);
     this.remove = this.remove.bind(this);
-    this.handleUserInput = this.handleUserInput.bind(this)
+    this.handleUserInput = this.handleUserInput.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.addUnits = this.addUnits.bind(this);
   }
@@ -110,7 +110,7 @@ class Occupy extends React.Component {
     tuesday,wednesday,thursday,friday,saturday,sunday,currentShelterID, currentLocationID, currentHourID)
   }
 
-  addOccupant(id,name){
+  addOccupant(id, name, unitName, unitSize){
     const personName = name;
     const theShelter = this.state.currentShelter;
     const unit = id;
@@ -125,7 +125,7 @@ class Occupy extends React.Component {
                            occupiedByName: personName,
                            occupancyID: null,
                            shelterUnitID: id,};
-    ManagerActions.addOccupant(occupant)
+    ManagerActions.addOccupant(occupant,unitName, unitSize)
   }
 
   removeOccupant(id,name){
