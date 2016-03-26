@@ -6,8 +6,8 @@ import ShelterProfile from './components/ShelterProfile';
 import AdminSignup from './components/AdminSignup';
 import AdminProfile from './components/AdminProfile';
 import UserProfile from './components/UserProfile';
-import ManagerProfile from './components/ManagerProfile';
-import ManageOccupants from './components/ManageOccupants';
+import ManagerProfile from './components/manageshelter/ManagerProfile';
+import ManageOccupants from './components/manageshelter/ManageOccupants';
 
 export default (
   <Route component={App}>

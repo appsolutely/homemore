@@ -1,24 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router';
-import ManagerActions from '../actions/ManagerActions';
-import ManagerStore from '../stores/ManagerStore';
+import ManagerActions from '../../actions/ManagerActions';
+import ManagerStore from '../../stores/ManagerStore';
 
 class ManagerProfile extends React.Component {
-  constructor(props){
-  	super(props);
-  	this.state = ManagerStore.getState();
-  	this.onChange = this.onChange.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = ManagerStore.getState();
+    this.onChange = this.onChange.bind(this);
   }
 
-  componentDidMount(){
-  	ManagerStore.listen(this.onChange);
-  	//catch-all for loading
-  	//all required fields into state
-  	ManagerActions.getManagerProfile();
+// catch-all for loading
+// all required fields into state
+  componentDidMount() {
+    ManagerStore.listen(this.onChange);
+    ManagerActions.getManagerProfile();
   }
 
-  componentWillUnmount(){
-  	ManagerStore.unlisten(this.onChange)
+  componentWillUnmount() {
+  	ManagerStore.unlisten(this.onChange);
   }
 
 

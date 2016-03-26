@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import alt from '../alt';
+import alt from '../../alt';
 
 class ManagerProfileView extends React.Component {
   constructor(props) {
