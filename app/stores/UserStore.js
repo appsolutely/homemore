@@ -11,6 +11,7 @@ class UserStore {
     this.emailValidationState = '';
     this.nameValidationState = '';
     this.phoneValidationState = '';
+    this.help = '';
   }
 
   onGetUserSuccess(data) {
@@ -22,14 +23,9 @@ class UserStore {
     console.log('failed to get user info', err);
     return err;
   }
-  // since success forces a redraw
-  // onUpdateUserSuccess(data) {
-  //   this.userObjectProfile = data.user;
-  //   console.log('successfully updated info', data);
-  // }
 
-  onUpdateUserFail(err){
-    console.log('update failed because:', err)
+  onUpdateUserFail(err) {
+    console.log('update failed because:', err);
   }
 
   onInvalidName() {
@@ -45,6 +41,16 @@ class UserStore {
   onInvalidPhone() {
     this.phoneValidationState = 'has-error';
     this.helpBlock = 'Please enter a valid phone number.';
+  }
+
+  onAddShelterSuccess(data) {
+    console.log('data', data);
+    this.setState({
+      help: 'Shelter Added' });
+  }
+
+  onAddShelterFail(err) {
+    this.help = err;
   }
 
 }
