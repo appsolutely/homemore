@@ -7,7 +7,7 @@ import AdminSignup from './components/AdminSignup';
 import AdminProfile from './components/AdminProfile';
 import UserProfile from './components/UserProfile';
 import ManagerProfile from './components/ManagerProfile';
-import Occupy from './components/Occupy';
+import ManageOccupants from './components/ManageOccupants';
 
 export default (
   <Route component={App}>
@@ -18,6 +18,6 @@ export default (
     <Route path="/add-shelter" component={AdminProfile} />
     <Route path="/manage-shelters" component={ManagerProfile} />
     <Route path="/user-profile" component={UserProfile} />
-    <Route path="/manage-shelters/:id" component={Occupy} />
+    <Route path="/manage-shelters/:id" component={ManageOccupants} />
   </Route>
 );

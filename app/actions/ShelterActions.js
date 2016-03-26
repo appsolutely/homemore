@@ -3,23 +3,19 @@ import alt from '../alt';
 class ShelterActions {
   constructor() {
     this.generateActions(
-		'getSheltersSuccess',
-		'getSheltersFail'
-	);
+        'getSheltersSuccess',
+        'getSheltersFail'
+    );
   }
 
   getShelters() {
     $.ajax({ url: '/api/austin/shelters' })
-		.done((data) => {
-			console.log(data)
-			console.log('success yo!');
-			this.actions.getSheltersSuccess(data);
-		})
-		.fail((jqXhr) => {
-  			console.log('failll');
-			this.actions.getSheltersFail(jqXhr);
-		});
-
+      .done((data) => {
+        this.actions.getSheltersSuccess(data);
+      })
+      .fail((err) => {
+        this.actions.getSheltersFail(err);
+      });
   }
 }
 

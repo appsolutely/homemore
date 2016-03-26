@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import HeaderActions from '../actions/HeaderActions';
 import HeaderStore from '../stores/HeaderStore';
@@ -7,53 +7,46 @@ import SignIn from './SignIn';
 import SignedInNav from './SignedInNav';
 
 class Header extends React.Component {
-  constructor(props){
-    super(props)
-      this.state = HeaderStore.getState();
-      this.onChange = this.onChange.bind(this);
-      this.signIn = this.signIn.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.state = HeaderStore.getState();
+    this.onChange = this.onChange.bind(this);
+    this.signIn = this.signIn.bind(this);
+  }
 
-    componentDidMount() {
-       if(document.cookie){
-         this.setState({signedIn: true})
-         //auto redirect if no session cookie
-       }
-       if(!document.cookie){
-       if(window.location.pathname != '/'){
-         window.location.href = "./";
-       }}
-       HeaderStore.listen(this.onChange);
+// auto redirect if no session cookie
+  componentDidMount() {
+    if (document.cookie) {
+      this.setState({ signedIn: true });
     }
-
-    submitLogin(e){
-      e.preventDefault();
-      let signInInfo = {user: {password: this.state.password, email: this.state.email}}
-      this.signIn(signInInfo)
+    if (!document.cookie) {
+      if (window.location.pathname != '/') {
+        window.location.href = './';
+      }
     }
+    HeaderStore.listen(this.onChange);
+  }
 
-    onChange(state) {
-      this.setState(state);
-    }
+  onChange(state) {
+    this.setState(state);
+  }
 
-
-    signIn(email,password){
-      HeaderActions.postSignIn(email,password)
-    }
+  signIn(email, password) {
+    HeaderActions.postSignIn(email, password);
+  }
 // child components will render depending on success/fail of sign-in action
-    render() {
-      return (
+  render() {
+    return (
         <div className ="col-sm-6 col-sm-offset-3">
           <Link to="/">
             <img className="logo" src="/img/SHELTERED-logo.png" />
           </Link>
           <div className="header">
-            {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn} help={this.state.help}/>}
+            {this.state.signedIn ? <SignedInNav /> : <SignIn signIn={this.signIn} help={this.state.help} />}
           </div>
         </div>
-
       );
-    }
+  }
 }
 
 
