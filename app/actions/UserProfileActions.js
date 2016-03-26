@@ -17,8 +17,8 @@ class UserProfileActions {
        .done((data) => {
          this.actions.getUserSuccess(data);
        })
-       .fail((jqXhr) => {
-         this.actions.getUserFail(jqXhr);
+       .fail((err) => {
+         this.actions.getUserFail(err);
        });
   }
 
@@ -35,16 +35,16 @@ class UserProfileActions {
        emailChanged : emailFlag,
     };
 
-    $.ajax({ 
+    $.ajax({
       type: 'POST',
       url: '/api/updateUser',
-      data: updatedProfileObject
+      data: updatedProfileObject,
     })
       .done((data) => {
         this.actions.updateUserSuccess(data);
       })
-      .fail((jqXhr) => {
-        this.actions.updateUserFail(jqXhr.responseJSON.message);
+      .fail((err) => {
+        this.actions.updateUserFail(err.responseJSON.message);
       })
   }
 
@@ -58,8 +58,8 @@ class UserProfileActions {
       .done((data) => {
         this.actions.addShelterSuccess(data);
       })
-      .fail((jqXhr) => {
-        this.actions.addShelterFail(jqXhr);
+      .fail((err) => {
+        this.actions.addShelterFail(err);
       });
   }
 }
