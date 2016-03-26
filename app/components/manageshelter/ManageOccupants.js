@@ -1,10 +1,10 @@
 import React from 'react';
-import ManagerActions from '../actions/ManagerActions';
-import ManagerStore from '../stores/ManagerStore';
-import ManagerProfileView from '../components/ManagerProfileView';
-import ManagerProfileEdit from '../components/ManagerProfileEdit';
-import ManageUnits from '../components/ManageUnits';
-import ShowOccupants from '../components/ShowOccupants';
+import ManagerActions from '../../actions/ManagerActions';
+import ManagerStore from '../../stores/ManagerStore';
+import ManagerProfileView from './ManagerProfileView';
+import ManagerProfileEdit from './ManagerProfileEdit';
+import ManageUnits from './ManageUnits';
+import ShowOccupants from './ShowOccupants';
 
 
 class ManageOccupants extends React.Component {
