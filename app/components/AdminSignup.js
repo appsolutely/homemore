@@ -125,8 +125,8 @@ class AdminSignup extends React.Component {
             name="phone"
             value=""
             label="Phone Number"
-            validations={{isLength: 10,
-                          isNumeric: true}}
+            validations={{minLength: 10,
+                          maxLength: 14}}
             validationError="Must be a valid phone number"
             type="text"
             placeholder="Phone Number"
