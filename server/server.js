@@ -160,7 +160,7 @@ app.post('/api/signupAdmin', function(req, res){
   req.sanitize('adminUsers.password').escape();
   req.sanitize('adminUsers.firstName').escape();
   req.sanitize('adminUsers.lastName').escape();
-  req.sanitize('organizations.orgName').escape();
+  req.sanitize('organizations.orgName').blacklist(['<', '>', '/', '\\', '{', '}', '(', ')']);
   req.sanitize('adminUsers.phone').escape();
 
   return users.addNewAdmin(req.body)
@@ -206,11 +206,11 @@ app.post('/api/createManager', function(req, res){
   req.sanitize('managerUsers.firstName').escape();
   req.sanitize('managerUsers.lastName').escape();
   req.sanitize('managerUsers.phone').escape();
-  req.sanitize('shelters.shelterName').escape();
+  req.sanitize('shelters.shelterName').blacklist(['<', '>', '/', '\\', '{', '}', '(', ')']);
   req.sanitize('shelters.shelterEmail').escape();
   req.sanitize('shelters.shelterEmergencyPhone').escape();
   req.sanitize('shelters.shelterDayTimePhone').escape();
-  req.sanitize('locations.name').escape();
+  req.sanitize('locations.name').blacklist(['<', '>', '/', '\\', '{', '}', '(', ')']);
   req.sanitize('locations.city').escape();
   req.sanitize('locations.street').escape();
   req.sanitize('locations.state').escape();

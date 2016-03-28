@@ -6,83 +6,83 @@ var minorsOptID, adultsOptID, substAddictOptID, vetsOptID, womenOptID, menOptID;
 var ageID, houseSizeID, armedForcesID, exOffenderID, healthID, traumaSurvivorID;
 var hours1ID, hours2ID, hours3ID, hours4ID, hours5ID, hours6ID, hours7ID;
 
-var shelter1 = {shelters: {shelterName: "Men Emergency Night Shelter", shelterEmail: "email@men.com", shelterDayTimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445"},
- locations: {name:"Front Steps Main Building", street:"500 E 7th St" , city:"Austin" , state:"TX" , zip:"78701", phone:"512-305-4100"},
- organizations: {orgName: "Front Steps"},
+var shelter1 = {shelters: {shelterName: "Men's Emergency Night Shelter", shelterEmail: "email@men.com", shelterDayTimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445"},
+ locations: {name:"Front Door Main Building", street:"500 E 7th St" , city:"Austin" , state:"TX" , zip:"78701", phone:"512-305-4100"},
+ organizations: {orgName: "Front Door"},
  hours: {monday: "Open 8am to 4pm", tuesday: "Open 8am to 4pm", wednesday: "Open 8am to 4pm", thursday: "Open 8am to 4pm", friday: "Open 8am to 4pm", saturday: "Open 8am to 4pm", sunday: "Open 8am to 4pm"}
 };
 
 var shelter2 = {shelters: {shelterName: "Men's Day Sleep", shelterEmail: "email@men.com", shelterDayTimePhone:"512-444-4445", shelterEmergencyPhone:"512-444-4445"},
-  organizations: {orgName: 'Salvation Army'},
-  locations: {name:"Front Steps Main Building", street:"500 E 7th St" , city:"Austin" , state:"TX" , zip:"78701", phone:"512-305-4100"},
+  organizations: {orgName: "Angels' Army"},
+  locations: {name:"Front Door Main Building", street:"500 E 7th St" , city:"Austin" , state:"TX" , zip:"78701", phone:"512-305-4100"},
   hours: {monday: "Open 8am to 4pm", tuesday: "Open 8am to 4pm", wednesday: "Open 8am to 4pm", thursday: "Open 8am to 4pm", friday: "Open 8am to 4pm", saturday: "Open 8am to 4pm", sunday: "Open 8am to 4pm"}
 };
 
 var shelter3 = { shelters: {shelterName: "Men's Cold Weather Shelter", shelterEmail: "MENweathershelter@frontsteps.org", shelterDayTimePhone:"512-444-4233" , shelterEmergencyPhone:"512-444-4445"},
-  organizations: {orgName: 'Safe Place'},
+  organizations: {orgName: 'Safe House'},
   locations: {name:"Stepfield Church" , street:"501 E 7th St" , city:"Austin" , state:"TX" , zip:"78777", phone:"512-305-4101"},
   hours: {monday: "Open 24", tuesday: "Open 24", wednesday: "Open 24", thursday: "Open 24", friday: "Open 24", saturday: "Open 24", sunday: "Open 24"}
 };
 
 var shelter4 = { shelters: {shelterName: "Women's Emergency Night Shelter", shelterEmail: "email@women.com", shelterDayTimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335"},
-organizations: {orgName: "Front Steps"},
+organizations: {orgName: "Front Door"},
 locations: {name:"Convention Center", street:"502 E 7th St" , city:"Austin" , state:"TX" , zip:"78745", phone:"512-305-4102"},
 hours: {monday: "Open 24", tuesday: "Open 24", wednesday: "Open 24", thursday: "Open 24", friday: "Open 24", saturday: "Open 24", sunday: "Open 24"}
 };
 
 var shelter5 = { shelters:{shelterName: "Women's Day Sleep", shelterEmail: "email@women.com", shelterDayTimePhone:"512-333-3335", shelterEmergencyPhone:"512-333-3335"},
-  organizations: {orgName: "Salvation Army"},
+  organizations: {orgName: "Angels' Army"},
   locations: {name:"Healing Home" , street:"503 E 7th St" , city:"Austin" , state:"TX" , zip:"78756", phone:"512-305-4103"},
   hours: {monday: "Open 6am to 5pm", tuesday: "Open 6am to 5pm", wednesday: "Open 6am to 5pm", thursday: "Open 6am to 5pm", friday: "Open 6am to 5pm", saturday: "Open 6am to 5pm", sunday: "Open 6am to 5pm"}
 };
 
 var shelter5 = {shelters: {shelterName: "Women's Cold Weather Shelter", shelterEmail: "womenweathershelter@frontsteps.org", shelterDayTimePhone:"512-333-4233" , shelterEmergencyPhone:"512-333-3335"},
-  organizations: {orgName: "Safe Place"},
+  organizations: {orgName: "Safe House"},
   locations: {name:"Healing Home" , street:"503 E 7th St" , city:"Austin" , state:"TX" , zip:"78756", phone:"512-305-4103"},
   hours: {monday: "Open 6am to 5pm", tuesday: "Open 6am to 5pm", wednesday: "Open 6am to 5pm", thursday: "Open 6am to 5pm", friday: "Open 6am to 5pm", saturday: "Open 6am to 5pm", sunday: "Open 6am to 5pm"}
 };
 
 var shelter6 = { shelters:{shelterName: "Children and Teen's Emergency Night Shelter", shelterEmail: "email@children.com", shelterDayTimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225"},
-  organizations: {orgName: "Front Steps"},
+  organizations: {orgName: "Front Door"},
   locations: {name:"Bolder Building", street:"504 E 7th St" , city:"Austin" , state:"TX" , zip:"78704", phone:"512-305-4104"},
   hours: {monday: "Open 24", tuesday: "Open 24", wednesday: "Open 24", thursday: "Open 24", friday: "Open 24", saturday: "Open 24", sunday: "Open 24"}
 };
 
 var shelter7 = { shelters:{shelterName: "Youth Day Sleep", shelterEmail: "email@children.com", shelterDayTimePhone:"512-222-2225", shelterEmergencyPhone:"512-222-2225"},
-  organizations: {orgName: "Salvation Army"},
+  organizations: {orgName: "Angels' Army"},
   locations: {name:"Popup Shelter on 7th", street:"505 E 7th St" , city:"Austin" , state:"TX" , zip:"78703", phone:"512-305-4105"},
   hours: {monday: "Open 7am to 3pm", tuesday: "Open 7am to 3pm", wednesday: "Open 7am to 3pm", thursday: "Open 7am to 3pm", friday: "Open 7am to 3pm", saturday: "Open 7am to 3pm", sunday: "Open 7am to 3pm"}
 };
 
 var shelter8 = { shelters:{shelterName: "Children's Cold Weather Shelter Program", shelterEmail: "childrenweathershelter@frontsteps.org", shelterDayTimePhone:"512-222-4233" , shelterEmergencyPhone:"512-222-2225"},
-  organizations: {orgName: "Safe Place"},
+  organizations: {orgName: "Safe House"},
   locations: {name:"Alpha Delta Phi Helping Home" , street:"506 E 7th St" , city:"Austin" , state:"TX" , zip:"78787", phone:"512-305-4106"},
   hours:{monday: "Open 24", tuesday: "Open 24", wednesday: "Open 24", thursday: "Open 24", friday: "Open 24", saturday: "Open 24", sunday: "Closed"}
 };
 
-var shelter9 = { shelters: {shelterName: "ARCH Emergency Night Shelter", shelterEmail: "email@email.com", shelterDayTimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555"},
-   organizations: {orgName: "Front Steps"},
+var shelter9 = { shelters: {shelterName: "Emergency Night Shelter", shelterEmail: "email@email.com", shelterDayTimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555"},
+   organizations: {orgName: "Front Door"},
    locations: {name:"Alpha Delta Phi Helping Home" , street:"506 E 7th St" , city:"Austin" , state:"TX" , zip:"78787", phone:"512-305-4106"},
    hours: {monday: "Open 24", tuesday: "Open 24", wednesday: "Open 24", thursday: "Open 24", friday: "Open 24", saturday: "Open 24", sunday: "Closed"}
 };
 
 var shelter10 = { shelters: {shelterName: "Emergency Night Shelter", shelterEmail: "email@email.com", shelterDayTimePhone:"512-555-5555", shelterEmergencyPhone:"512-555-5555"},
-  organizations: {orgName: "Salvation Army"},
+  organizations: {orgName: "Angels' Army"},
   locations: {name:"Popup Shelter on 7th", street:"505 E 7th St" , city:"Austin" , state:"TX" , zip:"78703", phone:"512-305-4105"},
   hours:{monday: "Open 7am to 3pm", tuesday: "Open 7am to 3pm", wednesday: "Open 7am to 3pm", thursday: "Open 7am to 3pm", friday: "Open 7am to 3pm", saturday: "Open 7am to 3pm", sunday: "Open 7am to 3pm"}
 };
 
 var shelter11 = { shelters: {shelterName: "Emergency Shelter for Women and Children", shelterEmail: "coldweathershelter@frontsteps.org", shelterDayTimePhone:"512-305-4233" , shelterEmergencyPhone:"512-555-5555"},
-  organizations: {orgName: "Safe Place"},
+  organizations: {orgName: "Front Door"},
   locations:{name:"Bolder Building", street:"504 E 7th St" , city:"Austin" , state:"TX" , zip:"78704", phone:"512-305-4104"},
   hours: {monday: "Open 24", tuesday: "Open 24", wednesday: "Open 24", thursday: "Open 24", friday: "Open 24", saturday: "Open 24", sunday: "Open 24"}
 };
 
-var unit1 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Men Emergency Night Shelter"}};
-var unit2 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2'}, shelters: {shelterName: "Men Emergency Night Shelter"}};
-var unit3 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 3' }, shelters: {shelterName: "Men Emergency Night Shelter"}};
-var unit4 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 4' }, shelters: {shelterName: "Men Emergency Night Shelter"}};
-var unit5 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 5' }, shelters: {shelterName: "Men Emergency Night Shelter"}};
+var unit1 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Men's Emergency Night Shelter"}};
+var unit2 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2'}, shelters: {shelterName: "Men's Emergency Night Shelter"}};
+var unit3 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 3' }, shelters: {shelterName: "Men's Emergency Night Shelter"}};
+var unit4 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 4' }, shelters: {shelterName: "Men's Emergency Night Shelter"}};
+var unit5 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 5' }, shelters: {shelterName: "Men's Emergency Night Shelter"}};
 var unit6 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Men's Day Sleep"}};
 var unit7 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2' }, shelters: {shelterName: "Men's Day Sleep"}};
 var unit8 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 3' }, shelters: {shelterName: "Men's Day Sleep"}};
@@ -94,10 +94,10 @@ var unit13 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 3' }, shelters: {sh
 var unit14 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 4' }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
 var unit15 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 5' }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
 var unit16 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 6' }, shelters: {shelterName: "Women's Emergency Night Shelter"}};
-var unit17 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 1' }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
-var unit18 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 2' }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
-var unit19 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 3' }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
-var unit20 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 4' }, shelters: {shelterName: "ARCH Emergency Night Shelter"}};
+var unit17 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 1' }, shelters: {shelterName: "Emergency Night Shelter"}};
+var unit18 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 2' }, shelters: {shelterName: "Emergency Night Shelter"}};
+var unit19 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 3' }, shelters: {shelterName: "Emergency Night Shelter"}};
+var unit20 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 4' }, shelters: {shelterName: "Emergency Night Shelter"}};
 var unit21 = {shelterUnit: {unitSize: "2BD", unitName: 'Room 1' }, shelters: {shelterName: "Emergency Night Shelter"}};
 var unit22 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 2' }, shelters: {shelterName: "Emergency Night Shelter"}};
 var unit23 = {shelterUnit: {unitSize: "1BD", unitName: 'Room 1' }, shelters: {shelterName: "Emergency Shelter for Women and Children"}};
@@ -177,9 +177,9 @@ var org1, org2, org3;
         console.log("SUCCESS #3");       
       return knex('organizations')
             .insert([
-                {organizationName: "Front Steps"}, 
-                {organizationName: "Salvation Army"}, 
-                {organizationName: "Safe Place"}, 
+                {organizationName: "Front Door"}, 
+                {organizationName: "Angels' Army"}, 
+                {organizationName: "Safe House"}, 
               ])
             .returning('*');
       })
