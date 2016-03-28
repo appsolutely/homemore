@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Link } from 'react-router';
-import ShelterStore from '../stores/ShelterStore';
-import ShelterActions from '../actions/ShelterActions';
+import ShelterStore from '../../stores/ShelterStore';
+import ShelterActions from '../../actions/ShelterActions';
 import ShelterListing from './ShelterListings';
 import Search from './Search';
 

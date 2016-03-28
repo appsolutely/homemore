@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+//import { Link } from 'react-router';
 import UserStore from '../stores/UserStore';
 import UserProfileActions from '../actions/UserProfileActions';
 import UserProfileView from '../components/UserProfileView';
@@ -11,7 +11,7 @@ class UserProfile extends React.Component {
   // set initial state
     this.state = UserStore.getState();
     this.onChange = this.onChange.bind(this);
-    this.handleUserInput= this.handleUserInput.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
@@ -31,24 +31,24 @@ class UserProfile extends React.Component {
   handleUserInput(click) {
     this.setState({
       clicked: click,
-    })
+    });
   }
   // state agnostic child components is the goal 
   handleUpdate(firstName, lastName, email, password, phone, passwordFlag, emailFlag) {
     // update state regardless of post success
-      this.setState({
-        userObjectProfile: {
+    this.setState({
+      userObjectProfile: {
         userFirstName: firstName,
         userLastName: lastName,
         userEmail: email,
         userPhone: phone,
         userPassword: password,
         userPasswordFlag: passwordFlag,
-      }
+      },
     });
-    //send profile data
+// send profile data
+// //why are you not just passing userObjectProfile here?
     UserProfileActions.updateUser(firstName, lastName, email, password, phone, passwordFlag, emailFlag);
-    // console.log('made it back to handleUpdate', this.state.userObject)
   }
 
 

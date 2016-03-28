@@ -1,0 +1,25 @@
+This is the manage shelter page - it consists of:
+
+ManageOccupants
+ManagerProfile
+ManagerProfileEdit
+ManagerProfileView
+ManageUnits
+ShowOccupants
+
+
+Hierarchy is as such:
+
+ManagerProfile <- List of all shelters under manager’s care
+
+ShowOccupants <— sibling component to ManagerProfile - loads on click on shelter
+  ManagerProfileView
+  ManagerProfileEdit 
+  ManageOccupants
+  ManageUnits
+
+Again, please note that ShowOccupants is *not* a child of ManagerProfile
+
+ShowOccupants is navigated to upon clicking an individual shelter, but it 
+
+inherits nothing from ManagerProfile.
