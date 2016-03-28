@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router';
 import App from './components/App';
-import ShelterList from './components/ShelterList';
-import ShelterProfile from './components/ShelterProfile';
+import ShelterList from './components/homeshelterlist/ShelterList';
+import ShelterProfile from './components/homeshelterlist/ShelterProfile';
 import AdminSignup from './components/AdminSignup';
 import AdminProfile from './components/AdminProfile';
 import UserProfile from './components/UserProfile';

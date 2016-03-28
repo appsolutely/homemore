@@ -1,10 +1,10 @@
 import React from 'react';
 //import alt from '../alt';
-import ShelterActions from '../actions/ShelterActions';
-import ShelterStore from '../stores/ShelterStore';
-import ShelterMap from './GoogleMapsView.js';
+import ShelterActions from '../../actions/ShelterActions';
+import ShelterStore from '../../stores/ShelterStore';
+import ShelterMap from '../GoogleMapsView.js';
 
-
+//I am a sibling component to ShelterList - this is why I have state
 class ShelterProfile extends React.Component {
 
   constructor(props) {

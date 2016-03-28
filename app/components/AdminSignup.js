@@ -5,7 +5,7 @@ import Formsy from 'formsy-react';
 import FRC from 'formsy-react-components';
 
 
-const {Input} = FRC;
+const { Input } = FRC;
 
 const SignUpForm = React.createClass({
 
@@ -24,11 +24,10 @@ const SignUpForm = React.createClass({
 
 
 class AdminSignup extends React.Component {
-  constructor(){
+  constructor() {
     super();
-    this.state = {email: "", password: "", firstName: "", lastName: '', phone: '', orgName: ''}
+    this.state = { email: "", password: "", firstName: "", lastName: '', phone: '', orgName: ''}
     this.submitForm = this.submitForm.bind(this);
-    console.log('The state ', this.state)
   }
 
   submitForm(data){
