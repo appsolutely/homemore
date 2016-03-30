@@ -253,8 +253,8 @@ class AdminProfile extends React.Component {
             value=""
             label="State"
             type="text"
-            validations={{isLength: 2,
-                          isAlpha: true}}
+            validations={ { isLength: 2,
+                          isAlpha: true } }
             validationError="Must be a valid State Postal Code"
             placeholder="State"
             required
@@ -266,8 +266,8 @@ class AdminProfile extends React.Component {
             value=""
             label="Zip"
             type="text"
-            validations={{isLength: 5,
-                          isNumeric: true}}
+            validations={ { isLength: 5,
+                            isNumeric: true } }
             validationError="Must be a valid Zip Code"
             placeholder="Zip"
             required
@@ -278,8 +278,8 @@ class AdminProfile extends React.Component {
             name="phone"
             value=""
             label="Phone"
-            validations={{isLength: 10,
-                          isNumeric: true}}
+            validations={ { isLength: 10,
+                            isNumeric: true } }
             validationError="Must be a valid phone number"
             type="text"
             placeholder="Phone Number"

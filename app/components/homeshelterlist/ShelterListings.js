@@ -8,7 +8,7 @@ class ShelterListings extends React.Component {
         return (
           <div key={shelter.shelterID} className="well shelterListings">
             <div className="shelterCard">
-              <Link to={'/shelter/' + shelter.shelterID}>                        
+              <Link to={'/shelter/' + shelter.shelterID}>                      
                 <div className="text-left">
                   <div className="org text-capitalize">
                     <p><b>{shelter.organizationName}</b></p>
