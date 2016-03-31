@@ -1,9 +1,8 @@
 import React from 'react';
-//import { Link } from 'react-router';
-import UserStore from '../stores/UserStore';
-import UserProfileActions from '../actions/UserProfileActions';
-import UserProfileView from '../components/UserProfileView';
-import UserProfileEdit from '../components/UserProfileEdit';
+import UserStore from '../../stores/UserStore';
+import UserProfileActions from '../../actions/UserProfileActions';
+import UserProfileView from './UserProfileView';
+import UserProfileEdit from './UserProfileEdit';
 
 class UserProfile extends React.Component {
   constructor() {
@@ -33,7 +32,7 @@ class UserProfile extends React.Component {
       clicked: click,
     });
   }
-  // state agnostic child components is the goal 
+
   handleUpdate(firstName, lastName, email, password, phone, passwordFlag, emailFlag) {
     // update state regardless of post success
     this.setState({
@@ -46,9 +45,14 @@ class UserProfile extends React.Component {
         userPasswordFlag: passwordFlag,
       },
     });
-// send profile data
-// //why are you not just passing userObjectProfile here?
-    UserProfileActions.updateUser(firstName, lastName, email, password, phone, passwordFlag, emailFlag);
+    
+    UserProfileActions.updateUser(firstName,
+                                  lastName,
+                                  email,
+                                  password,
+                                  phone,
+                                  passwordFlag,
+                                  emailFlag);
   }
 
 
@@ -63,6 +67,3 @@ class UserProfile extends React.Component {
 }
 
 export default UserProfile;
-
-
-

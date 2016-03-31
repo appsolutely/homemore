@@ -5,7 +5,7 @@ import ShelterList from './components/homeshelterlist/ShelterList';
 import ShelterProfile from './components/homeshelterlist/ShelterProfile';
 import AdminSignup from './components/AdminSignup';
 import AdminProfile from './components/AdminProfile';
-import UserProfile from './components/UserProfile';
+import UserProfile from './components/userprofile/UserProfile';
 import ManagerProfile from './components/manageshelter/ManagerProfile';
 import ManageOccupants from './components/manageshelter/ManageOccupants';
 
