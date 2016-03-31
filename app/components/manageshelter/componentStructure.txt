@@ -8,6 +8,8 @@ ManageUnits
 ShowOccupants
 
 
+
+
 Hierarchy is as such:
 
 ManagerProfile <- List of all shelters under manager’s care

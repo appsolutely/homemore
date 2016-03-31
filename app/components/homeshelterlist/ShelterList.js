@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Link } from 'react-router';
 import ShelterStore from '../../stores/ShelterStore';
 import ShelterActions from '../../actions/ShelterActions';
 import ShelterListing from './ShelterListings';
@@ -50,18 +49,11 @@ class Shelter extends React.Component {
               {totalUnitsAvailable} Units Available
           </span>
         </h2>
-        <Search
-          filter={this.state.filterText}
-          onInput={this.handleUserInput}
-        />
-        <ShelterListing
-          filter={this.state.filterText}
-          shelters={this.state.shelters}
-        />
+        <Search filter={this.state.filterText} onInput={this.handleUserInput} />
+        <ShelterListing filter={this.state.filterText} shelters={this.state.shelters} />
       </div>
     );
   }
 }
-
 
 export default Shelter;

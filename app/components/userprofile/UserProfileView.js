@@ -1,6 +1,4 @@
 import React from 'react';
-// import { Link } from 'react-router';
-// import alt from '../alt';
 
 class UserProfileView extends React.Component {
   constructor(props) {
@@ -8,7 +6,7 @@ class UserProfileView extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-// define handler that will pass back to parent component
+// determines if UserProfileView/UserProfileEdit is displayed on parent component
   handleClick() {
     this.props.clicker(
       this.props.clicked ? false : true

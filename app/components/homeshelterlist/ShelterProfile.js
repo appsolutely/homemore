@@ -1,10 +1,9 @@
 import React from 'react';
-//import alt from '../alt';
 import ShelterActions from '../../actions/ShelterActions';
 import ShelterStore from '../../stores/ShelterStore';
 import ShelterMap from '../GoogleMapsView.js';
 
-//I am a sibling component to ShelterList - this is why I have state
+// I am a sibling component to ShelterList - this is why I have state
 class ShelterProfile extends React.Component {
 
   constructor(props) {
@@ -24,21 +23,22 @@ class ShelterProfile extends React.Component {
 
   render() {
     const defaultShelter = { organizationName: '',
-         shelterName: '',
-         locationName: '',
-         shelterDaytimePhone: '',
-         shelterEmergencyPhone: '',
-         shelterEmail: '',
-         hoursMonday: '',
-         hoursTuesday: '',
-         hoursWednesday: '',
-         hoursThursday: '',
-         hoursFriday: '',
-         hoursSaturday: '',
-         hoursSunday: '',
-         long: -97.7375,
-         lat: 30.2679,
-        };
+      shelterName: '',
+      locationName: '',
+      shelterDaytimePhone: '',
+      shelterEmergencyPhone: '',
+      shelterEmail: '',
+      hoursMonday: '',
+      hoursTuesday: '',
+      hoursWednesday: '',
+      hoursThursday: '',
+      hoursFriday: '',
+      hoursSaturday: '',
+      hoursSunday: '',
+      long: -97.7375,
+      lat: 30.2679,
+      };
+
     const theShelter = this.state.shelters.filter((shelter) => {
       return shelter.shelterID == this.props.params.id;
     })[0] || defaultShelter;
@@ -46,8 +46,16 @@ class ShelterProfile extends React.Component {
     return (
       <div className ="well col-sm-6 col-sm-offset-3 text-left">
         <div className="well shelterProfile">
-          <div className="bg-primary"><h3>{theShelter.organizationName}</h3></div>
-          <div className="text-capitalize"><h2>{theShelter.shelterName}</h2></div>
+          <div className="bg-primary">
+            <h3>
+              {theShelter.organizationName}
+            </h3>
+          </div>
+          <div className="text-capitalize">
+            <h2>
+              {theShelter.shelterName}
+            </h2>
+          </div>
           <div className="row">
             <div className="col-sm-6">
               <div>at <b>{theShelter.locationName} </b>
@@ -67,15 +75,22 @@ class ShelterProfile extends React.Component {
             <div className="contactInfo col-sm-6">
               <h4>Contact this shelter</h4>
               <span>
-                <div><span className="glyphicon glyphicon-phone-alt"></span> Daytime: {theShelter.shelterDaytimePhone}</div>
-                <div><span className="glyphicon glyphicon-phone-alt"></span> Emergency: {theShelter.shelterEmergencyPhone} </div>
-                <div><span className="glyphicon glyphicon-envelope"></span> Email: <a href="mailto:{theShelter.shelterEmail}">{theShelter.shelterEmail}</a></div>
+                <div>
+                  <span className="glyphicon glyphicon-phone-alt"></span>
+                    Daytime: {theShelter.shelterDaytimePhone}
+                </div>
+                <div>
+                  <span className="glyphicon glyphicon-phone-alt"></span>
+                    Emergency: {theShelter.shelterEmergencyPhone}
+                </div>
+                <div>
+                  <span className="glyphicon glyphicon-envelope"></span>
+                    Email: <a href="mailto:{theShelter.shelterEmail}">{theShelter.shelterEmail}</a>
+                </div>
               </span>
             </div>
           </div>
-          <ShelterMap
-            shelters={location}
-          />
+          <ShelterMap shelters={location} />
           <span>
             <div>
               <h3>
@@ -107,7 +122,6 @@ class ShelterProfile extends React.Component {
   }
 }
 
-// fixes
 ShelterProfile.propTypes = {
   params: React.PropTypes.object,
 };

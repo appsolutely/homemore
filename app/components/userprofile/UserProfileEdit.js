@@ -1,39 +1,39 @@
 import React from 'react';
-import { Link } from 'react-router';
-import alt from '../alt';
 import Formsy from 'formsy-react';
 import FRC from 'formsy-react-components';
 
-const {Input} = FRC;
+const { Input } = FRC;
 
+// no mixins with es6 - hence the es5 here
 const UpdateUserForm = React.createClass({
-    mixins: [FRC.ParentContextMixin],
-    render() {
-        return (
-            <Formsy.Form
-                {...this.props}
-                ref="formsy"
-            >
-                {this.props.children}
-            </Formsy.Form>
-        );
-    }
+  mixins: [FRC.ParentContextMixin],
+  render() {
+    return (
+      <Formsy.Form
+        {...this.props}
+        ref="formsy"
+      >
+      { this.props.children }
+      </Formsy.Form>
+    );
+  },
 });
 
 class UserProfileEdit extends React.Component {
-	constructor(props) {
-		super(props);
-    this.handleClick = this.handleClick.bind(this);
-	}
+  constructor(props) {
+    super(props);
+    this.handleEdit = this.handleEdit.bind(this);
+  }
 
-  handleClick(e) {
+// submit revised profile
+  handleEdit(e) {
     e.preventDefault();
-    var first = this.refs.firstName.getValue() || this.props.userInfo.userFirstName;
-    var last = this.refs.lastName.getValue() || this.props.userInfo.userLastName;
-    var email = this.refs.email.getValue() || this.props.userInfo.userEmail;
-    var password = this.refs.password.getValue();
-    var phone = this.refs.phone.getValue() || this.props.userInfo.userPhone;
-    var flag = this.refs.password.getValue().length === 0 ? false : true;
+    const first = this.refs.firstName.getValue() || this.props.userInfo.userFirstName;
+    const last = this.refs.lastName.getValue() || this.props.userInfo.userLastName;
+    const email = this.refs.email.getValue() || this.props.userInfo.userEmail;
+    const password = this.refs.password.getValue();
+    const phone = this.refs.phone.getValue() || this.props.userInfo.userPhone;
+    const flag = this.refs.password.getValue().length === 0 ? false : true;
     this.props.save(
       first,
       last,
@@ -41,17 +41,18 @@ class UserProfileEdit extends React.Component {
       password,
       phone,
       flag
-    )
+    );
     this.props.clicker(
       this.props.clicked ? false : true
-    )
+    );
   }
 
   render() {
     return (
       <UpdateUserForm
         onValidSubmit={this.submitForm}
-        className="text-left">
+        className="text-left"
+      >
           <Input
             ref="email"
             onUpdate={this.update}
@@ -62,7 +63,7 @@ class UserProfileEdit extends React.Component {
             placeholder="Email"
             validations="isEmail"
             validationErrors={{
-                isEmail: 'This doesn’t look like a valid email address.'
+              isEmail: 'This doesn’t look like a valid email address.'
             }}
           />
           <Input
@@ -100,16 +101,28 @@ class UserProfileEdit extends React.Component {
             name="phone"
             value=""
             label="Phone Number"
-            validations={{isLength: 10,
-                          isNumeric: true}}
+            validations= { { isLength: 10,
+                          isNumeric: true } }
             validationError="Must be a valid phone number"
             type="text"
             placeholder="Phone Number"
           />
-        <button className="btn btn-primary editButton" onClick={this.handleClick} >Save Changes</button>
+        <button className="btn btn-primary editButton" onClick={this.handleEdit} >
+          Save Changes
+        </button>
       </UpdateUserForm>
     );
   }
 }
+
+UserProfileEdit.propTypes = {
+  userFirstName: React.PropTypes.string,
+  userLastName: React.PropTypes.string,
+  userEmail: React.PropTypes.string,
+  userInfo: React.PropTypes.string,
+  save: React.PropTypes.func,
+  clicker: React.PropTypes.func,
+  clicked: React.PropTypes.bool,
+};
 
 export default UserProfileEdit;

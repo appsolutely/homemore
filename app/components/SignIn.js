@@ -11,16 +11,16 @@ class SignIn extends React.Component {
   // will pass email and password back up to parent for processing
   handleSignIn(e) {
     e.preventDefault();
-    if (this.refs.email.value === '' || this.refs.password.value === '') {
-      $('#err').removeClass('hidden');
-    } else {
+    // if (this.refs.email.value === '' || this.refs.password.value === '') {
+    //   $('#err').removeClass('hidden');
+    // } else {
       const email = this.refs.email.value;
       const password = this.refs.password.value;
       this.props.signIn(
         email,
         password
       );
-    }
+    //}
   }
 
   render() {
