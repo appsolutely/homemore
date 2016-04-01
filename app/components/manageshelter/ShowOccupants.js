@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
-import alt from '../../alt';
 import Formsy from 'formsy-react';
 import FRC from 'formsy-react-components';
 
@@ -35,7 +33,6 @@ class ShowOccupants extends React.Component {
 
 // stuff
   handleAdd(id, unitName, unitSize) {
-    console.log('receiving unitName', unitName);
     const residentName = this.refs['name' + id].getValue();
     this.props.add(id, residentName, unitName, unitSize);
     // console.log('I should not exist');
@@ -49,7 +46,6 @@ class ShowOccupants extends React.Component {
 
   render() {
     const occupants = this.props.units.map((unit) => {
-      console.log('each unit is: ', unit);
       const thisName = unit.occupiedByName || 'Unit Open';
       const adder = () => {this.handleAdd(unit.shelterUnitID, unit.unitName, unit.unitSize); };
       const remover = () => {this.handleRemove(unit.occupancyID, unit.occupiedByName, unit.unitName, unit.unitSize); };
