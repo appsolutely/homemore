@@ -57,7 +57,6 @@ class SignedInNav extends React.Component {
           </div>
         </nav>
 	      	  <div className="welcome text-right">
-	            
 	          </div>
 	        </div>
 		)
