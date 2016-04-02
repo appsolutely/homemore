@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
-import alt from '../alt';
 
 class SignedInNav extends React.Component {
-	constructor(props){
+	constructor(props) {
 		super(props)
 		this.logOut = this.logOut.bind(this);
 	}
@@ -16,15 +15,15 @@ class SignedInNav extends React.Component {
   	}
 
 
-	render(){
-		return(
+	render() {
+		return (
 			<div>
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
-                <ul className="header-signedInNav nav navbar-nav">
-                  <a className="navbar-brand" href="/">
-                    <img alt="Sheltered" className="brand-logo" src="./favicon.png" />
-                  </a>
+            <ul className="header-signedInNav nav navbar-nav">
+              <a className="navbar-brand" href="/">
+                <img alt="Sheltered" className="brand-logo" src="./favicon.png" />
+              </a>
                   <li>
                     <Link to="/">
                       <span className="glyphicon glyphicon-list-alt"></span>
