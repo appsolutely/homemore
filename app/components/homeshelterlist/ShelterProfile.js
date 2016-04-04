@@ -2,6 +2,7 @@ import React from 'react';
 import ShelterActions from '../../actions/ShelterActions';
 import ShelterStore from '../../stores/ShelterStore';
 import ShelterMap from '../GoogleMapsView.js';
+import Memoize from '../../helpers.js';
 
 // I am a sibling component to ShelterList - this is why I have state
 class ShelterProfile extends React.Component {
@@ -38,7 +39,7 @@ class ShelterProfile extends React.Component {
       long: -97.7375,
       lat: 30.2679,
       };
-
+    console.log(Memoize);
     const theShelter = this.state.shelters.filter((shelter) => {
       return shelter.shelterID == this.props.params.id;
     })[0] || defaultShelter;
