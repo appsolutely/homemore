@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
-import { Link } from 'react-router';
+import ReactDOM from 'react-dom';
 import alt from '../alt';
 import UserProfileActions from '../actions/UserProfileActions';
 import Formsy from 'formsy-react';
